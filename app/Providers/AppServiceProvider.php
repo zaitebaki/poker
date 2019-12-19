@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Poker\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
