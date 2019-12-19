@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=cyrillic" rel="stylesheet">
-    {{-- <script src="http://localhost:8080/js/app.js"></script> --}}
+    <script src="http://localhost:8080/js/app.js"></script>
 </head>
 
 <body>
