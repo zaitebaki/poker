@@ -1,13 +1,27 @@
 <?php
 
 return [
-    'nameProject'          => 'Онлайн-покер',
-    // 'mainHeader' => 'онлайн-сервис по наращиванию словарного запаса английских слов для программистов',
-    // 'mainDescription' => 'Обучение основано на алгоритмах искусственного интеллекта',
-    'formCaption'          => 'Вход в аккаунт',
-    'inputEmailCaption'    => 'Введите логин',
-    'inputPasswordCaption' => 'Введите пароль',
-    'formDescription'      => 'Еще не зарегистрированы?',
-    'formLoginText'        => 'РЕГИСТРАЦИЯ',
-    'formButtonCaption'    => 'Войти',
+    'nameProject' => 'Онлайн-покер',
+
+    'startPage'   => [
+
+        'loginForm'        => [
+            'formCaption'          => 'Вход в аккаунт',
+            'inputLoginCaption'    => 'Введите логин',
+            'inputPasswordCaption' => 'Введите пароль',
+            'formDescription'      => 'Еще не зарегистрированы?',
+            'formButtonCaption'    => 'Войти',
+            'formOtherAction'      => 'Регистрация',
+        ],
+
+        'registrationForm' => [
+            'formCaption'          => 'Регистрация',
+            'inputNameCaption'     => 'Введите имя',
+            'inputLoginCaption'    => 'Придумайте логин',
+            'inputPasswordCaption' => 'Придумайте пароль',
+            'formButtonCaption'    => 'Зарегистрироваться',
+            'formDescription'      => 'Уже есть аккаунт?',
+            'formOtherAction'      => 'Войти',
+        ],
+    ],
 ];
