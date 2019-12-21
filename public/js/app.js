@@ -1725,8 +1725,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['propsArray']
+  props: {
+    propsArray: Object,
+    formRoute: String,
+    oldLogin: String,
+    oldErrors: Array
+  },
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -1773,8 +1791,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['propsArray']
+  props: {
+    propsArray: Object,
+    formRoute: String,
+    oldName: String,
+    oldRegLogin: String,
+    oldErrors: Object
+  },
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  }
 });
 
 /***/ }),
@@ -1809,15 +1844,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['propsArray'],
+  props: {
+    typeForm: String,
+    propsArray: Object,
+    formRouteLogin: String,
+    formRouteRegistration: String,
+    oldLogin: String,
+    oldRegLogin: String,
+    oldName: String,
+    oldErrors: String
+  },
   data: function data() {
     return {
-      currentAction: 'login'
+      currentAction: this.typeForm,
+      message: 'Привет!',
+      errorMessages: JSON.parse(this.oldErrors)
     };
   },
+  computed: {
+    errorRegMessages: function errorRegMessages() {
+      var res = _.omitBy(this.errorMessages, function (value, key) {
+        return key.startsWith('loginErrors');
+      });
+
+      return res;
+    }
+  },
+  mounted: function mounted() {},
   methods: {
     enterRegistration: function enterRegistration() {
       this.currentAction = 'registration';
@@ -37228,8 +37291,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "form",
-    { staticClass: "uk-align-center", attrs: { method: "POST" } },
+    {
+      staticClass: "uk-align-center",
+      attrs: { id: "loginForm", action: _vm.formRoute, method: "POST" }
+    },
     [
+      _c("input", {
+        attrs: { type: "hidden", name: "_token" },
+        domProps: { value: _vm.csrf }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "hidden", name: "typeForm", value: "login" }
+      }),
+      _vm._v(" "),
       _c("h3", { staticClass: "uk-card-title" }, [
         _vm._v(_vm._s(_vm.propsArray.formCaption))
       ]),
@@ -37250,7 +37325,8 @@ var render = function() {
               required: "",
               autofocus: "",
               placeholder: _vm.propsArray.inputLoginCaption
-            }
+            },
+            domProps: { value: _vm.oldLogin }
           })
         ]),
         _vm._v(" "),
@@ -37274,8 +37350,21 @@ var render = function() {
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "uk-button uk-width-1-1", attrs: { type: "submit" } },
+          {
+            staticClass: "uk-button uk-width-1-1",
+            attrs: { type: "submit", form: "loginForm" }
+          },
           [_vm._v(_vm._s(_vm.propsArray.formButtonCaption))]
+        ),
+        _vm._v(" "),
+        _c(
+          "ul",
+          _vm._l(_vm.oldErrors, function(error, index) {
+            return _c("li", { key: index, staticClass: "uk-text-danger" }, [
+              _vm._v("\n                " + _vm._s(error) + "\n            ")
+            ])
+          }),
+          0
         ),
         _vm._v(" "),
         _c("label", [
@@ -37324,8 +37413,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "form",
-    { staticClass: "uk-align-center", attrs: { method: "POST" } },
+    {
+      staticClass: "uk-align-center",
+      attrs: { id: "regForm", action: _vm.formRoute, method: "POST" }
+    },
     [
+      _c("input", {
+        attrs: { type: "hidden", name: "_token" },
+        domProps: { value: _vm.csrf }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "hidden", name: "typeForm", value: "registration" }
+      }),
+      _vm._v(" "),
       _c("h3", { staticClass: "uk-card-title" }, [
         _vm._v(_vm._s(_vm.propsArray.formCaption))
       ]),
@@ -37346,7 +37447,8 @@ var render = function() {
               required: "",
               autofocus: "",
               placeholder: _vm.propsArray.inputNameCaption
-            }
+            },
+            domProps: { value: _vm.oldName }
           })
         ]),
         _vm._v(" "),
@@ -37359,12 +37461,13 @@ var render = function() {
           _c("input", {
             staticClass: "uk-input",
             attrs: {
-              id: "login",
+              id: "reg-login",
               type: "text",
-              name: "login",
+              name: "reg-login",
               required: "",
               placeholder: _vm.propsArray.inputLoginCaption
-            }
+            },
+            domProps: { value: _vm.oldRegLogin }
           })
         ]),
         _vm._v(" "),
@@ -37387,8 +37490,21 @@ var render = function() {
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "uk-button uk-width-1-1", attrs: { type: "submit" } },
+          {
+            staticClass: "uk-button uk-width-1-1",
+            attrs: { type: "submit", form: "regForm" }
+          },
           [_vm._v(_vm._s(_vm.propsArray.formButtonCaption))]
+        ),
+        _vm._v(" "),
+        _c(
+          "ul",
+          _vm._l(_vm.oldErrors, function(error, index) {
+            return _c("li", { key: index, staticClass: "uk-text-danger" }, [
+              _vm._v("\n                " + _vm._s(error[0]) + "\n            ")
+            ])
+          }),
+          0
         ),
         _vm._v(" "),
         _c("label", [
@@ -37445,14 +37561,25 @@ var render = function() {
       [
         _vm.currentAction === "login"
           ? _c("login-form-component", {
-              attrs: { propsArray: _vm.propsArray["loginForm"] },
+              attrs: {
+                propsArray: _vm.propsArray["loginForm"],
+                formRoute: _vm.formRouteLogin,
+                oldLogin: _vm.oldLogin,
+                oldErrors: _vm.errorMessages["loginErrors"]
+              },
               on: { enterRegistration: _vm.enterRegistration }
             })
           : _vm._e(),
         _vm._v(" "),
         _vm.currentAction === "registration"
           ? _c("registration-form-component", {
-              attrs: { propsArray: _vm.propsArray["registrationForm"] },
+              attrs: {
+                propsArray: _vm.propsArray["registrationForm"],
+                formRoute: _vm.formRouteRegistration,
+                oldName: _vm.oldName,
+                oldRegLogin: _vm.oldRegLogin,
+                oldErrors: _vm.errorRegMessages
+              },
               on: { enterLogin: _vm.enterLogin }
             })
           : _vm._e()

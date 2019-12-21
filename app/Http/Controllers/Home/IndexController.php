@@ -23,7 +23,12 @@ class IndexController extends \Poker\Http\Controllers\SuperController
      */
     public function index()
     {
+
+        if (!session()->has('typeForm')) {
+            session(['typeForm' => 'registration']);
+        }
         $this->content = view(env('THEME') . '.home.index')->render();
+
         return $this->renderOutput();
     }
 }

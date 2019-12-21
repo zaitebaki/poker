@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Config;
+use Poker\User;
+
+class UsersTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        User::truncate();
+        $data = Config::get('defaultDBData.default_users');
+
+        foreach ($data as $user) {
+
+            $newUser = [
+                'name'     => $user['name'],
+                'login'    => $user['login'],
+                'password' => bcrypt($user['password']),
+            ];
+
+            $newUser = new User($newUser);
+            $newUser->save();
+        }
+    }
+}

@@ -1,16 +1,23 @@
 <template>
     <div class="uk-container">
         <div class="uk-card uk-card-default uk-align-center uk-width-1-1 uk-width-large@s uk-card-body uk-box-shadow-small uk-flex uk-flex-middle">
-            
             <!-- форма входа -->
-            <login-form-component :propsArray="propsArray['loginForm']"
+            <login-form-component
                 v-if="currentAction === 'login'"
+                :propsArray="propsArray['loginForm']"
+                :formRoute="formRouteLogin"
+                :oldLogin="oldLogin"
+                :oldErrors="errorMessages['loginErrors']"
                 @enterRegistration="enterRegistration">
             </login-form-component>
 
             <!-- форма регистрации -->
             <registration-form-component :propsArray="propsArray['registrationForm']"
                 v-if="currentAction === 'registration'"
+                :formRoute="formRouteRegistration"
+                :oldName="oldName"
+                :oldRegLogin="oldRegLogin"
+                :oldErrors="errorRegMessages"
                 @enterLogin="enterLogin">
             </registration-form-component>
         </div>
@@ -22,13 +29,35 @@ import LoginFormComponent from './LoginFormComponent'
 import RegistrationFormComponent from './RegistrationFormComponent'
 
 export default {
-    props: [
-        'propsArray'
-    ],
+    props: {
+        typeForm: String,
+        propsArray: Object,
+        formRouteLogin: String,
+        formRouteRegistration: String,
+        oldLogin: String,
+        oldRegLogin: String,
+        oldName: String,
+        oldErrors: String
+    },
+
     data() {
         return {
-            currentAction: 'login'
+            currentAction: this.typeForm,
+            message: 'Привет!',
+            errorMessages: JSON.parse(this.oldErrors)
         }
+    },
+    computed: {
+
+        errorRegMessages: function () {
+            const res = _.omitBy(this.errorMessages, function(value, key) {
+                return key.startsWith('loginErrors');
+            });
+
+            return res;
+        }
+    },
+    mounted() {
     },
     methods: {
 
@@ -38,7 +67,7 @@ export default {
         
         enterLogin() {
             this.currentAction = 'login'
-        }
+        },
     },
     components: {
         'login-form-component': LoginFormComponent,
