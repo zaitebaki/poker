@@ -21,4 +21,9 @@ return [
             'password' => '123456',
         ],
     ],
+
+    'friends'       => [
+        ['valera', 'victor'],
+        ['valera', 'sanya'],
+    ],
 ];
