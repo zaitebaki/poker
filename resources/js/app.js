@@ -21,6 +21,9 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('login-and-registration-component', require('./components/login-and-registration-component/_LoginAndRegistrationComponent.vue').default);
+// Vue.component('chat-component', require('./components/chat-component/ChatComponent.vue').default);
+Vue.component('private-chat-component', require('./components/chat-component/PrivateChatComponent.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

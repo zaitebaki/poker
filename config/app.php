@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        Poker\Providers\AppServiceProvider::class,
-        Poker\Providers\AuthServiceProvider::class,
-        // Poker\Providers\BroadcastServiceProvider::class,
-        Poker\Providers\EventServiceProvider::class,
-        Poker\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
     ],
 

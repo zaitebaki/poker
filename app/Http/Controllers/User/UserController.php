@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\User;
 
-class IndexController extends \App\Http\Controllers\SuperController
+class UserController extends \App\Http\Controllers\SuperController
 {
     /**
      * Create a new controller instance.
@@ -12,7 +12,6 @@ class IndexController extends \App\Http\Controllers\SuperController
     public function __construct()
     {
         parent::__construct();
-        $this->title  = 'Пятикарточный покер';
         $this->layout = env('THEME') . ".route.main";
     }
 
@@ -23,10 +22,8 @@ class IndexController extends \App\Http\Controllers\SuperController
      */
     public function index()
     {
-        if (!session()->has('typeForm')) {
-            session(['typeForm' => 'login']);
-        }
-        $this->content = view(env('THEME') . '.home.index')->render();
+        $this->title   = "Личный кабинет :: " . $this->user->name;
+        $this->content = view(env('THEME') . '.home.user')->with(['friends' => $this->user->friends])->render();
 
         return $this->renderOutput();
     }

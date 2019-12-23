@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'nameProject' => 'Онлайн-покер',
+    'nameProject' => 'Покер «Зайте Баки»',
 
     'startPage'   => [
 
@@ -24,4 +24,10 @@ return [
             'formOtherAction'      => 'Войти',
         ],
     ],
+
+    'userPage' => [
+        'friends' => [
+            'header' => 'Друзья'
+        ]
+    ]
 ];

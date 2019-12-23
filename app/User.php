@@ -1,6 +1,6 @@
 <?php
 
-namespace Poker;
+namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,6 +38,6 @@ class User extends Authenticatable
 
     public function friends()
     {
-        return $this->belongsToMany('Poker\User', 'friends', 'user1_id', 'user2_id');
+        return $this->belongsToMany('App\User', 'friends', 'user1_id', 'user2_id');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Poker\Http\Controllers;
+namespace App\Http\Controllers;
 
 class SuperController extends Controller
 {

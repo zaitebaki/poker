@@ -1,8 +1,8 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
-use Poker\User;
 
 class UsersTableSeeder extends Seeder
 {

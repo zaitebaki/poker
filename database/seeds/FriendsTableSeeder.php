@@ -1,7 +1,7 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
-use Poker\User;
 
 class FriendsTableSeeder extends Seeder
 {

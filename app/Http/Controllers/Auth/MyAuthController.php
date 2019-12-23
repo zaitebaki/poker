@@ -1,10 +1,10 @@
 <?php
 
-namespace Poker\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Auth;
 use Illuminate\Http\Request;
-use Poker\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 
 class MyAuthController extends Controller
 {
