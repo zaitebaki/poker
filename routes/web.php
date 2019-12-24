@@ -18,11 +18,15 @@ Route::post('/register', 'Auth\RegisterController@register')->name('registration
 Route::get('/home', 'User\UserController@index')->name('userPage');
 
 Route::post('messages', function (Illuminate\Http\Request $request) {
-
     App\Events\PrivateChat::dispatch($request->all());
 });
 
-// Route::get('/', function () {
+Route::get('/room/{room}', function (App\Room $room) {
+
+    return view('room', ['room' => $room]);
+});
+
+// Route::get('/', <funct></funct>ion () {
 //     return view('chat');
 // });
 

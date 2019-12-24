@@ -35,6 +35,25 @@ class CreateBdTable extends Migration
                 $table->foreign('user2_id')->references('id')->on('users');
             });
         }
+
+        // create 'rooms'
+        if (!Schema::hasTable('rooms')) {
+            Schema::create('rooms', function (Blueprint $table) {
+                $table->increments('id');
+                $table->timestamps();
+            });
+        }
+
+        // create 'user_room'
+        if (!Schema::hasTable('user_room')) {
+            Schema::create('user_room', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned();
+                $table->integer('room_id')->unsigned();
+                $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('room_id')->references('id')->on('rooms');
+            });
+        }
     }
 
     /**
@@ -51,8 +70,15 @@ class CreateBdTable extends Migration
             $table->dropForeign('friends_user2_id_foreign');
         });
 
+        Schema::table('room_user', function (Blueprint $table) {
+            $table->dropForeign('user_room_room_id_foreign');
+            $table->dropForeign('user_room_user_id_foreign');
+        });
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('friends');
+        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('user_room');
 
     }
 }

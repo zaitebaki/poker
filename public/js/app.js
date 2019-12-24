@@ -1789,32 +1789,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['room', 'user'],
   data: function data() {
     return {
       messages: [],
-      textMessage: ''
+      textMessage: '',
+      isActive: false,
+      typingTimer: false
     };
+  },
+  computed: {
+    channel: function channel() {
+      return window.Echo["private"]('room.' + this.room.id);
+    }
   },
   mounted: function mounted() {
     var _this = this;
 
-    console.log(window.Echo);
-    window.Echo["private"]('room.2').listen('PrivateChat', function (_ref) {
+    this.channel.listen('PrivateChat', function (_ref) {
       var data = _ref.data;
-      console.log('1111111');
 
       _this.messages.push(data.body);
+
+      _this.isActive = false;
+    }).listenForWhisper('typing', function (e) {
+      _this.isActive = e;
+      if (_this.typingTimer) clearTimeout(_this.typingTimer);
+      _this.typingTimer = setTimeout(function () {
+        _this.isActive = false;
+      }, 2000);
     });
   },
   methods: {
     sendMessage: function sendMessage() {
-      axios.post('messages', {
+      axios.post('/messages', {
         body: this.textMessage,
-        room_id: 2
+        room_id: this.room.id
       });
       this.messages.push(this.textMessage);
       this.textMessage = '';
+    },
+    actionUser: function actionUser() {
+      this.channel.whisper('typing', {
+        name: this.user.name
+      });
     }
   }
 });
@@ -49041,6 +49061,7 @@ var render = function() {
               }
               return _vm.sendMessage($event)
             },
+            keydown: _vm.actionUser,
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -49048,7 +49069,13 @@ var render = function() {
               _vm.textMessage = $event.target.value
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _vm.isActive
+          ? _c("span", [
+              _vm._v(_vm._s(_vm.isActive.name) + " набирает сообщение...")
+            ])
+          : _vm._e()
       ])
     ])
   ])

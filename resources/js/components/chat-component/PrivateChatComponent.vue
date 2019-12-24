@@ -5,7 +5,8 @@
             <div class="col-sm-12">
                 <textarea class="form-control" rows="10" readonly="">{{messages.join('\n')}}</textarea>
                 <hr>
-                <input type="text" class="form-control" v-model="textMessage" @keyup.enter="sendMessage">
+                <input type="text" class="form-control" v-model="textMessage" @keyup.enter="sendMessage" @keydown="actionUser">
+                <span v-if="isActive">{{isActive.name}} набирает сообщение...</span>
             </div>
         </div>
     </div>
@@ -13,26 +14,47 @@
 
 <script>
     export default {
+        props: ['room', 'user'],
         data() {
             return {
                 messages: [],
-                textMessage: ''
+                textMessage: '',
+                isActive: false,
+                typingTimer: false
+            }
+        },
+        computed: {
+            channel() {
+                return window.Echo.private('room.' + this.room.id);
             }
         },
         mounted() {
-            console.log(window.Echo);
-            window.Echo.private('room.2')
+            this.channel
                 .listen('PrivateChat', ({data}) => {
-                    console.log('1111111');
                     this.messages.push(data.body);
+                    this.isActive = false;
+                })
+                .listenForWhisper('typing', (e) => {
+                    this.isActive = e;
+                    
+                    if(this.typingTimer) clearTimeout(this.typingTimer);
+                    this.typingTimer = setTimeout(() => {
+                        this.isActive = false;
+                    }, 2000);
                 });
         },
         methods: {
             sendMessage() {
 
-                axios.post('messages', { body: this.textMessage, room_id: 2});
+                axios.post('/messages', { body: this.textMessage, room_id: this.room.id});
                 this.messages.push(this.textMessage);
                 this.textMessage = '';
+            },
+            actionUser() {
+                this.channel
+                    .whisper('typing', {
+                        name: this.user.name
+                    });
             }
         }
     }
