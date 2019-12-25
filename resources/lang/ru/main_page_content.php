@@ -25,9 +25,10 @@ return [
         ],
     ],
 
-    'userPage' => [
+    'userPage'    => [
         'friends' => [
-            'header' => 'Друзья'
-        ]
-    ]
+            'header'        => 'Друзья',
+            'noFriendsText' => 'У вас нет друзей',
+        ],
+    ],
 ];

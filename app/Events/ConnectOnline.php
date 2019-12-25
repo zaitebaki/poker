@@ -2,15 +2,14 @@
 
 namespace App\Events;
 
-use Auth;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PrivateChat implements ShouldBroadcast
+class ConnectOnline implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,6 +33,9 @@ class PrivateChat implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room.' . $this->data['room_id']);
+        // return new PresenceChannel('connect');
+
+        return new PresenceChannel('connect');
+
     }
 }

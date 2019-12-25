@@ -23,7 +23,7 @@ window.Vue = require('vue');
 Vue.component('login-and-registration-component', require('./components/login-and-registration-component/_LoginAndRegistrationComponent.vue').default);
 // Vue.component('chat-component', require('./components/chat-component/ChatComponent.vue').default);
 Vue.component('private-chat-component', require('./components/chat-component/PrivateChatComponent.vue').default);
-
+Vue.component('view-friends-component', require('./components/home-component/ViewFirendsComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

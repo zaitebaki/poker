@@ -11,6 +11,12 @@
 |
  */
 
-Broadcast::channel('room.{room_id}', function ($user, $room_id) {
-    return $user->rooms->contains($room_id);
+// Broadcast::channel('connect', function ($name) {
+//     return true;
+// });
+
+Broadcast::channel('connect', function ($user) {
+
+    return $user->login;
+
 });

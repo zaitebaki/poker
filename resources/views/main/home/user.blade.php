@@ -17,23 +17,12 @@
 </div>
 <!-- конец - навигационная панель в header'е -->
 
-<div class="uk-container">
-    <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
-        <h3 class="uk-card-title">@lang('main_page_content.userPage.friends.header')</h3>
-        @if(!$friends->isEmpty())
-            <ul class="uk-list uk-list-divider">
-                @foreach($friends as $friend)
-                    <li>
-                        {{ $friend->name }} | Пригласить в игру
-                    </li>
-                @endforeach
-            </ul>
-        @else
-            <p>У вас нет друзей</p>
-        @endif
-    </div>
-</div>
+<view-friends-component
+    {{-- :user="{{Auth::user()}}" --}}
+    :content="{{ json_encode(__('main_page_content.userPage.friends'), JSON_UNESCAPED_UNICODE) }}"
+    :friends="{{ $friends }}"
+    :user="{{ Auth::user() }}">
 
-<div class="container">
-    <private-chat-component></private-chat-component>
-</div>
+    {{-- :form-route-login="{{ json_encode(route('authencticate'), JSON_UNESCAPED_UNICODE) }}"
+    :form-route-registration="{{ json_encode(route('registration'), JSON_UNESCAPED_UNICODE) }}"> --}}
+</view-friends-component>
