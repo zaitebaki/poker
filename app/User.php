@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Room', 'user_room');
     }
+
+    public function invitations()
+    {
+        return $this->belongsToMany('App\User', 'invitations', 'id_src_user', 'id_dst_user');
+    }
 }

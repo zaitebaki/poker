@@ -1883,18 +1883,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: Object,
@@ -1907,19 +1895,24 @@ __webpack_require__.r(__webpack_exports__);
       textMessage: '',
       isActive: false,
       typingTimer: false,
-      activeUsers: []
+      activeUsers: [],
+      currenUserIndex: undefined
     };
   },
   computed: {
-    channel: function channel() {
+    connectChannel: function connectChannel() {
       return window.Echo.join('connect');
+    },
+    invitationChannel: function invitationChannel() {
+      console.log(this.user.id);
+      return window.Echo["private"]('invitation.' + this.user.id);
     }
   },
   mounted: function mounted() {
     var _this = this;
 
     console.log(this.friends);
-    this.channel.here(function (users) {
+    this.connectChannel.here(function (users) {
       _this.activeUsers = users;
     }).joining(function (user) {
       console.log(_this.activeUsers);
@@ -1927,37 +1920,50 @@ __webpack_require__.r(__webpack_exports__);
       _this.activeUsers.push(user);
     }).leaving(function (user) {
       _this.activeUsers.splice(_this.activeUsers.indexOf(user), 1);
-    }).listen('ConnectOnline', function (_ref) {
-      var data = _ref.data;
-
-      _this.messages.push(data.body);
-
-      _this.isActive = false;
-    }).listenForWhisper('typing', function (e) {
-      _this.isActive = e;
-      if (_this.typingTimer) clearTimeout(_this.typingTimer);
-      _this.typingTimer = setTimeout(function () {
-        _this.isActive = false;
-      }, 2000);
-    });
+    }), this.invitationChannel.listen('SendInvitation', function (_ref) {
+      var srcUserLogin = _ref.srcUserLogin;
+      // console.log(`Вас пригласил в игру пользователь ${callUserLogin}!`);
+      console.log("\u0412\u0430\u0441 \u043F\u0440\u0438\u0433\u043B\u0430\u0441\u0438\u043B \u0432 \u0438\u0433\u0440\u0443 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C ".concat(srcUserLogin)); // console.log(`Вас пригласил в игру пользователь ${callUserLogin}!`);
+    }); //     this.messages.push(data.body);
+    //     this.isActive = false;
+    // })
+    // .listenForWhisper('typing', (e) => {
+    //     this.isActive = e;
+    //     if(this.typingTimer) clearTimeout(this.typingTimer);
+    //     this.typingTimer = setTimeout(() => {
+    //         this.isActive = false;
+    //     }, 2000);
+    // });
   },
   methods: {
-    sendMessage: function sendMessage() {
-      axios.post('/messages', {
-        body: this.textMessage,
-        room_id: 1
-      });
-      this.messages.push(this.textMessage);
-      this.textMessage = '';
-    },
-    actionUser: function actionUser() {
-      this.channel.whisper('typing', {
-        name: this.user.name
-      });
-    },
+    // sendMessage() {
+    //     axios.post('/messages', { body: this.textMessage, room_id: 1});
+    //     this.messages.push(this.textMessage);
+    //     this.textMessage = '';
+    // },
+    // actionUser() {
+    //     this.channel
+    //         .whisper('typing', {
+    //             name: this.user.name
+    //         });
+    // },
     isOnline: function isOnline(friendLogin) {
       if (this.activeUsers.indexOf(friendLogin) !== -1) return 'friends-card__item__online';
       return 'friends-card__item__offline';
+    },
+    sendInvitation: function sendInvitation(friendLogin) {
+      console.log('hi');
+      axios.post('/invitation', {
+        srcUserId: this.user.id,
+        dstUserLogin: friendLogin
+      }).then(function (response) {
+        if (response.data === 'STATUS_OK') {
+          console.log('Приглашение успешно отправлено!');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
     }
   }
 });
@@ -49254,13 +49260,26 @@ var render = function() {
                     { key: index, class: _vm.isOnline(friend.login) },
                     [
                       _vm._v(
-                        "\r\n                        " +
+                        "\r\n                    " +
                           _vm._s(friend.name) +
                           " (" +
                           _vm._s(friend.login) +
-                          ")\r\n                        "
+                          ")|\r\n                    "
                       ),
-                      _vm._m(0, true)
+                      _c("span", [
+                        _c(
+                          "a",
+                          {
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.sendInvitation(friend.login)
+                              }
+                            }
+                          },
+                          [_vm._v(" " + _vm._s(_vm.content.startGameText))]
+                        )
+                      ])
                     ]
                   )
                 }),
@@ -49279,14 +49298,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", [_c("a", { attrs: { href: "" } }), _vm._v("Начать игру")])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

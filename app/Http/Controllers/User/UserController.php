@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends \App\Http\Controllers\SuperController
@@ -18,7 +19,7 @@ class UserController extends \App\Http\Controllers\SuperController
     }
 
     /**
-     * Show the application dashboard.
+     * Показать личный кабинет
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -28,5 +29,20 @@ class UserController extends \App\Http\Controllers\SuperController
         $this->content = view(env('THEME') . '.home.user')->with(['friends' => $this->user->friends])->render();
 
         return $this->renderOutput();
+    }
+
+    /**
+     * Инициализировать предложение о начале игры
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function sendInvitation(Request $request)
+    {
+        $id_dst_user = User::where('login', $request->dstUserLogin)->first();
+        $id_dst_user->invitations()->attach($this->user->id);
+
+        \App\Events\SendInvitation::dispatch($request->srcUserId, $id_dst_user->id);
+
+        return 'STATUS_OK';
     }
 }

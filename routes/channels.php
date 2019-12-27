@@ -18,5 +18,13 @@
 Broadcast::channel('connect', function ($user) {
 
     return $user->login;
+});
 
+Broadcast::channel('invitation.{id}', function ($user, $id) {
+
+    // if ($user->invitations->contains($id)) {
+    //     return true;
+    // }
+
+    return true;
 });

@@ -18,11 +18,7 @@
 <!-- конец - навигационная панель в header'е -->
 
 <view-friends-component
-    {{-- :user="{{Auth::user()}}" --}}
     :content="{{ json_encode(__('main_page_content.userPage.friends'), JSON_UNESCAPED_UNICODE) }}"
     :friends="{{ $friends }}"
     :user="{{ Auth::user() }}">
-
-    {{-- :form-route-login="{{ json_encode(route('authencticate'), JSON_UNESCAPED_UNICODE) }}"
-    :form-route-registration="{{ json_encode(route('registration'), JSON_UNESCAPED_UNICODE) }}"> --}}
 </view-friends-component>
