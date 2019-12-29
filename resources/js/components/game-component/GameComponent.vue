@@ -21,7 +21,11 @@
 // import TrueOrFalseComponent from './TrueOrFalseComponent'
 
 export default {
-    
+    computed: {
+        gameChannel() {
+            return window.Echo.join('room.1');
+        }
+    }
 }
 
 </script>

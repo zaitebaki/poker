@@ -36,13 +36,11 @@ class UserController extends \App\Http\Controllers\SuperController
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function sendInvitation(Request $request)
-    {
-        $id_dst_user = User::where('login', $request->dstUserLogin)->first();
-        $id_dst_user->invitations()->attach($this->user->id);
+    // public function sendInvitation(Request $request)
+    // {
+    //     $id_dst_user = User::where('login', $request->dstUserLogin)->first();
+    //     $id_dst_user->invitations()->attach($this->user->id);
 
-        \App\Events\SendInvitation::dispatch($request->srcUserId, $id_dst_user->id);
-
-        return 'STATUS_OK';
-    }
+    //     \App\Events\SendInvitation::dispatch($request->srcUserId, $id_dst_user->id);
+    // }
 }

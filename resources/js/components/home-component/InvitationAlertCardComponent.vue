@@ -8,6 +8,8 @@
             form="startGameForm">
             {{ formButtonCaption }}
         </button>
+        <input type="hidden" name="_token" :value="csrf">
+        <input type="hidden" name="isInvitatationForm" value="true">
     </form>
 </div>
 </template>
@@ -19,6 +21,10 @@ export default {
         formRoute: String,
         formButtonCaption: String
     },
+    data() {
+        return {
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }
 }
-    
 </script>

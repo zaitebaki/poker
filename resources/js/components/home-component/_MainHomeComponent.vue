@@ -8,6 +8,7 @@
         :invitation-card-content="invitationCardContent"
         :friends="friends"
         :user="user"
+        :form-join-game-route="formJoinGameRoute"
     ></view-friends-component>
 </header>
 </template>
@@ -23,7 +24,7 @@ export default {
         invitationCardContent: Object,
         friends: Array,
         user: Object,
-        formStartGameRoute: String
+        formJoinGameRoute: String
     },
 
     components: {

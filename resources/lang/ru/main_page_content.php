@@ -33,7 +33,7 @@ return [
         'friends'        => [
             'header'        => 'Друзья',
             'noFriendsText' => 'У вас нет друзей',
-            'startGameText' => 'Начат игру!',
+            'startGameText' => 'Начать игру',
         ],
     ],
 ];

@@ -4,18 +4,36 @@
     <invitation-alert-card-component
         v-if="this.isSendInvitation"
         :invitation-text="invitationText"
-        :form-route="formStartGameRoute"
+        :form-route="formJoinGameRoute"
         :form-button-caption="invitationCardContent.formButtonCaption">
     </invitation-alert-card-component>
     
     <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
         <h3 class="uk-card-title">{{ content.header }}</h3>
         <template v-if="friends.length !== 0">
-            <ul>
-                <li v-for="(friend, index) in friends" v-bind:key="index" :class="isOnline(friend.login)">
-                    {{ friend.name }} ({{ friend.login }})|
-                    <span><a v-on:click.prevent="sendInvitation(friend.login)"> {{ content.startGameText }}</a></span>
-                </li>
+            <ul class="uk-list">               
+                <template v-for="(friend, index) in friends">
+                    <li v-if="isOnline(friend.login)" v-bind:key="index" class="friends-card__item__online">
+                        {{ friend.name }}-{{ friend.login }} |
+                        <span>
+                            <!-- <a v-on:click.prevent="sendInvitation(friend.login)" href="startGamef"> {{ content.startGameText }} -->
+                            <form id="sendIvitationForm" :action="formJoinGameRoute" method="POST">
+                                <button
+                                    class="uk-button uk-button-secondary uk-button-small"
+                                    type="submit"
+                                    form="sendIvitationForm">
+                                    {{ content.startGameText }}
+                                </button>
+                                <input type="hidden" name="_token" :value="csrf">
+                                <input type="hidden" name="srcUserId" :value="user.id">
+                                <input type="hidden" name="dstUserLogin" :value="friend.login">
+                            </form>
+                        </span>
+                    </li>
+                    <li v-else v-bind:key="index" class="friends-card__item__offline">
+                        {{ friend.name }}-{{ friend.login }}
+                    </li>
+                </template>
             </ul>
             <hr>
         </template>
@@ -37,7 +55,7 @@ export default {
         invitationCardContent: Object,
         friends: Array,
         user: Object,
-        formStartGameRoute: String
+        formJoinGameRoute: String
     },
     data() {
         return {
@@ -48,7 +66,8 @@ export default {
             activeUsers: [],
             currenUserIndex: undefined,
             isSendInvitation: false,
-            invitationText: ''
+            invitationText: '',
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     },
     computed: {
@@ -77,9 +96,7 @@ export default {
             .listen('SendInvitation', ({srcUserLogin}) => {
 
                 this.invitationText = this.invitationCardContent.text;
-
                 this.invitationText = this.invitationText.replace(/:name/i, srcUserLogin);
-
                 this.isSendInvitation = true;
             })
             //     this.messages.push(data.body);
@@ -112,11 +129,24 @@ export default {
             
             return 'friends-card__item__offline';
         },
+        isOnline: function (friendLogin) {
+            if (this.activeUsers.indexOf(friendLogin) !== -1)
+                return true;
+            
+            return false;
+        },
         sendInvitation: function(friendLogin) {
             axios.post('/invitation', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
-                if(response.data === 'STATUS_OK') {
-                    console.log('Приглашение успешно отправлено!');
+
+
+                if (response.redirect) {
+                    console.log('redirect'); 
                 }
+                // if(response.data === 'STATUS_OK') {
+                //     console.log('Приглашение успешно отправлено!');
+                // }
+                // window.location.href = response.data;
+                // console.log(response);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
