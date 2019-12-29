@@ -26,7 +26,11 @@ return [
     ],
 
     'userPage'    => [
-        'friends' => [
+        'invitationCard' => [
+            'text'              => 'Пользователь «:name» пригласил вас в игру!',
+            'formButtonCaption' => 'Присоединиться',
+        ],
+        'friends'        => [
             'header'        => 'Друзья',
             'noFriendsText' => 'У вас нет друзей',
             'startGameText' => 'Начат игру!',

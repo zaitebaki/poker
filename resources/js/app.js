@@ -21,9 +21,9 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('login-and-registration-component', require('./components/login-and-registration-component/_LoginAndRegistrationComponent.vue').default);
-// Vue.component('chat-component', require('./components/chat-component/ChatComponent.vue').default);
-Vue.component('private-chat-component', require('./components/chat-component/PrivateChatComponent.vue').default);
-Vue.component('view-friends-component', require('./components/home-component/ViewFirendsComponent.vue').default);
+// Vue.component('private-chat-component', require('./components/chat-component/PrivateChatComponent.vue').default);
+Vue.component('main-home-component', require('./components/home-component/_MainHomeComponent.vue').default);
+// Vue.component('game-component', require('./components/game-component/GameComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

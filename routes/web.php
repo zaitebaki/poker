@@ -18,6 +18,8 @@ Route::post('/register', 'Auth\RegisterController@register')->name('registration
 Route::get('/home', 'User\UserController@index')->name('userPage');
 Route::post('/invitation', 'User\UserController@sendInvitation')->name('sendInvitations');
 
+Route::get('/game', 'Game\GameController@index')->name('startGame');
+
 // Route::post('messages', function (Illuminate\Http\Request $request) {
 //     App\Events\ConnectOnline::dispatch($request->all());
 // });
