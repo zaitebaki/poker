@@ -36,4 +36,10 @@ return [
             'startGameText' => 'Начать игру',
         ],
     ],
+
+    'gamePage' => [
+        'buttonsCaptions' => [
+            'startButton' => 'Начать игру'
+        ]
+    ]
 ];

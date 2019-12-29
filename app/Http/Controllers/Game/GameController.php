@@ -40,12 +40,6 @@ class GameController extends \App\Http\Controllers\SuperController
 
     public function acceptInvitation(Request $request)
     {
-        // return 'hello';
-        // $id_dst_user = User::where('login', $request->dstUserLogin)->first();
-        // $id_dst_user->invitations()->attach($this->user->id);
-
-        // \App\Events\SendInvitation::dispatch($request->srcUserId, $id_dst_user->id);
-
         $this->content = view(env('THEME') . '.game.index')->render();
         return $this->renderOutput();
     }

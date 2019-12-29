@@ -16,7 +16,6 @@
                     <li v-if="isOnline(friend.login)" v-bind:key="index" class="friends-card__item__online">
                         {{ friend.name }}-{{ friend.login }} |
                         <span>
-                            <!-- <a v-on:click.prevent="sendInvitation(friend.login)" href="startGamef"> {{ content.startGameText }} -->
                             <form id="sendIvitationForm" :action="formJoinGameRoute" method="POST">
                                 <button
                                     class="uk-button uk-button-secondary uk-button-small"
@@ -99,17 +98,6 @@ export default {
                 this.invitationText = this.invitationText.replace(/:name/i, srcUserLogin);
                 this.isSendInvitation = true;
             })
-            //     this.messages.push(data.body);
-            //     this.isActive = false;
-            // })
-            // .listenForWhisper('typing', (e) => {
-            //     this.isActive = e;
-                
-            //     if(this.typingTimer) clearTimeout(this.typingTimer);
-            //     this.typingTimer = setTimeout(() => {
-            //         this.isActive = false;
-            //     }, 2000);
-            // });
     },
     methods: {
         // sendMessage() {

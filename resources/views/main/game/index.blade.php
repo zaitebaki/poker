@@ -16,4 +16,6 @@
     <!-- конец -основной контейнер навигационной панели -->
 </div>
 
-<game-component></game-component>
+<game-component
+    :content="{{ json_encode(__('main_page_content.gamePage'), JSON_UNESCAPED_UNICODE) }}"
+></game-component>
