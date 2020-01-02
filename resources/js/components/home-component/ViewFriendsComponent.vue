@@ -5,7 +5,8 @@
         v-if="this.isSendInvitation"
         :invitation-text="invitationText"
         :form-route="formJoinGameRoute"
-        :form-button-caption="invitationCardContent.formButtonCaption">
+        :form-button-caption="invitationCardContent.formButtonCaption"
+        :cur-src-user-login="curSrcUserLogin">
     </invitation-alert-card-component>
     
     <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
@@ -26,6 +27,7 @@
                                 <input type="hidden" name="_token" :value="csrf">
                                 <input type="hidden" name="srcUserId" :value="user.id">
                                 <input type="hidden" name="dstUserLogin" :value="friend.login">
+                                <input type="hidden" name="isSrcInvitatationForm" value="true">
                             </form>
                         </span>
                     </li>
@@ -65,6 +67,7 @@ export default {
             activeUsers: [],
             currenUserIndex: undefined,
             isSendInvitation: false,
+            curSrcUserLogin: '',
             invitationText: '',
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
@@ -96,6 +99,7 @@ export default {
 
                 this.invitationText = this.invitationCardContent.text;
                 this.invitationText = this.invitationText.replace(/:name/i, srcUserLogin);
+                this.curSrcUserLogin = srcUserLogin;
                 this.isSendInvitation = true;
             })
     },

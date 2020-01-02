@@ -1,10 +1,16 @@
 <template>
 <div class="uk-container">
-    <!-- <game-status-bar-component></game-status-bar-component> -->
     <game-bank-component></game-bank-component>
-    <game-status-block-component></game-status-block-component>
+
+    <!-- <game-status-bar-component></game-status-bar-component> -->
+
+    <game-status-text-component
+        :status-message="gameStatusMessage">
+    </game-status-text-component>
+
     <game-button-panel-component
-        :buttonsCaptions="content.buttonsCaptions">
+        :buttons-captions="content.buttonsCaptions"
+        :start-game-button-ready="startGameButtonReady">
     </game-button-panel-component>
     <!-- <game-user-cards-component></game-user-cards-component>  -->
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
@@ -14,21 +20,43 @@
 import GameStatusBarComponent from './GameStatusBarComponent'
 import GameBankComponent from './GameBankComponent'
 import GameButtonPanelComponent from './GameButtonPanelComponent'
-import GameStatusBlockComponent from './GameStatusBlockComponent'
+import GameStatusTextComponent from './GameStatusTextComponent'
 import GameUserCardsComponent from './GameUserCardsComponent'
 import GameOpponentCardsComponent from './GameOpponentCardsComponent'
 
 export default {
      props: {
-        content: Object
+        content: Object,
+        user: Object,
+        statusMessage: String
+    },
+    data() {
+        return {
+            startGameButtonReady: false,
+            gameStatusMessage: this.statusMessage
+        }
     },
     computed: {
         // gameChannel() {
         //     return window.Echo.join('room.1');
-        // }
+        // },
+        gameActionChannel() {
+            return window.Echo.private('room-action.1');
+        }
     },
     mounted() {
-        // this.gameChannel
+        this.gameActionChannel
+            .listen('SendReadyStatus', ({data}) => {
+                   
+                axios.post('/game/room/1', { updateState: 'ReadyState', srcUserLogin: this.user.login}).then( (response) => {
+                    this.gameStatusMessage = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+                this.startGameButtonReady = true;
+            })
+
         //     .here((users) => {
         //         this.activeUsers = users;
         //     })
@@ -53,8 +81,8 @@ export default {
             //     }, 2000);
             // });
     },
-    startGame: function(friendLogin) {
-        axios.post('/startGame', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
+    // startGame: function(friendLogin) {
+    //     axios.post('/startGame', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
 
 
             // if (response.redirect) {
@@ -65,17 +93,17 @@ export default {
             // }
             // window.location.href = response.data;
             // console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-            alert('Не удалось отправить запрос. Повторите попытку позже.');
-        })
-    },
+        // }).catch(function (error) {
+        //     console.log(error);
+        //     alert('Не удалось отправить запрос. Повторите попытку позже.');
+        // })
+    // },
 
     components: {
         'game-status-bar-component': GameStatusBarComponent,
         'game-bank-component': GameBankComponent,
         'game-button-panel-component': GameButtonPanelComponent,
-        'game-status-block-component': GameStatusBlockComponent,
+        'game-status-text-component': GameStatusTextComponent,
         'game-user-cards-component': GameUserCardsComponent,
         'game-opponent-cards-component': GameOpponentCardsComponent
     }

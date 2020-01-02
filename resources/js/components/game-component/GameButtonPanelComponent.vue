@@ -2,7 +2,7 @@
 <div>
     <p uk-margin>
         <!-- <button class="uk-button uk-button-default">Default</button> -->
-        <button class="uk-button uk-button-primary">{{ buttonsCaptions.startButton }}</button>
+        <button v-if="startGameButtonReady" class="uk-button uk-button-primary">{{ buttonsCaptions.startButton }}</button>
 
         <!-- <button class="uk-button uk-button-secondary">Secondary</button>
         <button class="uk-button uk-button-danger">Danger</button>
@@ -15,7 +15,8 @@
 <script>
 export default {
     props: {
-        buttonsCaptions: Object
+        buttonsCaptions: Object,
+        startGameButtonReady: Boolean
     },
     data() {
         return {

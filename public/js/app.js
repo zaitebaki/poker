@@ -1824,7 +1824,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    buttonsCaptions: Object
+    buttonsCaptions: Object,
+    startGameButtonReady: Boolean
   },
   data: function data() {
     return {
@@ -1933,10 +1934,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1950,9 +1951,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    invitationText: String,
-    formRoute: String,
-    formButtonCaption: String
+    // invitationText: String,
+    // formRoute: String,
+    // formButtonCaption: String,
+    statusMessage: String
   },
   data: function data() {
     return {
@@ -2015,9 +2017,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameStatusBarComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusBarComponent */ "./resources/js/components/game-component/GameStatusBarComponent.vue");
 /* harmony import */ var _GameBankComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameBankComponent */ "./resources/js/components/game-component/GameBankComponent.vue");
 /* harmony import */ var _GameButtonPanelComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameButtonPanelComponent */ "./resources/js/components/game-component/GameButtonPanelComponent.vue");
-/* harmony import */ var _GameStatusBlockComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GameStatusBlockComponent */ "./resources/js/components/game-component/GameStatusBlockComponent.vue");
+/* harmony import */ var _GameStatusTextComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GameStatusTextComponent */ "./resources/js/components/game-component/GameStatusTextComponent.vue");
 /* harmony import */ var _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2038,14 +2046,40 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    content: Object
+    content: Object,
+    user: Object,
+    statusMessage: String
   },
-  computed: {// gameChannel() {
+  data: function data() {
+    return {
+      startGameButtonReady: false,
+      gameStatusMessage: this.statusMessage
+    };
+  },
+  computed: {
+    // gameChannel() {
     //     return window.Echo.join('room.1');
-    // }
+    // },
+    gameActionChannel: function gameActionChannel() {
+      return window.Echo["private"]('room-action.1');
+    }
   },
-  mounted: function mounted() {// this.gameChannel
-    //     .here((users) => {
+  mounted: function mounted() {
+    var _this = this;
+
+    this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
+      var data = _ref.data;
+      axios.post('/game/room/1', {
+        updateState: 'ReadyState',
+        srcUserLogin: _this.user.login
+      }).then(function (response) {
+        _this.gameStatusMessage = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+      _this.startGameButtonReady = true;
+    }); //     .here((users) => {
     //         this.activeUsers = users;
     //     })
     //     .joining((user) => {
@@ -2068,28 +2102,26 @@ __webpack_require__.r(__webpack_exports__);
     //     }, 2000);
     // });
   },
-  startGame: function startGame(friendLogin) {
-    axios.post('/startGame', {
-      srcUserId: this.user.id,
-      dstUserLogin: friendLogin
-    }).then(function (response) {// if (response.redirect) {
-      //     console.log('redirect'); 
-      // }
-      // if(response.data === 'STATUS_OK') {
-      //     console.log('Приглашение успешно отправлено!');
-      // }
-      // window.location.href = response.data;
-      // console.log(response);
-    })["catch"](function (error) {
-      console.log(error);
-      alert('Не удалось отправить запрос. Повторите попытку позже.');
-    });
-  },
+  // startGame: function(friendLogin) {
+  //     axios.post('/startGame', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
+  // if (response.redirect) {
+  //     console.log('redirect'); 
+  // }
+  // if(response.data === 'STATUS_OK') {
+  //     console.log('Приглашение успешно отправлено!');
+  // }
+  // window.location.href = response.data;
+  // console.log(response);
+  // }).catch(function (error) {
+  //     console.log(error);
+  //     alert('Не удалось отправить запрос. Повторите попытку позже.');
+  // })
+  // },
   components: {
     'game-status-bar-component': _GameStatusBarComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
     'game-bank-component': _GameBankComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
     'game-button-panel-component': _GameButtonPanelComponent__WEBPACK_IMPORTED_MODULE_2__["default"],
-    'game-status-block-component': _GameStatusBlockComponent__WEBPACK_IMPORTED_MODULE_3__["default"],
+    'game-status-text-component': _GameStatusTextComponent__WEBPACK_IMPORTED_MODULE_3__["default"],
     'game-user-cards-component': _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
     'game-opponent-cards-component': _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
@@ -2160,11 +2192,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     invitationText: String,
     formRoute: String,
-    formButtonCaption: String
+    formButtonCaption: String,
+    curSrcUserLogin: String
   },
   data: function data() {
     return {
@@ -2235,6 +2269,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2253,6 +2289,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       activeUsers: [],
       currenUserIndex: undefined,
       isSendInvitation: false,
+      curSrcUserLogin: '',
       invitationText: '',
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
@@ -2282,6 +2319,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var srcUserLogin = _ref.srcUserLogin;
       _this.invitationText = _this.invitationCardContent.text;
       _this.invitationText = _this.invitationText.replace(/:name/i, srcUserLogin);
+      _this.curSrcUserLogin = srcUserLogin;
       _this.isSendInvitation = true;
     });
   },
@@ -49605,9 +49643,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("p", { attrs: { "uk-margin": "" } }, [
-      _c("button", { staticClass: "uk-button uk-button-primary" }, [
-        _vm._v(_vm._s(_vm.buttonsCaptions.startButton))
-      ])
+      _vm.startGameButtonReady
+        ? _c("button", { staticClass: "uk-button uk-button-primary" }, [
+            _vm._v(_vm._s(_vm.buttonsCaptions.startButton))
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -49738,10 +49778,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=template&id=65fbd046&":
-/*!******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=template&id=65fbd046& ***!
-  \******************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -49753,22 +49793,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [_c("p", [_vm._v(_vm._s(_vm.statusMessage))])])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("p", [
-        _vm._v(
-          "Ставка в начале раунда - 5 Р. Максимальная ставка за 1 раунд торгов - 100 Р."
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -49856,10 +49883,15 @@ var render = function() {
     [
       _c("game-bank-component"),
       _vm._v(" "),
-      _c("game-status-block-component"),
+      _c("game-status-text-component", {
+        attrs: { "status-message": _vm.gameStatusMessage }
+      }),
       _vm._v(" "),
       _c("game-button-panel-component", {
-        attrs: { buttonsCaptions: _vm.content.buttonsCaptions }
+        attrs: {
+          "buttons-captions": _vm.content.buttonsCaptions,
+          "start-game-button-ready": _vm.startGameButtonReady
+        }
       })
     ],
     1
@@ -49981,7 +50013,16 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("input", {
-            attrs: { type: "hidden", name: "isInvitatationForm", value: "true" }
+            attrs: { type: "hidden", name: "srcUserLogin" },
+            domProps: { value: _vm.curSrcUserLogin }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: {
+              type: "hidden",
+              name: "isDstInvitatationForm",
+              value: "true"
+            }
           })
         ]
       )
@@ -50019,7 +50060,9 @@ var render = function() {
             attrs: {
               "invitation-text": _vm.invitationText,
               "form-route": _vm.formJoinGameRoute,
-              "form-button-caption": _vm.invitationCardContent.formButtonCaption
+              "form-button-caption":
+                _vm.invitationCardContent.formButtonCaption,
+              "cur-src-user-login": _vm.curSrcUserLogin
             }
           })
         : _vm._e(),
@@ -50109,6 +50152,14 @@ var render = function() {
                                           name: "dstUserLogin"
                                         },
                                         domProps: { value: friend.login }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        attrs: {
+                                          type: "hidden",
+                                          name: "isSrcInvitatationForm",
+                                          value: "true"
+                                        }
                                       })
                                     ]
                                   )
@@ -63134,17 +63185,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameStatusBlockComponent.vue":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameStatusBlockComponent.vue ***!
-  \*****************************************************************************/
+/***/ "./resources/js/components/game-component/GameStatusTextComponent.vue":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameStatusTextComponent.vue ***!
+  \****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameStatusBlockComponent_vue_vue_type_template_id_65fbd046___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusBlockComponent.vue?vue&type=template&id=65fbd046& */ "./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=template&id=65fbd046&");
-/* harmony import */ var _GameStatusBlockComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameStatusBlockComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& */ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&");
+/* harmony import */ var _GameStatusTextComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameStatusTextComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -63154,9 +63205,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _GameStatusBlockComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GameStatusBlockComponent_vue_vue_type_template_id_65fbd046___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GameStatusBlockComponent_vue_vue_type_template_id_65fbd046___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _GameStatusTextComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -63166,38 +63217,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/game-component/GameStatusBlockComponent.vue"
+component.options.__file = "resources/js/components/game-component/GameStatusTextComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************/
+/***/ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBlockComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusBlockComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBlockComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusTextComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=template&id=65fbd046&":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=template&id=65fbd046& ***!
-  \************************************************************************************************************/
+/***/ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&":
+/*!***********************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& ***!
+  \***********************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBlockComponent_vue_vue_type_template_id_65fbd046___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusBlockComponent.vue?vue&type=template&id=65fbd046& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBlockComponent.vue?vue&type=template&id=65fbd046&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBlockComponent_vue_vue_type_template_id_65fbd046___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBlockComponent_vue_vue_type_template_id_65fbd046___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -63842,8 +63893,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! c:\OSPanel\domains\poker\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! c:\OSPanel\domains\poker\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\OSPanel\domains\poker\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\OSPanel\domains\poker\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

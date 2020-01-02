@@ -9,7 +9,8 @@
             {{ formButtonCaption }}
         </button>
         <input type="hidden" name="_token" :value="csrf">
-        <input type="hidden" name="isInvitatationForm" value="true">
+        <input type="hidden" name="srcUserLogin" :value="curSrcUserLogin">
+        <input type="hidden" name="isDstInvitatationForm" value="true">
     </form>
 </div>
 </template>
@@ -19,7 +20,8 @@ export default {
     props: {
         invitationText: String,
         formRoute: String,
-        formButtonCaption: String
+        formButtonCaption: String,
+        curSrcUserLogin: String
     },
     data() {
         return {

@@ -37,9 +37,13 @@ return [
         ],
     ],
 
-    'gamePage' => [
+    'gamePage'    => [
         'buttonsCaptions' => [
-            'startButton' => 'Начать игру'
-        ]
-    ]
+            'startButton' => 'Начать игру',
+        ],
+        'statusMessages'  => [
+            'initMessage'    => 'Начальная ставка - 5 рублей. Игра готова',
+            'waitingMessage' => 'Ожидание пользователя «:user»',
+        ],
+    ],
 ];
