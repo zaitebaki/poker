@@ -14,10 +14,10 @@ abstract class State
         $this->context = $context;
     }
 
-    abstract public function connectionSrcUser();
-    abstract public function waitingDstUser();
+    abstract public function connectionCurrentUser();
+    abstract public function waitingOpponentUser();
 
-    abstract public function connectionDstUser();
+    abstract public function connectionOpponentUser();
     abstract public function startGame();
     // abstract public function getFiveCards();
     // abstract public function replaceCards();

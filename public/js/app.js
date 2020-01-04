@@ -1822,34 +1822,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     buttonsCaptions: Object,
-    startGameButtonReady: Boolean
+    startGameButtonReady: Boolean,
+    user: Object
   },
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
-  sendInvitation: function sendInvitation(friendLogin) {
-    axios.post('/invitation', {
-      srcUserId: this.user.id,
-      dstUserLogin: friendLogin
+  startGame: function startGame() {
+    axios.post('/game/room/1', {
+      initAction: 'StartGame'
     }).then(function (response) {
-      if (response.redirect) {
-        console.log('redirect');
-      } // if(response.data === 'STATUS_OK') {
-      //     console.log('Приглашение успешно отправлено!');
-      // }
-      // window.location.href = response.data;
-      // console.log(response);
-
+      console.log(response.data);
     })["catch"](function (error) {
       console.log(error);
       alert('Не удалось отправить запрос. Повторите попытку позже.');
     });
-  }
+  } // sendInvitation: function(friendLogin) {
+  //     axios.post('/invitation', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
+  //         if (response.redirect) {
+  //             console.log('redirect'); 
+  //         }
+  // if(response.data === 'STATUS_OK') {
+  //     console.log('Приглашение успешно отправлено!');
+  // }
+  // window.location.href = response.data;
+  // console.log(response);
+  // }).catch(function (error) {
+  //     console.log(error);
+  //     alert('Не удалось отправить запрос. Повторите попытку позже.');
+  // })
+  // }
+
 });
 
 /***/ }),
@@ -2038,6 +2049,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2071,7 +2083,8 @@ __webpack_require__.r(__webpack_exports__);
       var data = _ref.data;
       axios.post('/game/room/1', {
         updateState: 'ReadyState',
-        srcUserLogin: _this.user.login
+        roomName: 'room_1',
+        sendPost: 'true'
       }).then(function (response) {
         _this.gameStatusMessage = response.data;
       })["catch"](function (error) {
@@ -2193,12 +2206,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     invitationText: String,
     formRoute: String,
     formButtonCaption: String,
-    curSrcUserLogin: String
+    opponentId: Number
   },
   data: function data() {
     return {
@@ -2219,10 +2233,12 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvitationAlertCardComponent */ "./resources/js/components/home-component/InvitationAlertCardComponent.vue");
-var _methods;
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -2289,7 +2305,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       activeUsers: [],
       currenUserIndex: undefined,
       isSendInvitation: false,
-      curSrcUserLogin: '',
+      curSrcUserId: '',
       invitationText: '',
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
@@ -2299,8 +2315,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return window.Echo.join('connect');
     },
     invitationChannel: function invitationChannel() {
-      console.log(this.user.id);
-      return window.Echo["private"]('invitation.' + this.user.id);
+      console.log(this.user);
+      return window.Echo["private"]('invitation.1');
     }
   },
   mounted: function mounted() {
@@ -2316,14 +2332,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }).leaving(function (user) {
       _this.activeUsers.splice(_this.activeUsers.indexOf(user), 1);
     }), this.invitationChannel.listen('SendInvitation', function (_ref) {
-      var srcUserLogin = _ref.srcUserLogin;
+      var srcUserId = _ref.srcUserId,
+          srcUserLogin = _ref.srcUserLogin;
       _this.invitationText = _this.invitationCardContent.text;
       _this.invitationText = _this.invitationText.replace(/:name/i, srcUserLogin);
+      _this.curSrcUserId = srcUserId;
       _this.curSrcUserLogin = srcUserLogin;
       _this.isSendInvitation = true;
     });
   },
-  methods: (_methods = {
+  methods: _defineProperty({
     // sendMessage() {
     //     axios.post('/messages', { body: this.textMessage, room_id: 1});
     //     this.messages.push(this.textMessage);
@@ -2339,27 +2357,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.activeUsers.indexOf(friendLogin) !== -1) return 'friends-card__item__online';
       return 'friends-card__item__offline';
     }
-  }, _defineProperty(_methods, "isOnline", function isOnline(friendLogin) {
+  }, "isOnline", function isOnline(friendLogin) {
     if (this.activeUsers.indexOf(friendLogin) !== -1) return true;
     return false;
-  }), _defineProperty(_methods, "sendInvitation", function sendInvitation(friendLogin) {
-    axios.post('/invitation', {
-      srcUserId: this.user.id,
-      dstUserLogin: friendLogin
-    }).then(function (response) {
-      if (response.redirect) {
-        console.log('redirect');
-      } // if(response.data === 'STATUS_OK') {
-      //     console.log('Приглашение успешно отправлено!');
-      // }
-      // window.location.href = response.data;
-      // console.log(response);
-
-    })["catch"](function (error) {
-      console.log(error);
-      alert('Не удалось отправить запрос. Повторите попытку позже.');
-    });
-  }), _methods),
+  }),
   components: {
     'invitation-alert-card-component': _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -49890,7 +49891,8 @@ var render = function() {
       _c("game-button-panel-component", {
         attrs: {
           "buttons-captions": _vm.content.buttonsCaptions,
-          "start-game-button-ready": _vm.startGameButtonReady
+          "start-game-button-ready": _vm.startGameButtonReady,
+          user: _vm.user
         }
       })
     ],
@@ -50013,16 +50015,20 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("input", {
-            attrs: { type: "hidden", name: "srcUserLogin" },
-            domProps: { value: _vm.curSrcUserLogin }
+            attrs: { type: "hidden", name: "updateState", value: "InitState" }
           }),
           _vm._v(" "),
           _c("input", {
             attrs: {
               type: "hidden",
-              name: "isDstInvitatationForm",
+              name: "takeInvitationRequest",
               value: "true"
             }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "hidden", name: "opponentId" },
+            domProps: { value: _vm.opponentId }
           })
         ]
       )
@@ -50062,7 +50068,7 @@ var render = function() {
               "form-route": _vm.formJoinGameRoute,
               "form-button-caption":
                 _vm.invitationCardContent.formButtonCaption,
-              "cur-src-user-login": _vm.curSrcUserLogin
+              "opponent-id": _vm.curSrcUserId
             }
           })
         : _vm._e(),
@@ -50141,25 +50147,25 @@ var render = function() {
                                       _c("input", {
                                         attrs: {
                                           type: "hidden",
-                                          name: "srcUserId"
-                                        },
-                                        domProps: { value: _vm.user.id }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("input", {
-                                        attrs: {
-                                          type: "hidden",
-                                          name: "dstUserLogin"
-                                        },
-                                        domProps: { value: friend.login }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("input", {
-                                        attrs: {
-                                          type: "hidden",
-                                          name: "isSrcInvitatationForm",
+                                          name: "sendInvitationRequest",
                                           value: "true"
                                         }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        attrs: {
+                                          type: "hidden",
+                                          name: "updateState",
+                                          value: "InitState"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        attrs: {
+                                          type: "hidden",
+                                          name: "opponentId"
+                                        },
+                                        domProps: { value: friend.id }
                                       })
                                     ]
                                   )

@@ -13,13 +13,13 @@ class ReadyState extends State
 
     }
 
-    public function waitingDstUser()
+    public function waitingOpponentUser()
     {}
 
-    public function connectionDstUser()
+    public function connectionOpponentUser()
     {}
 
-    public function connectionSrcUser()
+    public function connectionCurrentUser()
     {}
 
     public function startGame()

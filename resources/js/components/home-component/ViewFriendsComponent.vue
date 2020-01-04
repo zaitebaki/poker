@@ -6,7 +6,7 @@
         :invitation-text="invitationText"
         :form-route="formJoinGameRoute"
         :form-button-caption="invitationCardContent.formButtonCaption"
-        :cur-src-user-login="curSrcUserLogin">
+        :opponent-id="curSrcUserId">
     </invitation-alert-card-component>
     
     <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
@@ -25,9 +25,13 @@
                                     {{ content.startGameText }}
                                 </button>
                                 <input type="hidden" name="_token" :value="csrf">
-                                <input type="hidden" name="srcUserId" :value="user.id">
-                                <input type="hidden" name="dstUserLogin" :value="friend.login">
-                                <input type="hidden" name="isSrcInvitatationForm" value="true">
+                                <!-- <input type="hidden" name="srcUserId" :value="user.id"> -->
+
+                                <input type="hidden" name="sendInvitationRequest" value="true">
+                                <input type="hidden" name="updateState" value="InitState">
+                                <input type="hidden" name="opponentId" :value="friend.id">
+
+                                <!-- <input type="hidden" name="isSrcInvitatationForm" value="true"> -->
                             </form>
                         </span>
                     </li>
@@ -67,7 +71,7 @@ export default {
             activeUsers: [],
             currenUserIndex: undefined,
             isSendInvitation: false,
-            curSrcUserLogin: '',
+            curSrcUserId: '',
             invitationText: '',
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
@@ -77,8 +81,8 @@ export default {
             return window.Echo.join('connect');
         },
         invitationChannel() {
-            console.log(this.user.id);
-            return window.Echo.private('invitation.' + this.user.id);
+            console.log(this.user);
+            return window.Echo.private('invitation.1');
         }
     },
     mounted() {
@@ -95,10 +99,11 @@ export default {
                 this.activeUsers.splice(this.activeUsers.indexOf(user), 1);
             }),
         this.invitationChannel
-            .listen('SendInvitation', ({srcUserLogin}) => {
+            .listen('SendInvitation', ({srcUserId, srcUserLogin}) => {
 
                 this.invitationText = this.invitationCardContent.text;
                 this.invitationText = this.invitationText.replace(/:name/i, srcUserLogin);
+                this.curSrcUserId = srcUserId;
                 this.curSrcUserLogin = srcUserLogin;
                 this.isSendInvitation = true;
             })
@@ -127,23 +132,23 @@ export default {
             
             return false;
         },
-        sendInvitation: function(friendLogin) {
-            axios.post('/invitation', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
+        // sendInvitation: function(friendLogin) {
+        //     axios.post('/invitation', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
 
 
-                if (response.redirect) {
-                    console.log('redirect'); 
-                }
+                // if (response.redirect) {
+                //     console.log('redirect'); 
+                // }
                 // if(response.data === 'STATUS_OK') {
                 //     console.log('Приглашение успешно отправлено!');
                 // }
                 // window.location.href = response.data;
                 // console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-                alert('Не удалось отправить запрос. Повторите попытку позже.');
-            })
-        }
+        //     }).catch(function (error) {
+        //         console.log(error);
+        //         alert('Не удалось отправить запрос. Повторите попытку позже.');
+        //     })
+        // }
     },
 
     components: {

@@ -14,19 +14,22 @@ class SendInvitation implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $srcUserId;
+    public $dstUserId;
     public $srcUserLogin;
-    public $id_dst_user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($srcUserId, $id_dst_user)
+    public function __construct($srcUserId, $dstUserId)
     {
-        $user               = User::find($srcUserId);
+        $user            = User::find($srcUserId);
+        $this->srcUserId = $user->id;
+        $this->dstUserId = $dstUserId;
+
         $this->srcUserLogin = $user->login;
-        $this->id_dst_user  = $id_dst_user;
         $this->dontBroadcastToCurrentUser();
 
     }
@@ -39,6 +42,8 @@ class SendInvitation implements ShouldBroadcast
     public function broadcastOn()
     {
 
-        return new PrivateChannel('invitation.' . $this->id_dst_user);
+        // return new PrivateChannel('invitation.' . $this->srcUserId);
+        return new PrivateChannel('invitation.1');
+
     }
 }

@@ -13,9 +13,6 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class SendReadyStatus implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $data = 'hello';
-
     /**
      * Create a new event instance.
      *

@@ -3,27 +3,26 @@
 namespace App\Helpers\State\States;
 
 use App\Helpers\State\State;
-use App\Helpers\State\States\WaitingState;
 
 class InitState extends State
 {
 
-    public function connectionSrcUser()
+    public function connectionCurrentUser()
     {
         $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage',
-            ['user' => $this->context->dstUser->name]);
-
+            ['user' => $this->context->opponentUser->name]);
         $this->context->dispatchInvitation();
-        $this->state = new WaitingState($this->context, $waitingMessage);
+        $this->context->updateState('WaitingState', $waitingMessage, 5);
+
     }
 
-    public function connectionDstUser()
+    public function connectionOpponentUser()
     {
-        $this->state = new ReadyState($this->context);
         \App\Events\SendReadyStatus::dispatch();
+        $this->context->updateState('ReadyState');
     }
 
-    public function waitingDstUser()
+    public function waitingOpponentUser()
     {}
 
     public function startGame()

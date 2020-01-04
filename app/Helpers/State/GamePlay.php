@@ -3,7 +3,8 @@
 namespace App\Helpers\State;
 
 use App\Helpers\State\State;
-use App\Helpers\State\States\InitState;
+use App\User;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * Паттерн Состояние
@@ -24,73 +25,82 @@ class GamePlay
      */
     public $state;
     public $statusText;
-    public $request;
-    public $srcUser;
-    public $dstUser;
+    public $currentUser;
+    public $opponentUser;
+    private $roomName;
 
-    public function __construct($srcUser, $dstUser, $request)
+    public $dump;
+
+    public function __construct($user, string $roomName, $request)
     {
-        // $this->transitionTo($state);
-        $this->state = new InitState($this);
+        // определить создателя и приглашенного игрока
+        $idUserCurrent  = Redis::get($roomName . ':idUserCurrent');
+        $idUserOpponent = Redis::get($roomName . ':idUserOpponent');
 
-        $this->request = $request;
+        if ($user->id === (int) $idUserCurrent) {
+            $this->currentUser  = $user;
+            $this->opponentUser = User::find($idUserOpponent);
+        } else {
+            $this->currentUser  = User::find($idUserOpponent);
+            $this->opponentUser = $user;
+        }
 
-        $this->srcUser = $srcUser;
-        $this->dstUser = $dstUser;
+        // инициализировать состояние из Redis-хранилища
+        $stateName            = Redis::get($roomName . ':' . $this->currentUser->id . ':state');
+        $argumentsStorageName = $roomName . ':' . $this->currentUser->id . ':' . $stateName;
+        $stateArguments       = Redis::lrange($argumentsStorageName, 0, 5);
+
+        $stateArguments = array_reverse($stateArguments);
+        $stateName      = 'App\\Helpers\\State\\States\\' . $stateName;
+
+        $this->state    = new $stateName($this, ...$stateArguments);
+        $this->roomName = $roomName;
     }
 
-    public function changeState(State $state)
+    public function updateState(string $nameState, ...$arg): void
     {
-        $this->state = state;
+        $stateName   = 'App\\Helpers\\State\\States\\' . $nameState;
+        $this->state = new $stateName($this, ...$arg);
+
+        $argumentsStorageName = $this->roomName . ':' . $this->currentUser->id . ':' . $nameState;
+
+        Redis::del($argumentsStorageName);
+
+        if (!empty($arg)) {
+            Redis::lpush($argumentsStorageName, ...$arg);
+        }
+        Redis::set($this->roomName . ':' . $this->currentUser->id . ':state', $nameState);
     }
 
-    public function connectionSrcUser()
+    public function connectionCurrentUser(): void
     {
-        $this->state->connectionSrcUser();
+        $this->state->connectionCurrentUser();
     }
 
-    public function connectionDstUser()
+    public function connectionOpponentUser(): void
     {
-        $this->state->connectionDstUser();
+        $this->state->connectionOpponentUser();
     }
 
     // сервисные функции
-    public function setStatusText($text)
+    public function setStatusText($text): void
     {
         $this->statusText = $text;
     }
 
-    public function getStatusText()
+    public function getStatusText(): string
     {
         return $this->statusText;
     }
 
-    public function dispatchInvitation()
+    public function dispatchInvitation(): void
     {
-        $this->dstUser->invitations()->attach($this->srcUser->id);
-
-        \App\Events\SendInvitation::dispatch($this->srcUser->id, $this->dstUser->id);
+        $this->opponentUser->invitations()->attach($this->currentUser->id);
+        \App\Events\SendInvitation::dispatch($this->currentUser->id, $this->opponentUser->id);
     }
-    /**
-     * Контекст позволяет изменять объект Состояния во время выполнения.
-     */
-    // public function transitionTo(State $state): void
-    // {
-    //     echo "Context: Transition to " . get_class($state) . ".\n";
-    //     $this->state = $state;
-    //     $this->state->setContext($this);
-    // }
 
-    /**
-     * Контекст делегирует часть своего поведения текущему объекту Состояния.
-     */
-    // public function request1(): void
-    // {
-    //     $this->state->handle1();
-    // }
-
-    // public function request2(): void
-    // {
-    //     $this->state->handle2();
-    // }
+    public function startGame(): void
+    {
+        // $this->state->connectionDstUser();
+    }
 }

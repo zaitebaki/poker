@@ -6,26 +6,22 @@ use App\Helpers\State\State;
 
 class WaitingState extends State
 {
-    public function __construct($context, $watingText)
+    public function __construct($context, $watingText, $num)
     {
         parent::__construct($context);
 
         $this->context->statusText = $watingText;
     }
 
-//     function __construct() {
-    //        parent::__construct();
-    //    }
-
-    public function waitingDstUser()
+    public function waitingopponentUser()
     {}
 
-    public function connectionDstUser()
+    public function connectionOpponentUser()
     {}
 
-    public function connectionSrcUser()
+    public function connectionCurrentUser()
     {}
-    
+
     public function startGame()
     {}
 }

@@ -10,7 +10,8 @@
 
     <game-button-panel-component
         :buttons-captions="content.buttonsCaptions"
-        :start-game-button-ready="startGameButtonReady">
+        :start-game-button-ready="startGameButtonReady"
+        :user="user">
     </game-button-panel-component>
     <!-- <game-user-cards-component></game-user-cards-component>  -->
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
@@ -47,8 +48,7 @@ export default {
     mounted() {
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
-                   
-                axios.post('/game/room/1', { updateState: 'ReadyState', srcUserLogin: this.user.login}).then( (response) => {
+                axios.post('/game/room/1', { updateState: 'ReadyState', roomName: 'room_1', sendPost: 'true'}).then( (response) => {
                     this.gameStatusMessage = response.data;
                 }).catch(function (error) {
                     console.log(error);

@@ -20,7 +20,12 @@ Route::post('/invitation', 'User\UserController@sendInvitation')->name('sendInvi
 
 // Route::get('/game', 'Game\GameController@index')->name('startGame');
 
-Route::post('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
+Route::post('/game/room', 'Game\GameController@invitationMessage')->name('invitationMessage');
+
+Route::post('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessagePost');
+Route::get('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
+
+// Route::post('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
 
 // Route::post('messages', function (Illuminate\Http\Request $request) {
 //     App\Events\ConnectOnline::dispatch($request->all());

@@ -9,8 +9,9 @@
             {{ formButtonCaption }}
         </button>
         <input type="hidden" name="_token" :value="csrf">
-        <input type="hidden" name="srcUserLogin" :value="curSrcUserLogin">
-        <input type="hidden" name="isDstInvitatationForm" value="true">
+        <input type="hidden" name="updateState" value="InitState">
+        <input type="hidden" name="takeInvitationRequest" value="true">
+        <input type="hidden" name="opponentId" :value="opponentId">
     </form>
 </div>
 </template>
@@ -21,7 +22,7 @@ export default {
         invitationText: String,
         formRoute: String,
         formButtonCaption: String,
-        curSrcUserLogin: String
+        opponentId: Number
     },
     data() {
         return {
