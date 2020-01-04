@@ -5,15 +5,17 @@
     <!-- <game-status-bar-component></game-status-bar-component> -->
 
     <game-status-text-component
-        :status-message="gameStatusMessage">
+        :status-message="vueGameParameters.statusMessage">
     </game-status-text-component>
 
     <game-button-panel-component
         :buttons-captions="content.buttonsCaptions"
-        :start-game-button-ready="startGameButtonReady"
+        :buttons="vueGameParameters.buttons"
         :user="user">
     </game-button-panel-component>
-    <!-- <game-user-cards-component></game-user-cards-component>  -->
+    <!-- <game-user-cards-component>
+        :cards="cards"
+    </game-user-cards-component> -->
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
 </div>
 </template>
@@ -29,12 +31,11 @@ export default {
      props: {
         content: Object,
         user: Object,
-        statusMessage: String
+        gameParameters: Object
     },
     data() {
         return {
-            startGameButtonReady: false,
-            gameStatusMessage: this.statusMessage
+            vueGameParameters: this.gameParameters
         }
     },
     computed: {
@@ -49,7 +50,7 @@ export default {
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
                 axios.post('/game/room/1', { updateState: 'ReadyState', roomName: 'room_1', sendPost: 'true'}).then( (response) => {
-                    this.gameStatusMessage = response.data;
+                    this.vueGameParameters = response.data.gameParameters;
                 }).catch(function (error) {
                     console.log(error);
                     alert('Не удалось отправить запрос. Повторите попытку позже.');

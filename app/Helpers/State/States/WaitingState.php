@@ -6,7 +6,7 @@ use App\Helpers\State\State;
 
 class WaitingState extends State
 {
-    public function __construct($context, $watingText, $num)
+    public function __construct($context, $watingText)
     {
         parent::__construct($context);
 

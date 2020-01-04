@@ -2,6 +2,8 @@
 
 namespace App\Helpers\Cards;
 
+use Illuminate\Support\Facades\Redis;
+
 class Cards
 {
     private $deckOfCards = [
@@ -21,14 +23,23 @@ class Cards
         'j1', 'j2',
     ];
 
-    public function __construct()
+    private $keyStorageForCards;
+
+    public function __construct($keyStorage)
     {
-        return $this->deckOfCards;
+        $this->keyStorageForCards = $keyStorage;
+        shuffle($this->deckOfCards);
+        // $this->saveCards();
     }
 
     public function getFiveCards()
     {
-        shuffle($this->deckOfCards);
         return array_slice($this->deckOfCards, 0, 5);
+        // return 'hello';
+    }
+
+    private function saveCards()
+    {
+        Redis::set($this->keyStorageForCards, json_encode($this->deckOfCards));
     }
 }

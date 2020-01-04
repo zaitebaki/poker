@@ -1,8 +1,8 @@
 <template>
 <div class="uk-alert-primary" uk-alert>
-    <p>{{ invitationText }}</p>
+    <!-- <p>{{ invitationText }}</p> -->
     <form id="startGameForm" :action="formRoute" method="POST">
-        <button
+        <button>
             class="uk-button uk-button-secondary uk-button-small"
             type="submit"
             form="startGameForm">
@@ -17,7 +17,7 @@
 <script>
 export default {
     props: {
-        invitationText: String,
+        cards: Array,
         formRoute: String,
         formButtonCaption: String
     },

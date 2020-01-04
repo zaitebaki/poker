@@ -1816,19 +1816,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     buttonsCaptions: Object,
-    startGameButtonReady: Boolean,
+    buttons: Array,
     user: Object
   },
   data: function data() {
@@ -1836,31 +1827,25 @@ __webpack_require__.r(__webpack_exports__);
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
-  startGame: function startGame() {
-    axios.post('/game/room/1', {
-      initAction: 'StartGame'
-    }).then(function (response) {
-      console.log(response.data);
-    })["catch"](function (error) {
-      console.log(error);
-      alert('Не удалось отправить запрос. Повторите попытку позже.');
-    });
-  } // sendInvitation: function(friendLogin) {
-  //     axios.post('/invitation', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
-  //         if (response.redirect) {
-  //             console.log('redirect'); 
-  //         }
-  // if(response.data === 'STATUS_OK') {
-  //     console.log('Приглашение успешно отправлено!');
-  // }
-  // window.location.href = response.data;
-  // console.log(response);
-  // }).catch(function (error) {
-  //     console.log(error);
-  //     alert('Не удалось отправить запрос. Повторите попытку позже.');
-  // })
-  // }
-
+  mounted: function mounted() {},
+  methods: {
+    // начало игры - первая раздача карт
+    startGame: function startGame() {
+      axios.post('/game/room/1', {
+        initAction: 'startGame',
+        roomName: 'room_1'
+      }).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    },
+    isActiveButton: function isActiveButton(nameButton) {
+      if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
+      return false;
+    }
+  }
 });
 
 /***/ }),
@@ -2003,7 +1988,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    invitationText: String,
+    cards: Array,
     formRoute: String,
     formButtonCaption: String
   },
@@ -2050,6 +2035,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2060,12 +2047,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     content: Object,
     user: Object,
-    statusMessage: String
+    gameParameters: Object
   },
   data: function data() {
     return {
-      startGameButtonReady: false,
-      gameStatusMessage: this.statusMessage
+      vueGameParameters: this.gameParameters
     };
   },
   computed: {
@@ -2086,7 +2072,7 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1',
         sendPost: 'true'
       }).then(function (response) {
-        _this.gameStatusMessage = response.data;
+        _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -49644,10 +49630,19 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("p", { attrs: { "uk-margin": "" } }, [
-      _vm.startGameButtonReady
-        ? _c("button", { staticClass: "uk-button uk-button-primary" }, [
-            _vm._v(_vm._s(_vm.buttonsCaptions.startButton))
-          ])
+      _vm.isActiveButton("startGame")
+        ? _c(
+            "button",
+            {
+              staticClass: "uk-button uk-button-primary",
+              on: {
+                click: function($event) {
+                  return _vm.startGame()
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.buttonsCaptions.startButton))]
+          )
         : _vm._e()
     ])
   ])
@@ -49822,26 +49817,19 @@ var render = function() {
     "div",
     { staticClass: "uk-alert-primary", attrs: { "uk-alert": "" } },
     [
-      _c("p", [_vm._v(_vm._s(_vm.invitationText))]),
-      _vm._v(" "),
       _c(
         "form",
         {
           attrs: { id: "startGameForm", action: _vm.formRoute, method: "POST" }
         },
         [
-          _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary uk-button-small",
-              attrs: { type: "submit", form: "startGameForm" }
-            },
-            [
-              _vm._v(
-                "\n            " + _vm._s(_vm.formButtonCaption) + "\n        "
-              )
-            ]
-          ),
+          _c("button", [
+            _vm._v(
+              '\n            class="uk-button uk-button-secondary uk-button-small"\n            type="submit"\n            form="startGameForm">\n            ' +
+                _vm._s(_vm.formButtonCaption) +
+                "\n        "
+            )
+          ]),
           _vm._v(" "),
           _c("input", {
             attrs: { type: "hidden", name: "_token" },
@@ -49885,13 +49873,13 @@ var render = function() {
       _c("game-bank-component"),
       _vm._v(" "),
       _c("game-status-text-component", {
-        attrs: { "status-message": _vm.gameStatusMessage }
+        attrs: { "status-message": _vm.vueGameParameters.statusMessage }
       }),
       _vm._v(" "),
       _c("game-button-panel-component", {
         attrs: {
           "buttons-captions": _vm.content.buttonsCaptions,
-          "start-game-button-ready": _vm.startGameButtonReady,
+          buttons: _vm.vueGameParameters.buttons,
           user: _vm.user
         }
       })

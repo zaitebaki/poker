@@ -12,7 +12,7 @@ class InitState extends State
         $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage',
             ['user' => $this->context->opponentUser->name]);
         $this->context->dispatchInvitation();
-        $this->context->updateState('WaitingState', $waitingMessage, 5);
+        $this->context->updateState('WaitingState', $waitingMessage);
 
     }
 

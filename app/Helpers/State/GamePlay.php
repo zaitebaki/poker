@@ -2,7 +2,6 @@
 
 namespace App\Helpers\State;
 
-use App\Helpers\State\State;
 use App\User;
 use Illuminate\Support\Facades\Redis;
 
@@ -27,9 +26,10 @@ class GamePlay
     public $statusText;
     public $currentUser;
     public $opponentUser;
-    private $roomName;
-
+    public $buttons;
+    public $roomName;
     public $dump;
+    public $cards;
 
     public function __construct($user, string $roomName, $request)
     {
@@ -53,7 +53,12 @@ class GamePlay
         $stateArguments = array_reverse($stateArguments);
         $stateName      = 'App\\Helpers\\State\\States\\' . $stateName;
 
-        $this->state    = new $stateName($this, ...$stateArguments);
+        $this->state = new $stateName($this, ...$stateArguments);
+
+        // $this->state = new ReadyState($this, ...$stateArguments);
+
+        $this->dump = $this->state->startGame();
+
         $this->roomName = $roomName;
     }
 
@@ -72,6 +77,14 @@ class GamePlay
         Redis::set($this->roomName . ':' . $this->currentUser->id . ':state', $nameState);
     }
 
+    public function getGameParameters(): array
+    {
+        return array(
+            'statusMessage' => $this->statusText,
+            'buttons'       => $this->buttons,
+        );
+    }
+
     public function connectionCurrentUser(): void
     {
         $this->state->connectionCurrentUser();
@@ -80,6 +93,15 @@ class GamePlay
     public function connectionOpponentUser(): void
     {
         $this->state->connectionOpponentUser();
+    }
+
+    public function startGame()
+    {
+        // return $this->state->startGame();
+        // return json_encode($this->state->startGame(), JSON_UNESCAPED_UNICODE);
+        // return ($this->state);
+
+        return $this->state->startGame();
     }
 
     // сервисные функции
@@ -99,8 +121,4 @@ class GamePlay
         \App\Events\SendInvitation::dispatch($this->currentUser->id, $this->opponentUser->id);
     }
 
-    public function startGame(): void
-    {
-        // $this->state->connectionDstUser();
-    }
 }

@@ -61,7 +61,7 @@ class GameController extends \App\Http\Controllers\SuperController
             $game->connectionCurrentUser();
 
             $roomId = explode("_", $roomName);
-            return redirect()->route('sendMessage', ['id' => $roomId[1]])->with(['statusMessage' => $game->getStatusText()]);
+            return redirect()->route('sendMessage', ['id' => $roomId[1]]);
         }
 
         // принять приглашение для начала игры
@@ -73,82 +73,51 @@ class GameController extends \App\Http\Controllers\SuperController
             $game->connectionOpponentUser();
 
             $roomId = explode("_", $roomName);
-            return redirect()->route('sendMessage', ['id' => $roomId[1]])->with(['statusMessage' => $game->getStatusText()]);
+            return redirect()->route('sendMessage', ['id' => $roomId[1]]);
         }
     }
 
-    public function sendMessage(Request $request)
+    /**
+     * Основная функция обмена сообщениями между игроками
+     */
+    public function sendMessage(Request $request, $room_id)
     {
-        if (isset($request->updateState)) {
-            $game = new Gameplay($this->user, $request->roomName, $request);
-            $game->updateState($request->updateState);
 
-            return $game->getStatusText();
+        // перезагрузка и редирект страницы с игрой
+        if ($request->isMethod('get')) {
+            return $this->handleGetRequest($request, $room_id);
         }
 
-        // $statusMessage = '';
-        // $srcUser = null;
-        // $dstUser = null;
+        if ($request->isMethod('post')) {
 
-        // if (isset($request->srcUserLogin)) {
-        //     $srcUser = User::where('login', $request->srcUserLogin)->first();
-        //     $dstUser = $this->user;
-        // }
+            // обновить состояние в GamePlay
+            if (isset($request->updateState)) {
+                $game = new Gameplay($this->user, $request->roomName, $request);
+                $game->updateState($request->updateState);
 
-        // if (isset($request->dstUserLogin)) {
-        //     $srcUser = $this->user;
-        //     $dstUser = User::where('login', $request->dstUserLogin)->first();
-        // }
+                return array('gameParameters' => $game->getGameParameters());
+            }
 
-        // пользователь пригласил в игру
-        // другого пользователя
-        // if ($request->isSrcInvitatationForm === 'true') {
-        //     $game = new Gameplay($this->user, $dstUser, $request);
-        //     $game->connectionSrcUser();
-        //     $statusMessage = $game->getStatusText();
-        // }
+            // инициировать действие в GamePlay
+            if (isset($request->initAction)) {
 
-        // пользователя пригласил в игру
-        // другой пользователь
-        // if ($request->isDstInvitatationForm === 'true') {
-        //     $game = new Gameplay($srcUser, $this->user, $request);
-        //     $game->connectionDstUser();
-        //     $statusMessage = $game->getStatusText();
-        // }
+                $game = new Gameplay($this->user, $request->roomName, $request);
+                // $action = $request->initAction;
+                // $result = $game->$action();
 
-        // if ($request->updateState === 'ReadyState') {
+                return json_encode($game->startGame(), JSON_UNESCAPED_UNICODE);
 
-        //     $game          = new Gameplay($srcUser, $dstUser, $request);
-        //     $game->state   = new ReadyState($game);
-        //     $statusMessage = $game->getStatusText();
-        // return ['statusMessage' => $statusMessage];
-        //     return $statusMessage;
-        // }
+                // return array('gameParameters' => $game->getGameParameters());
+            }
+        }
+    }
 
-        // if ($request->initAction === 'startGame') {
+    private function handleGetRequest(Request $request, $room_id)
+    {
+        $game           = new Gameplay($this->user, 'room_' . $room_id, $request);
+        $gameParameters = $game->getGameParameters();
 
-        //     $game = new Gameplay($srcUser, $dstUser, $request);
-        //     $game->startGame();
-        // $statusMessage = $game->getStatusText();
-        // return ['statusMessage' => $statusMessage];
-        //     return $statusMessage;
-        // }
-
-        $this->content = view(env('THEME') . '.game.index')->with(['statusMessage' => session('statusMessage')])->render();
+        $this->content = view(env('THEME') . '.game.index')->with(['gameParameters' => $gameParameters])->render();
         return $this->renderOutput();
     }
-
-    // public function acceptInvitation(Request $request)
-    // {
-    //     $this->content = view(env('THEME') . '.game.index')->render();
-    //     return $this->renderOutput();
-    // }
-
-    // private function dispatchInviation(Request $request)
-    // {
-    //     $id_dst_user = User::where('login', $request->dstUserLogin)->first();
-    //     $id_dst_user->invitations()->attach($this->user->id);
-
-    //     \App\Events\SendInvitation::dispatch($request->srcUserId, $id_dst_user->id);
-    // }
 }

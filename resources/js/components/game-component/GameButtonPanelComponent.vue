@@ -1,16 +1,7 @@
 <template>
 <div>
     <p uk-margin>
-        <!-- <button class="uk-button uk-button-default">Default</button> -->
-
-        <!-- <button v-if="startGameButtonReady" class="uk-button uk-button-primary" :click="startGme">{{ buttonsCaptions.startButton }}</button> -->
-        <button v-if="startGameButtonReady" class="uk-button uk-button-primary">{{ buttonsCaptions.startButton }}</button>
-
-
-        <!-- <button class="uk-button uk-button-secondary">Secondary</button>
-        <button class="uk-button uk-button-danger">Danger</button>
-        <button class="uk-button uk-button-text">Text</button>
-        <button class="uk-button uk-button-link">Link</button> -->
+        <button v-if="isActiveButton('startGame')" class="uk-button uk-button-primary" v-on:click="startGame()">{{ buttonsCaptions.startButton }}</button>
     </p>
 </div>
 </template>
@@ -19,7 +10,7 @@
 export default {
     props: {
         buttonsCaptions: Object,
-        startGameButtonReady: Boolean,
+        buttons: Array,
         user: Object
     },
     data() {
@@ -27,29 +18,26 @@ export default {
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     },
-    startGame() {
-        axios.post('/game/room/1', { initAction: 'StartGame'}).then( (response) => {
-            console.log(response.data);
-        }).catch(function (error) {
-            console.log(error);
-            alert('Не удалось отправить запрос. Повторите попытку позже.');
-        });
-    }
+    mounted() {
+    },
 
-    // sendInvitation: function(friendLogin) {
-    //     axios.post('/invitation', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
-    //         if (response.redirect) {
-    //             console.log('redirect'); 
-    //         }
-            // if(response.data === 'STATUS_OK') {
-            //     console.log('Приглашение успешно отправлено!');
-            // }
-            // window.location.href = response.data;
-            // console.log(response);
-        // }).catch(function (error) {
-        //     console.log(error);
-        //     alert('Не удалось отправить запрос. Повторите попытку позже.');
-        // })
-    // }
+    methods: {
+
+        // начало игры - первая раздача карт
+        startGame() {
+            axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+                alert('Не удалось отправить запрос. Повторите попытку позже.');
+            });
+        },
+
+        isActiveButton(nameButton) {
+            if (this.buttons && this.buttons.indexOf(nameButton) !== -1)
+                return true;
+            return false;
+        }
+    }
 }
 </script>

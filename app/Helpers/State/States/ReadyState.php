@@ -2,6 +2,7 @@
 
 namespace App\Helpers\State\States;
 
+use App\Helpers\Cards\Cards;
 use App\Helpers\State\State;
 
 class ReadyState extends State
@@ -10,7 +11,7 @@ class ReadyState extends State
     {
         parent::__construct($context);
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.initMessage');
-
+        $this->context->buttons    = ['startGame'];
     }
 
     public function waitingOpponentUser()
@@ -23,5 +24,14 @@ class ReadyState extends State
     {}
 
     public function startGame()
-    {}
+    {
+        $keyStorage = $this->getKeyStorageForCards();
+        $cards      = new Cards($keyStorage);
+        return $cards->getFiveCards();
+    }
+
+    private function getKeyStorageForCards(): string
+    {
+        return $this->context->roomName . ':cards';
+    }
 }
