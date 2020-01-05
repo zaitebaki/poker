@@ -95,19 +95,17 @@ class GameController extends \App\Http\Controllers\SuperController
                 $game = new Gameplay($this->user, $request->roomName, $request);
                 $game->updateState($request->updateState);
 
-                return array('gameParameters' => $game->getGameParameters());
+                return json_encode(array('gameParameters' => $game->getGameParameters()));
             }
 
             // инициировать действие в GamePlay
             if (isset($request->initAction)) {
 
-                $game = new Gameplay($this->user, $request->roomName, $request);
-                // $action = $request->initAction;
-                // $result = $game->$action();
+                $game   = new Gameplay($this->user, $request->roomName, $request);
+                $method = $request->initAction;
+                $game->$method();
 
-                return json_encode($game->startGame(), JSON_UNESCAPED_UNICODE);
-
-                // return array('gameParameters' => $game->getGameParameters());
+                return json_encode(array('gameParameters' => $game->getGameParameters()));
             }
         }
     }

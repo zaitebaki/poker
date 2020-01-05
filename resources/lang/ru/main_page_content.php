@@ -44,6 +44,7 @@ return [
         'statusMessages'  => [
             'initMessage'    => 'Начальная ставка - 5 рублей. Игра готова',
             'waitingMessage' => 'Ожидание пользователя «:user»',
+            'startedMessage' => 'Выберете карты для замены',
         ],
     ],
 ];

@@ -1837,8 +1837,9 @@ __webpack_require__.r(__webpack_exports__);
         initAction: 'startGame',
         roomName: 'room_1'
       }).then(function (response) {
-        // console.log(response.data);
-        _this.$emit('update:cards', response.data);
+        console.log(response.data.gameParameters);
+
+        _this.$emit('update:parameters', response.data.gameParameters);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2002,7 +2003,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('efefef');
     console.log(this.cards);
   },
   methods: {
@@ -2099,8 +2099,8 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    updateCards: function updateCards($event) {
-      this.cards = $event;
+    updateParameters: function updateParameters($event) {
+      this.vueGameParameters = $event;
     }
   },
   components: {
@@ -49857,13 +49857,15 @@ var render = function() {
           user: _vm.user
         },
         on: {
-          "update:cards": function($event) {
-            return _vm.updateCards($event)
+          "update:parameters": function($event) {
+            return _vm.updateParameters($event)
           }
         }
       }),
       _vm._v(" "),
-      _c("game-user-cards-component", { attrs: { cards: _vm.cards } })
+      _c("game-user-cards-component", {
+        attrs: { cards: _vm.vueGameParameters.userCards }
+      })
     ],
     1
   )

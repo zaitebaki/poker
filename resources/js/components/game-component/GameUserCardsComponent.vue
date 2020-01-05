@@ -28,7 +28,6 @@ export default {
         }
     },
     mounted() {
-        console.log('efefef');
         console.log(this.cards);
     },
     methods: {

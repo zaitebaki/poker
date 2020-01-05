@@ -28,8 +28,8 @@ class GamePlay
     public $opponentUser;
     public $buttons;
     public $roomName;
-    public $dump;
     public $cards;
+    public $userCards;
 
     public function __construct($user, string $roomName, $request)
     {
@@ -53,22 +53,15 @@ class GamePlay
         $stateArguments = array_reverse($stateArguments);
         $stateName      = 'App\\Helpers\\State\\States\\' . $stateName;
 
-        $this->state = new $stateName($this, ...$stateArguments);
-
-        // $this->state = new ReadyState($this, ...$stateArguments);
-
-        $this->dump = $this->state->startGame();
-
+        $this->state    = new $stateName($this, ...$stateArguments);
         $this->roomName = $roomName;
     }
 
     public function updateState(string $nameState, ...$arg): void
     {
-        $stateName   = 'App\\Helpers\\State\\States\\' . $nameState;
-        $this->state = new $stateName($this, ...$arg);
-
+        $stateName            = 'App\\Helpers\\State\\States\\' . $nameState;
+        $this->state          = new $stateName($this, ...$arg);
         $argumentsStorageName = $this->roomName . ':' . $this->currentUser->id . ':' . $nameState;
-
         Redis::del($argumentsStorageName);
 
         if (!empty($arg)) {
@@ -82,6 +75,7 @@ class GamePlay
         return array(
             'statusMessage' => $this->statusText,
             'buttons'       => $this->buttons,
+            'userCards'     => $this->userCards
         );
     }
 
@@ -97,10 +91,6 @@ class GamePlay
 
     public function startGame()
     {
-        // return $this->state->startGame();
-        // return json_encode($this->state->startGame(), JSON_UNESCAPED_UNICODE);
-        // return ($this->state);
-
         return $this->state->startGame();
     }
 

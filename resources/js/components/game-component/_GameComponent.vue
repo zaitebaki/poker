@@ -12,11 +12,11 @@
         :buttons-captions="content.buttonsCaptions"
         :buttons="vueGameParameters.buttons"
         :user="user"
-        @update:cards="updateCards($event)">
+        @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
     <game-user-cards-component
-        :cards="cards">
+        :cards="vueGameParameters.userCards">
     </game-user-cards-component>
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
 </div>
@@ -62,8 +62,8 @@ export default {
             })
     },
     methods: {
-        updateCards($event) {
-            this.cards = $event;
+        updateParameters($event) {
+            this.vueGameParameters = $event;
         },
     },
     components: {

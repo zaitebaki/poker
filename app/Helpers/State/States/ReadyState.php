@@ -27,7 +27,9 @@ class ReadyState extends State
     {
         $keyStorage = $this->getKeyStorageForCards();
         $cards      = new Cards($keyStorage);
-        return $cards->getFiveCards();
+        $this->context->userCards = $cards->getFiveCards();
+        $this->context->updateState('StartedGameState');
+
     }
 
     private function getKeyStorageForCards(): string
