@@ -14,3 +14,8 @@
   width: 40px;
 }
 
+.card__img {
+  width: 130px;
+  cursor: pointer;
+}
+

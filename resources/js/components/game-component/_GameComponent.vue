@@ -11,11 +11,13 @@
     <game-button-panel-component
         :buttons-captions="content.buttonsCaptions"
         :buttons="vueGameParameters.buttons"
-        :user="user">
+        :user="user"
+        @update:cards="updateCards($event)">
     </game-button-panel-component>
-    <!-- <game-user-cards-component>
-        :cards="cards"
-    </game-user-cards-component> -->
+
+    <game-user-cards-component
+        :cards="cards">
+    </game-user-cards-component>
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
 </div>
 </template>
@@ -35,6 +37,7 @@ export default {
     },
     data() {
         return {
+            cards: null,
             vueGameParameters: this.gameParameters
         }
     },
@@ -57,49 +60,12 @@ export default {
                 });
                 this.startGameButtonReady = true;
             })
-
-        //     .here((users) => {
-        //         this.activeUsers = users;
-        //     })
-        //     .joining((user) => {
-        //         console.log(this.activeUsers);
-        //         this.activeUsers.push(user);
-        //     })
-        //     .leaving((user) => {
-        //         this.activeUsers.splice(this.activeUsers.indexOf(user), 1);
-        //     })
-            // .listen('PrivateChat', ({data}) => {
-            //     console.log(data.body);
-            //     this.messages.push(data.body);
-            //     this.isActive = false;
-            // })
-            // .listenForWhisper('typing', (e) => {
-            //     this.isActive = e;
-
-            //     if(this.typingTimer) clearTimeout(this.typingTimer);
-            //     this.typingTimer = setTimeout(() => {
-            //         this.isActive = false;
-            //     }, 2000);
-            // });
     },
-    // startGame: function(friendLogin) {
-    //     axios.post('/startGame', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
-
-
-            // if (response.redirect) {
-            //     console.log('redirect'); 
-            // }
-            // if(response.data === 'STATUS_OK') {
-            //     console.log('Приглашение успешно отправлено!');
-            // }
-            // window.location.href = response.data;
-            // console.log(response);
-        // }).catch(function (error) {
-        //     console.log(error);
-        //     alert('Не удалось отправить запрос. Повторите попытку позже.');
-        // })
-    // },
-
+    methods: {
+        updateCards($event) {
+            this.cards = $event;
+        },
+    },
     components: {
         'game-status-bar-component': GameStatusBarComponent,
         'game-bank-component': GameBankComponent,

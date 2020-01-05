@@ -26,7 +26,8 @@ export default {
         // начало игры - первая раздача карт
         startGame() {
             axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
-                console.log(response.data);
+                // console.log(response.data);
+                this.$emit('update:cards', response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');

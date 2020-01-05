@@ -15,12 +15,12 @@ class Cards
         '7c', '7b', '7v', '7k',
         '8c', '8b', '8v', '8k',
         '9c', '9b', '9v', '9k',
-        'ac', 'ab', 'av', 'ak',
-        'bc', 'bb', 'bv', 'bk',
-        'cc', 'cb', 'cv', 'ck',
+        'xc', 'xb', 'xv', 'xk',
+        'vc', 'vb', 'vv', 'vk',
+        'dc', 'db', 'dv', 'dk',
         'kc', 'kb', 'kv', 'kk',
         'tc', 'tb', 'tv', 'tk',
-        'j1', 'j2',
+        '1j', '2j',
     ];
 
     private $keyStorageForCards;

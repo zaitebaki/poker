@@ -1831,11 +1831,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // начало игры - первая раздача карт
     startGame: function startGame() {
+      var _this = this;
+
       axios.post('/game/room/1', {
         initAction: 'startGame',
         roomName: 'room_1'
       }).then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
+        _this.$emit('update:cards', response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -1980,22 +1983,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    cards: Array,
-    formRoute: String,
-    formButtonCaption: String
+    cards: Array // formRoute: String,
+    // formButtonCaption: String
+
   },
   data: function data() {
     return {
+      suitTable: {
+        'c': 'chervi',
+        'b': 'bubi',
+        'v': 'vini',
+        'k': 'kresti',
+        'j': 'joker'
+      },
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
+  },
+  mounted: function mounted() {
+    console.log('efefef');
+    console.log(this.cards);
+  },
+  methods: {
+    getPathToImage: function getPathToImage(index) {
+      var cardCode = this.cards[index];
+      var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".jpg");
+      return "/assets/images/cards/".concat(fileCardName);
+    }
   }
 });
 
@@ -2037,6 +2052,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2051,6 +2068,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      cards: null,
       vueGameParameters: this.gameParameters
     };
   },
@@ -2078,44 +2096,13 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
       _this.startGameButtonReady = true;
-    }); //     .here((users) => {
-    //         this.activeUsers = users;
-    //     })
-    //     .joining((user) => {
-    //         console.log(this.activeUsers);
-    //         this.activeUsers.push(user);
-    //     })
-    //     .leaving((user) => {
-    //         this.activeUsers.splice(this.activeUsers.indexOf(user), 1);
-    //     })
-    // .listen('PrivateChat', ({data}) => {
-    //     console.log(data.body);
-    //     this.messages.push(data.body);
-    //     this.isActive = false;
-    // })
-    // .listenForWhisper('typing', (e) => {
-    //     this.isActive = e;
-    //     if(this.typingTimer) clearTimeout(this.typingTimer);
-    //     this.typingTimer = setTimeout(() => {
-    //         this.isActive = false;
-    //     }, 2000);
-    // });
+    });
   },
-  // startGame: function(friendLogin) {
-  //     axios.post('/startGame', { srcUserId: this.user.id, dstUserLogin: friendLogin}).then(function (response) {
-  // if (response.redirect) {
-  //     console.log('redirect'); 
-  // }
-  // if(response.data === 'STATUS_OK') {
-  //     console.log('Приглашение успешно отправлено!');
-  // }
-  // window.location.href = response.data;
-  // console.log(response);
-  // }).catch(function (error) {
-  //     console.log(error);
-  //     alert('Не удалось отправить запрос. Повторите попытку позже.');
-  // })
-  // },
+  methods: {
+    updateCards: function updateCards($event) {
+      this.cards = $event;
+    }
+  },
   components: {
     'game-status-bar-component': _GameStatusBarComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
     'game-bank-component': _GameBankComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -49815,33 +49802,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "uk-alert-primary", attrs: { "uk-alert": "" } },
+    { staticClass: "uk-flex" },
     [
-      _c(
-        "form",
-        {
-          attrs: { id: "startGameForm", action: _vm.formRoute, method: "POST" }
-        },
-        [
-          _c("button", [
-            _vm._v(
-              '\n            class="uk-button uk-button-secondary uk-button-small"\n            type="submit"\n            form="startGameForm">\n            ' +
-                _vm._s(_vm.formButtonCaption) +
-                "\n        "
-            )
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            attrs: { type: "hidden", name: "_token" },
-            domProps: { value: _vm.csrf }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            attrs: { type: "hidden", name: "isInvitatationForm", value: "true" }
-          })
+      _vm._l(_vm.cards, function(card, index) {
+        return [
+          _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
+            _c("img", {
+              staticClass: "card__img",
+              attrs: { src: _vm.getPathToImage(index), alt: "" }
+            })
+          ])
         ]
-      )
-    ]
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -49881,8 +49855,15 @@ var render = function() {
           "buttons-captions": _vm.content.buttonsCaptions,
           buttons: _vm.vueGameParameters.buttons,
           user: _vm.user
+        },
+        on: {
+          "update:cards": function($event) {
+            return _vm.updateCards($event)
+          }
         }
-      })
+      }),
+      _vm._v(" "),
+      _c("game-user-cards-component", { attrs: { cards: _vm.cards } })
     ],
     1
   )
