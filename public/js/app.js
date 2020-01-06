@@ -1986,6 +1986,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     cards: Array // formRoute: String,
@@ -2001,17 +2006,24 @@ __webpack_require__.r(__webpack_exports__);
         'k': 'kresti',
         'j': 'joker'
       },
+      changeThisCard: false,
+      imgElementsClasses: [false, false, false, false, false],
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   mounted: function mounted() {
-    console.log(this.cards);
+    // this.imgElementsClasses = new Array(5).fill('false');
+    console.log(this.imgElementsClasses);
   },
   methods: {
     getPathToImage: function getPathToImage(index) {
       var cardCode = this.cards[index];
       var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".jpg");
       return "/assets/images/cards/".concat(fileCardName);
+    },
+    switcher: function switcher(index) {
+      var newValue = !this.imgElementsClasses[index];
+      this.$set(this.imgElementsClasses, index, newValue);
     }
   }
 });
@@ -2208,10 +2220,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvitationAlertCardComponent */ "./resources/js/components/home-component/InvitationAlertCardComponent.vue");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -49839,7 +49847,13 @@ var render = function() {
           _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
             _c("img", {
               staticClass: "card__img",
-              attrs: { src: _vm.getPathToImage(index), alt: "" }
+              class: { card__img_change: _vm.imgElementsClasses[index] },
+              attrs: { src: _vm.getPathToImage(index), alt: "" },
+              on: {
+                click: function($event) {
+                  return _vm.switcher(index)
+                }
+              }
             })
           ])
         ]

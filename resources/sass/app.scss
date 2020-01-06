@@ -18,3 +18,9 @@
   width: 130px;
   cursor: pointer;
 }
+
+.card__img_change {
+  filter: grayscale(1);
+  transition: 0.05s ease-in-out;
+  margin-top: -30px;
+}

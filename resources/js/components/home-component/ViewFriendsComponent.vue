@@ -25,13 +25,9 @@
                                     {{ content.startGameText }}
                                 </button>
                                 <input type="hidden" name="_token" :value="csrf">
-                                <!-- <input type="hidden" name="srcUserId" :value="user.id"> -->
-
                                 <input type="hidden" name="sendInvitationRequest" value="true">
                                 <input type="hidden" name="updateState" value="InitState">
                                 <input type="hidden" name="opponentId" :value="friend.id">
-
-                                <!-- <input type="hidden" name="isSrcInvitatationForm" value="true"> -->
                             </form>
                         </span>
                     </li>

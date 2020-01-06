@@ -19,3 +19,11 @@
   cursor: pointer;
 }
 
+.card__img_change {
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+  -webkit-transition: 0.05s ease-in-out;
+  transition: 0.05s ease-in-out;
+  margin-top: -30px;
+}
+

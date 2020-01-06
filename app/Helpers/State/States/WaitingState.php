@@ -11,6 +11,8 @@ class WaitingState extends State
         parent::__construct($context);
 
         $this->context->statusText = $watingText;
+        $this->context->buttons    = null;
+
     }
 
     public function waitingopponentUser()
