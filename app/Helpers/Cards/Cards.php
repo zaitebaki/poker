@@ -28,18 +28,33 @@ class Cards
     public function __construct($keyStorage)
     {
         $this->keyStorageForCards = $keyStorage;
-        shuffle($this->deckOfCards);
-        $this->saveCards();
+
+        if ($this->cardsAlreadyExists()) {
+            $this->deckOfCards = $this->extractCardsFromRedis();
+        } else {
+            shuffle($this->deckOfCards);
+            $this->saveCards();
+        }
     }
 
-    public function getFiveCards()
+    public function getFiveCards(int $startIndex, int $endIndex)
     {
-        return array_slice($this->deckOfCards, 0, 5);
-        // return 'hello';
+        return array_slice($this->deckOfCards, $startIndex, $endIndex);
     }
 
     private function saveCards()
     {
-        Redis::set($this->keyStorageForCards, json_encode($this->deckOfCards));
+        Redis::set($this->keyStorageForCards, implode(',', $this->deckOfCards));
+    }
+
+    private function cardsAlreadyExists(): bool
+    {
+        return Redis::exists($this->keyStorageForCards);
+    }
+
+    private function extractCardsFromRedis(): array
+    {
+        $data = Redis::get($this->keyStorageForCards);
+        return explode(',', $data);
     }
 }

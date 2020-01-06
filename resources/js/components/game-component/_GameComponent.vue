@@ -16,6 +16,7 @@
     </game-button-panel-component>
 
     <game-user-cards-component
+        v-if="vueGameParameters.userCards"
         :cards="vueGameParameters.userCards">
     </game-user-cards-component>
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
@@ -42,17 +43,11 @@ export default {
         }
     },
     computed: {
-        // gameChannel() {
-        //     return window.Echo.join('room.1');
-        // },
         gameActionChannel() {
             return window.Echo.private('room-action.1');
         }
     },
     mounted() {
-
-        console.log(this.vueGameParameters.userCards);
-
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
                 axios.post('/game/room/1', { updateState: 'ReadyState', roomName: 'room_1', sendPost: 'true'}).then( (response) => {

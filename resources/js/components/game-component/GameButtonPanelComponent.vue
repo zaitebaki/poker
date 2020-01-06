@@ -25,7 +25,7 @@ export default {
 
     methods: {
 
-        // начало игры - первая раздача карт
+        // инициировать раздачу карт
         startGame() {
             axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
                 console.log(response.data.gameParameters);

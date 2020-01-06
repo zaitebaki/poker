@@ -19,10 +19,11 @@ use Illuminate\Support\Facades\Redis;
  */
 
 // room_1:count
-// room_1:1::state - имя состояния для текущего пользователя
+// room_1:1:state - имя состояния для текущего пользователя
 // room_1:idUserCurrent
 // room_1:idUserOpponent
 // room_1:WaitingState - аргументы для конструктора состояния
+// room_1:cards
 
 class GamePlay
 {
@@ -37,6 +38,7 @@ class GamePlay
     public $roomName;
     public $cards;
     public $userCards;
+    public $role;
 
     public function __construct($user, string $roomName, $request)
     {
@@ -49,9 +51,11 @@ class GamePlay
         if ($user->id === (int) $idUserCurrent) {
             $this->currentUser  = $user;
             $this->opponentUser = User::find($idUserOpponent);
+            $this->role         = 'currentUser';
         } else {
-            $this->currentUser  = User::find($idUserOpponent);
-            $this->opponentUser = $user;
+            $this->currentUser  = $user;
+            $this->opponentUser = User::find($idUserCurrent);
+            $this->role         = 'opponentUser';
         }
 
         // инициализировать состояние из Redis-хранилища

@@ -1831,7 +1831,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {},
   methods: {
-    // начало игры - первая раздача карт
+    // инициировать раздачу карт
     startGame: function startGame() {
       var _this = this;
 
@@ -2056,6 +2056,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2075,9 +2076,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    // gameChannel() {
-    //     return window.Echo.join('room.1');
-    // },
     gameActionChannel: function gameActionChannel() {
       return window.Echo["private"]('room-action.1');
     }
@@ -2085,7 +2083,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    console.log(this.vueGameParameters.userCards);
     this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
       var data = _ref.data;
       axios.post('/game/room/1', {
@@ -49896,9 +49893,11 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("game-user-cards-component", {
-        attrs: { cards: _vm.vueGameParameters.userCards }
-      })
+      _vm.vueGameParameters.userCards
+        ? _c("game-user-cards-component", {
+            attrs: { cards: _vm.vueGameParameters.userCards }
+          })
+        : _vm._e()
     ],
     1
   )
