@@ -58,6 +58,16 @@ export default {
                 });
                 this.startGameButtonReady = true;
             })
+            
+            .listen('SendStartedGameStatus', ({data}) => {
+                console.log("Hello from SendStartedGameStatus!!!");
+                axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
+                    this.vueGameParameters = response.data.gameParameters;
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+            })
     },
     methods: {
         updateParameters($event) {

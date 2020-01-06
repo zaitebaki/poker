@@ -13,6 +13,8 @@ class StartedGameState extends State
         $this->context->buttons    = ['changeCards', 'notChange'];
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.startedMessage');
         $this->context->userCards  = $this->extractUserCardsFromRedis();
+
+        \App\Events\SendStartedGameStatus::dispatch();
     }
 
     public function waitingOpponentUser()

@@ -2108,6 +2108,18 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
       _this.startGameButtonReady = true;
+    }).listen('SendStartedGameStatus', function (_ref2) {
+      var data = _ref2.data;
+      console.log("Hello from SendStartedGameStatus!!!");
+      axios.post('/game/room/1', {
+        initAction: 'startGame',
+        roomName: 'room_1'
+      }).then(function (response) {
+        _this.vueGameParameters = response.data.gameParameters;
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
     });
   },
   methods: {

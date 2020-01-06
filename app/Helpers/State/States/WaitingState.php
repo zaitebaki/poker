@@ -25,5 +25,8 @@ class WaitingState extends State
     {}
 
     public function startGame()
-    {}
+    {
+        $this->context->updateState('ReadyState');
+        $this->context->startGame();
+    }
 }
