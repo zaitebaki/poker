@@ -40,6 +40,8 @@ return [
     'gamePage'    => [
         'buttonsCaptions' => [
             'startButton' => 'Начать игру',
+            'changeCards' => 'Поменять карты',
+            'notChange' => '«Не меняю»',
         ],
         'statusMessages'  => [
             'initMessage'    => 'Начальная ставка - 5 рублей. Игра готова',

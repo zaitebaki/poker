@@ -29,7 +29,7 @@ class Cards
     {
         $this->keyStorageForCards = $keyStorage;
         shuffle($this->deckOfCards);
-        // $this->saveCards();
+        $this->saveCards();
     }
 
     public function getFiveCards()

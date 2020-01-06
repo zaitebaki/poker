@@ -1816,6 +1816,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     buttonsCaptions: Object,
@@ -49629,6 +49631,36 @@ var render = function() {
               }
             },
             [_vm._v(_vm._s(_vm.buttonsCaptions.startButton))]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isActiveButton("changeCards")
+        ? _c(
+            "button",
+            {
+              staticClass: "uk-button uk-button-secondary",
+              on: {
+                click: function($event) {
+                  return _vm.changeCards()
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.buttonsCaptions.changeCards))]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isActiveButton("notChange")
+        ? _c(
+            "button",
+            {
+              staticClass: "uk-button uk-button-danger",
+              on: {
+                click: function($event) {
+                  return _vm.notChange()
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.buttonsCaptions.notChange))]
           )
         : _vm._e()
     ])

@@ -17,6 +17,13 @@ use Illuminate\Support\Facades\Redis;
  * хранит ссылку на экземпляр подкласса Состояния, который отображает текущее
  * состояние Контекста.
  */
+
+// room_1:count
+// room_1:1::state - имя состояния для текущего пользователя
+// room_1:idUserCurrent
+// room_1:idUserOpponent
+// room_1:WaitingState - аргументы для конструктора состояния
+
 class GamePlay
 {
     /**
@@ -75,7 +82,7 @@ class GamePlay
         return array(
             'statusMessage' => $this->statusText,
             'buttons'       => $this->buttons,
-            'userCards'     => $this->userCards
+            'userCards'     => $this->userCards,
         );
     }
 

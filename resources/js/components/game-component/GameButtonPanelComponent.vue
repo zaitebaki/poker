@@ -2,6 +2,8 @@
 <div>
     <p uk-margin>
         <button v-if="isActiveButton('startGame')" class="uk-button uk-button-primary" v-on:click="startGame()">{{ buttonsCaptions.startButton }}</button>
+        <button v-if="isActiveButton('changeCards')" class="uk-button uk-button-secondary" v-on:click="changeCards()">{{ buttonsCaptions.changeCards }}</button>
+        <button v-if="isActiveButton('notChange')" class="uk-button uk-button-danger" v-on:click="notChange()">{{ buttonsCaptions.notChange }}</button>
     </p>
 </div>
 </template>
