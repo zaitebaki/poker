@@ -2085,6 +2085,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    console.log(this.vueGameParameters.userCards);
     this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
       var data = _ref.data;
       axios.post('/game/room/1', {

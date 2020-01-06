@@ -3,6 +3,7 @@
 namespace App\Helpers\State\States;
 
 use App\Helpers\State\State;
+use Illuminate\Support\Facades\Redis;
 
 class StartedGameState extends State
 {
@@ -11,6 +12,7 @@ class StartedGameState extends State
         parent::__construct($context);
         $this->context->buttons    = ['changeCards', 'notChange'];
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.startedMessage');
+        $this->context->userCards  = $this->extractUserCardsFromRedis();
     }
 
     public function waitingOpponentUser()
@@ -26,4 +28,9 @@ class StartedGameState extends State
     {
     }
 
+    private function extractUserCardsFromRedis(): array
+    {
+        $data = Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ':userCards');
+        return explode(',', $data);
+    }
 }

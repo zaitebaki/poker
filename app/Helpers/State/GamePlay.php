@@ -40,6 +40,8 @@ class GamePlay
 
     public function __construct($user, string $roomName, $request)
     {
+        $this->roomName = $roomName;
+
         // определить создателя и приглашенного игрока
         $idUserCurrent  = Redis::get($roomName . ':idUserCurrent');
         $idUserOpponent = Redis::get($roomName . ':idUserOpponent');
@@ -60,8 +62,7 @@ class GamePlay
         $stateArguments = array_reverse($stateArguments);
         $stateName      = 'App\\Helpers\\State\\States\\' . $stateName;
 
-        $this->state    = new $stateName($this, ...$stateArguments);
-        $this->roomName = $roomName;
+        $this->state = new $stateName($this, ...$stateArguments);
     }
 
     public function updateState(string $nameState, ...$arg): void
@@ -117,5 +118,4 @@ class GamePlay
         $this->opponentUser->invitations()->attach($this->currentUser->id);
         \App\Events\SendInvitation::dispatch($this->currentUser->id, $this->opponentUser->id);
     }
-
 }

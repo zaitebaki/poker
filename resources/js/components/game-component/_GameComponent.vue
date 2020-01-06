@@ -50,6 +50,9 @@ export default {
         }
     },
     mounted() {
+
+        console.log(this.vueGameParameters.userCards);
+
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
                 axios.post('/game/room/1', { updateState: 'ReadyState', roomName: 'room_1', sendPost: 'true'}).then( (response) => {
