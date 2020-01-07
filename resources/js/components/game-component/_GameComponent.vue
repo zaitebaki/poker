@@ -17,7 +17,8 @@
 
     <game-user-cards-component
         v-if="vueGameParameters.userCards"
-        :cards="vueGameParameters.userCards">
+        :cards="vueGameParameters.userCards"
+        @change:active:cards:storage="changActiveCardsStorage($index)">
     </game-user-cards-component>
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
 </div>
@@ -39,12 +40,16 @@ export default {
     data() {
         return {
             cards: null,
-            vueGameParameters: this.gameParameters
+            vueGameParameters: this.gameParameters,
+            activeCardsStorage: [true, true, true, true, true]
         }
     },
     computed: {
         gameActionChannel() {
             return window.Echo.private('room-action.1');
+        },
+        gameActionChannel2() {
+            return window.Echo.private('send-status.1');
         }
     },
     mounted() {
@@ -57,8 +62,9 @@ export default {
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
                 });
                 this.startGameButtonReady = true;
-            })
+            });
             
+            this.gameActionChannel2
             .listen('SendStartedGameStatus', ({data}) => {
                 console.log("Hello from SendStartedGameStatus!!!");
                 axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
@@ -73,6 +79,11 @@ export default {
         updateParameters($event) {
             this.vueGameParameters = $event;
         },
+        changActiveCardsStorage($index) {
+            this.activeCardsStorage[$index] = false;
+
+            console.log(this.activeCardsStorage);
+        }
     },
     components: {
         'game-status-bar-component': GameStatusBarComponent,

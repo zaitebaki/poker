@@ -45,6 +45,8 @@ class ReadyState extends State
         }
         $this->saveUserCards($this->context->userCards);
         $this->context->updateState('StartedGameState');
+
+        \App\Events\SendStartedGameStatus::dispatch();
     }
 
     private function getKeyStorageForCards(): string

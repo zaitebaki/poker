@@ -17,8 +17,6 @@
 export default {
     props: {
         cards: Array,
-        // formRoute: String,
-        // formButtonCaption: String
     },
     data() {
         return {
@@ -35,8 +33,6 @@ export default {
         }
     },
     mounted() {
-        // this.imgElementsClasses = new Array(5).fill('false');
-        console.log(this.imgElementsClasses);
     },
     methods: {
         getPathToImage(index) {
@@ -45,6 +41,7 @@ export default {
             return `/assets/images/cards/${fileCardName}`;
         },
         switcher(index) {
+            this.$emit('change:active:cards:storage', index);
             let newValue = !this.imgElementsClasses[index]; 
             this.$set(this.imgElementsClasses, index, newValue);
         }

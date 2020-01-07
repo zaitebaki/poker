@@ -1847,6 +1847,7 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
     },
+    changeCards: function changeCards() {},
     isActiveButton: function isActiveButton(nameButton) {
       if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
       return false;
@@ -1993,9 +1994,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    cards: Array // formRoute: String,
-    // formButtonCaption: String
-
+    cards: Array
   },
   data: function data() {
     return {
@@ -2011,10 +2010,7 @@ __webpack_require__.r(__webpack_exports__);
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
-  mounted: function mounted() {
-    // this.imgElementsClasses = new Array(5).fill('false');
-    console.log(this.imgElementsClasses);
-  },
+  mounted: function mounted() {},
   methods: {
     getPathToImage: function getPathToImage(index) {
       var cardCode = this.cards[index];
@@ -2022,6 +2018,7 @@ __webpack_require__.r(__webpack_exports__);
       return "/assets/images/cards/".concat(fileCardName);
     },
     switcher: function switcher(index) {
+      this.$emit('change:active:cards:storage', index);
       var newValue = !this.imgElementsClasses[index];
       this.$set(this.imgElementsClasses, index, newValue);
     }
@@ -2069,6 +2066,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2084,12 +2082,16 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       cards: null,
-      vueGameParameters: this.gameParameters
+      vueGameParameters: this.gameParameters,
+      activeCardsStorage: [true, true, true, true, true]
     };
   },
   computed: {
     gameActionChannel: function gameActionChannel() {
       return window.Echo["private"]('room-action.1');
+    },
+    gameActionChannel2: function gameActionChannel2() {
+      return window.Echo["private"]('send-status.1');
     }
   },
   mounted: function mounted() {
@@ -2108,7 +2110,8 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
       _this.startGameButtonReady = true;
-    }).listen('SendStartedGameStatus', function (_ref2) {
+    });
+    this.gameActionChannel2.listen('SendStartedGameStatus', function (_ref2) {
       var data = _ref2.data;
       console.log("Hello from SendStartedGameStatus!!!");
       axios.post('/game/room/1', {
@@ -2125,6 +2128,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     updateParameters: function updateParameters($event) {
       this.vueGameParameters = $event;
+    },
+    changActiveCardsStorage: function changActiveCardsStorage($index) {
+      this.activeCardsStorage[$index] = false;
+      console.log(this.activeCardsStorage);
     }
   },
   components: {
@@ -49921,7 +49928,12 @@ var render = function() {
       _vm._v(" "),
       _vm.vueGameParameters.userCards
         ? _c("game-user-cards-component", {
-            attrs: { cards: _vm.vueGameParameters.userCards }
+            attrs: { cards: _vm.vueGameParameters.userCards },
+            on: {
+              "change:active:cards:storage": function($event) {
+                return _vm.changActiveCardsStorage(_vm.$index)
+              }
+            }
           })
         : _vm._e()
     ],

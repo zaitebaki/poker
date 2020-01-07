@@ -36,6 +36,10 @@ export default {
             });
         },
 
+        changeCards() {
+            
+        },
+
         isActiveButton(nameButton) {
             if (this.buttons && this.buttons.indexOf(nameButton) !== -1)
                 return true;

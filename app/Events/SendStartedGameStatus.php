@@ -5,10 +5,9 @@ namespace App\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
 
 class SendStartedGameStatus implements ShouldBroadcast
 {
@@ -30,6 +29,6 @@ class SendStartedGameStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room-action.1');
+        return new PrivateChannel('send-status.1');
     }
 }
