@@ -28,10 +28,6 @@ Broadcast::channel('room-action.{room_id}', function ($user, $id) {
     return $user->login;
 });
 
-Broadcast::channel('send-status.{room_id}', function ($user, $id) {
-    return $user->login;
-});
-
 Broadcast::channel('invitation.{id}', function ($user, $id) {
 
     // if ($user->invitations->contains($id)) {

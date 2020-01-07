@@ -33,6 +33,9 @@ export default {
         }
     },
     mounted() {
+        this.$root.$on('clean:cards:classes', () => {
+            this.imgElementsClasses = [false, false, false, false, false];
+        });
     },
     methods: {
         getPathToImage(index) {
@@ -42,7 +45,7 @@ export default {
         },
         switcher(index) {
             this.$emit('change:active:cards:storage', index);
-            let newValue = !this.imgElementsClasses[index]; 
+            let newValue = !this.imgElementsClasses[index];
             this.$set(this.imgElementsClasses, index, newValue);
         }
     }

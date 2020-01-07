@@ -40,6 +40,7 @@ class GamePlay
     public $userCards;
     public $role;
     public $request;
+    public $countFirstUserChangeCards;
 
     public $dump = '';
 
@@ -142,5 +143,26 @@ class GamePlay
     {
         $data = implode(",", $this->userCards);
         Redis::set($this->roomName . ':' . $this->currentUser->id . ':userCards', $data);
+    }
+
+    public function extractUserCardsFromRedis(): array
+    {
+        $data = Redis::get($this->roomName . ':' . $this->currentUser->id . ':userCards');
+        return explode(',', $data);
+    }
+
+    public function getOpponentState(): string
+    {
+        return Redis::get($this->roomName . ':' . $this->opponentUser->id . ':state');
+    }
+
+    public function saveCountFirstUserChangeCards($cntCards): string
+    {
+        return Redis::set($this->roomName . ':countFirstUserChangeCards', $cntCards);
+    }
+
+    public function getCountFirstUserChangeCards(): string
+    {
+        return Redis::get($this->roomName . ':countFirstUserChangeCards');
     }
 }

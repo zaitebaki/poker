@@ -4,7 +4,6 @@ namespace App\Helpers\State\States;
 
 use App\Helpers\Cards\Cards;
 use App\Helpers\State\State;
-use Illuminate\Support\Facades\Redis;
 
 class ReadyState extends State
 {
@@ -28,7 +27,7 @@ class ReadyState extends State
     {
         // проверить - если 1-ый игрок не получил карты
         // то перевести 2-го игрока в состояние ожидания
-        if ($this->context->role === 'opponentUser' && $this->getOpponentState() !== 'StartedGameState') {
+        if ($this->context->role === 'opponentUser' && $this->context->getOpponentState() !== 'StartedGameState') {
             $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage2',
                 ['user' => $this->context->opponentUser->name]);
             $this->context->updateState('WaitingState', $waitingMessage);
@@ -51,10 +50,5 @@ class ReadyState extends State
 
     public function changeCards()
     {
-    }
-
-    private function getOpponentState(): string
-    {
-        return Redis::get($this->context->roomName . ':' . $this->context->opponentUser->id . ':state');
     }
 }

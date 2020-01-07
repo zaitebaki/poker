@@ -4,6 +4,8 @@
         <button v-if="isActiveButton('startGame')" class="uk-button uk-button-primary" v-on:click="startGame()">{{ buttonsCaptions.startButton }}</button>
         <button v-if="isActiveButton('changeCards')" class="uk-button uk-button-secondary" v-on:click="changeCards()">{{ buttonsCaptions.changeCards }}</button>
         <button v-if="isActiveButton('notChange')" class="uk-button uk-button-danger" v-on:click="notChange()">{{ buttonsCaptions.notChange }}</button>
+        <button v-if="isActiveButton('addMoney')" class="uk-button uk-button-primary" v-on:click="addMoney()">{{ buttonsCaptions.addMoney }}</button>
+        <button v-if="isActiveButton('noMoney')" class="uk-button uk-button-secondary" v-on:click="noMoney()">{{ buttonsCaptions.noMoney }}</button>
     </p>
 </div>
 </template>
@@ -38,6 +40,7 @@ export default {
             });
         },
         
+        // поменять карты
         changeCards() {
             axios.post('/game/room/1', {
                 initAction: 'changeCards',
@@ -47,16 +50,11 @@ export default {
             then( (response) => {
                 console.log(response.data.gameParameters);
                 this.$emit('update:parameters', response.data.gameParameters);
+                this.$root.$emit('clean:cards:classes');
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
             });
-        },
-
-        isActiveButton(nameButton) {
-            if (this.buttons && this.buttons.indexOf(nameButton) !== -1)
-                return true;
-            return false;
         },
 
         // вернуть индекс карты для замены
@@ -69,7 +67,13 @@ export default {
                 }
             });           
             return indexArray.join(',');
-        }
+        },
+
+        isActiveButton(nameButton) {
+            if (this.buttons && this.buttons.indexOf(nameButton) !== -1)
+                return true;
+            return false;
+        },
     }
 }
 </script>

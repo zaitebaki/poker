@@ -41,13 +41,17 @@ return [
         'buttonsCaptions' => [
             'startButton' => 'Начать игру',
             'changeCards' => 'Поменять карты',
-            'notChange'   => '«Не меняю»',
+            'notChange'   => 'Не меняю',
+            'addMoney' => 'Добавить 5 рублей',
+            'noMoney' => 'чек'
         ],
         'statusMessages'  => [
             'initMessage'     => 'Начальная ставка - 5 рублей. Игра готова',
             'waitingMessage'  => 'Ожидание пользователя «:user»',
             'waitingMessage2' => 'Пользователь «:user» берет карты',
+            'waitingMessage3' => 'Пользователь «:user» делает ставку',
             'startedMessage'  => 'Выберете карты для замены',
+            'bettingMessage'  => 'Делайте вашу ставку',
         ],
     ],
 ];

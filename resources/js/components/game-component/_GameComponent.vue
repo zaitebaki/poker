@@ -49,9 +49,6 @@ export default {
         gameActionChannel() {
             return window.Echo.private('room-action.1');
         },
-        gameActionChannel2() {
-            return window.Echo.private('send-status.1');
-        }
     },
     mounted() {
         this.gameActionChannel
@@ -63,9 +60,8 @@ export default {
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
                 });
                 this.startGameButtonReady = true;
-            });
-            
-            this.gameActionChannel2
+            })
+   
             .listen('SendStartedGameStatus', ({data}) => {
                 console.log("Hello from SendStartedGameStatus!!!");
                 axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {

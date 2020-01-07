@@ -1818,6 +1818,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     buttonsCaptions: Object,
@@ -1850,6 +1852,7 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
     },
+    // поменять карты
     changeCards: function changeCards() {
       var _this2 = this;
 
@@ -1861,14 +1864,12 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response.data.gameParameters);
 
         _this2.$emit('update:parameters', response.data.gameParameters);
+
+        _this2.$root.$emit('clean:cards:classes');
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
-    },
-    isActiveButton: function isActiveButton(nameButton) {
-      if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
-      return false;
     },
     // вернуть индекс карты для замены
     getcardsIndexForChange: function getcardsIndexForChange() {
@@ -1879,6 +1880,10 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
       return indexArray.join(',');
+    },
+    isActiveButton: function isActiveButton(nameButton) {
+      if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
+      return false;
     }
   }
 });
@@ -2038,7 +2043,13 @@ __webpack_require__.r(__webpack_exports__);
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$root.$on('clean:cards:classes', function () {
+      _this.imgElementsClasses = [false, false, false, false, false];
+    });
+  },
   methods: {
     getPathToImage: function getPathToImage(index) {
       var cardCode = this.cards[index];
@@ -2118,9 +2129,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     gameActionChannel: function gameActionChannel() {
       return window.Echo["private"]('room-action.1');
-    },
-    gameActionChannel2: function gameActionChannel2() {
-      return window.Echo["private"]('send-status.1');
     }
   },
   mounted: function mounted() {
@@ -2139,8 +2147,7 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
       _this.startGameButtonReady = true;
-    });
-    this.gameActionChannel2.listen('SendStartedGameStatus', function (_ref2) {
+    }).listen('SendStartedGameStatus', function (_ref2) {
       var data = _ref2.data;
       console.log("Hello from SendStartedGameStatus!!!");
       axios.post('/game/room/1', {
@@ -49716,6 +49723,36 @@ var render = function() {
               }
             },
             [_vm._v(_vm._s(_vm.buttonsCaptions.notChange))]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isActiveButton("addMoney")
+        ? _c(
+            "button",
+            {
+              staticClass: "uk-button uk-button-primary",
+              on: {
+                click: function($event) {
+                  return _vm.addMoney()
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.buttonsCaptions.addMoney))]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isActiveButton("noMoney")
+        ? _c(
+            "button",
+            {
+              staticClass: "uk-button uk-button-secondary",
+              on: {
+                click: function($event) {
+                  return _vm.noMoney()
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.buttonsCaptions.noMoney))]
           )
         : _vm._e()
     ])
