@@ -1822,14 +1822,17 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     buttonsCaptions: Object,
     buttons: Array,
-    user: Object
+    user: Object,
+    activeCardsStorage: Array
   },
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    console.log(this.activeCardsStorage);
+  },
   methods: {
     // инициировать раздачу карт
     startGame: function startGame() {
@@ -1847,10 +1850,35 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
     },
-    changeCards: function changeCards() {},
+    changeCards: function changeCards() {
+      var _this2 = this;
+
+      axios.post('/game/room/1', {
+        initAction: 'changeCards',
+        roomName: 'room_1',
+        cardsIndexForChange: this.getcardsIndexForChange()
+      }).then(function (response) {
+        console.log(response.data.gameParameters);
+
+        _this2.$emit('update:parameters', response.data.gameParameters);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    },
     isActiveButton: function isActiveButton(nameButton) {
       if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
       return false;
+    },
+    // вернуть индекс карты для замены
+    getcardsIndexForChange: function getcardsIndexForChange() {
+      var indexArray = [];
+      this.activeCardsStorage.forEach(function (item, i, arr) {
+        if (item === false) {
+          indexArray.push(i);
+        }
+      });
+      return indexArray.join(',');
     }
   }
 });
@@ -2067,6 +2095,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2129,8 +2158,9 @@ __webpack_require__.r(__webpack_exports__);
     updateParameters: function updateParameters($event) {
       this.vueGameParameters = $event;
     },
-    changActiveCardsStorage: function changActiveCardsStorage($index) {
-      this.activeCardsStorage[$index] = false;
+    changActiveCardsStorage: function changActiveCardsStorage($event) {
+      var index = $event;
+      this.activeCardsStorage[index] = !this.activeCardsStorage[index];
       console.log(this.activeCardsStorage);
     }
   },
@@ -49917,7 +49947,8 @@ var render = function() {
         attrs: {
           "buttons-captions": _vm.content.buttonsCaptions,
           buttons: _vm.vueGameParameters.buttons,
-          user: _vm.user
+          user: _vm.user,
+          "active-cards-storage": _vm.activeCardsStorage
         },
         on: {
           "update:parameters": function($event) {
@@ -49931,7 +49962,7 @@ var render = function() {
             attrs: { cards: _vm.vueGameParameters.userCards },
             on: {
               "change:active:cards:storage": function($event) {
-                return _vm.changActiveCardsStorage(_vm.$index)
+                return _vm.changActiveCardsStorage($event)
               }
             }
           })

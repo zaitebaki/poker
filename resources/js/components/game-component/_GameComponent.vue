@@ -12,13 +12,14 @@
         :buttons-captions="content.buttonsCaptions"
         :buttons="vueGameParameters.buttons"
         :user="user"
+        :active-cards-storage="activeCardsStorage"
         @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
     <game-user-cards-component
         v-if="vueGameParameters.userCards"
         :cards="vueGameParameters.userCards"
-        @change:active:cards:storage="changActiveCardsStorage($index)">
+        @change:active:cards:storage="changActiveCardsStorage($event)">
     </game-user-cards-component>
     <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
 </div>
@@ -79,8 +80,9 @@ export default {
         updateParameters($event) {
             this.vueGameParameters = $event;
         },
-        changActiveCardsStorage($index) {
-            this.activeCardsStorage[$index] = false;
+        changActiveCardsStorage($event) {
+            const index = $event;
+            this.activeCardsStorage[index] = !this.activeCardsStorage[index];
 
             console.log(this.activeCardsStorage);
         }

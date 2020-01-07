@@ -37,7 +37,7 @@ class Cards
         }
     }
 
-    public function getFiveCards(int $startIndex, int $endIndex)
+    public function getCards(int $startIndex, int $endIndex)
     {
         return array_slice($this->deckOfCards, $startIndex, $endIndex);
     }

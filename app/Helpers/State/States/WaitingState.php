@@ -29,4 +29,7 @@ class WaitingState extends State
         $this->context->updateState('ReadyState');
         $this->context->startGame();
     }
+    public function changeCards()
+    {
+    }
 }

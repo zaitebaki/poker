@@ -36,13 +36,17 @@ class GamePlay
     public $opponentUser;
     public $buttons;
     public $roomName;
-    public $cards;
+    // public $cards;
     public $userCards;
     public $role;
+    public $request;
+
+    public $dump = '';
 
     public function __construct($user, string $roomName, $request)
     {
         $this->roomName = $roomName;
+        $this->request  = $request;
 
         // определить создателя и приглашенного игрока
         $idUserCurrent  = Redis::get($roomName . ':idUserCurrent');
@@ -88,6 +92,7 @@ class GamePlay
             'statusMessage' => $this->statusText,
             'buttons'       => $this->buttons,
             'userCards'     => $this->userCards,
+            'dump'          => $this->dump,
         );
     }
 
@@ -106,6 +111,11 @@ class GamePlay
         return $this->state->startGame();
     }
 
+    public function changeCards()
+    {
+        return $this->state->changeCards();
+    }
+
     // сервисные функции
     public function setStatusText($text): void
     {
@@ -121,5 +131,16 @@ class GamePlay
     {
         $this->opponentUser->invitations()->attach($this->currentUser->id);
         \App\Events\SendInvitation::dispatch($this->currentUser->id, $this->opponentUser->id);
+    }
+
+    public function getKeyStorageForCards(): string
+    {
+        return $this->roomName . ':cards';
+    }
+
+    public function saveUserCards()
+    {
+        $data = implode(",", $this->userCards);
+        Redis::set($this->roomName . ':' . $this->currentUser->id . ':userCards', $data);
     }
 }

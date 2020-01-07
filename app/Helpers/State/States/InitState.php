@@ -23,8 +23,14 @@ class InitState extends State
     }
 
     public function waitingOpponentUser()
-    {}
+    {
+    }
 
     public function startGame()
-    {}
+    {
+    }
+
+    public function changeCards()
+    {
+    }
 }

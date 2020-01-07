@@ -35,29 +35,22 @@ class ReadyState extends State
             return;
         }
 
-        $keyStorage = $this->getKeyStorageForCards();
+        $keyStorage = $this->context->getKeyStorageForCards();
         $cards      = new Cards($keyStorage);
 
         if ($this->context->role === 'currentUser') {
-            $this->context->userCards = $cards->getFiveCards(0, 5);
+            $this->context->userCards = $cards->getCards(0, 5);
         } else {
-            $this->context->userCards = $cards->getFiveCards(5, 5);
+            $this->context->userCards = $cards->getCards(5, 5);
         }
-        $this->saveUserCards($this->context->userCards);
+        $this->context->saveUserCards();
         $this->context->updateState('StartedGameState');
 
         \App\Events\SendStartedGameStatus::dispatch();
     }
 
-    private function getKeyStorageForCards(): string
+    public function changeCards()
     {
-        return $this->context->roomName . ':cards';
-    }
-
-    private function saveUserCards($userCards)
-    {
-        $data = implode(",", $userCards);
-        Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ':userCards', $data);
     }
 
     private function getOpponentState(): string

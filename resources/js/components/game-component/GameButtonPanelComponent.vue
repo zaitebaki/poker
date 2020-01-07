@@ -13,7 +13,8 @@ export default {
     props: {
         buttonsCaptions: Object,
         buttons: Array,
-        user: Object
+        user: Object,
+        activeCardsStorage: Array
     },
     data() {
         return {
@@ -21,10 +22,11 @@ export default {
         }
     },
     mounted() {
+        console.log(this.activeCardsStorage);
     },
 
     methods: {
-
+        
         // инициировать раздачу карт
         startGame() {
             axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
@@ -35,15 +37,38 @@ export default {
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
             });
         },
-
+        
         changeCards() {
-            
+            axios.post('/game/room/1', {
+                initAction: 'changeCards',
+                roomName: 'room_1',
+                cardsIndexForChange: this.getcardsIndexForChange()
+                }).
+            then( (response) => {
+                console.log(response.data.gameParameters);
+                this.$emit('update:parameters', response.data.gameParameters);
+            }).catch(function (error) {
+                console.log(error);
+                alert('Не удалось отправить запрос. Повторите попытку позже.');
+            });
         },
 
         isActiveButton(nameButton) {
             if (this.buttons && this.buttons.indexOf(nameButton) !== -1)
                 return true;
             return false;
+        },
+
+        // вернуть индекс карты для замены
+        getcardsIndexForChange() {
+
+            let indexArray = [];
+            this.activeCardsStorage.forEach(function(item, i, arr) {
+                if(item === false) {
+                    indexArray.push(i);
+                }
+            });           
+            return indexArray.join(',');
         }
     }
 }
