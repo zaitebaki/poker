@@ -49,7 +49,7 @@ return [
             'initMessage'     => 'Начальная ставка - 5 рублей. Игра готова',
             'waitingMessage'  => 'Ожидание пользователя «:user»',
             'waitingMessage2' => 'Пользователь «:user» берет карты',
-            'waitingMessage3' => 'Пользователь «:user» делает ставку',
+            'waitingMessage3' => 'Пользователь «:user» меняет карты',
             'startedMessage'  => 'Выберете карты для замены',
             'bettingMessage'  => 'Делайте вашу ставку',
         ],

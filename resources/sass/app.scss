@@ -24,3 +24,17 @@
   transition: 0.05s ease-in-out;
   margin-top: -30px;
 }
+
+.indicator__circle__status_ready {
+  width: 15px;
+  height: 15px;
+  background: greenyellow;
+  border-radius: 50%;
+}
+
+.indicator__circle__status_wait {
+  width: 15px;
+  height: 15px;
+  background: orange;
+  border-radius: 50%;
+}

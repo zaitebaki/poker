@@ -12,6 +12,8 @@ class ReadyState extends State
         parent::__construct($context);
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.initMessage');
         $this->context->buttons    = ['startGame'];
+        $this->context->indicator  = 'ready';
+
     }
 
     public function waitingOpponentUser()
@@ -39,13 +41,20 @@ class ReadyState extends State
 
         if ($this->context->role === 'currentUser') {
             $this->context->userCards = $cards->getCards(0, 5);
+            $this->context->saveUserCards();
+            $this->context->indicator = 'ready';
+
+            $this->context->updateState('StartedGameState');
+
+            \App\Events\SendStartedGameStatus::dispatch();
         } else {
             $this->context->userCards = $cards->getCards(5, 5);
+            $waitingMessage           = __('main_page_content.gamePage.statusMessages.waitingMessage3',
+                ['user' => $this->context->opponentUser->name]);
+            $this->context->saveUserCards();
+            $buttons = 'changeCards,notChange';
+            $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
         }
-        $this->context->saveUserCards();
-        $this->context->updateState('StartedGameState');
-
-        \App\Events\SendStartedGameStatus::dispatch();
     }
 
     public function changeCards()

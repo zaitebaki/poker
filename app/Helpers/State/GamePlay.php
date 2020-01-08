@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:state - имя состояния для текущего пользователя
 // room_1:idUserCurrent
 // room_1:idUserOpponent
-// room_1:WaitingState - аргументы для конструктора состояния
+// room_1:1:WaitingState - аргументы для конструктора состояния
+// room_1:1:userCards
 // room_1:cards
 
 class GamePlay
@@ -36,11 +37,11 @@ class GamePlay
     public $opponentUser;
     public $buttons;
     public $roomName;
-    // public $cards;
     public $userCards;
     public $role;
     public $request;
     public $countFirstUserChangeCards;
+    public $indicator = 'ready';
 
     public $dump = '';
 
@@ -93,6 +94,7 @@ class GamePlay
             'statusMessage' => $this->statusText,
             'buttons'       => $this->buttons,
             'userCards'     => $this->userCards,
+            'indicator'     => $this->indicator,
             'dump'          => $this->dump,
         );
     }

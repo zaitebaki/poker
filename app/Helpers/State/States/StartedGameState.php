@@ -44,29 +44,33 @@ class StartedGameState extends State
             return;
         }
 
-        $indexes    = $this->context->request->cardsIndexForChange;
-        $indexesArr = explode(",", $indexes);
-        $cntIndexes = count($indexesArr);
+        $indexes             = $this->context->request->cardsIndexForChange;
+        $cntIndexes          = 0;
+        $this->context->dump = $indexes;
 
-        if ($this->context->role === 'currentUser') {
-            $newCards = $this->cards->getCards(10, $cntIndexes);
-            $this->context->saveCountFirstUserChangeCards($cntIndexes);
-        }
+        if ($indexes !== false) {
+            $indexesArr = explode(",", $indexes);
+            $cntIndexes = count($indexesArr);
 
-        if ($this->context->role === 'opponentUser') {
-            $countCards = (int) $this->context->getCountFirstUserChangeCards();
-            $newCards   = $this->cards->getCards(10 + $countCards, $cntIndexes);
-        }
-
-        $this->context->dump = json_encode($indexesArr);
-
-        for ($i = 0, $j = 0; $i < 5; $i++) {
-            if ($j < $cntIndexes && $i == (int) $indexesArr[$j]) {
-                $this->context->userCards[$i] = $newCards[$j];
-                ++$j;
+            if ($this->context->role === 'currentUser') {
+                $newCards = $this->cards->getCards(10, $cntIndexes);
             }
+
+            if ($this->context->role === 'opponentUser') {
+                $countCards = (int) $this->context->getCountFirstUserChangeCards();
+                $newCards   = $this->cards->getCards(10 + $countCards, $cntIndexes);
+            }
+
+            for ($i = 0, $j = 0; $i < 5; $i++) {
+                if ($j < $cntIndexes && $i == (int) $indexesArr[$j]) {
+                    $this->context->userCards[$i] = $newCards[$j];
+                    ++$j;
+                }
+            }
+            $this->context->saveUserCards();
         }
-        $this->context->saveUserCards();
+
+        $this->context->saveCountFirstUserChangeCards($cntIndexes);
         $this->context->updateState('BettingState');
     }
 }

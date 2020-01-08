@@ -29,13 +29,17 @@ export default {
             },
             changeThisCard: false,
             imgElementsClasses: [false, false, false, false, false],
+            isAlreadeChangedCards: false,
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     },
     mounted() {
         this.$root.$on('clean:cards:classes', () => {
             this.imgElementsClasses = [false, false, false, false, false];
+            this.isAlreadeChangedCards = true;
         });
+
+        this.handleSwitcher = this.normalSwitcher;
     },
     methods: {
         getPathToImage(index) {
@@ -44,10 +48,13 @@ export default {
             return `/assets/images/cards/${fileCardName}`;
         },
         switcher(index) {
+            if(this.isAlreadeChangedCards === false) this.normalSwitcher(index);
+        },
+        normalSwitcher(index) {
             this.$emit('change:active:cards:storage', index);
             let newValue = !this.imgElementsClasses[index];
             this.$set(this.imgElementsClasses, index, newValue);
-        }
+        },
     }
 }
 </script>

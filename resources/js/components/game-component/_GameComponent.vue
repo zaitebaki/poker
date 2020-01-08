@@ -3,6 +3,9 @@
     <game-bank-component></game-bank-component>
 
     <!-- <game-status-bar-component></game-status-bar-component> -->
+    <game-indicator-component
+        :indicator-status="vueGameParameters.indicator">
+    </game-indicator-component>
 
     <game-status-text-component
         :status-message="vueGameParameters.statusMessage">
@@ -13,6 +16,7 @@
         :buttons="vueGameParameters.buttons"
         :user="user"
         :active-cards-storage="activeCardsStorage"
+        :indicator-status="vueGameParameters.indicator"
         @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
@@ -31,6 +35,7 @@ import GameButtonPanelComponent from './GameButtonPanelComponent'
 import GameStatusTextComponent from './GameStatusTextComponent'
 import GameUserCardsComponent from './GameUserCardsComponent'
 import GameOpponentCardsComponent from './GameOpponentCardsComponent'
+import GameIndicatorComponent from './GameIndicatorComponent'
 
 export default {
      props: {
@@ -89,7 +94,8 @@ export default {
         'game-button-panel-component': GameButtonPanelComponent,
         'game-status-text-component': GameStatusTextComponent,
         'game-user-cards-component': GameUserCardsComponent,
-        'game-opponent-cards-component': GameOpponentCardsComponent
+        'game-opponent-cards-component': GameOpponentCardsComponent,
+        'game-indicator-component': GameIndicatorComponent,
     }
 }
 

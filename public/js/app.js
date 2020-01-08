@@ -1820,12 +1820,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     buttonsCaptions: Object,
     buttons: Array,
     user: Object,
-    activeCardsStorage: Array
+    activeCardsStorage: Array,
+    indicatorStatus: String
   },
   data: function data() {
     return {
@@ -1856,6 +1870,12 @@ __webpack_require__.r(__webpack_exports__);
     changeCards: function changeCards() {
       var _this2 = this;
 
+      console.log(this.activeCardsStorage);
+
+      if (this.isNotChoosingCardsForChanging()) {
+        return;
+      }
+
       axios.post('/game/room/1', {
         initAction: 'changeCards',
         roomName: 'room_1',
@@ -1871,6 +1891,14 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
     },
+    // проверить есть ли карты для замены
+    isNotChoosingCardsForChanging: function isNotChoosingCardsForChanging() {
+      for (var i = 0; i < this.activeCardsStorage.length; i++) {
+        if (this.activeCardsStorage[i] === false) return false;
+      }
+
+      return true;
+    },
     // вернуть индекс карты для замены
     getcardsIndexForChange: function getcardsIndexForChange() {
       var indexArray = [];
@@ -1879,11 +1907,41 @@ __webpack_require__.r(__webpack_exports__);
           indexArray.push(i);
         }
       });
+      if (indexArray.length === 0) return false;
       return indexArray.join(',');
     },
     isActiveButton: function isActiveButton(nameButton) {
       if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
       return false;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    indicatorStatus: String
+  },
+  methods: {
+    getIndicatorClass: function getIndicatorClass() {
+      if (this.indicatorStatus === 'ready') return 'indicator__circle__status_ready';
+      if (this.indicatorStatus === 'wait') return 'indicator__circle__status_wait';
     }
   }
 });
@@ -2040,6 +2098,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       changeThisCard: false,
       imgElementsClasses: [false, false, false, false, false],
+      isAlreadeChangedCards: false,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
@@ -2048,7 +2107,9 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$root.$on('clean:cards:classes', function () {
       _this.imgElementsClasses = [false, false, false, false, false];
+      _this.isAlreadeChangedCards = true;
     });
+    this.handleSwitcher = this.normalSwitcher;
   },
   methods: {
     getPathToImage: function getPathToImage(index) {
@@ -2057,6 +2118,9 @@ __webpack_require__.r(__webpack_exports__);
       return "/assets/images/cards/".concat(fileCardName);
     },
     switcher: function switcher(index) {
+      if (this.isAlreadeChangedCards === false) this.normalSwitcher(index);
+    },
+    normalSwitcher: function normalSwitcher(index) {
       this.$emit('change:active:cards:storage', index);
       var newValue = !this.imgElementsClasses[index];
       this.$set(this.imgElementsClasses, index, newValue);
@@ -2081,6 +2145,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameStatusTextComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GameStatusTextComponent */ "./resources/js/components/game-component/GameStatusTextComponent.vue");
 /* harmony import */ var _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
+/* harmony import */ var _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GameIndicatorComponent */ "./resources/js/components/game-component/GameIndicatorComponent.vue");
 //
 //
 //
@@ -2107,6 +2172,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -2177,7 +2247,8 @@ __webpack_require__.r(__webpack_exports__);
     'game-button-panel-component': _GameButtonPanelComponent__WEBPACK_IMPORTED_MODULE_2__["default"],
     'game-status-text-component': _GameStatusTextComponent__WEBPACK_IMPORTED_MODULE_3__["default"],
     'game-user-cards-component': _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
-    'game-opponent-cards-component': _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__["default"]
+    'game-opponent-cards-component': _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__["default"],
+    'game-indicator-component': _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 
@@ -49701,13 +49772,20 @@ var render = function() {
             "button",
             {
               staticClass: "uk-button uk-button-secondary",
+              attrs: { disabled: _vm.indicatorStatus === "wait" },
               on: {
                 click: function($event) {
                   return _vm.changeCards()
                 }
               }
             },
-            [_vm._v(_vm._s(_vm.buttonsCaptions.changeCards))]
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.buttonsCaptions.changeCards) +
+                  "\n        "
+              )
+            ]
           )
         : _vm._e(),
       _vm._v(" "),
@@ -49716,13 +49794,20 @@ var render = function() {
             "button",
             {
               staticClass: "uk-button uk-button-danger",
+              attrs: { disabled: _vm.indicatorStatus === "wait" },
               on: {
                 click: function($event) {
-                  return _vm.notChange()
+                  return _vm.changeCards()
                 }
               }
             },
-            [_vm._v(_vm._s(_vm.buttonsCaptions.notChange))]
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.buttonsCaptions.notChange) +
+                  "\n        "
+              )
+            ]
           )
         : _vm._e(),
       _vm._v(" "),
@@ -49757,6 +49842,30 @@ var render = function() {
         : _vm._e()
     ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("div", { class: _vm.getIndicatorClass() })])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -49976,6 +50085,10 @@ var render = function() {
     [
       _c("game-bank-component"),
       _vm._v(" "),
+      _c("game-indicator-component", {
+        attrs: { "indicator-status": _vm.vueGameParameters.indicator }
+      }),
+      _vm._v(" "),
       _c("game-status-text-component", {
         attrs: { "status-message": _vm.vueGameParameters.statusMessage }
       }),
@@ -49985,7 +50098,8 @@ var render = function() {
           "buttons-captions": _vm.content.buttonsCaptions,
           buttons: _vm.vueGameParameters.buttons,
           user: _vm.user,
-          "active-cards-storage": _vm.activeCardsStorage
+          "active-cards-storage": _vm.activeCardsStorage,
+          "indicator-status": _vm.vueGameParameters.indicator
         },
         on: {
           "update:parameters": function($event) {
@@ -63157,6 +63271,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameIndicatorComponent.vue":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameIndicatorComponent.vue ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameIndicatorComponent.vue?vue&type=template&id=56398172& */ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&");
+/* harmony import */ var _GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameIndicatorComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/game-component/GameIndicatorComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameIndicatorComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172& ***!
+  \**********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameIndicatorComponent.vue?vue&type=template&id=56398172& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
