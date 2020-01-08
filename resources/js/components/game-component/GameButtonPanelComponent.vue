@@ -26,7 +26,7 @@
             class="uk-button uk-button-primary"
             v-on:click="addMoney()"
             v-bind:disabled="indicatorStatus==='wait'">
-            {{ buttonsCaptions.addMoney }}
+            {{ addMoneyCaption }}
         </button>
         <button
             v-if="isActiveButton('noMoney')"
@@ -58,8 +58,7 @@
         </button>
     </p>
     <div style="width:600px">
-    <b-form-slider v-if="isActiveButton('addMoney')" ref="ticks" v-model="simpleValue" :step="5 ":min="5" :max="100" :ticks="ticks" :ticks-labels="tickLabels"></b-form-slider>
-      <p v-if="isActiveButton('addMoney')">Value of slider is {{ simpleValue }}</p>
+    <b-form-slider v-if="isActiveButton('addMoney')" ref="ticks" v-model="moneySumForAdd" :step="5 ":min="5" :max="100" :ticks="ticks" :ticks-labels="tickLabels"></b-form-slider>
     </div>
 </div>
 </template>
@@ -78,10 +77,16 @@ export default {
     data() {
         return {
             money: 5,
-            simpleValue: 5,
+            moneySumForAdd: 5,
             ticks: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
             tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    },
+    computed: {
+        addMoneyCaption() {
+            const re = /:money/gi;
+            return this.buttonsCaptions.addMoney.replace(re, this.moneySumForAdd);
         }
     },
     mounted() {

@@ -42,7 +42,7 @@ return [
             'startButton' => 'Начать игру',
             'changeCards' => 'Поменять карты',
             'notChange'   => 'Не меняю',
-            'addMoney'    => 'Добавить 5 рублей',
+            'addMoney'    => 'Добавить :money рублей',
             'noMoney'     => 'чек',
             'equal'       => 'Сравнять и показать карты',
             'equalAndAdd' => 'Сравнять и добавить',

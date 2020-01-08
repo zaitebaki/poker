@@ -1891,7 +1891,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1904,11 +1903,17 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       money: 5,
-      simpleValue: 5,
+      moneySumForAdd: 5,
       ticks: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
       tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
+  },
+  computed: {
+    addMoneyCaption: function addMoneyCaption() {
+      var re = /:money/gi;
+      return this.buttonsCaptions.addMoney.replace(re, this.moneySumForAdd);
+    }
   },
   mounted: function mounted() {},
   methods: {
@@ -54616,9 +54621,7 @@ var render = function() {
             },
             [
               _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.addMoney) +
-                  "\n        "
+                "\n            " + _vm._s(_vm.addMoneyCaption) + "\n        "
               )
             ]
           )
@@ -54728,17 +54731,13 @@ var render = function() {
                 "ticks-labels": _vm.tickLabels
               },
               model: {
-                value: _vm.simpleValue,
+                value: _vm.moneySumForAdd,
                 callback: function($$v) {
-                  _vm.simpleValue = $$v
+                  _vm.moneySumForAdd = $$v
                 },
-                expression: "simpleValue"
+                expression: "moneySumForAdd"
               }
             })
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("addMoney")
-          ? _c("p", [_vm._v("Value of slider is " + _vm._s(_vm.simpleValue))])
           : _vm._e()
       ],
       1
