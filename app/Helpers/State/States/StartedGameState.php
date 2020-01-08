@@ -13,6 +13,7 @@ class StartedGameState extends State
         parent::__construct($context);
         $this->context->buttons    = ['changeCards', 'notChange'];
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.startedMessage');
+        $this->context->indicator  = 'ready';
         $this->context->userCards  = $this->context->extractUserCardsFromRedis();
 
         $keyStorage  = $this->context->getKeyStorageForCards();
@@ -35,42 +36,49 @@ class StartedGameState extends State
 
     public function changeCards()
     {
-        // проверить - если 1-ый игрок не поменял карты
-        // то перевести 2-го игрока в состояние ожидания
-        if ($this->context->role === 'opponentUser' && $this->context->getOpponentState() !== 'BettingState') {
+        $indexes    = $this->context->request->cardsIndexForChange;
+        $cntIndexes = 0;
+
+        $indexesArr = explode(",", $indexes);
+        $cntIndexes = count($indexesArr);
+
+        if ($this->context->role === 'currentUser') {
+
+            // если нет команды "не меняю"
+            if ($indexes !== false) {
+                $this->updateUserCards(10, $cntIndexes);
+            }
+
+            $this->context->saveCountFirstUserChangeCards($cntIndexes);
             $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage3',
                 ['user' => $this->context->opponentUser->name]);
-            $this->context->updateState('WaitingState', $waitingMessage);
-            return;
+            $buttons                  = 'addMoney,noMoney';
+            $this->context->indicator = 'ready';
+            $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
+
+            \App\Events\SendBettingStatus::dispatch();
         }
 
-        $indexes             = $this->context->request->cardsIndexForChange;
-        $cntIndexes          = 0;
-        $this->context->dump = $indexes;
+        if ($this->context->role === 'opponentUser') {
+            $countCards = (int) $this->context->getCountFirstUserChangeCards();
 
-        if ($indexes !== false) {
-            $indexesArr = explode(",", $indexes);
-            $cntIndexes = count($indexesArr);
-
-            if ($this->context->role === 'currentUser') {
-                $newCards = $this->cards->getCards(10, $cntIndexes);
+            // если нет команды "не меняю"
+            if ($indexes !== false) {
+                $this->updateUserCards(10 + $countCards, $cntIndexes);
             }
-
-            if ($this->context->role === 'opponentUser') {
-                $countCards = (int) $this->context->getCountFirstUserChangeCards();
-                $newCards   = $this->cards->getCards(10 + $countCards, $cntIndexes);
-            }
-
-            for ($i = 0, $j = 0; $i < 5; $i++) {
-                if ($j < $cntIndexes && $i == (int) $indexesArr[$j]) {
-                    $this->context->userCards[$i] = $newCards[$j];
-                    ++$j;
-                }
-            }
-            $this->context->saveUserCards();
         }
-
-        $this->context->saveCountFirstUserChangeCards($cntIndexes);
-        $this->context->updateState('BettingState');
     }
+
+    private function updateUserCards($startIndex, $cntIndex)
+    {
+        $newCards = $this->cards->getCards($startIndex, $cntIndexes);
+        for ($i = 0, $j = 0; $i < 5; $i++) {
+            if ($j < $cntIndexes && $i == (int) $indexesArr[$j]) {
+                $this->context->userCards[$i] = $newCards[$j];
+                ++$j;
+            }
+        }
+        $this->context->saveUserCards();
+    }
+
 }

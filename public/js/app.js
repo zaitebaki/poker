@@ -1833,6 +1833,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     buttonsCaptions: Object,
@@ -1867,12 +1884,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     // поменять карты
-    changeCards: function changeCards() {
+    changeCards: function changeCards(change) {
       var _this2 = this;
 
       console.log(this.activeCardsStorage);
 
-      if (this.isNotChoosingCardsForChanging()) {
+      if (change !== 'no:change' && this.isNotChoosingCardsForChanging()) {
         return;
       }
 
@@ -2222,6 +2239,18 @@ __webpack_require__.r(__webpack_exports__);
       console.log("Hello from SendStartedGameStatus!!!");
       axios.post('/game/room/1', {
         initAction: 'startGame',
+        roomName: 'room_1'
+      }).then(function (response) {
+        _this.vueGameParameters = response.data.gameParameters;
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    }).listen('SendBettingStatus', function (_ref3) {
+      var data = _ref3.data;
+      console.log("Hello from SendBettingStatus!!!");
+      axios.post('/game/room/1', {
+        updateState: 'StartedGameState',
         roomName: 'room_1'
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
@@ -49763,7 +49792,13 @@ var render = function() {
                 }
               }
             },
-            [_vm._v(_vm._s(_vm.buttonsCaptions.startButton))]
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.buttonsCaptions.startButton) +
+                  "\n        "
+              )
+            ]
           )
         : _vm._e(),
       _vm._v(" "),
@@ -49775,7 +49810,7 @@ var render = function() {
               attrs: { disabled: _vm.indicatorStatus === "wait" },
               on: {
                 click: function($event) {
-                  return _vm.changeCards()
+                  return _vm.changeCards("change")
                 }
               }
             },
@@ -49797,7 +49832,7 @@ var render = function() {
               attrs: { disabled: _vm.indicatorStatus === "wait" },
               on: {
                 click: function($event) {
-                  return _vm.changeCards()
+                  return _vm.changeCards("no:change")
                 }
               }
             },
@@ -49816,13 +49851,20 @@ var render = function() {
             "button",
             {
               staticClass: "uk-button uk-button-primary",
+              attrs: { disabled: _vm.indicatorStatus === "wait" },
               on: {
                 click: function($event) {
                   return _vm.addMoney()
                 }
               }
             },
-            [_vm._v(_vm._s(_vm.buttonsCaptions.addMoney))]
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.buttonsCaptions.addMoney) +
+                  "\n        "
+              )
+            ]
           )
         : _vm._e(),
       _vm._v(" "),
@@ -49831,13 +49873,20 @@ var render = function() {
             "button",
             {
               staticClass: "uk-button uk-button-secondary",
+              attrs: { disabled: _vm.indicatorStatus === "wait" },
               on: {
                 click: function($event) {
                   return _vm.noMoney()
                 }
               }
             },
-            [_vm._v(_vm._s(_vm.buttonsCaptions.noMoney))]
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.buttonsCaptions.noMoney) +
+                  "\n        "
+              )
+            ]
           )
         : _vm._e()
     ])

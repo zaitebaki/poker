@@ -76,6 +76,15 @@ export default {
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
                 });
             })
+            .listen('SendBettingStatus', ({data}) => {
+                console.log("Hello from SendBettingStatus!!!");
+                axios.post('/game/room/1', { updateState: 'StartedGameState', roomName: 'room_1'}).then( (response) => {
+                    this.vueGameParameters = response.data.gameParameters;
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+            })
     },
     methods: {
         updateParameters($event) {
