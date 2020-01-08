@@ -52,8 +52,8 @@ class StartedGameState extends State
             $this->context->saveCountFirstUserChangeCards($cntIndexes);
             $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage3',
                 ['user' => $this->context->opponentUser->name]);
-            $buttons                  = 'addMoney,noMoney';
-            $this->context->indicator = 'ready';
+            $buttons = 'addMoney,noMoney';
+            // $this->context->indicator = 'ready';
             $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
 
             \App\Events\SendBettingStatus::dispatch();
@@ -68,6 +68,10 @@ class StartedGameState extends State
             }
 
             \App\Events\SendFinishChangeStatus::dispatch();
+            $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage4',
+                ['user' => $this->context->opponentUser->name]);
+            $buttons = 'equal,equalAndAdd,gameOver';
+            $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
         }
     }
 

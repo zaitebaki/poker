@@ -1,6 +1,9 @@
 <template>
 <div class="uk-container">
-    <game-bank-component></game-bank-component>
+    <game-bank-component
+        :money=0>
+
+    </game-bank-component>
 
     <!-- <game-status-bar-component></game-status-bar-component> -->
     <game-indicator-component

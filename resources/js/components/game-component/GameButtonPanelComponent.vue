@@ -21,7 +21,6 @@
             v-bind:disabled="indicatorStatus==='wait'">
             {{ buttonsCaptions.notChange }}
         </button>
-
         <button
             v-if="isActiveButton('addMoney')"
             class="uk-button uk-button-primary"
@@ -36,11 +35,38 @@
             v-bind:disabled="indicatorStatus==='wait'">
             {{ buttonsCaptions.noMoney }}
         </button>
+        <button
+            v-if="isActiveButton('equal')"
+            class="uk-button uk-button-secondary"
+            v-on:click="equal()"
+            v-bind:disabled="indicatorStatus==='wait'">
+            {{ buttonsCaptions.equal }}
+        </button>
+        <button
+            v-if="isActiveButton('equalAndAdd')"
+            class="uk-button uk-button-secondary"
+            v-on:click="equalAndAdd()"
+            v-bind:disabled="indicatorStatus==='wait'">
+            {{ buttonsCaptions.equalAndAdd }}
+        </button>
+        <button
+            v-if="isActiveButton('gameOver')"
+            class="uk-button uk-button-secondary"
+            v-on:click="gameOver()"
+            v-bind:disabled="indicatorStatus==='wait'">
+            {{ buttonsCaptions.gameOver }}
+        </button>
     </p>
+    <div style="width:600px">
+    <b-form-slider v-if="isActiveButton('addMoney')" ref="ticks" v-model="simpleValue" :step="5 ":min="5" :max="100" :ticks="ticks" :ticks-labels="tickLabels"></b-form-slider>
+      <p v-if="isActiveButton('addMoney')">Value of slider is {{ simpleValue }}</p>
+    </div>
 </div>
 </template>
 
 <script>
+import bFormSlider from 'vue-bootstrap-slider/es/form-slider';
+
 export default {
     props: {
         buttonsCaptions: Object,
@@ -51,11 +77,14 @@ export default {
     },
     data() {
         return {
+            money: 5,
+            simpleValue: 5,
+            ticks: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+            tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     },
     mounted() {
-        console.log(this.activeCardsStorage);
     },
 
     methods: {
@@ -73,13 +102,11 @@ export default {
         
         // поменять карты
         changeCards(change) {
-            console.log(this.activeCardsStorage);
-
             if (change !== 'no:change' && this.isNotChoosingCardsForChanging() ) { return; }
             axios.post('/game/room/1', {
                 initAction: 'changeCards',
                 roomName: 'room_1',
-                cardsIndexForChange: this.getcardsIndexForChange()
+                cardsIndexForChange: this.getcardsIndexForChange(change)
                 }).
             then( (response) => {
                 console.log(response.data.gameParameters);
@@ -91,6 +118,23 @@ export default {
             });
         },
 
+        // добавить карты
+        addMoney() {
+
+            this.money
+            // console.log(this.activeCardsStorage);
+            // axios.post('/game/room/1', {
+            //     initAction: 'addMoney',
+            //     roomName: 'room_1',
+            //     }).
+            // then( (response) => {
+
+            // }).catch(function (error) {
+            //     console.log(error);
+            //     alert('Не удалось отправить запрос. Повторите попытку позже.');
+            // });
+        },
+
         // проверить есть ли карты для замены
         isNotChoosingCardsForChanging() {
             for (let i = 0; i < this.activeCardsStorage.length; i++) {
@@ -100,8 +144,9 @@ export default {
         },
 
         // вернуть индекс карты для замены
-        getcardsIndexForChange() {
+        getcardsIndexForChange(change) {
             
+            if(change === 'no:change') return false;
             let indexArray = [];
             this.activeCardsStorage.forEach(function(item, i, arr) {
                 if(item === false) {
@@ -118,6 +163,15 @@ export default {
                 return true;
             return false;
         },
+        slideStart () {
+            console.log('slideStarted')
+        },
+        slideStop () {
+            console.log('slideStopped')
+        }
+    },
+    components: {
+        'b-form-slider': bFormSlider
     }
 }
 </script>
