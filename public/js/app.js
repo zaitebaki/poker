@@ -2258,6 +2258,18 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
+    }).listen('SendFinishChangeStatus', function (_ref4) {
+      var data = _ref4.data;
+      console.log("Hello from SendFinishChangeStatus!!!");
+      axios.post('/game/room/1', {
+        updateState: 'BettingState',
+        roomName: 'room_1'
+      }).then(function (response) {
+        _this.vueGameParameters = response.data.gameParameters;
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
     });
   },
   methods: {

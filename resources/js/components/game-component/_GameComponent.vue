@@ -85,6 +85,15 @@ export default {
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
                 });
             })
+            .listen('SendFinishChangeStatus', ({data}) => {
+                console.log("Hello from SendFinishChangeStatus!!!");
+                axios.post('/game/room/1', { updateState: 'BettingState', roomName: 'room_1'}).then( (response) => {
+                    this.vueGameParameters = response.data.gameParameters;
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+            })
     },
     methods: {
         updateParameters($event) {

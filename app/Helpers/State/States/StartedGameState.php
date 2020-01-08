@@ -46,7 +46,7 @@ class StartedGameState extends State
 
             // если нет команды "не меняю"
             if ($indexes !== false) {
-                $this->updateUserCards(10, $cntIndexes);
+                $this->updateUserCards(10, $cntIndexes, $indexesArr);
             }
 
             $this->context->saveCountFirstUserChangeCards($cntIndexes);
@@ -64,12 +64,14 @@ class StartedGameState extends State
 
             // если нет команды "не меняю"
             if ($indexes !== false) {
-                $this->updateUserCards(10 + $countCards, $cntIndexes);
+                $this->updateUserCards(10 + $countCards, $cntIndexes, $indexesArr);
             }
+
+            \App\Events\SendFinishChangeStatus::dispatch();
         }
     }
 
-    private function updateUserCards($startIndex, $cntIndex)
+    private function updateUserCards($startIndex, $cntIndexes, $indexesArr)
     {
         $newCards = $this->cards->getCards($startIndex, $cntIndexes);
         for ($i = 0, $j = 0; $i < 5; $i++) {
