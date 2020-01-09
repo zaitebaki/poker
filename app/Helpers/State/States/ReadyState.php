@@ -27,6 +27,8 @@ class ReadyState extends State
 
     public function startGame()
     {
+        $this->context->addMoney(5);
+
         // проверить - если 1-ый игрок не получил карты
         // то перевести 2-го игрока в состояние ожидания
         if ($this->context->role === 'opponentUser' && $this->context->getOpponentState() !== 'StartedGameState') {

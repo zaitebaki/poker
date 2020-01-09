@@ -58,7 +58,7 @@
         </button>
     </p>
     <div style="width:600px">
-    <b-form-slider v-if="isActiveButton('addMoney')" ref="ticks" v-model="moneySumForAdd" :step="5 ":min="5" :max="100" :ticks="ticks" :ticks-labels="tickLabels"></b-form-slider>
+    <b-form-slider v-if="isActiveButton('addMoney')" ref="ticks" v-model="moneySumForAdd" :step="5" :min="5" :max="100" :ticks="ticks" :ticks-labels="tickLabels"></b-form-slider>
     </div>
 </div>
 </template>

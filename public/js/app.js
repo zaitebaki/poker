@@ -1804,7 +1804,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    money: Number
+    money: String
   } // data() {
   //     return {
   //         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -54984,7 +54984,9 @@ var render = function() {
     "div",
     { staticClass: "uk-container" },
     [
-      _c("game-bank-component", { attrs: { money: 0 } }),
+      _c("game-bank-component", {
+        attrs: { money: _vm.vueGameParameters.money }
+      }),
       _vm._v(" "),
       _c("game-indicator-component", {
         attrs: { "indicator-status": _vm.vueGameParameters.indicator }

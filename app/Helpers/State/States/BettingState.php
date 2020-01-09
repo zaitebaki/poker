@@ -11,8 +11,9 @@ class BettingState extends State
         parent::__construct($context);
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.bettingMessage');
         $this->context->buttons    = ['addMoney', 'noMoney'];
+        $this->context->money      = $this->context->extractMoney();
         $this->context->userCards  = $this->context->extractUserCardsFromRedis();
-        $this->context->indicator = 'ready';
+        $this->context->indicator  = 'ready';
     }
 
     public function waitingOpponentUser()

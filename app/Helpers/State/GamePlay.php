@@ -25,12 +25,16 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:WaitingState - аргументы для конструктора состояния
 // room_1:1:userCards
 // room_1:cards
+// room_1:money
+// room1_1:1:pushStartBet - пользователь сделал начальную ставку
 
 class GamePlay
 {
     /**
      * @var State Ссылка на текущее состояние Контекста.
      */
+    const START_BET = 5;
+
     public $state;
     public $statusText;
     public $currentUser;
@@ -42,6 +46,8 @@ class GamePlay
     public $request;
     public $countFirstUserChangeCards;
     public $indicator = 'ready';
+    public $money     = 0;
+    public $bankMessage;
 
     public $dump = '';
 
@@ -95,6 +101,7 @@ class GamePlay
             'buttons'       => $this->buttons,
             'userCards'     => $this->userCards,
             'indicator'     => $this->indicator,
+            'money'         => (string) $this->money,
             'dump'          => $this->dump,
         );
     }
@@ -166,5 +173,37 @@ class GamePlay
     public function getCountFirstUserChangeCards(): string
     {
         return Redis::get($this->roomName . ':countFirstUserChangeCards');
+    }
+
+    public function addMoney($moneySum)
+    {
+        $this->money = $this->extractMoney();
+
+        if ($this->startBetsAlreadyPush()) {
+        } else {
+            $this->money += $moneySum;
+            $this->saveStartBetForUser();
+        }
+        $this->saveMoney();
+    }
+
+    private function startBetsAlreadyPush(): bool
+    {
+        return Redis::exists($this->roomName . ':' . $this->currentUser->id . ":pushStartBet");
+    }
+
+    public function extractMoney()
+    {
+        return Redis::get($this->roomName . ":money");
+    }
+
+    private function saveMoney()
+    {
+        Redis::set($this->roomName . ":money", $this->money);
+    }
+
+    private function saveStartBetForUser()
+    {
+        Redis::set($this->roomName . ':' . $this->currentUser->id . ":pushStartBet", 'ok');
     }
 }

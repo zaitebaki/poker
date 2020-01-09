@@ -1,7 +1,7 @@
 <template>
 <div class="uk-container">
     <game-bank-component
-        :money=0>
+        :money=vueGameParameters.money>
 
     </game-bank-component>
 

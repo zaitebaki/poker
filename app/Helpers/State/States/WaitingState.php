@@ -12,12 +12,13 @@ class WaitingState extends State
 
         $this->context->statusText = $watingText;
         $this->context->buttons    = explode(',', $buttons);
+        $this->context->money      = $this->context->extractMoney();
 
-        if($extractCards) {
+        if ($extractCards) {
             $this->context->userCards = $this->context->extractUserCardsFromRedis();
 
         }
-        $this->context->indicator  = 'wait';
+        $this->context->indicator = 'wait';
     }
 
     public function waitingopponentUser()

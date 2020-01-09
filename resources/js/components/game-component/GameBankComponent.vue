@@ -10,7 +10,7 @@
 <script>
 export default {
     props: {
-        money: Number,
+        money: String,
     },
     // data() {
     //     return {

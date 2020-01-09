@@ -14,21 +14,24 @@ class StartedGameState extends State
         $this->context->buttons    = ['changeCards', 'notChange'];
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.startedMessage');
         $this->context->indicator  = 'ready';
+        $this->context->money      = $this->context->extractMoney();
         $this->context->userCards  = $this->context->extractUserCardsFromRedis();
 
         $keyStorage  = $this->context->getKeyStorageForCards();
         $this->cards = new Cards($keyStorage);
-
     }
 
     public function waitingOpponentUser()
-    {}
+    {
+    }
 
     public function connectionOpponentUser()
-    {}
+    {
+    }
 
     public function connectionCurrentUser()
-    {}
+    {
+    }
 
     public function startGame()
     {
@@ -43,7 +46,6 @@ class StartedGameState extends State
         $cntIndexes = count($indexesArr);
 
         if ($this->context->role === 'currentUser') {
-
             // если нет команды "не меняю"
             if ($indexes !== false) {
                 $this->updateUserCards(10, $cntIndexes, $indexesArr);
