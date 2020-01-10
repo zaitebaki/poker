@@ -15,6 +15,7 @@ class StartedGameState extends State
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.startedMessage');
         $this->context->indicator  = 'ready';
         $this->context->money      = $this->context->extractMoney();
+        $this->context->bankMessages = $this->context->extractBankMessages();
         $this->context->userCards  = $this->context->extractUserCardsFromRedis();
 
         $keyStorage  = $this->context->getKeyStorageForCards();
@@ -34,6 +35,10 @@ class StartedGameState extends State
     }
 
     public function startGame()
+    {
+    }
+    
+    public function addMoney()
     {
     }
 

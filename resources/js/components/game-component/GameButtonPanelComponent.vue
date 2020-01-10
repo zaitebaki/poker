@@ -76,7 +76,6 @@ export default {
     },
     data() {
         return {
-            money: 5,
             moneySumForAdd: 5,
             ticks: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
             tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
@@ -125,19 +124,17 @@ export default {
 
         // добавить карты
         addMoney() {
-
-            this.money
-            // console.log(this.activeCardsStorage);
-            // axios.post('/game/room/1', {
-            //     initAction: 'addMoney',
-            //     roomName: 'room_1',
-            //     }).
-            // then( (response) => {
-
-            // }).catch(function (error) {
-            //     console.log(error);
-            //     alert('Не удалось отправить запрос. Повторите попытку позже.');
-            // });
+            axios.post('/game/room/1', {
+                initAction: 'addMoney',
+                roomName: 'room_1',
+                money: this.moneySumForAdd
+                }).
+            then( (response) => {
+                this.$emit('update:parameters', response.data.gameParameters);
+            }).catch(function (error) {
+                console.log(error);
+                alert('Не удалось отправить запрос. Повторите попытку позже.');
+            });
         },
 
         // проверить есть ли карты для замены

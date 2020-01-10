@@ -33,4 +33,8 @@ class InitState extends State
     public function changeCards()
     {
     }
+    
+    public function addMoney()
+    {
+    }
 }

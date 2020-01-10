@@ -1802,15 +1802,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    money: String
-  } // data() {
-  //     return {
-  //         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-  //     }
-  // }
-
+    money: String,
+    bankMessages: Array
+  },
+  mounted: function mounted() {
+    console.log(this.bankMessages);
+  },
+  computed: {
+    getMessages: function getMessages() {
+      var bankDataObject = {
+        messages: []
+      };
+      this.bankMessages.forEach(function (element) {
+        var splits = element.split('|');
+        bankDataObject.messages.push({
+          login: splits[0],
+          money: splits[1]
+        });
+      });
+      return bankDataObject.messages;
+    }
+  },
+  data: function data() {
+    return {// messages: {
+      //     messages: [
+      //         {login: 'valera', money: 5},
+      //         {login: 'victor', money: 5}
+      //     ]
+      // }
+      // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  }
 });
 
 /***/ }),
@@ -1902,7 +1936,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      money: 5,
       moneySumForAdd: 5,
       ticks: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
       tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
@@ -1958,16 +1991,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     // добавить карты
     addMoney: function addMoney() {
-      this.money; // console.log(this.activeCardsStorage);
-      // axios.post('/game/room/1', {
-      //     initAction: 'addMoney',
-      //     roomName: 'room_1',
-      //     }).
-      // then( (response) => {
-      // }).catch(function (error) {
-      //     console.log(error);
-      //     alert('Не удалось отправить запрос. Повторите попытку позже.');
-      // });
+      var _this3 = this;
+
+      axios.post('/game/room/1', {
+        initAction: 'addMoney',
+        roomName: 'room_1',
+        money: this.moneySumForAdd
+      }).then(function (response) {
+        _this3.$emit('update:parameters', response.data.gameParameters);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
     },
     // проверить есть ли карты для замены
     isNotChoosingCardsForChanging: function isNotChoosingCardsForChanging() {
@@ -2337,7 +2372,22 @@ __webpack_require__.r(__webpack_exports__);
       console.log("Hello from SendFinishChangeStatus!!!");
       axios.post('/game/room/1', {
         updateState: 'BettingState',
-        roomName: 'room_1'
+        roomName: 'room_1',
+        correctionStatusMessage: 'changeFinished'
+      }).then(function (response) {
+        _this.vueGameParameters = response.data.gameParameters;
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    }).listen('SendFinishBettingStatus', function (_ref5) {
+      var money = _ref5.money;
+      console.log("Hello from SendFinishBettingStatus!!!");
+      axios.post('/game/room/1', {
+        updateState: 'BettingState',
+        roomName: 'room_1',
+        correctionStatusMessage: 'betFinished',
+        money: money
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
@@ -54505,15 +54555,40 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "uk-card uk-card-default uk-card-body uk-width-1-4@m" },
+    { staticClass: "uk-card uk-card-default uk-card-body uk-width-1-2@m" },
     [
-      _c("p", [
-        _c("img", {
-          staticClass: "money__img",
-          attrs: { src: "/assets/images/game/money-icon.svg", alt: "" }
-        }),
+      _c("div", { staticClass: "uk-flex" }, [
+        _c("div", [
+          _c(
+            "ul",
+            {
+              staticClass: "uk-list uk-text-small uk-text-light uk-text-success"
+            },
+            [
+              _vm._l(_vm.getMessages, function(message, index) {
+                return [
+                  _c("li", [
+                    _vm._v(
+                      _vm._s(message.login) + ": + " + _vm._s(message.money)
+                    )
+                  ])
+                ]
+              })
+            ],
+            2
+          )
+        ]),
         _vm._v(" "),
-        _c("span", [_vm._v(_vm._s(_vm.money) + " руб.")])
+        _c("div", [
+          _c("p", [
+            _c("img", {
+              staticClass: "money__img",
+              attrs: { src: "/assets/images/game/money-icon.svg", alt: "" }
+            }),
+            _vm._v(" "),
+            _c("span", [_vm._v(_vm._s(_vm.money) + " руб.")])
+          ])
+        ])
       ])
     ]
   )
@@ -54985,7 +55060,10 @@ var render = function() {
     { staticClass: "uk-container" },
     [
       _c("game-bank-component", {
-        attrs: { money: _vm.vueGameParameters.money }
+        attrs: {
+          money: _vm.vueGameParameters.money,
+          "bank-messages": _vm.vueGameParameters.bankMessages
+        }
       }),
       _vm._v(" "),
       _c("game-indicator-component", {

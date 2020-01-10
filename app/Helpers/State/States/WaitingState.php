@@ -13,6 +13,7 @@ class WaitingState extends State
         $this->context->statusText = $watingText;
         $this->context->buttons    = explode(',', $buttons);
         $this->context->money      = $this->context->extractMoney();
+        $this->context->bankMessages = $this->context->extractBankMessages();
 
         if ($extractCards) {
             $this->context->userCards = $this->context->extractUserCardsFromRedis();

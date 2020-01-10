@@ -26,7 +26,8 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:userCards
 // room_1:cards
 // room_1:money
-// room1_1:1:pushStartBet - пользователь сделал начальную ставку
+// room_1:1:pushStartBet - пользователь сделал начальную ставку
+// room_1:messages
 
 class GamePlay
 {
@@ -47,7 +48,7 @@ class GamePlay
     public $countFirstUserChangeCards;
     public $indicator = 'ready';
     public $money     = 0;
-    public $bankMessage;
+    public $bankMessages = [];
 
     public $dump = '';
 
@@ -102,6 +103,7 @@ class GamePlay
             'userCards'     => $this->userCards,
             'indicator'     => $this->indicator,
             'money'         => (string) $this->money,
+            'bankMessages' => $this->bankMessages,
             'dump'          => $this->dump,
         );
     }
@@ -126,6 +128,11 @@ class GamePlay
         return $this->state->changeCards();
     }
 
+    public function addMoney()
+    {
+        return $this->state->addMoney();
+    }
+    
     // сервисные функции
     public function setStatusText($text): void
     {
@@ -175,14 +182,15 @@ class GamePlay
         return Redis::get($this->roomName . ':countFirstUserChangeCards');
     }
 
-    public function addMoney($moneySum)
+    public function pushStartingBet($moneySum)
     {
         $this->money = $this->extractMoney();
+        $this->bankMessages = $this->extractBankMessages();
 
-        if ($this->startBetsAlreadyPush()) {
-        } else {
+        if (!$this->startBetsAlreadyPush()) {
             $this->money += $moneySum;
             $this->saveStartBetForUser();
+
         }
         $this->saveMoney();
     }
@@ -197,7 +205,12 @@ class GamePlay
         return Redis::get($this->roomName . ":money");
     }
 
-    private function saveMoney()
+    public function extractBankMessages()
+    {
+        return Redis::lrange($this->roomName . ":messages", 0, 5);
+    }
+
+    public function saveMoney()
     {
         Redis::set($this->roomName . ":money", $this->money);
     }
@@ -205,5 +218,12 @@ class GamePlay
     private function saveStartBetForUser()
     {
         Redis::set($this->roomName . ':' . $this->currentUser->id . ":pushStartBet", 'ok');
+        $this->saveBankMessage('5');
+    }
+
+    public function saveBankMessage($money)
+    {
+        $data = $this->currentUser->login . '|' . $money;
+        Redis::lpush($this->roomName . ':messages', $data);
     }
 }

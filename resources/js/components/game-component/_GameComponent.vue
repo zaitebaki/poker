@@ -1,8 +1,8 @@
 <template>
 <div class="uk-container">
     <game-bank-component
-        :money=vueGameParameters.money>
-
+        :money=vueGameParameters.money
+        :bank-messages=vueGameParameters.bankMessages>
     </game-bank-component>
 
     <!-- <game-status-bar-component></game-status-bar-component> -->
@@ -69,7 +69,6 @@ export default {
                 });
                 this.startGameButtonReady = true;
             })
-   
             .listen('SendStartedGameStatus', ({data}) => {
                 console.log("Hello from SendStartedGameStatus!!!");
                 axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
@@ -90,7 +89,23 @@ export default {
             })
             .listen('SendFinishChangeStatus', ({data}) => {
                 console.log("Hello from SendFinishChangeStatus!!!");
-                axios.post('/game/room/1', { updateState: 'BettingState', roomName: 'room_1'}).then( (response) => {
+                axios.post('/game/room/1', { 
+                    updateState: 'BettingState',
+                    roomName: 'room_1',
+                    correctionStatusMessage: 'changeFinished'}).then( (response) => {
+                    this.vueGameParameters = response.data.gameParameters;
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+            })
+            .listen('SendFinishBettingStatus', ({money}) => {
+                console.log("Hello from SendFinishBettingStatus!!!");
+                axios.post('/game/room/1', {
+                    updateState: 'BettingState',
+                    roomName: 'room_1',
+                    correctionStatusMessage: 'betFinished',
+                    money: money}).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                 }).catch(function (error) {
                     console.log(error);

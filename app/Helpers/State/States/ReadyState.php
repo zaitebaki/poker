@@ -27,7 +27,7 @@ class ReadyState extends State
 
     public function startGame()
     {
-        $this->context->addMoney(5);
+        $this->context->pushStartingBet(5);
 
         // проверить - если 1-ый игрок не получил карты
         // то перевести 2-го игрока в состояние ожидания
@@ -60,6 +60,10 @@ class ReadyState extends State
     }
 
     public function changeCards()
+    {
+    }
+
+    public function addMoney()
     {
     }
 }
