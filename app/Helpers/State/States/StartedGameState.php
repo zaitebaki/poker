@@ -42,6 +42,22 @@ class StartedGameState extends State
     {
     }
 
+    public function check()
+    {
+    }
+    
+    public function equalAndAdd()
+    {
+    }
+
+    public function equal()
+    {
+    }
+
+    public function gameOver()
+    {
+    }
+
     public function changeCards()
     {
         $indexes    = $this->context->request->cardsIndexForChange;
@@ -93,5 +109,4 @@ class StartedGameState extends State
         }
         $this->context->saveUserCards();
     }
-
 }

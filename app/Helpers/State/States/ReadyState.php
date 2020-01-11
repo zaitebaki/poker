@@ -66,4 +66,20 @@ class ReadyState extends State
     public function addMoney()
     {
     }
+    
+    public function check()
+    {
+    }
+
+    public function equalAndAdd()
+    {
+    }
+
+    public function equal()
+    {
+    }
+
+    public function gameOver()
+    {
+    }
 }

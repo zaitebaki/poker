@@ -28,6 +28,9 @@ use Illuminate\Support\Facades\Redis;
 // room_1:money
 // room_1:1:pushStartBet - пользователь сделал начальную ставку
 // room_1:messages
+// room_1:1:correctionMessage
+// room_1:1:addOpponentMoney
+// room_1:1:increaseAfterEqualMoney
 
 class GamePlay
 {
@@ -46,9 +49,11 @@ class GamePlay
     public $role;
     public $request;
     public $countFirstUserChangeCards;
-    public $indicator = 'ready';
-    public $money     = 0;
-    public $bankMessages = [];
+    public $indicator               = 'ready';
+    public $money                   = 0;
+    public $bankMessages            = [];
+    public $addOpponentMoney        = '';
+    public $increaseAfterEqualMoney = '';
 
     public $dump = '';
 
@@ -98,13 +103,15 @@ class GamePlay
     public function getGameParameters(): array
     {
         return array(
-            'statusMessage' => $this->statusText,
-            'buttons'       => $this->buttons,
-            'userCards'     => $this->userCards,
-            'indicator'     => $this->indicator,
-            'money'         => (string) $this->money,
-            'bankMessages' => $this->bankMessages,
-            'dump'          => $this->dump,
+            'statusMessage'           => $this->statusText,
+            'buttons'                 => $this->buttons,
+            'userCards'               => $this->userCards,
+            'indicator'               => $this->indicator,
+            'money'                   => (string) $this->money,
+            'bankMessages'            => $this->bankMessages,
+            'addOpponentMoney'        => (string) $this->addOpponentMoney,
+            'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
+            'dump'                    => $this->dump,
         );
     }
 
@@ -132,7 +139,27 @@ class GamePlay
     {
         return $this->state->addMoney();
     }
-    
+
+    public function check()
+    {
+        return $this->state->check();
+    }
+
+    public function equalAndAdd()
+    {
+        return $this->state->equalAndAdd();
+    }
+
+    public function equal()
+    {
+        return $this->state->equal();
+    }
+
+    public function gameOver()
+    {
+        return $this->state->gameOver();
+    }
+
     // сервисные функции
     public function setStatusText($text): void
     {
@@ -184,7 +211,7 @@ class GamePlay
 
     public function pushStartingBet($moneySum)
     {
-        $this->money = $this->extractMoney();
+        $this->money        = $this->extractMoney();
         $this->bankMessages = $this->extractBankMessages();
 
         if (!$this->startBetsAlreadyPush()) {
@@ -225,5 +252,27 @@ class GamePlay
     {
         $data = $this->currentUser->login . '|' . $money;
         Redis::lpush($this->roomName . ':messages', $data);
+    }
+
+    public function getIncreaseAfterEqualMoney()
+    {
+        $moneyIncrease = $this->request->moneyIncrease;
+
+        if (isset($moneyIncrease)) {
+            $this->saveIncreaseAfterEqualMoney($moneyIncrease);
+            return $moneyIncrease;
+        } else {
+            return $this->extractIncreaseAfterEqualMoney();
+        }
+    }
+
+    public function saveIncreaseAfterEqualMoney($money)
+    {
+        Redis::set($this->roomName . ":increaseAfterEqualMoney", $money);
+    }
+
+    public function extractIncreaseAfterEqualMoney()
+    {
+        return Redis::get($this->roomName . ":increaseAfterEqualMoney");
     }
 }

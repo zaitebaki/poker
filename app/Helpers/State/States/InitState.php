@@ -33,8 +33,24 @@ class InitState extends State
     public function changeCards()
     {
     }
-    
+
     public function addMoney()
+    {
+    }
+
+    public function check()
+    {
+    }
+
+    public function equalAndAdd()
+    {
+    }
+
+    public function equal()
+    {
+    }
+
+    public function gameOver()
     {
     }
 }

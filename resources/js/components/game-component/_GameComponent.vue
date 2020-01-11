@@ -20,6 +20,8 @@
         :user="user"
         :active-cards-storage="activeCardsStorage"
         :indicator-status="vueGameParameters.indicator"
+        :add-opponent-money="vueGameParameters.addOpponentMoney"
+        :increase-after-equal-money="vueGameParameters.increaseAfterEqualMoney"
         @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
@@ -59,6 +61,7 @@ export default {
         },
     },
     mounted() {
+        console.log(this.gameParameters);
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
                 axios.post('/game/room/1', { updateState: 'ReadyState', roomName: 'room_1', sendPost: 'true'}).then( (response) => {
@@ -99,13 +102,29 @@ export default {
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
                 });
             })
-            .listen('SendFinishBettingStatus', ({money}) => {
+            .listen('SendFinishBettingStatus', ({money, moneyIncrease}) => {
                 console.log("Hello from SendFinishBettingStatus!!!");
+
+                console.log(`money - ${money}`);
+                console.log(`moneyIncrease - ${moneyIncrease}`);
+
+                let correctionMessage;
+
+                if (moneyIncrease !== '0') {
+                    correctionMessage = "equelAndAdd"
+                }
+                else if (money === '0') {
+                    correctionMessage = 'check';
+                }
+                else {
+                    correctionMessage = 'betFinished';
+                }
                 axios.post('/game/room/1', {
                     updateState: 'BettingState',
                     roomName: 'room_1',
-                    correctionStatusMessage: 'betFinished',
-                    money: money}).then( (response) => {
+                    correctionStatusMessage: correctionMessage,
+                    money: money,
+                    moneyIncrease: moneyIncrease}).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                 }).catch(function (error) {
                     console.log(error);

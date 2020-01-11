@@ -1925,6 +1925,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1932,7 +1943,9 @@ __webpack_require__.r(__webpack_exports__);
     buttons: Array,
     user: Object,
     activeCardsStorage: Array,
-    indicatorStatus: String
+    indicatorStatus: String,
+    addOpponentMoney: String,
+    increaseAfterEqualMoney: String
   },
   data: function data() {
     return {
@@ -1946,9 +1959,21 @@ __webpack_require__.r(__webpack_exports__);
     addMoneyCaption: function addMoneyCaption() {
       var re = /:money/gi;
       return this.buttonsCaptions.addMoney.replace(re, this.moneySumForAdd);
+    },
+    equalAndAddCaption: function equalAndAddCaption() {
+      var re = /:money1/gi;
+      var caption = this.buttonsCaptions.equalAndAdd.replace(re, this.getCurrentAddingMoney());
+      re = /:money2/gi;
+      return caption.replace(re, this.moneySumForAdd);
+    },
+    equalCaption: function equalCaption() {
+      var re = /:money/gi;
+      return this.buttonsCaptions.equal.replace(re, this.getCurrentAddingMoney());
     }
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    console.log(this.increaseAfterEqualMoney);
+  },
   methods: {
     // инициировать раздачу карт
     startGame: function startGame() {
@@ -2004,6 +2029,66 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
     },
+    // чек
+    check: function check() {
+      var _this4 = this;
+
+      axios.post('/game/room/1', {
+        initAction: 'check',
+        roomName: 'room_1'
+      }).then(function (response) {
+        _this4.$emit('update:parameters', response.data.gameParameters);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    },
+    // сравянть и добавить
+    equalAndAdd: function equalAndAdd() {
+      var _this5 = this;
+
+      axios.post('/game/room/1', {
+        initAction: 'equalAndAdd',
+        roomName: 'room_1',
+        moneyEquel: this.getCurrentAddingMoney(),
+        moneyAdd: this.moneySumForAdd
+      }).then(function (response) {
+        _this5.$emit('update:parameters', response.data.gameParameters);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    },
+    // сравянть
+    equal: function equal() {
+      var _this6 = this;
+
+      axios.post('/game/room/1', {
+        initAction: 'equal',
+        roomName: 'room_1',
+        money: this.moneySumForAdd
+      }).then(function (response) {
+        _this6.$emit('update:parameters', response.data.gameParameters);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    },
+    // сбросить карты
+    gameOver: function gameOver() {
+      var _this7 = this;
+
+      axios.post('/game/room/1', {
+        initAction: 'gameOver',
+        roomName: 'room_1',
+        money: this.moneySumForAdd
+      }).then(function (response) {
+        _this7.$emit('update:parameters', response.data.gameParameters);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    },
     // проверить есть ли карты для замены
     isNotChoosingCardsForChanging: function isNotChoosingCardsForChanging() {
       for (var i = 0; i < this.activeCardsStorage.length; i++) {
@@ -2027,6 +2112,14 @@ __webpack_require__.r(__webpack_exports__);
     isActiveButton: function isActiveButton(nameButton) {
       if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
       return false;
+    },
+    getCurrentAddingMoney: function getCurrentAddingMoney() {
+      if (this.increaseAfterEqualMoney !== '0') {
+        return this.increaseAfterEqualMoney;
+      } else {
+        console.log("Зайте");
+        return this.addOpponentMoney;
+      }
     },
     slideStart: function slideStart() {
       console.log('slideStarted');
@@ -2302,6 +2395,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2330,6 +2425,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    console.log(this.gameParameters);
     this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
       var data = _ref.data;
       axios.post('/game/room/1', {
@@ -2381,13 +2477,27 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
     }).listen('SendFinishBettingStatus', function (_ref5) {
-      var money = _ref5.money;
+      var money = _ref5.money,
+          moneyIncrease = _ref5.moneyIncrease;
       console.log("Hello from SendFinishBettingStatus!!!");
+      console.log("money - ".concat(money));
+      console.log("moneyIncrease - ".concat(moneyIncrease));
+      var correctionMessage;
+
+      if (moneyIncrease !== '0') {
+        correctionMessage = "equelAndAdd";
+      } else if (money === '0') {
+        correctionMessage = 'check';
+      } else {
+        correctionMessage = 'betFinished';
+      }
+
       axios.post('/game/room/1', {
         updateState: 'BettingState',
         roomName: 'room_1',
-        correctionStatusMessage: 'betFinished',
-        money: money
+        correctionStatusMessage: correctionMessage,
+        money: money,
+        moneyIncrease: moneyIncrease
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
@@ -54616,186 +54726,189 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("p", { attrs: { "uk-margin": "" } }, [
-      _vm.isActiveButton("startGame")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-primary",
-              on: {
-                click: function($event) {
-                  return _vm.startGame()
+    _c("div", [
+      _c("p", { attrs: { "uk-margin": "" } }, [
+        _vm.isActiveButton("startGame")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-primary",
+                on: {
+                  click: function($event) {
+                    return _vm.startGame()
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.startButton) +
-                  "\n        "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isActiveButton("changeCards")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary",
-              attrs: { disabled: _vm.indicatorStatus === "wait" },
-              on: {
-                click: function($event) {
-                  return _vm.changeCards("change")
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.buttonsCaptions.startButton) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("changeCards")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-secondary",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.changeCards("change")
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.changeCards) +
-                  "\n        "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isActiveButton("notChange")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-danger",
-              attrs: { disabled: _vm.indicatorStatus === "wait" },
-              on: {
-                click: function($event) {
-                  return _vm.changeCards("no:change")
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.buttonsCaptions.changeCards) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("notChange")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-danger",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.changeCards("no:change")
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.notChange) +
-                  "\n        "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isActiveButton("addMoney")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-primary",
-              attrs: { disabled: _vm.indicatorStatus === "wait" },
-              on: {
-                click: function($event) {
-                  return _vm.addMoney()
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.buttonsCaptions.notChange) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("addMoney")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-primary",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.addMoney()
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " + _vm._s(_vm.addMoneyCaption) + "\n        "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isActiveButton("noMoney")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary",
-              attrs: { disabled: _vm.indicatorStatus === "wait" },
-              on: {
-                click: function($event) {
-                  return _vm.noMoney()
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.addMoneyCaption) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("noMoney")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-secondary",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.check()
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.noMoney) +
-                  "\n        "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isActiveButton("equal")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary",
-              attrs: { disabled: _vm.indicatorStatus === "wait" },
-              on: {
-                click: function($event) {
-                  return _vm.equal()
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.buttonsCaptions.noMoney) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("equalAndAdd")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-primary",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.equalAndAdd()
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.equal) +
-                  "\n        "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isActiveButton("equalAndAdd")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary",
-              attrs: { disabled: _vm.indicatorStatus === "wait" },
-              on: {
-                click: function($event) {
-                  return _vm.equalAndAdd()
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.equalAndAddCaption) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("equal")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-primary",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.equal()
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.equalAndAdd) +
-                  "\n        "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isActiveButton("gameOver")
-        ? _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary",
-              attrs: { disabled: _vm.indicatorStatus === "wait" },
-              on: {
-                click: function($event) {
-                  return _vm.gameOver()
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.equalCaption) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("gameOver")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-danger",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.gameOver()
+                  }
                 }
-              }
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.buttonsCaptions.gameOver) +
-                  "\n        "
-              )
-            ]
-          )
-        : _vm._e()
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.buttonsCaptions.gameOver) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e()
+      ])
     ]),
     _vm._v(" "),
     _c(
       "div",
-      { staticStyle: { width: "600px" } },
       [
-        _vm.isActiveButton("addMoney")
+        _vm.isActiveButton("addMoney") || _vm.isActiveButton("equalAndAdd")
           ? _c("b-form-slider", {
               ref: "ticks",
               attrs: {
@@ -55080,7 +55193,10 @@ var render = function() {
           buttons: _vm.vueGameParameters.buttons,
           user: _vm.user,
           "active-cards-storage": _vm.activeCardsStorage,
-          "indicator-status": _vm.vueGameParameters.indicator
+          "indicator-status": _vm.vueGameParameters.indicator,
+          "add-opponent-money": _vm.vueGameParameters.addOpponentMoney,
+          "increase-after-equal-money":
+            _vm.vueGameParameters.increaseAfterEqualMoney
         },
         on: {
           "update:parameters": function($event) {
