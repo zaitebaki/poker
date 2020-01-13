@@ -98,6 +98,16 @@ class GameController extends \App\Http\Controllers\SuperController
                 return json_encode(array('gameParameters' => $game->getGameParameters()));
             }
 
+            // конец игры
+            if ($request->initAction === 'equal') {
+
+                $game   = new Gameplay($this->user, $request->roomName, $request);
+                $method = $request->initAction;
+                $game->$method();
+
+                return json_encode(array('gameFinishedParameters' => $game->getFinishGameParameters()));
+            }
+
             // инициировать действие в GamePlay
             if (isset($request->initAction)) {
 

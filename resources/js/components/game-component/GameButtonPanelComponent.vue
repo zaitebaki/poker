@@ -196,10 +196,11 @@ export default {
             axios.post('/game/room/1', {
                 initAction: 'equal',
                 roomName: 'room_1',
-                money: this.moneySumForAdd
+                money: this.addOpponentMoney
                 }).
             then( (response) => {
-                this.$emit('update:parameters', response.data.gameParameters);
+                console.log(response.data.gameFinishedParameters);
+                this.$emit('update:cards', response.data.gameFinishedParameters);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');

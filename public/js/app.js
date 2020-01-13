@@ -2066,9 +2066,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/game/room/1', {
         initAction: 'equal',
         roomName: 'room_1',
-        money: this.moneySumForAdd
+        money: this.addOpponentMoney
       }).then(function (response) {
-        _this6.$emit('update:parameters', response.data.gameParameters);
+        console.log(response.data.gameFinishedParameters);
+
+        _this6.$emit('update:cards', response.data.gameFinishedParameters);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');

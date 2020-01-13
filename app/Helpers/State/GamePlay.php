@@ -54,6 +54,7 @@ class GamePlay
     public $bankMessages            = [];
     public $addOpponentMoney        = '';
     public $increaseAfterEqualMoney = '';
+    public $opponentUserCards;
 
     public $dump = '';
 
@@ -111,6 +112,22 @@ class GamePlay
             'bankMessages'            => $this->bankMessages,
             'addOpponentMoney'        => (string) $this->addOpponentMoney,
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
+            'dump'                    => $this->dump,
+        );
+    }
+
+    public function getFinishGameParameters(): array
+    {
+        return array(
+            'userCards'               => $this->userCards,
+            'opponentUserCards'           => $this->opponentUserCards,
+            'buttons'                 => $this->buttons,
+            
+            // 'indicator'               => $this->indicator,
+            // 'money'                   => (string) $this->money,
+            // 'bankMessages'            => $this->bankMessages,
+            // 'addOpponentMoney'        => (string) $this->addOpponentMoney,
+            // 'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
             'dump'                    => $this->dump,
         );
     }
@@ -191,6 +208,12 @@ class GamePlay
     public function extractUserCardsFromRedis(): array
     {
         $data = Redis::get($this->roomName . ':' . $this->currentUser->id . ':userCards');
+        return explode(',', $data);
+    }
+
+    public function extractOpponentUserCardsFromRedis(): array
+    {
+        $data = Redis::get($this->roomName . ':' . $this->opponentUser->id . ':userCards');
         return explode(',', $data);
     }
 
