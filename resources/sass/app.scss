@@ -2,6 +2,8 @@
   width: 50px;
 }
 
+
+
 .friends-card__item__online {
   color: green;
 }
@@ -17,6 +19,10 @@
 .card__img {
   width: 130px;
   cursor: pointer;
+}
+
+.card__img_opponent-card_true {
+  width: 90px;
 }
 
 .card__img_change {

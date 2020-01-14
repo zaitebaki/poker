@@ -1,9 +1,16 @@
 <template>
 <div class="uk-container">
-    <game-bank-component
-        :money=vueGameParameters.money
-        :bank-messages=vueGameParameters.bankMessages>
-    </game-bank-component>
+    <div class="uk-flex">
+        <game-bank-component
+            :money=vueGameParameters.money
+            :bank-messages=vueGameParameters.bankMessages>
+        </game-bank-component>
+
+        <game-opponent-cards-component
+            v-if="gameFinishParameters"
+            :cards="gameFinishParameters.opponentUserCards">
+        </game-opponent-cards-component>
+    </div>
 
     <!-- <game-status-bar-component></game-status-bar-component> -->
     <game-indicator-component
@@ -22,15 +29,17 @@
         :indicator-status="vueGameParameters.indicator"
         :add-opponent-money="vueGameParameters.addOpponentMoney"
         :increase-after-equal-money="vueGameParameters.increaseAfterEqualMoney"
-        @update:parameters="updateParameters($event)">
+        @update:parameters="updateParameters($event)"
+        @update:finish:parameters="updateFinishParameters($event)">
     </game-button-panel-component>
 
     <game-user-cards-component
         v-if="vueGameParameters.userCards"
         :cards="vueGameParameters.userCards"
-        @change:active:cards:storage="changActiveCardsStorage($event)">
+        @change:active:cards:storage="changeActiveCardsStorage($event)">
     </game-user-cards-component>
-    <!-- <game-opponent-cards-component></game-opponent-cards-component> -->
+
+
 </div>
 </template>
 <script>
@@ -52,7 +61,8 @@ export default {
         return {
             cards: null,
             vueGameParameters: this.gameParameters,
-            activeCardsStorage: [true, true, true, true, true]
+            activeCardsStorage: [true, true, true, true, true],
+            gameFinishParameters: null
         }
     },
     computed: {
@@ -136,7 +146,12 @@ export default {
         updateParameters($event) {
             this.vueGameParameters = $event;
         },
-        changActiveCardsStorage($event) {
+        updateFinishParameters($event) {
+            this.gameFinishParameters = $event;
+
+            console.log(this.gameFinishParameters);
+        },
+        changeActiveCardsStorage($event) {
             const index = $event;
             this.activeCardsStorage[index] = !this.activeCardsStorage[index];
 

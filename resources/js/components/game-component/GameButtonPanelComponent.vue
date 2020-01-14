@@ -57,6 +57,13 @@
                 v-bind:disabled="indicatorStatus==='wait'">
                 {{ buttonsCaptions.gameOver }}
             </button>
+            <button
+                v-if="isActiveButton('then')"
+                class="uk-button uk-button-danger"
+                v-on:click="then()"
+                v-bind:disabled="indicatorStatus==='wait'">
+                {{ buttonsCaptions.then }}
+            </button>
         </p>
     </div>
     <div>
@@ -200,7 +207,7 @@ export default {
                 }).
             then( (response) => {
                 console.log(response.data.gameFinishedParameters);
-                this.$emit('update:cards', response.data.gameFinishedParameters);
+                this.$emit('update:finish:parameters', response.data.gameFinishedParameters);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');

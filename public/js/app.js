@@ -1936,6 +1936,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2070,7 +2077,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         console.log(response.data.gameFinishedParameters);
 
-        _this6.$emit('update:cards', response.data.gameFinishedParameters);
+        _this6.$emit('update:finish:parameters', response.data.gameFinishedParameters);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2189,18 +2196,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    invitationText: String,
-    formRoute: String,
-    formButtonCaption: String
+    cards: Array
   },
   data: function data() {
     return {
+      suitTable: {
+        'c': 'chervi',
+        'b': 'bubi',
+        'v': 'vini',
+        'k': 'kresti',
+        'j': 'joker'
+      },
+      changeThisCard: false,
+      imgElementsClasses: [false, false, false, false, false],
+      isAlreadeChangedCards: false,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$root.$on('clean:cards:classes', function () {
+      _this.imgElementsClasses = [false, false, false, false, false];
+      _this.isAlreadeChangedCards = true;
+    });
+    this.handleSwitcher = this.normalSwitcher;
+  },
+  methods: {
+    getPathToImage: function getPathToImage(index) {
+      var cardCode = this.cards[index];
+      var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".jpg");
+      return "/assets/images/cards/".concat(fileCardName);
+    },
+    switcher: function switcher(index) {
+      if (this.isAlreadeChangedCards === false) this.normalSwitcher(index);
+    },
+    normalSwitcher: function normalSwitcher(index) {
+      this.$emit('change:active:cards:storage', index);
+      var newValue = !this.imgElementsClasses[index];
+      this.$set(this.imgElementsClasses, index, newValue);
+    }
   }
 });
 
@@ -2399,6 +2436,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2416,7 +2462,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       cards: null,
       vueGameParameters: this.gameParameters,
-      activeCardsStorage: [true, true, true, true, true]
+      activeCardsStorage: [true, true, true, true, true],
+      gameFinishParameters: null
     };
   },
   computed: {
@@ -2512,7 +2559,11 @@ __webpack_require__.r(__webpack_exports__);
     updateParameters: function updateParameters($event) {
       this.vueGameParameters = $event;
     },
-    changActiveCardsStorage: function changActiveCardsStorage($event) {
+    updateFinishParameters: function updateFinishParameters($event) {
+      this.gameFinishParameters = $event;
+      console.log(this.gameFinishParameters);
+    },
+    changeActiveCardsStorage: function changeActiveCardsStorage($event) {
       var index = $event;
       this.activeCardsStorage[index] = !this.activeCardsStorage[index];
       console.log(this.activeCardsStorage);
@@ -54667,7 +54718,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "uk-card uk-card-default uk-card-body uk-width-1-2@m" },
+    { staticClass: "uk-card uk-card-default uk-card-body uk-width-1-3@m" },
     [
       _c("div", { staticClass: "uk-flex" }, [
         _c("div", [
@@ -54903,6 +54954,28 @@ var render = function() {
                 )
               ]
             )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isActiveButton("then")
+          ? _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-danger",
+                attrs: { disabled: _vm.indicatorStatus === "wait" },
+                on: {
+                  click: function($event) {
+                    return _vm.then()
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.buttonsCaptions.then) +
+                    "\n            "
+                )
+              ]
+            )
           : _vm._e()
       ])
     ]),
@@ -54980,43 +55053,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "uk-alert-primary", attrs: { "uk-alert": "" } },
-    [
-      _c("p", [_vm._v(_vm._s(_vm.invitationText))]),
-      _vm._v(" "),
-      _c(
-        "form",
-        {
-          attrs: { id: "startGameForm", action: _vm.formRoute, method: "POST" }
-        },
-        [
-          _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary uk-button-small",
-              attrs: { type: "submit", form: "startGameForm" }
-            },
-            [
-              _vm._v(
-                "\n            " + _vm._s(_vm.formButtonCaption) + "\n        "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            attrs: { type: "hidden", name: "_token" },
-            domProps: { value: _vm.csrf }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            attrs: { type: "hidden", name: "isInvitatationForm", value: "true" }
-          })
-        ]
-      )
-    ]
-  )
+  return _c("div", { staticClass: "uk-width-2-3@m" }, [
+    _c(
+      "div",
+      { staticClass: "uk-flex" },
+      [
+        _vm._l(_vm.cards, function(card, index) {
+          return [
+            _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
+              _c("img", {
+                staticClass: "card__img card__img_opponent-card_true",
+                attrs: { src: _vm.getPathToImage(index) }
+              })
+            ])
+          ]
+        })
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55174,12 +55229,25 @@ var render = function() {
     "div",
     { staticClass: "uk-container" },
     [
-      _c("game-bank-component", {
-        attrs: {
-          money: _vm.vueGameParameters.money,
-          "bank-messages": _vm.vueGameParameters.bankMessages
-        }
-      }),
+      _c(
+        "div",
+        { staticClass: "uk-flex" },
+        [
+          _c("game-bank-component", {
+            attrs: {
+              money: _vm.vueGameParameters.money,
+              "bank-messages": _vm.vueGameParameters.bankMessages
+            }
+          }),
+          _vm._v(" "),
+          _vm.gameFinishParameters
+            ? _c("game-opponent-cards-component", {
+                attrs: { cards: _vm.gameFinishParameters.opponentUserCards }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("game-indicator-component", {
         attrs: { "indicator-status": _vm.vueGameParameters.indicator }
@@ -55203,6 +55271,9 @@ var render = function() {
         on: {
           "update:parameters": function($event) {
             return _vm.updateParameters($event)
+          },
+          "update:finish:parameters": function($event) {
+            return _vm.updateFinishParameters($event)
           }
         }
       }),
@@ -55212,7 +55283,7 @@ var render = function() {
             attrs: { cards: _vm.vueGameParameters.userCards },
             on: {
               "change:active:cards:storage": function($event) {
-                return _vm.changActiveCardsStorage($event)
+                return _vm.changeActiveCardsStorage($event)
               }
             }
           })

@@ -31,6 +31,8 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:correctionMessage
 // room_1:1:addOpponentMoney
 // room_1:1:increaseAfterEqualMoney
+// room_1:winner
+// room_1:1:combination
 
 class GamePlay
 {
@@ -55,6 +57,16 @@ class GamePlay
     public $addOpponentMoney        = '';
     public $increaseAfterEqualMoney = '';
     public $opponentUserCards;
+    public $userCombination;
+    public $opponentCombination;
+
+    /**
+     * @var int $isVictory  Коде результата игры
+     * -1 - проигрыш
+     * 0 - ничья
+     * 1 - победа
+     */
+    public $isVictory;
 
     public $dump = '';
 
@@ -119,16 +131,21 @@ class GamePlay
     public function getFinishGameParameters(): array
     {
         return array(
-            'userCards'               => $this->userCards,
-            'opponentUserCards'           => $this->opponentUserCards,
-            'buttons'                 => $this->buttons,
-            
+            'statusMessage'       => $this->statusText,
+            'userCards'           => $this->userCards,
+            'opponentUserCards'   => $this->opponentUserCards,
+            'buttons'             => $this->buttons,
+            'userCombination'     => $this->userCombination,
+            'opponentCombination' => $this->opponentCombination,
+            'isVictory'           => $this->isVictory,
+            'money'               => (string) $this->money,
+            'bankMessages'        => $this->bankMessages,
             // 'indicator'               => $this->indicator,
             // 'money'                   => (string) $this->money,
             // 'bankMessages'            => $this->bankMessages,
             // 'addOpponentMoney'        => (string) $this->addOpponentMoney,
             // 'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
-            'dump'                    => $this->dump,
+            'dump'                => $this->dump,
         );
     }
 

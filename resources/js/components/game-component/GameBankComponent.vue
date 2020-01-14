@@ -1,5 +1,5 @@
 <template>
-    <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
+    <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
         <div class="uk-flex">
             <div>
                 <ul class="uk-list uk-text-small uk-text-light uk-text-success">

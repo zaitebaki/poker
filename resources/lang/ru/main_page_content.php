@@ -47,6 +47,7 @@ return [
             'equal'       => 'Сравнять :money рублей',
             'equalAndAdd' => 'Сравнять :money1 и добавить :money2',
             'gameOver'    => 'Сбросить карты',
+            'then'        => 'Далее',
         ],
         'statusMessages'  => [
             'initMessage'             => 'Начальная ставка - 5 рублей. Игра готова',
@@ -62,9 +63,9 @@ return [
             'checkMessage'            => 'Вы не добавили деньги в банк. Сейчас ходит :user',
             'checkMessageOpponent'    => ':user сказал "чек". Ваш ход.',
             'equalAndAddMoney'        => ':user сравнял :money1 и добавил еще :money2 рублей. Ваш ход.',
-            'winFinishMessage'           => 'Победа! Вы выиграл :money рублей.',
-            'loseFinishMessage'           => 'Проигрыш. Вы проиграли :money рублей.',
-            'drawFinishMessage'           => 'Ничья. :money возвращаются вам на счет.'
+            'winFinishMessage'        => 'Победа! Вы выиграли :money рублей.',
+            'loseFinishMessage'       => 'Проигрыш. Вы проиграли :money рублей.',
+            'drawFinishMessage'       => 'Ничья. :money возвращаются вам на счет.',
         ],
     ],
 ];

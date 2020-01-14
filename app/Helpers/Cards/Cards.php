@@ -99,16 +99,33 @@ class Cards
     /**
      * Определить победителя партии
      */
-    public static function whoWinner($hand1, $hand2)
+    public static function getCombintationsAndPoits(array $currentUserHand, array $opponentUserHand): array
     {
         // заменить джокеры
-        self::handleJokers($hand1);
+        self::handleJokers($currentUserHand);
+        self::handleJokers($opponentUserHand);
 
         // получить комбинацию для руки
-        $combination = self::getCombination($hand1);
+        $currentUserCombination = self::getCombination($currentUserHand);
+        $opponentUserCombination = self::getCombination($opponentUserHand);
 
-        // получить очки для коминации
-        return self::getPoints($hand1, $combination);
+        // получить очки для комбинации
+        $currentUserPoints = self::getPoints($currentUserHand, $currentUserCombination);
+        $opponentUserPoints = self::getPoints($opponentUserHand, $opponentUserCombination);
+
+        $currentUserPoints = (float)$currentUserPoints;
+        $opponentUserPoints = (float)$opponentUserPoints;
+
+        return [
+            'combinations' => [
+                'currentUserCombination' => $currentUserCombination,
+                'opponentUserCombination' => $opponentUserCombination
+            ],
+            'points' => [
+                'currentUserPoints' => $currentUserPoints,
+                'opponentUserPoints' => $opponentUserPoints
+            ],
+        ];
     }
 
     /**
@@ -132,7 +149,7 @@ class Cards
     private static function getPoints($hand, $combination)
     {
         $stringPoints = '';
-        
+
         $countJokers = self::getCountJokers($hand);
         if ($countJokers > 0 && ($combination === 'STREET' || $combination === 'STREETFLASH')) {
             $stringPoints = self::getPointsForStreet($hand, $countJokers);

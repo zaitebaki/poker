@@ -114,11 +114,10 @@ class BettingState extends State
 
     public function equal()
     {
-        // $money = $this->context->request->money;
-        // $this->context->money += $money;
-        // $this->context->saveMoney();
-
-        // $this->context->saveBankMessage($money);
+        $money = $this->context->request->money;
+        $this->context->money += $money;
+        $this->context->saveMoney();
+        $this->context->saveBankMessage($money);
         // $this->saveAddOpponetMoney($money);
 
         // $waitingMessage = __('main_page_content.gamePage.statusMessages.addMoneyMessageCurrent',
@@ -127,7 +126,7 @@ class BettingState extends State
         // $buttons = 'equal,equalAndAdd,gameOver';
 
         $this->context->updateState('FinishState');
- 
+
         // \App\Events\SendFinishBettingStatus::dispatch($money, '0');
 
     }

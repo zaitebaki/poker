@@ -2,9 +2,9 @@
 
 namespace App\Helpers\State\States;
 
-use App\Helpers\State\State;
 use App\Helpers\Cards\Cards;
-
+use App\Helpers\State\State;
+use Illuminate\Support\Facades\Redis;
 
 class FinishState extends State
 {
@@ -13,57 +13,40 @@ class FinishState extends State
     {
         parent::__construct($context);
 
-        // $this->context->userCards         = $this->context->extractUserCardsFromRedis();
-        // $this->context->opponentUserCards = $this->context->extractOpponentUserCardsFromRedis();
-        $deckOfCards = [
-            '2c', '2b', '2v', '2k',
-            '3c', '3b', '3v', '3k',
-            '4c', '4b', '4v', '4k',
-            '5c', '5b', '5v', '5k',
-            '6c', '6b', '6v', '6k',
-            '7c', '7b', '7v', '7k',
-            '8c', '8b', '8v', '8k',
-            '9c', '9b', '9v', '9k',
-            'xc', 'xb', 'xv', 'xk',
-            'vc', 'vb', 'vv', 'vk',
-            'dc', 'db', 'dv', 'dk',
-            'kc', 'kb', 'kv', 'kk',
-            'tc', 'tb', 'tv', 'tk',
-            '1j', '2j',
-        ];
+        $this->context->userCards         = $this->context->extractUserCardsFromRedis();
+        $this->context->opponentUserCards = $this->context->extractOpponentUserCardsFromRedis();
 
-        shuffle($deckOfCards);
-        $arr = array_slice($deckOfCards, 0, 5);
+        // получить итоговые комбинации и очки
+        if (!$this->isResultsAlreadyAnnounced()) {
+            $gameBones = Cards::getCombintationsAndPoits($this->context->userCards, $this->context->opponentUserCards);
+            $this->summarizeGameResults($gameBones);
+        }
 
-        $this->context->userCards = $arr;
-        $this->context->saveUserCards();
-        // $this->context->userCards = ["vc", "tb", "kb", "xk", "kc"];
+        $winnerId                           = $this->getWinnerIdFromRedis();
+        $this->context->userCombination     = $this->getUserCombinationFromRedis();
+        $this->context->opponentCombination = $this->getOpponentCombinationFromRedis();
 
-        $this->context->opponentUserCards = ["tc", "3v", "5k", "8v", "8k"];
+        // победа
+        if ($winnerId === (string) $this->context->currentUser->id) {
+            $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage', ['money' => '30']);
+            $this->context->isVictory  = 1;
 
+            // проигрыш
+        } elseif ($winnerId === (string) $this->context->opponentUser->id) {
+            $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage', ['money' => '30']);
+            $this->context->isVictory  = -1;
+
+            // ничья
+        } elseif ($winnerId === '0') {
+            $this->context->statusText = __('main_page_content.gamePage.statusMessages.drawFinishMessage', ['money' => '30']);
+            $this->context->isVictory  = 0;
+        }
         $this->context->buttons = ['equal', 'equalAndAdd', 'gameOver'];
-        $this->context->dump    = Cards::whoWinner($this->context->userCards, $this->context->opponentUserCards);
-        // $this->context->dump = $arr;
+        $this->context->money        = $this->context->extractMoney();
+        $this->context->bankMessages = $this->context->extractBankMessages();
+        // $this->context->buttons = ['then'];
 
-        // if (Card::whoWiner() === $this->context->currentUser->id) {
-
-        // }
-
-        // elseif (Card::whoWiner() === $this->context->opponentUser->id) {
-
-        // }
-
-        // $cards = new Cards($keyStorage);
-
-        // $keyStorage  = $this->context->getKeyStorageForCards();
-
-        // $this->context->statusText = __('main_page_content.gamePage.statusMessages.finishMessage');
-
-        // $this->context->statusText = card->whoWin();
-
-        // $this->context->buttons   = ['addMoney', 'noMoney'];
-        // $this->context->userCards = $this->context->extractUserCardsFromRedis();
-        // $this->context->indicator = 'ready';
+        // $this->context->dump    = $this->context->opponentUser->id;
     }
 
     public function waitingOpponentUser()
@@ -103,5 +86,79 @@ class FinishState extends State
 
     public function gameOver()
     {
+    }
+
+    /**
+     * Проверить рассчитаны ли результаты игры
+     */
+    private function isResultsAlreadyAnnounced(): bool
+    {
+        return Redis::exists($this->context->roomName . ":winner");
+    }
+
+    /**
+     * Определить победителя и сохранить результаты
+     */
+    private function summarizeGameResults(array $gameBones): void
+    {
+        // определить победителя
+        $currenUserPoints   = $gameBones['points']['currentUserPoints'];
+        $opponentUserPoints = $gameBones['points']['opponentUserPoints'];
+
+        if ($currenUserPoints === $opponentUserPoints) {
+            $this->saveWinner('0');
+        } elseif ($currenUserPoints > $opponentUserPoints) {
+            $this->saveWinner($this->context->currentUser->id);
+        } elseif ($currenUserPoints < $opponentUserPoints) {
+            $this->saveWinner($this->context->opponentUser->id);
+        }
+
+        // сохранить комбинации игроков
+        $currentUserCombination  = $gameBones['combinations']['currentUserCombination'];
+        $opponentUserCombination = $gameBones['combinations']['opponentUserCombination'];
+
+        $this->saveUserCombination($currentUserCombination, $this->context->currentUser->id);
+        $this->saveUserCombination($opponentUserCombination, $this->context->opponentUser->id);
+    }
+
+    /**
+     * Сохранить id победителя в Redis,
+     * Сохранить 0 в случае ничьи
+     */
+    private function saveWinner(int $idUser): void
+    {
+        Redis::set($this->context->roomName . ":winner", $idUser);
+    }
+
+    /**
+     * Сохранить комбинацию игрока
+     */
+    private function saveUserCombination(string $combination, string $userId): void
+    {
+        Redis::set($this->context->roomName . ':' . $userId . ":combination", $combination);
+    }
+
+    /**
+     * Извлечь комбинацию текущего пользователя
+     */
+    private function getUserCombinationFromRedis(): string
+    {
+        return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":combination");
+    }
+
+    /**
+     * Извлечь комбинацию пользователя-оппонента
+     */
+    private function getOpponentCombinationFromRedis(): string
+    {
+        return Redis::get($this->context->roomName . ':' . $this->context->opponentUser->id . ":combination");
+    }
+
+    /**
+     * Извлечь id победителя
+     */
+    private function getWinnerIdFromRedis(): string
+    {
+        return Redis::get($this->context->roomName . ':winner');
     }
 }
