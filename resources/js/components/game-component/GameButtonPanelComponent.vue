@@ -137,6 +137,7 @@ export default {
         
         // поменять карты
         changeCards(change) {
+            console.log(this.activeCardsStorage);
             if (change !== 'no:change' && this.isNotChoosingCardsForChanging() ) { return; }
             axios.post('/game/room/1', {
                 initAction: 'changeCards',
@@ -187,7 +188,7 @@ export default {
             axios.post('/game/room/1', {
                 initAction: 'equalAndAdd',
                 roomName: 'room_1',
-                moneyEquel: this.getCurrentAddingMoney(),
+                moneyequal: this.getCurrentAddingMoney(),
                 moneyAdd: this.moneySumForAdd
                 }).
             then( (response) => {
@@ -203,11 +204,11 @@ export default {
             axios.post('/game/room/1', {
                 initAction: 'equal',
                 roomName: 'room_1',
-                money: this.addOpponentMoney
+                money: this.getCurrentAddingMoney()
                 }).
             then( (response) => {
                 console.log(response.data.gameFinishedParameters);
-                this.$emit('update:finish:parameters', response.data.gameFinishedParameters);
+                this.$emit('update:parameters', response.data.gameFinishedParameters);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -232,7 +233,7 @@ export default {
         // проверить есть ли карты для замены
         isNotChoosingCardsForChanging() {
             for (let i = 0; i < this.activeCardsStorage.length; i++) {
-                if(this.activeCardsStorage[i] === false) return false;
+                if (this.activeCardsStorage[i] === false) return false;
             }
             return true;
         },

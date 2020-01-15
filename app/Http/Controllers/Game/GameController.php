@@ -82,7 +82,6 @@ class GameController extends \App\Http\Controllers\SuperController
      */
     public function sendMessage(Request $request, $room_id)
     {
-
         // перезагрузка и редирект страницы с игрой
         if ($request->isMethod('get')) {
             return $this->handleGetRequest($request, $room_id);
@@ -95,17 +94,12 @@ class GameController extends \App\Http\Controllers\SuperController
                 $game = new Gameplay($this->user, $request->roomName, $request);
                 $game->updateState($request->updateState);
 
+                // конец игры
+                if ($request->updateState === 'FinishState') {
+                    return json_encode(array('gameParameters' => $game->getFinishGameParameters()));
+                }
+
                 return json_encode(array('gameParameters' => $game->getGameParameters()));
-            }
-
-            // конец игры
-            if ($request->initAction === 'equal') {
-
-                $game   = new Gameplay($this->user, $request->roomName, $request);
-                $method = $request->initAction;
-                $game->$method();
-
-                return json_encode(array('gameFinishedParameters' => $game->getFinishGameParameters()));
             }
 
             // инициировать действие в GamePlay
@@ -115,15 +109,28 @@ class GameController extends \App\Http\Controllers\SuperController
                 $method = $request->initAction;
                 $game->$method();
 
+                // конец игры
+                if ($request->initAction === 'equal') {
+                    return json_encode(array('gameFinishedParameters' => $game->getFinishGameParameters()));
+                }
+
                 return json_encode(array('gameParameters' => $game->getGameParameters()));
             }
         }
     }
 
+    /**
+     * Обработка get-запроса /game
+     */
     private function handleGetRequest(Request $request, $room_id)
     {
-        $game           = new Gameplay($this->user, 'room_' . $room_id, $request);
-        $gameParameters = $game->getGameParameters();
+        $game = new Gameplay($this->user, 'room_' . $room_id, $request);
+
+        if ($game->state instanceof \App\Helpers\State\States\FinishState) {
+            $gameParameters = $game->getFinishGameParameters();
+        } else {
+            $gameParameters = $game->getGameParameters();
+        }
 
         $this->content = view(env('THEME') . '.game.index')->with(['gameParameters' => $gameParameters])->render();
         return $this->renderOutput();

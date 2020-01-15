@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:increaseAfterEqualMoney
 // room_1:winner
 // room_1:1:combination
+// room_1:1:points
 
 class GamePlay
 {
@@ -59,6 +60,8 @@ class GamePlay
     public $opponentUserCards;
     public $userCombination;
     public $opponentCombination;
+    public $userPoints;
+    public $opponentPoints;
 
     /**
      * @var int $isVictory  Коде результата игры
@@ -140,6 +143,8 @@ class GamePlay
             'isVictory'           => $this->isVictory,
             'money'               => (string) $this->money,
             'bankMessages'        => $this->bankMessages,
+            'userPoints' => $this->userPoints,
+            'opponentPoints' => $this->opponentPoints,
             // 'indicator'               => $this->indicator,
             // 'money'                   => (string) $this->money,
             // 'bankMessages'            => $this->bankMessages,
@@ -274,7 +279,8 @@ class GamePlay
 
     public function extractBankMessages()
     {
-        return Redis::lrange($this->roomName . ":messages", 0, 5);
+        $messages = Redis::lrange($this->roomName . ":messages", 0, 5);
+        return array_reverse($messages);
     }
 
     public function saveMoney()

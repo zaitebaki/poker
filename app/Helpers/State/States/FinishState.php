@@ -25,27 +25,32 @@ class FinishState extends State
         $winnerId                           = $this->getWinnerIdFromRedis();
         $this->context->userCombination     = $this->getUserCombinationFromRedis();
         $this->context->opponentCombination = $this->getOpponentCombinationFromRedis();
+        $this->context->userPoints          = $this->getUserPointsFromRedis();
+        $this->context->opponentPoints      = $this->getOpponentPointsFromRedis();
+
+        $this->context->money        = $this->context->extractMoney();
+        $this->context->bankMessages = $this->context->extractBankMessages();
 
         // победа
         if ($winnerId === (string) $this->context->currentUser->id) {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage', ['money' => '30']);
-            $this->context->isVictory  = 1;
+            $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage',
+                ['money' => $this->context->money/2]);
+            $this->context->isVictory = 1;
 
             // проигрыш
         } elseif ($winnerId === (string) $this->context->opponentUser->id) {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage', ['money' => '30']);
-            $this->context->isVictory  = -1;
+            $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage',
+                ['money' => $this->context->money/2]);
+            $this->context->isVictory = -1;
 
             // ничья
         } elseif ($winnerId === '0') {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.drawFinishMessage', ['money' => '30']);
-            $this->context->isVictory  = 0;
+            $this->context->statusText = __('main_page_content.gamePage.statusMessages.drawFinishMessage',
+                ['money' => $this->context->money/2]);
+            $this->context->isVictory = 0;
         }
-        $this->context->buttons = ['equal', 'equalAndAdd', 'gameOver'];
-        $this->context->money        = $this->context->extractMoney();
-        $this->context->bankMessages = $this->context->extractBankMessages();
-        // $this->context->buttons = ['then'];
 
+        $this->context->buttons = ['then'];
         // $this->context->dump    = $this->context->opponentUser->id;
     }
 
@@ -113,6 +118,9 @@ class FinishState extends State
             $this->saveWinner($this->context->opponentUser->id);
         }
 
+        $this->saveUserPoints($currenUserPoints, $this->context->currentUser->id);
+        $this->saveUserPoints($opponentUserPoints, $this->context->opponentUser->id);
+
         // сохранить комбинации игроков
         $currentUserCombination  = $gameBones['combinations']['currentUserCombination'];
         $opponentUserCombination = $gameBones['combinations']['opponentUserCombination'];
@@ -139,6 +147,14 @@ class FinishState extends State
     }
 
     /**
+     * Сохранить очки игрока
+     */
+    private function saveUserPoints(string $points, string $userId): void
+    {
+        Redis::set($this->context->roomName . ':' . $userId . ":points", $points);
+    }
+
+    /**
      * Извлечь комбинацию текущего пользователя
      */
     private function getUserCombinationFromRedis(): string
@@ -152,6 +168,22 @@ class FinishState extends State
     private function getOpponentCombinationFromRedis(): string
     {
         return Redis::get($this->context->roomName . ':' . $this->context->opponentUser->id . ":combination");
+    }
+
+    /**
+     * Извлечь очки текущего пользователя
+     */
+    private function getUserPointsFromRedis(): string
+    {
+        return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":points");
+    }
+
+    /**
+     * Извлечь очки пользователя-оппонента
+     */
+    private function getOpponentPointsFromRedis(): string
+    {
+        return Redis::get($this->context->roomName . ':' . $this->context->opponentUser->id . ":points");
     }
 
     /**

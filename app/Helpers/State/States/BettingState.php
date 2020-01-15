@@ -14,7 +14,6 @@ class BettingState extends State
         $this->context->addOpponentMoney        = $this->getAddOpponentMoney();
         $this->context->increaseAfterEqualMoney = $this->context->getIncreaseAfterEqualMoney();
 
-        $this->context->dump = $message;
         if ($message === 'changeFinished') {
             $this->context->statusText = __('main_page_content.gamePage.statusMessages.bettingMessage1',
                 ['user' => $this->context->opponentUser->name]);
@@ -29,12 +28,17 @@ class BettingState extends State
             $this->context->statusText = __('main_page_content.gamePage.statusMessages.checkMessageOpponent',
                 ['user' => $this->context->opponentUser->name]);
             $this->context->buttons = ['addMoney', 'noMoney'];
-        } elseif ($message === 'equelAndAdd') {
+        } elseif ($message === 'equalAndAdd') {
             $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalAndAddMoney',
                 ['user'  => $this->context->opponentUser->name,
                     'money1' => $this->context->addOpponentMoney,
                     'money2' => $this->context->increaseAfterEqualMoney]);
             $this->context->buttons = ['equal', 'equalAndAdd', 'gameOver'];
+        } elseif ($message === 'equal') {
+            $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalMoney',
+                ['user'  => $this->context->opponentUser->name,
+                    'money1' => $this->context->addOpponentMoney]);
+            $this->context->buttons = [];
         }
 
         $this->context->money        = $this->context->extractMoney();
@@ -92,24 +96,24 @@ class BettingState extends State
 
     public function equalAndAdd()
     {
-        $moneyEquel = $this->context->request->moneyEquel;
+        $moneyequal = $this->context->request->moneyequal;
         $moneyAdd   = $this->context->request->moneyAdd;
 
-        $fullMoney = $moneyEquel + $moneyAdd;
+        $fullMoney = $moneyequal + $moneyAdd;
 
         $this->context->money += $fullMoney;
         $this->context->saveMoney();
         $this->context->saveBankMessage($fullMoney);
-        $this->saveAddOpponetMoney($moneyEquel);
+        $this->saveAddOpponetMoney($moneyequal);
         $this->context->saveIncreaseAfterEqualMoney($moneyAdd);
 
         $waitingMessage = __('main_page_content.gamePage.statusMessages.addMoneyMessageCurrent2',
             ['user'  => $this->context->opponentUser->name,
-                'money1' => $moneyEquel, 'money2' => $moneyAdd]);
+                'money1' => $moneyequal, 'money2' => $moneyAdd]);
         $buttons = 'equal,equalAndAdd,gameOver';
 
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
-        \App\Events\SendFinishBettingStatus::dispatch($moneyEquel, $moneyAdd);
+        \App\Events\SendFinishBettingStatus::dispatch($moneyequal, $moneyAdd);
     }
 
     public function equal()
@@ -126,8 +130,7 @@ class BettingState extends State
         // $buttons = 'equal,equalAndAdd,gameOver';
 
         $this->context->updateState('FinishState');
-
-        // \App\Events\SendFinishBettingStatus::dispatch($money, '0');
+        \App\Events\SendFinishBettingStatus::dispatch($money, 'equal');
 
     }
 

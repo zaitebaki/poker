@@ -7,8 +7,10 @@
         </game-bank-component>
 
         <game-opponent-cards-component
-            v-if="gameFinishParameters"
-            :cards="gameFinishParameters.opponentUserCards">
+            v-if="vueGameParameters.opponentUserCards"
+            :cards="vueGameParameters.opponentUserCards"
+            :combination="vueGameParameters.opponentCombination"
+            :points="vueGameParameters.opponentPoints">
         </game-opponent-cards-component>
     </div>
 
@@ -29,13 +31,14 @@
         :indicator-status="vueGameParameters.indicator"
         :add-opponent-money="vueGameParameters.addOpponentMoney"
         :increase-after-equal-money="vueGameParameters.increaseAfterEqualMoney"
-        @update:parameters="updateParameters($event)"
-        @update:finish:parameters="updateFinishParameters($event)">
+        @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
     <game-user-cards-component
         v-if="vueGameParameters.userCards"
         :cards="vueGameParameters.userCards"
+        :combination="vueGameParameters.userCombination"
+        :points="vueGameParameters.userPoints"
         @change:active:cards:storage="changeActiveCardsStorage($event)">
     </game-user-cards-component>
 
@@ -62,7 +65,18 @@ export default {
             cards: null,
             vueGameParameters: this.gameParameters,
             activeCardsStorage: [true, true, true, true, true],
-            gameFinishParameters: null
+            combinationTable: {
+                'POKER': 'Покер',
+                'STREETFLASH': 'Стрит флеш',
+                'KARE': 'Каре',
+                'FULLHOUSE': 'Фулхауз',
+                'FLASH': 'Флеш',
+                'STREET': 'Стрит',
+                'TROIKA': 'Тройка',
+                'TWO_PAIRS': 'Две пары',
+                'DVOIKA': 'Двойка',
+                'WASTE': 'Хлам'
+            },
         }
     },
     computed: {
@@ -102,7 +116,7 @@ export default {
             })
             .listen('SendFinishChangeStatus', ({data}) => {
                 console.log("Hello from SendFinishChangeStatus!!!");
-                axios.post('/game/room/1', { 
+                axios.post('/game/room/1', {
                     updateState: 'BettingState',
                     roomName: 'room_1',
                     correctionStatusMessage: 'changeFinished'}).then( (response) => {
@@ -114,17 +128,16 @@ export default {
             })
             .listen('SendFinishBettingStatus', ({money, moneyIncrease}) => {
                 console.log("Hello from SendFinishBettingStatus!!!");
-
-                console.log(`money - ${money}`);
-                console.log(`moneyIncrease - ${moneyIncrease}`);
-
                 let correctionMessage;
 
-                if (moneyIncrease !== '0') {
-                    correctionMessage = "equelAndAdd"
+                if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
+                    correctionMessage = "equalAndAdd"
                 }
-                else if (money === '0') {
+                else if (money === '0' && moneyIncrease === '0') {
                     correctionMessage = 'check';
+                }
+                else if (money !== '0' && moneyIncrease === 'equal') {
+                    correctionMessage = 'equal';
                 }
                 else {
                     correctionMessage = 'betFinished';
@@ -135,7 +148,10 @@ export default {
                     correctionStatusMessage: correctionMessage,
                     money: money,
                     moneyIncrease: moneyIncrease}).then( (response) => {
-                    this.vueGameParameters = response.data.gameParameters;
+                        this.vueGameParameters = response.data.gameParameters;
+                        if (correctionMessage === "equal") {
+                            this.senFinishGameRequest();
+                        }
                 }).catch(function (error) {
                     console.log(error);
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -146,16 +162,20 @@ export default {
         updateParameters($event) {
             this.vueGameParameters = $event;
         },
-        updateFinishParameters($event) {
-            this.gameFinishParameters = $event;
-
-            console.log(this.gameFinishParameters);
-        },
         changeActiveCardsStorage($event) {
             const index = $event;
             this.activeCardsStorage[index] = !this.activeCardsStorage[index];
-
-            console.log(this.activeCardsStorage);
+        },
+        senFinishGameRequest() {
+            axios.post('/game/room/1', {
+                updateState: 'FinishState',
+                roomName: 'room_1'
+                }).then( (response) => {
+                    this.vueGameParameters = response.data.gameParameters;
+            }).catch(function (error) {
+                console.log(error);
+                alert('Не удалось отправить запрос. Повторите попытку позже.');
+            });
         }
     },
     components: {

@@ -2002,6 +2002,8 @@ __webpack_require__.r(__webpack_exports__);
     changeCards: function changeCards(change) {
       var _this2 = this;
 
+      console.log(this.activeCardsStorage);
+
       if (change !== 'no:change' && this.isNotChoosingCardsForChanging()) {
         return;
       }
@@ -2057,7 +2059,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/game/room/1', {
         initAction: 'equalAndAdd',
         roomName: 'room_1',
-        moneyEquel: this.getCurrentAddingMoney(),
+        moneyequal: this.getCurrentAddingMoney(),
         moneyAdd: this.moneySumForAdd
       }).then(function (response) {
         _this5.$emit('update:parameters', response.data.gameParameters);
@@ -2073,11 +2075,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/game/room/1', {
         initAction: 'equal',
         roomName: 'room_1',
-        money: this.addOpponentMoney
+        money: this.getCurrentAddingMoney()
       }).then(function (response) {
         console.log(response.data.gameFinishedParameters);
 
-        _this6.$emit('update:finish:parameters', response.data.gameFinishedParameters);
+        _this6.$emit('update:parameters', response.data.gameFinishedParameters);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2196,9 +2198,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    cards: Array
+    cards: Array,
+    combination: String,
+    points: String
   },
   data: function data() {
     return {
@@ -2208,35 +2216,22 @@ __webpack_require__.r(__webpack_exports__);
         'v': 'vini',
         'k': 'kresti',
         'j': 'joker'
-      },
-      changeThisCard: false,
-      imgElementsClasses: [false, false, false, false, false],
-      isAlreadeChangedCards: false,
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      }
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.$root.$on('clean:cards:classes', function () {
-      _this.imgElementsClasses = [false, false, false, false, false];
-      _this.isAlreadeChangedCards = true;
-    });
-    this.handleSwitcher = this.normalSwitcher;
+  computed: {
+    printCombination: function printCombination() {
+      var table = this.$parent.combinationTable;
+      var rusCombination = table[this.combination];
+      return rusCombination + ' —  ' + this.points;
+    }
   },
+  mounted: function mounted() {},
   methods: {
     getPathToImage: function getPathToImage(index) {
       var cardCode = this.cards[index];
       var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".jpg");
       return "/assets/images/cards/".concat(fileCardName);
-    },
-    switcher: function switcher(index) {
-      if (this.isAlreadeChangedCards === false) this.normalSwitcher(index);
-    },
-    normalSwitcher: function normalSwitcher(index) {
-      this.$emit('change:active:cards:storage', index);
-      var newValue = !this.imgElementsClasses[index];
-      this.$set(this.imgElementsClasses, index, newValue);
     }
   }
 });
@@ -2338,9 +2333,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    cards: Array
+    cards: Array,
+    combination: String,
+    points: String
   },
   data: function data() {
     return {
@@ -2353,16 +2355,23 @@ __webpack_require__.r(__webpack_exports__);
       },
       changeThisCard: false,
       imgElementsClasses: [false, false, false, false, false],
-      isAlreadeChangedCards: false,
+      isAlreadyChangedCards: false,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
+  },
+  computed: {
+    printCombination: function printCombination() {
+      var table = this.$parent.combinationTable;
+      var rusCombination = table[this.combination];
+      return rusCombination + ' —  ' + this.points;
+    }
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$root.$on('clean:cards:classes', function () {
       _this.imgElementsClasses = [false, false, false, false, false];
-      _this.isAlreadeChangedCards = true;
+      _this.isAlreadyChangedCards = true;
     });
     this.handleSwitcher = this.normalSwitcher;
   },
@@ -2373,7 +2382,7 @@ __webpack_require__.r(__webpack_exports__);
       return "/assets/images/cards/".concat(fileCardName);
     },
     switcher: function switcher(index) {
-      if (this.isAlreadeChangedCards === false) this.normalSwitcher(index);
+      if (this.isAlreadyChangedCards === false) this.normalSwitcher(index);
     },
     normalSwitcher: function normalSwitcher(index) {
       this.$emit('change:active:cards:storage', index);
@@ -2445,6 +2454,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2463,7 +2475,18 @@ __webpack_require__.r(__webpack_exports__);
       cards: null,
       vueGameParameters: this.gameParameters,
       activeCardsStorage: [true, true, true, true, true],
-      gameFinishParameters: null
+      combinationTable: {
+        'POKER': 'Покер',
+        'STREETFLASH': 'Стрит флеш',
+        'KARE': 'Каре',
+        'FULLHOUSE': 'Фулхауз',
+        'FLASH': 'Флеш',
+        'STREET': 'Стрит',
+        'TROIKA': 'Тройка',
+        'TWO_PAIRS': 'Две пары',
+        'DVOIKA': 'Двойка',
+        'WASTE': 'Хлам'
+      }
     };
   },
   computed: {
@@ -2529,14 +2552,14 @@ __webpack_require__.r(__webpack_exports__);
       var money = _ref5.money,
           moneyIncrease = _ref5.moneyIncrease;
       console.log("Hello from SendFinishBettingStatus!!!");
-      console.log("money - ".concat(money));
-      console.log("moneyIncrease - ".concat(moneyIncrease));
       var correctionMessage;
 
-      if (moneyIncrease !== '0') {
-        correctionMessage = "equelAndAdd";
-      } else if (money === '0') {
+      if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
+        correctionMessage = "equalAndAdd";
+      } else if (money === '0' && moneyIncrease === '0') {
         correctionMessage = 'check';
+      } else if (money !== '0' && moneyIncrease === 'equal') {
+        correctionMessage = 'equal';
       } else {
         correctionMessage = 'betFinished';
       }
@@ -2549,6 +2572,10 @@ __webpack_require__.r(__webpack_exports__);
         moneyIncrease: moneyIncrease
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
+
+        if (correctionMessage === "equal") {
+          _this.senFinishGameRequest();
+        }
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2559,14 +2586,22 @@ __webpack_require__.r(__webpack_exports__);
     updateParameters: function updateParameters($event) {
       this.vueGameParameters = $event;
     },
-    updateFinishParameters: function updateFinishParameters($event) {
-      this.gameFinishParameters = $event;
-      console.log(this.gameFinishParameters);
-    },
     changeActiveCardsStorage: function changeActiveCardsStorage($event) {
       var index = $event;
       this.activeCardsStorage[index] = !this.activeCardsStorage[index];
-      console.log(this.activeCardsStorage);
+    },
+    senFinishGameRequest: function senFinishGameRequest() {
+      var _this2 = this;
+
+      axios.post('/game/room/1', {
+        updateState: 'FinishState',
+        roomName: 'room_1'
+      }).then(function (response) {
+        _this2.vueGameParameters = response.data.gameParameters;
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
     }
   },
   components: {
@@ -55054,6 +55089,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "uk-width-2-3@m" }, [
+    _c("h4", [_vm._v("Карты соперника")]),
+    _vm._v(" "),
     _c(
       "div",
       { staticClass: "uk-flex" },
@@ -55070,7 +55107,15 @@ var render = function() {
         })
       ],
       2
-    )
+    ),
+    _vm._v(" "),
+    _c("div", [
+      _vm.combination
+        ? _c("p", { staticClass: "uk-text" }, [
+            _vm._v(_vm._s(_vm.printCombination))
+          ])
+        : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = []
@@ -55179,29 +55224,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "uk-flex" },
-    [
-      _vm._l(_vm.cards, function(card, index) {
-        return [
-          _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
-            _c("img", {
-              staticClass: "card__img",
-              class: { card__img_change: _vm.imgElementsClasses[index] },
-              attrs: { src: _vm.getPathToImage(index), alt: "" },
-              on: {
-                click: function($event) {
-                  return _vm.switcher(index)
-                }
-              }
-            })
+  return _c("div", [
+    _c("div", [
+      _vm.combination
+        ? _c("p", { staticClass: "uk-text" }, [
+            _vm._v(_vm._s(_vm.printCombination))
           ])
-        ]
-      })
-    ],
-    2
-  )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "uk-flex" },
+      [
+        _vm._l(_vm.cards, function(card, index) {
+          return [
+            _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
+              _c("img", {
+                staticClass: "card__img",
+                class: { card__img_change: _vm.imgElementsClasses[index] },
+                attrs: { src: _vm.getPathToImage(index), alt: "" },
+                on: {
+                  click: function($event) {
+                    return _vm.switcher(index)
+                  }
+                }
+              })
+            ])
+          ]
+        })
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55240,9 +55295,13 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _vm.gameFinishParameters
+          _vm.vueGameParameters.opponentUserCards
             ? _c("game-opponent-cards-component", {
-                attrs: { cards: _vm.gameFinishParameters.opponentUserCards }
+                attrs: {
+                  cards: _vm.vueGameParameters.opponentUserCards,
+                  combination: _vm.vueGameParameters.opponentCombination,
+                  points: _vm.vueGameParameters.opponentPoints
+                }
               })
             : _vm._e()
         ],
@@ -55271,16 +55330,17 @@ var render = function() {
         on: {
           "update:parameters": function($event) {
             return _vm.updateParameters($event)
-          },
-          "update:finish:parameters": function($event) {
-            return _vm.updateFinishParameters($event)
           }
         }
       }),
       _vm._v(" "),
       _vm.vueGameParameters.userCards
         ? _c("game-user-cards-component", {
-            attrs: { cards: _vm.vueGameParameters.userCards },
+            attrs: {
+              cards: _vm.vueGameParameters.userCards,
+              combination: _vm.vueGameParameters.userCombination,
+              points: _vm.vueGameParameters.userPoints
+            },
             on: {
               "change:active:cards:storage": function($event) {
                 return _vm.changeActiveCardsStorage($event)
