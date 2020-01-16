@@ -21,7 +21,7 @@ class FinishState extends State
             $gameBones = Cards::getCombintationsAndPoits($this->context->userCards, $this->context->opponentUserCards);
             $this->summarizeGameResults($gameBones);
         }
-        
+
         $this->context->userCombination     = $this->getUserCombinationFromRedis();
         $this->context->opponentCombination = $this->getOpponentCombinationFromRedis();
         $this->context->userPoints          = $this->getUserPointsFromRedis();
@@ -34,16 +34,15 @@ class FinishState extends State
         // если игра закончилась дропом карт одним из игроков
         $statusGame = $this->getEndStatusGame();
         if ($statusGame !== false) {
-            if($statusGame === "drop") {
-                $loseMoney = $this->getLoseMoney();
+            if ($statusGame === "drop") {
+                $loseMoney                 = $this->getDropMoney();
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage2',
-                ['money' => $loseMoney]);
+                    ['money' => $loseMoney]);
                 $this->context->isVictory = -1;
-            }
-            elseif ($statusGame === "winDrop") {
-                $victoryMoney = getVictoryMoney();
+            } elseif ($statusGame === "winDrop") {
+                $victoryMoney              = $this->getDropMoney();
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage1',
-                ['user' => $this->context->opponentUser->name,'money' => $victoryMoney]);
+                    ['user' => $this->context->opponentUser->name, 'money' => $victoryMoney]);
                 $this->context->isVictory = 1;
             }
         }
@@ -148,8 +147,8 @@ class FinishState extends State
         $currentUserCombination  = $gameBones['combinations']['currentUserCombination'];
         $opponentUserCombination = $gameBones['combinations']['opponentUserCombination'];
 
-        $this->saveUserCombination($currentUserCombination, $this->context->currentUser->id);
-        $this->saveUserCombination($opponentUserCombination, $this->context->opponentUser->id);
+        $this->context->saveUserCombination($currentUserCombination, $this->context->currentUser->id);
+        $this->context->saveUserCombination($opponentUserCombination, $this->context->opponentUser->id);
     }
 
     /**
@@ -195,18 +194,21 @@ class FinishState extends State
     /**
      * Извлечь статус окончания игры при дропе
      */
-    public function getEndStatusGame(): string
+    public function getEndStatusGame()
     {
+        $isBool = Redis::exists($this->context->roomName . ':' . $this->context->currentUser->id . ":endGameStatus");
+        if ($isBool === 0) {
+            return false;
+        }
+
         return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":endGameStatus");
     }
 
     /**
-     * Извлечь количество проигранных денег при дропе
+     * Извлечь количество проигранных/выигранных денег при дропе
      */
-    public function getLoseMoney(): string
+    public function getDropMoney(): string
     {
         return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":dropGameMoney");
     }
 }
-
-

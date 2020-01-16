@@ -129,8 +129,13 @@ export default {
             })
             .listen('SendFinishBettingStatus', ({money, moneyIncrease}) => {
                 console.log("Hello from SendFinishBettingStatus!!!");
-                let correctionMessage;
 
+                if(moneyIncrease === 'drop') {
+                    this.senFinishGameRequest();
+                    return;
+                }
+
+                let correctionMessage;
                 if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
                     correctionMessage = "equalAndAdd"
                 }
@@ -138,7 +143,12 @@ export default {
                     correctionMessage = 'check';
                 }
                 else if (money !== '0' && moneyIncrease === 'equal') {
+                    moneyIncrease = '';
                     correctionMessage = 'equal';
+                }
+                else if (money !== '0' && moneyIncrease === 'drop') {
+                    moneyIncrease = '';
+                    correctionMessage = 'drop';
                 }
                 else {
                     correctionMessage = 'betFinished';
@@ -150,7 +160,7 @@ export default {
                     money: money,
                     moneyIncrease: moneyIncrease}).then( (response) => {
                         this.vueGameParameters = response.data.gameParameters;
-                        if (correctionMessage === "equal") {
+                        if (correctionMessage === "equal" || correctionMessage === "drop") {
                             this.senFinishGameRequest();
                         }
                 }).catch(function (error) {

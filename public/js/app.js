@@ -2090,7 +2090,6 @@ __webpack_require__.r(__webpack_exports__);
     gameOver: function gameOver() {
       var _this7 = this;
 
-      console.log(this.getDropMoney());
       axios.post('/game/room/1', {
         initAction: 'gameOver',
         roomName: 'room_1',
@@ -2560,6 +2559,13 @@ __webpack_require__.r(__webpack_exports__);
       var money = _ref5.money,
           moneyIncrease = _ref5.moneyIncrease;
       console.log("Hello from SendFinishBettingStatus!!!");
+
+      if (moneyIncrease === 'drop') {
+        _this.senFinishGameRequest();
+
+        return;
+      }
+
       var correctionMessage;
 
       if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
@@ -2567,7 +2573,11 @@ __webpack_require__.r(__webpack_exports__);
       } else if (money === '0' && moneyIncrease === '0') {
         correctionMessage = 'check';
       } else if (money !== '0' && moneyIncrease === 'equal') {
+        moneyIncrease = '';
         correctionMessage = 'equal';
+      } else if (money !== '0' && moneyIncrease === 'drop') {
+        moneyIncrease = '';
+        correctionMessage = 'drop';
       } else {
         correctionMessage = 'betFinished';
       }
@@ -2581,7 +2591,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
 
-        if (correctionMessage === "equal") {
+        if (correctionMessage === "equal" || correctionMessage === "drop") {
           _this.senFinishGameRequest();
         }
       })["catch"](function (error) {

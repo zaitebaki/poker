@@ -218,7 +218,6 @@ export default {
 
         // сбросить карты
         gameOver() {
-            console.log(this.getDropMoney());
             axios.post('/game/room/1', {
                 initAction: 'gameOver',
                 roomName: 'room_1',

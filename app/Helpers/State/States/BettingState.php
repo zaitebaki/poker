@@ -125,7 +125,6 @@ class BettingState extends State
         $this->context->saveBankMessage($money);
         $this->context->updateState('FinishState');
         \App\Events\SendFinishBettingStatus::dispatch($money, 'equal');
-
     }
 
     public function gameOver()
@@ -151,11 +150,13 @@ class BettingState extends State
         $this->context->saveUserCombination($currentUserCombination, $this->context->currentUser->id);
         $this->context->saveUserCombination($opponentUserCombination, $this->context->opponentUser->id);
 
-        $this->saveUserEndGameStatus('drop');
-        $this->saveUserLoseMoney($loseMoney);
+        $this->saveUserEndGameStatus($this->context->currentUser->id, 'drop');
+        $this->saveUserEndGameStatus($this->context->opponentUser->id, 'winDrop');
+        $this->saveDropMoney($this->context->currentUser->id, $loseMoney);
+        $this->saveDropMoney($this->context->opponentUser->id, $loseMoney);
 
         $this->context->updateState('FinishState');
-        // \App\Events\SendFinishBettingStatus::dispatch($money, 'gameOver');
+        \App\Events\SendFinishBettingStatus::dispatch($loseMoney, 'drop');
     }
 
     private function getCorrectionStatusMessage()
@@ -208,15 +209,15 @@ class BettingState extends State
     /**
      * Сохранить статус игры в случае дропа
      */
-    private function saveUserEndGameStatus(string $status) {
-        Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":endGameStatus", $status);
+    private function saveUserEndGameStatus(int $idUser, string $status) {
+        Redis::set($this->context->roomName . ':' . $idUser . ":endGameStatus", $status);
     }
 
     /**
-     * Сохранить деньги, которые были проиграны при дропе
+     * Сохранить деньги, которые были проиграны/выиграны при дропе
      */
-    private function saveUserLoseMoney(int $money) {
-        Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":dropGameMoney", $money);
+    private function saveDropMoney(int $idUser, int $money) {
+        Redis::set($this->context->roomName . ':' . $idUser . ":dropGameMoney", $money);
     }
 
     
