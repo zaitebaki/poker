@@ -110,7 +110,7 @@ class GameController extends \App\Http\Controllers\SuperController
                 $game->$method();
 
                 // конец игры
-                if ($request->initAction === 'equal') {
+                if ($request->initAction === 'equal' || $request->initAction === 'gameOver') {
                     return json_encode(array('gameFinishedParameters' => $game->getFinishGameParameters()));
                 }
 

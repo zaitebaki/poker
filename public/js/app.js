@@ -1951,6 +1951,7 @@ __webpack_require__.r(__webpack_exports__);
     user: Object,
     activeCardsStorage: Array,
     indicatorStatus: String,
+    money: String,
     addOpponentMoney: String,
     increaseAfterEqualMoney: String
   },
@@ -2089,12 +2090,15 @@ __webpack_require__.r(__webpack_exports__);
     gameOver: function gameOver() {
       var _this7 = this;
 
+      console.log(this.getDropMoney());
       axios.post('/game/room/1', {
         initAction: 'gameOver',
         roomName: 'room_1',
-        money: this.moneySumForAdd
+        money: this.getDropMoney()
       }).then(function (response) {
-        _this7.$emit('update:parameters', response.data.gameParameters);
+        _this7.$emit('update:parameters', response.data.gameFinishedParameters);
+
+        console.log(response.data.gameFinishedParameters);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2131,6 +2135,9 @@ __webpack_require__.r(__webpack_exports__);
         console.log("Зайте");
         return this.addOpponentMoney;
       }
+    },
+    getDropMoney: function getDropMoney() {
+      return (+this.money - +this.getCurrentAddingMoney()) / 2;
     },
     slideStart: function slideStart() {
       console.log('slideStarted');
@@ -2410,6 +2417,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
 /* harmony import */ var _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GameIndicatorComponent */ "./resources/js/components/game-component/GameIndicatorComponent.vue");
+//
 //
 //
 //
@@ -55323,6 +55331,7 @@ var render = function() {
           user: _vm.user,
           "active-cards-storage": _vm.activeCardsStorage,
           "indicator-status": _vm.vueGameParameters.indicator,
+          money: _vm.vueGameParameters.money,
           "add-opponent-money": _vm.vueGameParameters.addOpponentMoney,
           "increase-after-equal-money":
             _vm.vueGameParameters.increaseAfterEqualMoney

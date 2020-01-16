@@ -4,6 +4,7 @@ namespace App\Helpers\State\States;
 
 use App\Helpers\State\State;
 use Illuminate\Support\Facades\Redis;
+use App\Helpers\Cards\Cards;
 
 class BettingState extends State
 {
@@ -122,13 +123,6 @@ class BettingState extends State
         $this->context->money += $money;
         $this->context->saveMoney();
         $this->context->saveBankMessage($money);
-        // $this->saveAddOpponetMoney($money);
-
-        // $waitingMessage = __('main_page_content.gamePage.statusMessages.addMoneyMessageCurrent',
-        //     ['user' => $this->context->opponentUser->name,
-        //         'money' => $money]);
-        // $buttons = 'equal,equalAndAdd,gameOver';
-
         $this->context->updateState('FinishState');
         \App\Events\SendFinishBettingStatus::dispatch($money, 'equal');
 
@@ -136,6 +130,32 @@ class BettingState extends State
 
     public function gameOver()
     {
+        $this->context->userCards         = $this->context->extractUserCardsFromRedis();
+        $this->context->opponentUserCards = $this->context->extractOpponentUserCardsFromRedis();
+        $loseMoney = $this->context->request->money;
+
+        $gameBones = Cards::getCombintationsAndPoits($this->context->userCards, $this->context->opponentUserCards);
+        $this->context->saveWinner($this->context->opponentUser->id);
+
+        // определить победителя
+        $currenUserPoints   = $gameBones['points']['currentUserPoints'];
+        $opponentUserPoints = $gameBones['points']['opponentUserPoints'];
+
+        $this->context->saveUserPoints($currenUserPoints, $this->context->currentUser->id);
+        $this->context->saveUserPoints($opponentUserPoints, $this->context->opponentUser->id);
+        
+        // сохранить комбинации игроков
+        $currentUserCombination  = $gameBones['combinations']['currentUserCombination'];
+        $opponentUserCombination = $gameBones['combinations']['opponentUserCombination'];
+        
+        $this->context->saveUserCombination($currentUserCombination, $this->context->currentUser->id);
+        $this->context->saveUserCombination($opponentUserCombination, $this->context->opponentUser->id);
+
+        $this->saveUserEndGameStatus('drop');
+        $this->saveUserLoseMoney($loseMoney);
+
+        $this->context->updateState('FinishState');
+        // \App\Events\SendFinishBettingStatus::dispatch($money, 'gameOver');
     }
 
     private function getCorrectionStatusMessage()
@@ -177,9 +197,27 @@ class BettingState extends State
         Redis::set($this->context->roomName . ":addOpponentMoney", $money);
     }
 
+    /**
+     * Извлечь деньги игрока-оппонента
+     */
     private function extractAddOpponentMoney()
     {
         return Redis::get($this->context->roomName . ":addOpponentMoney");
     }
 
+    /**
+     * Сохранить статус игры в случае дропа
+     */
+    private function saveUserEndGameStatus(string $status) {
+        Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":endGameStatus", $status);
+    }
+
+    /**
+     * Сохранить деньги, которые были проиграны при дропе
+     */
+    private function saveUserLoseMoney(int $money) {
+        Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":dropGameMoney", $money);
+    }
+
+    
 }

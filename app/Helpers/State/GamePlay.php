@@ -34,6 +34,8 @@ use Illuminate\Support\Facades\Redis;
 // room_1:winner
 // room_1:1:combination
 // room_1:1:points
+// room_1:1:endGameStatus - игра закончилась дропом
+// room_1:1:dropGameMoney
 
 class GamePlay
 {
@@ -320,5 +322,30 @@ class GamePlay
     public function extractIncreaseAfterEqualMoney()
     {
         return Redis::get($this->roomName . ":increaseAfterEqualMoney");
+    }
+
+    /**
+     * Сохранить id победителя в Redis,
+     * Сохранить 0 в случае ничьи
+     */
+    public function saveWinner(int $idUser): void
+    {
+        Redis::set($this->roomName . ":winner", $idUser);
+    }
+
+    /**
+     * Сохранить очки игрока
+     */
+    public function saveUserPoints(string $points, string $userId): void
+    {
+        Redis::set($this->roomName . ':' . $userId . ":points", $points);
+    }
+
+    /**
+     * Сохранить комбинацию игрока
+     */
+    public function saveUserCombination(string $combination, string $userId): void
+    {
+        Redis::set($this->roomName . ':' . $userId . ":combination", $combination);
     }
 }

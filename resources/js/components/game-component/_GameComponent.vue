@@ -29,6 +29,7 @@
         :user="user"
         :active-cards-storage="activeCardsStorage"
         :indicator-status="vueGameParameters.indicator"
+        :money="vueGameParameters.money"
         :add-opponent-money="vueGameParameters.addOpponentMoney"
         :increase-after-equal-money="vueGameParameters.increaseAfterEqualMoney"
         @update:parameters="updateParameters($event)">

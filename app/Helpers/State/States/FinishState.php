@@ -21,8 +21,7 @@ class FinishState extends State
             $gameBones = Cards::getCombintationsAndPoits($this->context->userCards, $this->context->opponentUserCards);
             $this->summarizeGameResults($gameBones);
         }
-
-        $winnerId                           = $this->getWinnerIdFromRedis();
+        
         $this->context->userCombination     = $this->getUserCombinationFromRedis();
         $this->context->opponentCombination = $this->getOpponentCombinationFromRedis();
         $this->context->userPoints          = $this->getUserPointsFromRedis();
@@ -31,23 +30,47 @@ class FinishState extends State
         $this->context->money        = $this->context->extractMoney();
         $this->context->bankMessages = $this->context->extractBankMessages();
 
-        // победа
-        if ($winnerId === (string) $this->context->currentUser->id) {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage',
-                ['money' => $this->context->money/2]);
-            $this->context->isVictory = 1;
+        // вычислить результат партии,
+        // если игра закончилась дропом карт одним из игроков
+        $statusGame = $this->getEndStatusGame();
+        if ($statusGame !== false) {
+            if($statusGame === "drop") {
+                $loseMoney = $this->getLoseMoney();
+                $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage2',
+                ['money' => $loseMoney]);
+                $this->context->isVictory = -1;
+            }
+            elseif ($statusGame === "winDrop") {
+                $victoryMoney = getVictoryMoney();
+                $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage1',
+                ['user' => $this->context->opponentUser->name,'money' => $victoryMoney]);
+                $this->context->isVictory = 1;
+            }
+        }
 
-            // проигрыш
-        } elseif ($winnerId === (string) $this->context->opponentUser->id) {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage',
-                ['money' => $this->context->money/2]);
-            $this->context->isVictory = -1;
+        // вычислить результат игры,
+        // если необходимо рассчитать комбинацию и очки
+        else {
+            $winnerId = $this->getWinnerIdFromRedis();
 
-            // ничья
-        } elseif ($winnerId === '0') {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.drawFinishMessage',
-                ['money' => $this->context->money/2]);
-            $this->context->isVictory = 0;
+            // победа
+            if ($winnerId === (string) $this->context->currentUser->id) {
+                $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage',
+                    ['money' => $this->context->money / 2]);
+                $this->context->isVictory = 1;
+
+                // проигрыш
+            } elseif ($winnerId === (string) $this->context->opponentUser->id) {
+                $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage',
+                    ['money' => $this->context->money / 2]);
+                $this->context->isVictory = -1;
+
+                // ничья
+            } elseif ($winnerId === '0') {
+                $this->context->statusText = __('main_page_content.gamePage.statusMessages.drawFinishMessage',
+                    ['money' => $this->context->money / 2]);
+                $this->context->isVictory = 0;
+            }
         }
 
         $this->context->buttons = ['then'];
@@ -111,15 +134,15 @@ class FinishState extends State
         $opponentUserPoints = $gameBones['points']['opponentUserPoints'];
 
         if ($currenUserPoints === $opponentUserPoints) {
-            $this->saveWinner('0');
+            $this->context->saveWinner('0');
         } elseif ($currenUserPoints > $opponentUserPoints) {
-            $this->saveWinner($this->context->currentUser->id);
+            $this->context->saveWinner($this->context->currentUser->id);
         } elseif ($currenUserPoints < $opponentUserPoints) {
-            $this->saveWinner($this->context->opponentUser->id);
+            $this->context->saveWinner($this->context->opponentUser->id);
         }
 
-        $this->saveUserPoints($currenUserPoints, $this->context->currentUser->id);
-        $this->saveUserPoints($opponentUserPoints, $this->context->opponentUser->id);
+        $this->context->saveUserPoints($currenUserPoints, $this->context->currentUser->id);
+        $this->context->saveUserPoints($opponentUserPoints, $this->context->opponentUser->id);
 
         // сохранить комбинации игроков
         $currentUserCombination  = $gameBones['combinations']['currentUserCombination'];
@@ -127,31 +150,6 @@ class FinishState extends State
 
         $this->saveUserCombination($currentUserCombination, $this->context->currentUser->id);
         $this->saveUserCombination($opponentUserCombination, $this->context->opponentUser->id);
-    }
-
-    /**
-     * Сохранить id победителя в Redis,
-     * Сохранить 0 в случае ничьи
-     */
-    private function saveWinner(int $idUser): void
-    {
-        Redis::set($this->context->roomName . ":winner", $idUser);
-    }
-
-    /**
-     * Сохранить комбинацию игрока
-     */
-    private function saveUserCombination(string $combination, string $userId): void
-    {
-        Redis::set($this->context->roomName . ':' . $userId . ":combination", $combination);
-    }
-
-    /**
-     * Сохранить очки игрока
-     */
-    private function saveUserPoints(string $points, string $userId): void
-    {
-        Redis::set($this->context->roomName . ':' . $userId . ":points", $points);
     }
 
     /**
@@ -193,4 +191,22 @@ class FinishState extends State
     {
         return Redis::get($this->context->roomName . ':winner');
     }
+
+    /**
+     * Извлечь статус окончания игры при дропе
+     */
+    public function getEndStatusGame(): string
+    {
+        return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":endGameStatus");
+    }
+
+    /**
+     * Извлечь количество проигранных денег при дропе
+     */
+    public function getLoseMoney(): string
+    {
+        return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":dropGameMoney");
+    }
 }
+
+

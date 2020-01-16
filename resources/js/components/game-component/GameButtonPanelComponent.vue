@@ -91,6 +91,7 @@ export default {
         user: Object,
         activeCardsStorage: Array,
         indicatorStatus: String,
+        money: String,
         addOpponentMoney: String,
         increaseAfterEqualMoney: String
     },
@@ -217,13 +218,16 @@ export default {
 
         // сбросить карты
         gameOver() {
+            console.log(this.getDropMoney());
             axios.post('/game/room/1', {
                 initAction: 'gameOver',
                 roomName: 'room_1',
-                money: this.moneySumForAdd
+                money: this.getDropMoney()
                 }).
             then( (response) => {
-                this.$emit('update:parameters', response.data.gameParameters);
+                this.$emit('update:parameters', response.data.gameFinishedParameters);
+
+                console.log(response.data.gameFinishedParameters);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -267,6 +271,9 @@ export default {
                 console.log("Зайте");
                 return this.addOpponentMoney;
             }
+        },
+        getDropMoney() {
+            return (+(this.money) - +(this.getCurrentAddingMoney()))/2;
         },
         slideStart () {
             console.log('slideStarted')
