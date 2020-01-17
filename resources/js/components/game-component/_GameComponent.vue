@@ -32,6 +32,7 @@
         :money="vueGameParameters.money"
         :add-opponent-money="vueGameParameters.addOpponentMoney"
         :increase-after-equal-money="vueGameParameters.increaseAfterEqualMoney"
+        :opponent-status-check="opponentStatusCheck"
         @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
@@ -40,6 +41,7 @@
         :cards="vueGameParameters.userCards"
         :combination="vueGameParameters.userCombination"
         :points="vueGameParameters.userPoints"
+        :is-already-changed-cards="vueGameParameters.isAlreadyChangedCards"
         @change:active:cards:storage="changeActiveCardsStorage($event)">
     </game-user-cards-component>
 
@@ -78,6 +80,7 @@ export default {
                 'DVOIKA': 'Двойка',
                 'WASTE': 'Хлам'
             },
+            opponentStatusCheck: false
         }
     },
     computed: {
@@ -130,8 +133,8 @@ export default {
             .listen('SendFinishBettingStatus', ({money, moneyIncrease}) => {
                 console.log("Hello from SendFinishBettingStatus!!!");
 
-                if(moneyIncrease === 'drop') {
-                    this.senFinishGameRequest();
+                if(moneyIncrease === 'drop' || moneyIncrease === 'opponentCheck') {
+                    this.sendFinishGameRequest();
                     return;
                 }
 
@@ -140,6 +143,7 @@ export default {
                     correctionMessage = "equalAndAdd"
                 }
                 else if (money === '0' && moneyIncrease === '0') {
+                    this.opponentStatusCheck = true;
                     correctionMessage = 'check';
                 }
                 else if (money !== '0' && moneyIncrease === 'equal') {
@@ -161,7 +165,7 @@ export default {
                     moneyIncrease: moneyIncrease}).then( (response) => {
                         this.vueGameParameters = response.data.gameParameters;
                         if (correctionMessage === "equal" || correctionMessage === "drop") {
-                            this.senFinishGameRequest();
+                            this.sendFinishGameRequest();
                         }
                 }).catch(function (error) {
                     console.log(error);
@@ -177,7 +181,7 @@ export default {
             const index = $event;
             this.activeCardsStorage[index] = !this.activeCardsStorage[index];
         },
-        senFinishGameRequest() {
+        sendFinishGameRequest() {
             axios.post('/game/room/1', {
                 updateState: 'FinishState',
                 roomName: 'room_1'

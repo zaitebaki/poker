@@ -11,12 +11,12 @@ class StartedGameState extends State
     public function __construct($context)
     {
         parent::__construct($context);
-        $this->context->buttons    = ['changeCards', 'notChange'];
-        $this->context->statusText = __('main_page_content.gamePage.statusMessages.startedMessage');
-        $this->context->indicator  = 'ready';
-        $this->context->money      = $this->context->extractMoney();
+        $this->context->buttons      = ['changeCards', 'notChange'];
+        $this->context->statusText   = __('main_page_content.gamePage.statusMessages.startedMessage');
+        $this->context->indicator    = 'ready';
+        $this->context->money        = $this->context->extractMoney();
         $this->context->bankMessages = $this->context->extractBankMessages();
-        $this->context->userCards  = $this->context->extractUserCardsFromRedis();
+        $this->context->userCards    = $this->context->extractUserCardsFromRedis();
 
         $keyStorage  = $this->context->getKeyStorageForCards();
         $this->cards = new Cards($keyStorage);
@@ -37,7 +37,7 @@ class StartedGameState extends State
     public function startGame()
     {
     }
-    
+
     public function addMoney()
     {
     }
@@ -45,7 +45,7 @@ class StartedGameState extends State
     public function check()
     {
     }
-    
+
     public function equalAndAdd()
     {
     }
@@ -96,6 +96,8 @@ class StartedGameState extends State
             $buttons = 'equal,equalAndAdd,gameOver';
             $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
         }
+
+        $this->context->saveChangedCardsFlag();
     }
 
     private function updateUserCards($startIndex, $cntIndexes, $indexesArr)

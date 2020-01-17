@@ -23,7 +23,8 @@ export default {
     props: {
         cards: Array,
         combination: String,
-        points: String
+        points: String,
+        isAlreadyChangedCards: Boolean
     },
     data() {
         return {
@@ -36,7 +37,7 @@ export default {
             },
             changeThisCard: false,
             imgElementsClasses: [false, false, false, false, false],
-            isAlreadyChangedCards: false,
+            changedCardsFlag: this.isAlreadyChangedCards,
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     },
@@ -50,7 +51,7 @@ export default {
     mounted() {
         this.$root.$on('clean:cards:classes', () => {
             this.imgElementsClasses = [false, false, false, false, false];
-            this.isAlreadyChangedCards = true;
+            this.changedCardsFlag = true;
         });
 
         this.handleSwitcher = this.normalSwitcher;
@@ -62,7 +63,7 @@ export default {
             return `/assets/images/cards/${fileCardName}`;
         },
         switcher(index) {
-            if(this.isAlreadyChangedCards === false) this.normalSwitcher(index);
+            if(this.changedCardsFlag === false) this.normalSwitcher(index);
         },
         normalSwitcher(index) {
             this.$emit('change:active:cards:storage', index);

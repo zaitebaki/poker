@@ -2,9 +2,9 @@
 
 namespace App\Helpers\State\States;
 
+use App\Helpers\Cards\Cards;
 use App\Helpers\State\State;
 use Illuminate\Support\Facades\Redis;
-use App\Helpers\Cards\Cards;
 
 class BettingState extends State
 {
@@ -95,6 +95,12 @@ class BettingState extends State
         \App\Events\SendFinishBettingStatus::dispatch('0', '0');
     }
 
+    public function opponentCheck()
+    {
+        $this->context->updateState('FinishState');
+        \App\Events\SendFinishBettingStatus::dispatch('0', 'opponentCheck');
+    }
+
     public function equalAndAdd()
     {
         $moneyequal = $this->context->request->moneyequal;
@@ -131,7 +137,7 @@ class BettingState extends State
     {
         $this->context->userCards         = $this->context->extractUserCardsFromRedis();
         $this->context->opponentUserCards = $this->context->extractOpponentUserCardsFromRedis();
-        $loseMoney = $this->context->request->money;
+        $loseMoney                        = $this->context->request->money;
 
         $gameBones = Cards::getCombintationsAndPoits($this->context->userCards, $this->context->opponentUserCards);
         $this->context->saveWinner($this->context->opponentUser->id);
@@ -142,11 +148,11 @@ class BettingState extends State
 
         $this->context->saveUserPoints($currenUserPoints, $this->context->currentUser->id);
         $this->context->saveUserPoints($opponentUserPoints, $this->context->opponentUser->id);
-        
+
         // сохранить комбинации игроков
         $currentUserCombination  = $gameBones['combinations']['currentUserCombination'];
         $opponentUserCombination = $gameBones['combinations']['opponentUserCombination'];
-        
+
         $this->context->saveUserCombination($currentUserCombination, $this->context->currentUser->id);
         $this->context->saveUserCombination($opponentUserCombination, $this->context->opponentUser->id);
 
@@ -209,16 +215,17 @@ class BettingState extends State
     /**
      * Сохранить статус игры в случае дропа
      */
-    private function saveUserEndGameStatus(int $idUser, string $status) {
+    private function saveUserEndGameStatus(int $idUser, string $status)
+    {
         Redis::set($this->context->roomName . ':' . $idUser . ":endGameStatus", $status);
     }
 
     /**
      * Сохранить деньги, которые были проиграны/выиграны при дропе
      */
-    private function saveDropMoney(int $idUser, int $money) {
+    private function saveDropMoney(int $idUser, int $money)
+    {
         Redis::set($this->context->roomName . ':' . $idUser . ":dropGameMoney", $money);
     }
 
-    
 }

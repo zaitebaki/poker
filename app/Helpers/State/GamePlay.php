@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:points
 // room_1:1:endGameStatus - игра закончилась дропом
 // room_1:1:dropGameMoney
+// room_1:1:isAlreadyChangedCards
 
 class GamePlay
 {
@@ -129,7 +130,8 @@ class GamePlay
             'bankMessages'            => $this->bankMessages,
             'addOpponentMoney'        => (string) $this->addOpponentMoney,
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
-            'dump'                    => $this->dump,
+            'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
+            // 'dump'                    => $this->dump,
         );
     }
 
@@ -147,12 +149,8 @@ class GamePlay
             'bankMessages'        => $this->bankMessages,
             'userPoints' => $this->userPoints,
             'opponentPoints' => $this->opponentPoints,
-            // 'indicator'               => $this->indicator,
-            // 'money'                   => (string) $this->money,
-            // 'bankMessages'            => $this->bankMessages,
-            // 'addOpponentMoney'        => (string) $this->addOpponentMoney,
-            // 'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
-            'dump'                => $this->dump,
+            'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
+            // 'dump'                => $this->dump
         );
     }
 
@@ -184,6 +182,11 @@ class GamePlay
     public function check()
     {
         return $this->state->check();
+    }
+
+    public function opponentCheck()
+    {
+        return $this->state->opponentCheck();
     }
 
     public function equalAndAdd()
@@ -347,5 +350,24 @@ class GamePlay
     public function saveUserCombination(string $combination, string $userId): void
     {
         Redis::set($this->roomName . ':' . $userId . ":combination", $combination);
+    }
+
+    /**
+     * Получить значение флага -
+     * произошел ли обмен картами
+     */
+    private function getAlreadyChangedCardsStatus()
+    {
+        $flag = Redis::exists($this->roomName . ':' . $this->currentUser->id . ":isAlreadyChangedCards");
+        if ($flag === 0) return false;
+        return true;
+    }
+
+    /**
+     * Сохранить флаг - пользователь поменял карты
+     */
+    public function saveChangedCardsFlag()
+    {
+        Redis::set($this->roomName . ':' . $this->currentUser->id . ":isAlreadyChangedCards", 'ok');
     }
 }

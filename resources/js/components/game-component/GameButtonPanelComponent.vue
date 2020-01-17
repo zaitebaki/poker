@@ -93,7 +93,8 @@ export default {
         indicatorStatus: String,
         money: String,
         addOpponentMoney: String,
-        increaseAfterEqualMoney: String
+        increaseAfterEqualMoney: String,
+        opponentStatusCheck: Boolean
     },
     data() {
         return {
@@ -172,6 +173,20 @@ export default {
 
         // чек
         check() {
+            if(this.opponentStatusCheck === true) {
+                console.log('Another check');
+                axios.post('/game/room/1', {
+                    initAction: 'opponentCheck',
+                    roomName: 'room_1',
+                    }).
+                then( (response) => {
+                    this.$emit('update:parameters', response.data.gameParameters);
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+
+            }
             axios.post('/game/room/1', {
                 initAction: 'check',
                 roomName: 'room_1',

@@ -1953,7 +1953,8 @@ __webpack_require__.r(__webpack_exports__);
     indicatorStatus: String,
     money: String,
     addOpponentMoney: String,
-    increaseAfterEqualMoney: String
+    increaseAfterEqualMoney: String,
+    opponentStatusCheck: Boolean
   },
   data: function data() {
     return {
@@ -2042,6 +2043,19 @@ __webpack_require__.r(__webpack_exports__);
     // чек
     check: function check() {
       var _this4 = this;
+
+      if (this.opponentStatusCheck === true) {
+        console.log('Another check');
+        axios.post('/game/room/1', {
+          initAction: 'opponentCheck',
+          roomName: 'room_1'
+        }).then(function (response) {
+          _this4.$emit('update:parameters', response.data.gameParameters);
+        })["catch"](function (error) {
+          console.log(error);
+          alert('Не удалось отправить запрос. Повторите попытку позже.');
+        });
+      }
 
       axios.post('/game/room/1', {
         initAction: 'check',
@@ -2348,7 +2362,8 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     cards: Array,
     combination: String,
-    points: String
+    points: String,
+    isAlreadyChangedCards: Boolean
   },
   data: function data() {
     return {
@@ -2361,7 +2376,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       changeThisCard: false,
       imgElementsClasses: [false, false, false, false, false],
-      isAlreadyChangedCards: false,
+      changedCardsFlag: this.isAlreadyChangedCards,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
@@ -2377,7 +2392,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$root.$on('clean:cards:classes', function () {
       _this.imgElementsClasses = [false, false, false, false, false];
-      _this.isAlreadyChangedCards = true;
+      _this.changedCardsFlag = true;
     });
     this.handleSwitcher = this.normalSwitcher;
   },
@@ -2388,7 +2403,7 @@ __webpack_require__.r(__webpack_exports__);
       return "/assets/images/cards/".concat(fileCardName);
     },
     switcher: function switcher(index) {
-      if (this.isAlreadyChangedCards === false) this.normalSwitcher(index);
+      if (this.changedCardsFlag === false) this.normalSwitcher(index);
     },
     normalSwitcher: function normalSwitcher(index) {
       this.$emit('change:active:cards:storage', index);
@@ -2416,6 +2431,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
 /* harmony import */ var _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GameIndicatorComponent */ "./resources/js/components/game-component/GameIndicatorComponent.vue");
+//
+//
 //
 //
 //
@@ -2493,7 +2510,8 @@ __webpack_require__.r(__webpack_exports__);
         'TWO_PAIRS': 'Две пары',
         'DVOIKA': 'Двойка',
         'WASTE': 'Хлам'
-      }
+      },
+      opponentStatusCheck: false
     };
   },
   computed: {
@@ -2560,8 +2578,8 @@ __webpack_require__.r(__webpack_exports__);
           moneyIncrease = _ref5.moneyIncrease;
       console.log("Hello from SendFinishBettingStatus!!!");
 
-      if (moneyIncrease === 'drop') {
-        _this.senFinishGameRequest();
+      if (moneyIncrease === 'drop' || moneyIncrease === 'opponentCheck') {
+        _this.sendFinishGameRequest();
 
         return;
       }
@@ -2571,6 +2589,7 @@ __webpack_require__.r(__webpack_exports__);
       if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
         correctionMessage = "equalAndAdd";
       } else if (money === '0' && moneyIncrease === '0') {
+        _this.opponentStatusCheck = true;
         correctionMessage = 'check';
       } else if (money !== '0' && moneyIncrease === 'equal') {
         moneyIncrease = '';
@@ -2592,7 +2611,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.vueGameParameters = response.data.gameParameters;
 
         if (correctionMessage === "equal" || correctionMessage === "drop") {
-          _this.senFinishGameRequest();
+          _this.sendFinishGameRequest();
         }
       })["catch"](function (error) {
         console.log(error);
@@ -2608,7 +2627,7 @@ __webpack_require__.r(__webpack_exports__);
       var index = $event;
       this.activeCardsStorage[index] = !this.activeCardsStorage[index];
     },
-    senFinishGameRequest: function senFinishGameRequest() {
+    sendFinishGameRequest: function sendFinishGameRequest() {
       var _this2 = this;
 
       axios.post('/game/room/1', {
@@ -55344,7 +55363,8 @@ var render = function() {
           money: _vm.vueGameParameters.money,
           "add-opponent-money": _vm.vueGameParameters.addOpponentMoney,
           "increase-after-equal-money":
-            _vm.vueGameParameters.increaseAfterEqualMoney
+            _vm.vueGameParameters.increaseAfterEqualMoney,
+          "opponent-status-check": _vm.opponentStatusCheck
         },
         on: {
           "update:parameters": function($event) {
@@ -55358,7 +55378,9 @@ var render = function() {
             attrs: {
               cards: _vm.vueGameParameters.userCards,
               combination: _vm.vueGameParameters.userCombination,
-              points: _vm.vueGameParameters.userPoints
+              points: _vm.vueGameParameters.userPoints,
+              "is-already-changed-cards":
+                _vm.vueGameParameters.isAlreadyChangedCards
             },
             on: {
               "change:active:cards:storage": function($event) {
