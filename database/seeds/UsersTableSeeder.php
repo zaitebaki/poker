@@ -22,6 +22,10 @@ class UsersTableSeeder extends Seeder
                 'name'     => $user['name'],
                 'login'    => $user['login'],
                 'password' => bcrypt($user['password']),
+                'victory'    => $user['victory'],
+                'gameover'    => $user['gameover'],
+                'balance'    => $user['balance'],
+
             ];
 
             $newUser = new User($newUser);

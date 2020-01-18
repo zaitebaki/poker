@@ -2283,15 +2283,135 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    invitationText: String,
-    formRoute: String,
-    formButtonCaption: String
+    content: Object,
+    user: Object
   },
   data: function data() {
     return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      balance: 100
     };
   }
 });
@@ -2431,6 +2551,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
 /* harmony import */ var _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GameIndicatorComponent */ "./resources/js/components/game-component/GameIndicatorComponent.vue");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -55177,45 +55302,166 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "uk-alert-primary", attrs: { "uk-alert": "" } },
-    [
-      _c("p", [_vm._v(_vm._s(_vm.invitationText))]),
-      _vm._v(" "),
-      _c(
-        "form",
-        {
-          attrs: { id: "startGameForm", action: _vm.formRoute, method: "POST" }
-        },
-        [
-          _c(
-            "button",
-            {
-              staticClass: "uk-button uk-button-secondary uk-button-small",
-              attrs: { type: "submit", form: "startGameForm" }
-            },
-            [
-              _vm._v(
-                "\n            " + _vm._s(_vm.formButtonCaption) + "\n        "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            attrs: { type: "hidden", name: "_token" },
-            domProps: { value: _vm.csrf }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            attrs: { type: "hidden", name: "isInvitatationForm", value: "true" }
-          })
-        ]
-      )
-    ]
-  )
+  return _c("div", { staticClass: "uk-section-secondary uk-preserve-color" }, [
+    _c(
+      "nav",
+      { staticClass: "uk-navbar-container uk-navbar-transparent uk-light" },
+      [
+        _c("div", { staticClass: "uk-container uk-container-expand" }, [
+          _c("div", { attrs: { "uk-navbar": "" } }, [
+            _c("div", { staticClass: "uk-navbar-left uk-margin-small-left" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "uk-navbar-item" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "uk-text uk-margin-remove header__user-name" },
+                  [
+                    _vm._v(
+                      _vm._s(_vm.user.name) + "\n                            "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "uk-navbar-item" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  {
+                    staticClass:
+                      "uk-text uk-margin-remove header__statistic-text"
+                  },
+                  [
+                    _vm._v(
+                      _vm._s(_vm.content.balance) +
+                        ": \n                                "
+                    ),
+                    _c("span", [
+                      _vm._v(
+                        "\n                                    " +
+                          _vm._s(_vm.user.balance) +
+                          "\n                                "
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "uk-navbar-right" }, [
+              _c("div", { staticClass: "uk-navbar-item" }, [
+                _c("div", { staticClass: "uk-flex" }, [
+                  _c("div", { staticClass: "uk-margin-small-right" }, [
+                    _c(
+                      "p",
+                      {
+                        staticClass:
+                          "uk-text uk-margin-remove uk-text-small header__victory-text"
+                      },
+                      [
+                        _vm._v("/в:\n                                        "),
+                        _c("span", [_vm._v(_vm._s(_vm.user.victory))])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c(
+                      "p",
+                      {
+                        staticClass:
+                          "uk-text uk-margin-remove uk-text-small header__gameover-text"
+                      },
+                      [
+                        _vm._v("п:\n                                        "),
+                        _c("span", [_vm._v(_vm._s(_vm.user.gameover) + "/")])
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(3)
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "uk-navbar-item header__logo-text", attrs: { href: "/" } },
+      [
+        _c("img", {
+          staticClass: "logo__img",
+          attrs: { src: "/assets/images/logo.svg", alt: "" }
+        }),
+        _vm._v(
+          "\n                            Зайте баки\n                        "
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("img", {
+        staticClass: "logo__img",
+        attrs: { src: "/assets/images/logo.svg", alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("img", {
+        staticClass: "logo__img",
+        attrs: { src: "/assets/images/logo.svg", alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "uk-navbar-item uk-margin-xlarge-right" }, [
+      _c(
+        "a",
+        {
+          staticClass: "uk-navbar-toggle uk-text-warning",
+          attrs: { href: "#" }
+        },
+        [_c("span", { attrs: { "uk-navbar-toggle-icon": "" } })]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "uk-navbar-dropdown" }, [
+        _c("ul", { staticClass: "uk-nav uk-navbar-dropdown-nav" }, [
+          _c("li", { staticClass: "uk-active" }, [
+            _c("a", { attrs: { href: "#" } }, [_vm._v("Active")])
+          ]),
+          _vm._v(" "),
+          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Item")])]),
+          _vm._v(" "),
+          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Item")])])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -55321,6 +55567,10 @@ var render = function() {
     "div",
     { staticClass: "uk-container" },
     [
+      _c("game-status-bar-component", {
+        attrs: { content: _vm.content.header, user: _vm.user }
+      }),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "uk-flex" },

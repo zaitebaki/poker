@@ -20,6 +20,9 @@ class CreateBdTable extends Migration
                 $table->string('name')->unique();
                 $table->string('login')->unique();
                 $table->string('password');
+                $table->integer('victory')->unsigned();
+                $table->integer('gameover')->unsigned();
+                $table->integer('balance');
                 $table->rememberToken();
                 $table->timestamps();
             });

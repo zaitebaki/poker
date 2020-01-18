@@ -1,5 +1,29 @@
 .logo__img {
-  width: 50px;
+  width: 35px;
+}
+
+.header__logo-text {
+  color: white !important;
+}
+
+.header__statistic-text {
+  color: greenyellow;
+}
+
+.header__logo-text {
+  color: orange;
+}
+
+.header__gameover-text {
+  color: red;
+}
+
+.header__victory-text {
+  color: orange;
+}
+
+.header__user-name {
+  color: orange;
 }
 
 .friends-card__item__online {

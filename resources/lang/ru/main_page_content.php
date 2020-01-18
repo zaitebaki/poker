@@ -2,7 +2,6 @@
 
 return [
     'nameProject' => 'Покер «Зайте Баки»',
-
     'startPage'   => [
 
         'loginForm'        => [
@@ -38,6 +37,10 @@ return [
     ],
 
     'gamePage'    => [
+        'header'          => [
+            'shortNameProject' => '«Зайте Баки»',
+            'balance'          => 'Баланс',
+        ],
         'buttonsCaptions' => [
             'startButton' => 'Начать игру',
             'changeCards' => 'Поменять карты',
@@ -67,8 +70,8 @@ return [
             'winFinishMessage'        => 'Победа! Вы выиграли :money рублей.',
             'loseFinishMessage'       => 'Проигрыш. Вы проиграли :money рублей.',
             'drawFinishMessage'       => 'Ничья. :money возвращаются вам на счет.',
-            'gameOverMessage1'       => 'Победа! :user сбросил карты. Вы выиграли :money рублей.',
-            'gameOverMessage2'       => 'Проигрыш. Вы сбросили карты и проиграли :money рублей.'
+            'gameOverMessage1'        => 'Победа! :user сбросил карты. Вы выиграли :money рублей.',
+            'gameOverMessage2'        => 'Проигрыш. Вы сбросили карты и проиграли :money рублей.',
         ],
     ],
 ];

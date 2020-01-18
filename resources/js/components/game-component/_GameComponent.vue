@@ -1,5 +1,11 @@
 <template>
 <div class="uk-container">
+
+    <game-status-bar-component
+        :content="content.header"
+        :user="user">
+    </game-status-bar-component>
+
     <div class="uk-flex">
         <game-bank-component
             :money=vueGameParameters.money
@@ -14,7 +20,6 @@
         </game-opponent-cards-component>
     </div>
 
-    <!-- <game-status-bar-component></game-status-bar-component> -->
     <game-indicator-component
         :indicator-status="vueGameParameters.indicator">
     </game-indicator-component>

@@ -1,15 +1,35 @@
 .logo__img {
-  width: 50px;
+  width: 35px;
 }
 
-
-
-.friends-card__item__online {
-  color: green;
+.header {
+  &__logo-text {
+    color: white !important;
+  }
+  &__statistic-text {
+    color: greenyellow;
+  }
+  &__logo-text {
+    color: orange;
+  }
+  &__gameover-text {
+    color: red;
+  }
+  &__victory-text {
+    color: orange;
+  }
+  &__user-name {
+    color: orange;
+  }
 }
 
-.friends-card__item__offline {
-  color: grey;
+.friends-card {
+  &__item__online {
+    color: green;
+  }
+  &__item__offline {
+    color: grey;
+  }
 }
 
 .money__img {
