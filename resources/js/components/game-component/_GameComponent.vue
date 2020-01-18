@@ -3,7 +3,7 @@
 
     <game-status-bar-component
         :content="content.header"
-        :user="user">
+        :user="userParameters">
     </game-status-bar-component>
 
     <div class="uk-flex">
@@ -31,7 +31,7 @@
     <game-button-panel-component
         :buttons-captions="content.buttonsCaptions"
         :buttons="vueGameParameters.buttons"
-        :user="user"
+        :user="userParameters"
         :active-cards-storage="activeCardsStorage"
         :indicator-status="vueGameParameters.indicator"
         :money="vueGameParameters.money"
@@ -72,6 +72,7 @@ export default {
         return {
             cards: null,
             vueGameParameters: this.gameParameters,
+            userParameters: this.user,
             activeCardsStorage: [true, true, true, true, true],
             combinationTable: {
                 'POKER': 'Покер',
@@ -180,7 +181,15 @@ export default {
     },
     methods: {
         updateParameters($event) {
-            this.vueGameParameters = $event;
+            if("user" in $event ) {
+                this.userParameters = $event.user;
+            }
+            if("gameParameters" in $event ) {
+                this.vueGameParameters = $event.gameParameters;
+            }
+            // this.vueGameParameters = $event;
+            console.log('update');
+            console.log($event);
         },
         changeActiveCardsStorage($event) {
             const index = $event;
@@ -192,6 +201,7 @@ export default {
                 roomName: 'room_1'
                 }).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
+                    this.userParameters = response.data.user;
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');

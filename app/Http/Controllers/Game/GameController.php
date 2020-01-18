@@ -96,7 +96,9 @@ class GameController extends \App\Http\Controllers\SuperController
 
                 // конец игры
                 if ($request->updateState === 'FinishState') {
-                    return json_encode(array('gameParameters' => $game->getFinishGameParameters()));
+                    return json_encode(array(
+                        'user' => $game->currentUser,
+                        'gameParameters' => $game->getFinishGameParameters()));
                 }
 
                 return json_encode(array('gameParameters' => $game->getGameParameters()));
@@ -111,7 +113,9 @@ class GameController extends \App\Http\Controllers\SuperController
 
                 // конец игры
                 if ($request->initAction === 'equal' || $request->initAction === 'gameOver') {
-                    return json_encode(array('gameFinishedParameters' => $game->getFinishGameParameters()));
+                    return json_encode(array(
+                        'user' => $game->currentUser,
+                        'gameParameters' => $game->getFinishGameParameters()));
                 }
 
                 return json_encode(array('gameParameters' => $game->getGameParameters()));

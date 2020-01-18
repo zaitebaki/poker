@@ -33,16 +33,17 @@ class FinishState extends State
         // вычислить результат партии,
         // если игра закончилась дропом карт одним из игроков
         $statusGame = $this->getEndStatusGame();
+        $money = 0;
         if ($statusGame !== false) {
             if ($statusGame === "drop") {
-                $loseMoney                 = $this->getDropMoney();
+                $money                 = $this->getDropMoney();
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage2',
-                    ['money' => $loseMoney]);
+                    ['money' => $money]);
                 $this->context->isVictory = -1;
             } elseif ($statusGame === "winDrop") {
-                $victoryMoney              = $this->getDropMoney();
+                $money              = $this->getDropMoney();
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage1',
-                    ['user' => $this->context->opponentUser->name, 'money' => $victoryMoney]);
+                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
                 $this->context->isVictory = 1;
             }
         }
@@ -53,66 +54,31 @@ class FinishState extends State
             $winnerId = $this->getWinnerIdFromRedis();
 
             // победа
+            $money = $this->context->money / 2;
             if ($winnerId === (string) $this->context->currentUser->id) {
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage',
-                    ['money' => $this->context->money / 2]);
+                    ['money' => $money]);
                 $this->context->isVictory = 1;
 
                 // проигрыш
             } elseif ($winnerId === (string) $this->context->opponentUser->id) {
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage',
-                    ['money' => $this->context->money / 2]);
+                    ['money' => $money]);
                 $this->context->isVictory = -1;
 
                 // ничья
             } elseif ($winnerId === '0') {
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.drawFinishMessage',
-                    ['money' => $this->context->money / 2]);
+                    ['money' => $money]);
                 $this->context->isVictory = 0;
             }
         }
 
         $this->context->buttons = ['then'];
+        $this->updateUserBalance($money);
+
+        // сохранить результаты в базу данных
         // $this->context->dump    = $this->context->opponentUser->id;
-    }
-
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function startGame()
-    {
-    }
-
-    public function changeCards()
-    {
-    }
-
-    public function addMoney()
-    {
-    }
-    public function check()
-    {
-    }
-
-    public function equalAndAdd()
-    {
-    }
-
-    public function equal()
-    {
-    }
-
-    public function gameOver()
-    {
     }
 
     /**
@@ -210,5 +176,88 @@ class FinishState extends State
     public function getDropMoney(): string
     {
         return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":dropGameMoney");
+    }
+
+    /**
+     * Обновить баланс пользователя в базе данных
+     */
+    private function updateUserBalance($money) {
+
+        // проверить существование победителя
+        // если победителя нет - результаты партии 
+        // уже сохранены в БД
+        if (!$this->isStartGameStatus()) return;
+
+        // удалить информацию о победителе
+        $this->deleteStartGameStatus();
+
+        $user = $this->context->currentUser;
+        $victory = $this->context->isVictory;
+
+        if ($victory === 1) {
+            $user->victory = $user->victory + 1;
+        }
+        if ($victory === -1) {
+            $user->gameover = $user->gameover + 1;
+        }
+        
+        $newBalance = $user->balance + $this->context->isVictory * $money;
+        $user->balance = $newBalance;
+        $user->save();
+    }
+
+    /**
+     * Извлечь флаг существования информации о победителе
+     */
+    public function isStartGameStatus()
+    {
+        return Redis::exists($this->context->roomName . ':'. $this->context->currentUser->id . ":startGameStatus");
+    }
+
+    /**
+     * Извлечь флаг существования информации о победителе
+     */
+    public function deleteStartGameStatus()
+    {
+        Redis::del($this->context->roomName . ':' . $this->context->currentUser->id . ":startGameStatus");
+    }
+
+    public function waitingOpponentUser()
+    {
+    }
+
+    public function connectionOpponentUser()
+    {
+    }
+
+    public function connectionCurrentUser()
+    {
+    }
+
+    public function startGame()
+    {
+    }
+
+    public function changeCards()
+    {
+    }
+
+    public function addMoney()
+    {
+    }
+    public function check()
+    {
+    }
+
+    public function equalAndAdd()
+    {
+    }
+
+    public function equal()
+    {
+    }
+
+    public function gameOver()
+    {
     }
 }

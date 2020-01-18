@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:endGameStatus - игра закончилась дропом
 // room_1:1:dropGameMoney
 // room_1:1:isAlreadyChangedCards
+// room_1:startGameStatus
 
 class GamePlay
 {
@@ -139,7 +140,7 @@ class GamePlay
     {
         return array(
             'statusMessage'       => $this->statusText,
-            'userCards'           => $this->userCards,
+            'userCards'           => $this->userCards, 
             'opponentUserCards'   => $this->opponentUserCards,
             'buttons'             => $this->buttons,
             'userCombination'     => $this->userCombination,

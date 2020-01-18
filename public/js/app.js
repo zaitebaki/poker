@@ -1992,9 +1992,9 @@ __webpack_require__.r(__webpack_exports__);
         initAction: 'startGame',
         roomName: 'room_1'
       }).then(function (response) {
-        console.log(response.data.gameParameters);
+        console.log(response.data);
 
-        _this.$emit('update:parameters', response.data.gameParameters);
+        _this.$emit('update:parameters', response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2015,9 +2015,9 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1',
         cardsIndexForChange: this.getcardsIndexForChange(change)
       }).then(function (response) {
-        console.log(response.data.gameParameters);
+        console.log(response.data);
 
-        _this2.$emit('update:parameters', response.data.gameParameters);
+        _this2.$emit('update:parameters', response.data);
 
         _this2.$root.$emit('clean:cards:classes');
       })["catch"](function (error) {
@@ -2034,7 +2034,7 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1',
         money: this.moneySumForAdd
       }).then(function (response) {
-        _this3.$emit('update:parameters', response.data.gameParameters);
+        _this3.$emit('update:parameters', response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2050,7 +2050,7 @@ __webpack_require__.r(__webpack_exports__);
           initAction: 'opponentCheck',
           roomName: 'room_1'
         }).then(function (response) {
-          _this4.$emit('update:parameters', response.data.gameParameters);
+          _this4.$emit('update:parameters', response.data);
         })["catch"](function (error) {
           console.log(error);
           alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2061,7 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
         initAction: 'check',
         roomName: 'room_1'
       }).then(function (response) {
-        _this4.$emit('update:parameters', response.data.gameParameters);
+        _this4.$emit('update:parameters', response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2077,7 +2077,7 @@ __webpack_require__.r(__webpack_exports__);
         moneyequal: this.getCurrentAddingMoney(),
         moneyAdd: this.moneySumForAdd
       }).then(function (response) {
-        _this5.$emit('update:parameters', response.data.gameParameters);
+        _this5.$emit('update:parameters', response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2092,9 +2092,9 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1',
         money: this.getCurrentAddingMoney()
       }).then(function (response) {
-        console.log(response.data.gameFinishedParameters);
+        console.log(response.data);
 
-        _this6.$emit('update:parameters', response.data.gameFinishedParameters);
+        _this6.$emit('update:parameters', response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2109,9 +2109,9 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1',
         money: this.getDropMoney()
       }).then(function (response) {
-        _this7.$emit('update:parameters', response.data.gameFinishedParameters);
+        _this7.$emit('update:parameters', response.data);
 
-        console.log(response.data.gameFinishedParameters);
+        console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2623,6 +2623,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       cards: null,
       vueGameParameters: this.gameParameters,
+      userParameters: this.user,
       activeCardsStorage: [true, true, true, true, true],
       combinationTable: {
         'POKER': 'Покер',
@@ -2746,7 +2747,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateParameters: function updateParameters($event) {
-      this.vueGameParameters = $event;
+      if ("user" in $event) {
+        this.userParameters = $event.user;
+      }
+
+      if ("gameParameters" in $event) {
+        this.vueGameParameters = $event.gameParameters;
+      } // this.vueGameParameters = $event;
+
+
+      console.log('update');
+      console.log($event);
     },
     changeActiveCardsStorage: function changeActiveCardsStorage($event) {
       var index = $event;
@@ -2760,6 +2771,7 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1'
       }).then(function (response) {
         _this2.vueGameParameters = response.data.gameParameters;
+        _this2.userParameters = response.data.user;
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -55568,7 +55580,7 @@ var render = function() {
     { staticClass: "uk-container" },
     [
       _c("game-status-bar-component", {
-        attrs: { content: _vm.content.header, user: _vm.user }
+        attrs: { content: _vm.content.header, user: _vm.userParameters }
       }),
       _vm._v(" "),
       _c(
@@ -55607,7 +55619,7 @@ var render = function() {
         attrs: {
           "buttons-captions": _vm.content.buttonsCaptions,
           buttons: _vm.vueGameParameters.buttons,
-          user: _vm.user,
+          user: _vm.userParameters,
           "active-cards-storage": _vm.activeCardsStorage,
           "indicator-status": _vm.vueGameParameters.indicator,
           money: _vm.vueGameParameters.money,

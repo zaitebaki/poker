@@ -4,6 +4,7 @@ namespace App\Helpers\State\States;
 
 use App\Helpers\Cards\Cards;
 use App\Helpers\State\State;
+use Illuminate\Support\Facades\Redis;
 
 class StartedGameState extends State
 {
@@ -20,6 +21,7 @@ class StartedGameState extends State
 
         $keyStorage  = $this->context->getKeyStorageForCards();
         $this->cards = new Cards($keyStorage);
+        $this->saveStartGameStatus();
     }
 
     public function waitingOpponentUser()
@@ -110,5 +112,12 @@ class StartedGameState extends State
             }
         }
         $this->context->saveUserCards();
+    }
+    
+    /**
+     * Сохранить флаг начала игры
+     */
+    private function saveStartGameStatus() {
+        Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":startGameStatus", 'ok');
     }
 }

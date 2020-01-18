@@ -13,7 +13,6 @@ class InitState extends State
             ['user' => $this->context->opponentUser->name]);
         $this->context->dispatchInvitation();
         $this->context->updateState('WaitingState', $waitingMessage);
-
     }
 
     public function connectionOpponentUser()

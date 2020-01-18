@@ -129,8 +129,8 @@ export default {
         // инициировать раздачу карт
         startGame() {
             axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
-                console.log(response.data.gameParameters);
-                this.$emit('update:parameters', response.data.gameParameters);
+                console.log(response.data);
+                this.$emit('update:parameters', response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -147,8 +147,8 @@ export default {
                 cardsIndexForChange: this.getcardsIndexForChange(change)
                 }).
             then( (response) => {
-                console.log(response.data.gameParameters);
-                this.$emit('update:parameters', response.data.gameParameters);
+                console.log(response.data);
+                this.$emit('update:parameters', response.data);
                 this.$root.$emit('clean:cards:classes');
             }).catch(function (error) {
                 console.log(error);
@@ -164,7 +164,7 @@ export default {
                 money: this.moneySumForAdd
                 }).
             then( (response) => {
-                this.$emit('update:parameters', response.data.gameParameters);
+                this.$emit('update:parameters', response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -180,7 +180,7 @@ export default {
                     roomName: 'room_1',
                     }).
                 then( (response) => {
-                    this.$emit('update:parameters', response.data.gameParameters);
+                    this.$emit('update:parameters', response.data);
                 }).catch(function (error) {
                     console.log(error);
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -192,7 +192,7 @@ export default {
                 roomName: 'room_1',
                 }).
             then( (response) => {
-                this.$emit('update:parameters', response.data.gameParameters);
+                this.$emit('update:parameters', response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -208,7 +208,7 @@ export default {
                 moneyAdd: this.moneySumForAdd
                 }).
             then( (response) => {
-                this.$emit('update:parameters', response.data.gameParameters);
+                this.$emit('update:parameters', response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -223,8 +223,8 @@ export default {
                 money: this.getCurrentAddingMoney()
                 }).
             then( (response) => {
-                console.log(response.data.gameFinishedParameters);
-                this.$emit('update:parameters', response.data.gameFinishedParameters);
+                console.log(response.data);
+                this.$emit('update:parameters', response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -239,9 +239,9 @@ export default {
                 money: this.getDropMoney()
                 }).
             then( (response) => {
-                this.$emit('update:parameters', response.data.gameFinishedParameters);
+                this.$emit('update:parameters', response.data);
 
-                console.log(response.data.gameFinishedParameters);
+                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
