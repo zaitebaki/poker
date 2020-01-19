@@ -24,42 +24,6 @@ class StartedGameState extends State
         $this->saveStartGameStatus();
     }
 
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function startGame()
-    {
-    }
-
-    public function addMoney()
-    {
-    }
-
-    public function check()
-    {
-    }
-
-    public function equalAndAdd()
-    {
-    }
-
-    public function equal()
-    {
-    }
-
-    public function gameOver()
-    {
-    }
-
     public function changeCards()
     {
         $indexes    = $this->context->request->cardsIndexForChange;
@@ -119,5 +83,45 @@ class StartedGameState extends State
      */
     private function saveStartGameStatus() {
         Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":startGameStatus", 'ok');
+    }
+
+    public function then()
+    {
+    }
+
+    public function waitingOpponentUser()
+    {
+    }
+
+    public function connectionOpponentUser()
+    {
+    }
+
+    public function connectionCurrentUser()
+    {
+    }
+
+    public function startGame()
+    {
+    }
+
+    public function addMoney()
+    {
+    }
+
+    public function check()
+    {
+    }
+
+    public function equalAndAdd()
+    {
+    }
+
+    public function equal()
+    {
+    }
+
+    public function gameOver()
+    {
     }
 }

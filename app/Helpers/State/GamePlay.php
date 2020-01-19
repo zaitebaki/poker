@@ -29,8 +29,9 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:pushStartBet - пользователь сделал начальную ставку
 // room_1:messages
 // room_1:1:correctionMessage
-// room_1:1:addOpponentMoney
-// room_1:1:increaseAfterEqualMoney
+// room_1:countFirstUserChangeCards
+// room_1:addOpponentMoney
+// room_1:increaseAfterEqualMoney
 // room_1:winner
 // room_1:1:combination
 // room_1:1:points
@@ -205,6 +206,11 @@ class GamePlay
         return $this->state->gameOver();
     }
 
+    public function then()
+    {
+        return $this->state->then();
+    }
+
     // сервисные функции
     public function setStatusText($text): void
     {
@@ -245,7 +251,7 @@ class GamePlay
         return explode(',', $data);
     }
 
-    public function getOpponentState(): string
+    public function getOpponentState()
     {
         return Redis::get($this->roomName . ':' . $this->opponentUser->id . ':state');
     }
@@ -360,7 +366,9 @@ class GamePlay
     private function getAlreadyChangedCardsStatus()
     {
         $flag = Redis::exists($this->roomName . ':' . $this->currentUser->id . ":isAlreadyChangedCards");
-        if ($flag === 0) return false;
+        if ($flag === 0) {
+            return false;
+        }
         return true;
     }
 

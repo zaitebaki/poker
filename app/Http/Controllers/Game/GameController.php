@@ -6,6 +6,7 @@ use App\Helpers\State\GamePlay;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use App\Helpers\State\States\FinishState;
 
 class GameController extends \App\Http\Controllers\SuperController
 {
@@ -91,36 +92,62 @@ class GameController extends \App\Http\Controllers\SuperController
 
             // обновить состояние в GamePlay
             if (isset($request->updateState)) {
-                $game = new Gameplay($this->user, $request->roomName, $request);
-                $game->updateState($request->updateState);
-
-                // конец игры
-                if ($request->updateState === 'FinishState') {
-                    return json_encode(array(
-                        'user' => $game->currentUser,
-                        'gameParameters' => $game->getFinishGameParameters()));
-                }
-
-                return json_encode(array('gameParameters' => $game->getGameParameters()));
+                return $this->updateStateHandle($request);
             }
 
             // инициировать действие в GamePlay
             if (isset($request->initAction)) {
-
-                $game   = new Gameplay($this->user, $request->roomName, $request);
-                $method = $request->initAction;
-                $game->$method();
-
-                // конец игры
-                if ($request->initAction === 'equal' || $request->initAction === 'gameOver') {
-                    return json_encode(array(
-                        'user' => $game->currentUser,
-                        'gameParameters' => $game->getFinishGameParameters()));
-                }
-
-                return json_encode(array('gameParameters' => $game->getGameParameters()));
+                return $this->handleInitAction($request);
             }
         }
+    }
+
+    /**
+     * Обновить "состояние" пользователя в игре
+     */
+    private function updateStateHandle($request)
+    {
+        $game = new Gameplay($this->user, $request->roomName, $request);
+        $game->updateState($request->updateState);
+
+        // конец игры
+        if ($request->updateState === 'FinishState') {
+            return json_encode(array(
+                'user'           => $game->currentUser,
+                'gameParameters' => $game->getFinishGameParameters()));
+        }
+
+        return json_encode(array('gameParameters' => $game->getGameParameters()));
+    }
+
+    /**
+     * Инициализировать действие пользователя в игре
+     */
+    private function handleInitAction(Request $request)
+    {
+        // инициализировать следующую партию
+        // после завершение предыдущей
+        if ($request->initAction === 'nextRound') {
+            
+            FinishState::then($this->user, $request->roomName);
+            $game = new Gameplay($this->user, $request->roomName, $request);
+            $game->startGame();
+
+            return json_encode(array('gameParameters' => $game->getGameParameters()));
+        }
+
+        $game   = new Gameplay($this->user, $request->roomName, $request);
+        $method = $request->initAction;
+        $game->$method();
+
+        // конец игры
+        if ($request->initAction === 'equal' || $request->initAction === 'gameOver') {
+            return json_encode(array(
+                'user'           => $game->currentUser,
+                'gameParameters' => $game->getFinishGameParameters()));
+        }
+
+        return json_encode(array('gameParameters' => $game->getGameParameters()));
     }
 
     /**

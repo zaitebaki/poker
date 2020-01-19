@@ -13,17 +13,7 @@ class ReadyState extends State
         $this->context->statusText = __('main_page_content.gamePage.statusMessages.initMessage');
         $this->context->buttons    = ['startGame'];
         $this->context->indicator  = 'ready';
-
     }
-
-    public function waitingOpponentUser()
-    {}
-
-    public function connectionOpponentUser()
-    {}
-
-    public function connectionCurrentUser()
-    {}
 
     public function startGame()
     {
@@ -59,6 +49,18 @@ class ReadyState extends State
         }
     }
 
+    public function waitingOpponentUser()
+    {
+    }
+
+    public function connectionOpponentUser()
+    {
+    }
+
+    public function connectionCurrentUser()
+    {
+    }
+
     public function changeCards()
     {
     }
@@ -66,7 +68,7 @@ class ReadyState extends State
     public function addMoney()
     {
     }
-    
+
     public function check()
     {
     }
@@ -80,6 +82,10 @@ class ReadyState extends State
     }
 
     public function gameOver()
+    {
+    }
+
+    public function then()
     {
     }
 }

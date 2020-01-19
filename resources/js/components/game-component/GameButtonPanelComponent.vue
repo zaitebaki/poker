@@ -215,7 +215,7 @@ export default {
             });
         },
 
-        // сравянть
+        // сравнять
         equal() {
             axios.post('/game/room/1', {
                 initAction: 'equal',
@@ -241,6 +241,22 @@ export default {
             then( (response) => {
                 this.$emit('update:parameters', response.data);
 
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+                alert('Не удалось отправить запрос. Повторите попытку позже.');
+            });
+        },
+
+        // начать новую партию
+        then() {
+            axios.post('/game/room/1', {
+                initAction: 'nextRound',
+                roomName: 'room_1',
+                }).
+            then( (response) => {
+                this.$emit('update:parameters', response.data);
+                this.$root.$emit('changed:cards:false');
                 console.log(response.data);
             }).catch(function (error) {
                 console.log(error);

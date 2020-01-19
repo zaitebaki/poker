@@ -2083,7 +2083,7 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
     },
-    // сравянть
+    // сравнять
     equal: function equal() {
       var _this6 = this;
 
@@ -2110,6 +2110,24 @@ __webpack_require__.r(__webpack_exports__);
         money: this.getDropMoney()
       }).then(function (response) {
         _this7.$emit('update:parameters', response.data);
+
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    },
+    // начать новую партию
+    then: function then() {
+      var _this8 = this;
+
+      axios.post('/game/room/1', {
+        initAction: 'nextRound',
+        roomName: 'room_1'
+      }).then(function (response) {
+        _this8.$emit('update:parameters', response.data);
+
+        _this8.$root.$emit('changed:cards:false');
 
         console.log(response.data);
       })["catch"](function (error) {
@@ -2494,7 +2512,6 @@ __webpack_require__.r(__webpack_exports__);
         'k': 'kresti',
         'j': 'joker'
       },
-      changeThisCard: false,
       imgElementsClasses: [false, false, false, false, false],
       changedCardsFlag: this.isAlreadyChangedCards,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -2514,6 +2531,9 @@ __webpack_require__.r(__webpack_exports__);
       _this.imgElementsClasses = [false, false, false, false, false];
       _this.changedCardsFlag = true;
     });
+    this.$root.$on('changed:cards:false', function () {
+      _this.changedCardsFlag = false;
+    });
     this.handleSwitcher = this.normalSwitcher;
   },
   methods: {
@@ -2523,6 +2543,8 @@ __webpack_require__.r(__webpack_exports__);
       return "/assets/images/cards/".concat(fileCardName);
     },
     switcher: function switcher(index) {
+      console.log(this.changedCardsFlag);
+      console.log(this.isAlreadyChangedCards);
       if (this.changedCardsFlag === false) this.normalSwitcher(index);
     },
     normalSwitcher: function normalSwitcher(index) {
@@ -2670,6 +2692,8 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1'
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
+
+        _this.$root.$emit('changed:cards:false');
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');

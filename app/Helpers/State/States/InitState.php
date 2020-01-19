@@ -52,4 +52,8 @@ class InitState extends State
     public function gameOver()
     {
     }
+
+    public function then()
+    {
+    }
 }

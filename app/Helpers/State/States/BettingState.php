@@ -48,26 +48,6 @@ class BettingState extends State
         $this->context->indicator    = 'ready';
     }
 
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function startGame()
-    {
-    }
-
-    public function changeCards()
-    {
-    }
-
     public function addMoney()
     {
         $money = $this->context->request->money;
@@ -228,4 +208,27 @@ class BettingState extends State
         Redis::set($this->context->roomName . ':' . $idUser . ":dropGameMoney", $money);
     }
 
+    public function waitingOpponentUser()
+    {
+    }
+
+    public function connectionOpponentUser()
+    {
+    }
+
+    public function connectionCurrentUser()
+    {
+    }
+
+    public function startGame()
+    {
+    }
+
+    public function changeCards()
+    {
+    }
+
+    public function then()
+    {
+    }
 }

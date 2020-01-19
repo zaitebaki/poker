@@ -35,7 +35,6 @@ export default {
                 'k': 'kresti',
                 'j': 'joker'
             },
-            changeThisCard: false,
             imgElementsClasses: [false, false, false, false, false],
             changedCardsFlag: this.isAlreadyChangedCards,
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -54,6 +53,10 @@ export default {
             this.changedCardsFlag = true;
         });
 
+        this.$root.$on('changed:cards:false', () => {
+            this.changedCardsFlag = false;
+        });
+
         this.handleSwitcher = this.normalSwitcher;
     },
     methods: {
@@ -63,6 +66,8 @@ export default {
             return `/assets/images/cards/${fileCardName}`;
         },
         switcher(index) {
+            console.log(this.changedCardsFlag);
+            console.log(this.isAlreadyChangedCards);
             if(this.changedCardsFlag === false) this.normalSwitcher(index);
         },
         normalSwitcher(index) {

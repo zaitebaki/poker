@@ -19,27 +19,32 @@ class WaitingState extends State
             $this->context->userCards = $this->context->extractUserCardsFromRedis();
 
         }
-        $this->context->indicator = 'wait';
+        $this->context->indicator               = 'wait';
         $this->context->increaseAfterEqualMoney = $this->context->extractIncreaseAfterEqualMoney();
     }
-
-    public function waitingopponentUser()
-    {}
-
-    public function connectionOpponentUser()
-    {}
-
-    public function connectionCurrentUser()
-    {}
 
     public function startGame()
     {
         $this->context->updateState('ReadyState');
         $this->context->startGame();
     }
+
+    public function waitingopponentUser()
+    {
+    }
+
+    public function connectionOpponentUser()
+    {
+    }
+
+    public function connectionCurrentUser()
+    {
+    }
+
     public function changeCards()
     {
     }
+
     public function check()
     {
     }

@@ -33,15 +33,15 @@ class FinishState extends State
         // вычислить результат партии,
         // если игра закончилась дропом карт одним из игроков
         $statusGame = $this->getEndStatusGame();
-        $money = 0;
+        $money      = 0;
         if ($statusGame !== false) {
             if ($statusGame === "drop") {
-                $money                 = $this->getDropMoney();
+                $money                     = $this->getDropMoney();
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage2',
                     ['money' => $money]);
                 $this->context->isVictory = -1;
             } elseif ($statusGame === "winDrop") {
-                $money              = $this->getDropMoney();
+                $money                     = $this->getDropMoney();
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage1',
                     ['user' => $this->context->opponentUser->name, 'money' => $money]);
                 $this->context->isVictory = 1;
@@ -181,17 +181,19 @@ class FinishState extends State
     /**
      * Обновить баланс пользователя в базе данных
      */
-    private function updateUserBalance($money) {
-
+    private function updateUserBalance($money)
+    {
         // проверить существование победителя
-        // если победителя нет - результаты партии 
+        // если победителя нет - результаты партии
         // уже сохранены в БД
-        if (!$this->isStartGameStatus()) return;
+        if (!$this->isStartGameStatus()) {
+            return;
+        }
 
         // удалить информацию о победителе
         $this->deleteStartGameStatus();
 
-        $user = $this->context->currentUser;
+        $user    = $this->context->currentUser;
         $victory = $this->context->isVictory;
 
         if ($victory === 1) {
@@ -200,8 +202,8 @@ class FinishState extends State
         if ($victory === -1) {
             $user->gameover = $user->gameover + 1;
         }
-        
-        $newBalance = $user->balance + $this->context->isVictory * $money;
+
+        $newBalance    = $user->balance + $this->context->isVictory * $money;
         $user->balance = $newBalance;
         $user->save();
     }
@@ -211,7 +213,7 @@ class FinishState extends State
      */
     public function isStartGameStatus()
     {
-        return Redis::exists($this->context->roomName . ':'. $this->context->currentUser->id . ":startGameStatus");
+        return Redis::exists($this->context->roomName . ':' . $this->context->currentUser->id . ":startGameStatus");
     }
 
     /**
@@ -220,6 +222,104 @@ class FinishState extends State
     public function deleteStartGameStatus()
     {
         Redis::del($this->context->roomName . ':' . $this->context->currentUser->id . ":startGameStatus");
+    }
+
+    /**
+     * Инициализировать действие -
+     * следующая партия
+     */
+    public static function then($user, $roomName)
+    {
+        $userId =  $user->id;
+        
+        // удалить данные пользователя
+        self::removeUserDataFromRedis($roomName, $userId);
+
+        // получить id игрока, игравшего 1-ым номером
+        $currentUserId = self::getCurrentUserId($roomName);
+
+        // удалить общие данные партии
+        if ((int)$currentUserId === $userId) {
+            self::removeCommonDataFromRedis($roomName);
+        }
+
+        // установить текущеее состояние пользователя
+        // в ReadyState
+        self::setReadyState($roomName, $userId);
+    }
+
+    /**
+     * Удалить данные пользователя из БД Redis
+     */
+    private static function removeUserDataFromRedis($roomName, $currentUserId)
+    {
+
+        $namesUserKeys = [
+            'state',
+            'WaitingState',
+            'userCards',
+            'pushStartBet',
+            'correctionMessage',
+            'combination',
+            'points',
+            'endGameStatus',
+            'dropGameMoney',
+            'isAlreadyChangedCards',
+        ];
+
+        $begKeyString = $roomName . ':' . $currentUserId . ':';
+        Redis::pipeline(function ($pipe) use ($namesUserKeys, $begKeyString) {
+            foreach ($namesUserKeys as $key => $value) {
+                $pipe->del($begKeyString . $value);
+            }
+        });
+    }
+
+    /**
+     * Удалить общие данные из БД Redis
+     */
+    private static function removeCommonDataFromRedis($roomName)
+    {
+        $namesCommonKeys = [
+            'cards',
+            'money',
+            'messages',
+            'winner',
+            'startGameStatus',
+            'addOpponentMoney',
+            'countFirstUserChangeCards',
+            'increaseAfterEqualMoney'
+        ];
+
+        $begKeyString = $roomName . ':';
+        Redis::pipeline(function ($pipe) use ($namesCommonKeys, $begKeyString) {
+            foreach ($namesCommonKeys as $key => $value) {
+                $pipe->del($begKeyString . $value);
+            }
+        });
+    }
+
+    /**
+     * Установить состояние пользователя в ReadyState
+     */
+    private static function setReadyState($roomName, $userId) {
+        Redis::set($roomName . ':' . $userId . ':state', 'ReadyState');
+    }
+
+    /**
+     *Извлечь id текущего пользователя
+     */
+    private static function getCurrentUserId($roomName)
+    {
+        return Redis::get($roomName . ':idUserCurrent');
+    }
+
+    /**
+     *Извлечь id пользователя-оппонента
+     */
+    private static function getOpponentUserId($roomName)
+    {
+        return Redis::get($roomName . ':idUserOpponent');
     }
 
     public function waitingOpponentUser()
