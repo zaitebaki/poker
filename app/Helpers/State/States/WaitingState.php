@@ -6,21 +6,25 @@ use App\Helpers\State\State;
 
 class WaitingState extends State
 {
-    public function __construct($context, $watingText, $buttons = 'none', $extractCards = false)
+    public function __construct($context, $watingText, $buttons = 'none', $extractCards = false, $extractMoney = true)
     {
         parent::__construct($context);
 
-        $this->context->statusText   = $watingText;
-        $this->context->buttons      = explode(',', $buttons);
-        $this->context->money        = $this->context->extractMoney();
-        $this->context->bankMessages = $this->context->extractBankMessages();
+        $this->context->statusText = $watingText;
+        $this->context->buttons    = explode(',', $buttons);
+
+        if ($extractMoney) {
+            $this->context->money                   = $this->context->extractMoney();
+            $this->context->bankMessages            = $this->context->extractBankMessages();
+            $this->context->increaseAfterEqualMoney = $this->context->extractIncreaseAfterEqualMoney();
+        }
 
         if ($extractCards) {
             $this->context->userCards = $this->context->extractUserCardsFromRedis();
 
         }
-        $this->context->indicator               = 'wait';
-        $this->context->increaseAfterEqualMoney = $this->context->extractIncreaseAfterEqualMoney();
+
+        $this->context->indicator = 'wait';
     }
 
     public function startGame()

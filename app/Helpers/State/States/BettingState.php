@@ -72,6 +72,8 @@ class BettingState extends State
         $buttons = 'addMoney, noMoney';
 
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
+
+        $this->saveOpponentStatusCheck();
         \App\Events\SendFinishBettingStatus::dispatch('0', '0');
     }
 
@@ -206,6 +208,14 @@ class BettingState extends State
     private function saveDropMoney(int $idUser, int $money)
     {
         Redis::set($this->context->roomName . ':' . $idUser . ":dropGameMoney", $money);
+    }
+
+    /**
+     * Сохранить деньги, которые были проиграны/выиграны при дропе
+     */
+    private function saveOpponentStatusCheck()
+    {
+        Redis::set($this->context->roomName . ":opponentStatusCheck", 'ok');
     }
 
     public function waitingOpponentUser()

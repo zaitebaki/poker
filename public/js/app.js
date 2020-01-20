@@ -2050,22 +2050,24 @@ __webpack_require__.r(__webpack_exports__);
           initAction: 'opponentCheck',
           roomName: 'room_1'
         }).then(function (response) {
+          console.log(response.data);
+
+          _this4.$emit('update:parameters', response.data);
+        })["catch"](function (error) {
+          console.log(error);
+          alert('Не удалось отправить запрос. Повторите попытку позже.');
+        });
+      } else {
+        axios.post('/game/room/1', {
+          initAction: 'check',
+          roomName: 'room_1'
+        }).then(function (response) {
           _this4.$emit('update:parameters', response.data);
         })["catch"](function (error) {
           console.log(error);
           alert('Не удалось отправить запрос. Повторите попытку позже.');
         });
       }
-
-      axios.post('/game/room/1', {
-        initAction: 'check',
-        roomName: 'room_1'
-      }).then(function (response) {
-        _this4.$emit('update:parameters', response.data);
-      })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
-      });
     },
     // сравянть и добавить
     equalAndAdd: function equalAndAdd() {
@@ -2109,9 +2111,8 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1',
         money: this.getDropMoney()
       }).then(function (response) {
-        _this7.$emit('update:parameters', response.data);
+        _this7.$emit('update:parameters', response.data); // console.log(response.data);
 
-        console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2532,6 +2533,7 @@ __webpack_require__.r(__webpack_exports__);
       _this.changedCardsFlag = true;
     });
     this.$root.$on('changed:cards:false', function () {
+      _this.imgElementsClasses = [false, false, false, false, false];
       _this.changedCardsFlag = false;
     });
     this.handleSwitcher = this.normalSwitcher;
@@ -2658,8 +2660,7 @@ __webpack_require__.r(__webpack_exports__);
         'TWO_PAIRS': 'Две пары',
         'DVOIKA': 'Двойка',
         'WASTE': 'Хлам'
-      },
-      opponentStatusCheck: false
+      }
     };
   },
   computed: {
@@ -2670,6 +2671,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    this.$root.$on('changed:cards:false', function () {
+      _this.activeCardsStorage = [true, true, true, true, true];
+    });
     console.log(this.gameParameters);
     this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
       var data = _ref.data;
@@ -2730,43 +2734,40 @@ __webpack_require__.r(__webpack_exports__);
 
       if (moneyIncrease === 'drop' || moneyIncrease === 'opponentCheck') {
         _this.sendFinishGameRequest();
-
-        return;
-      }
-
-      var correctionMessage;
-
-      if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
-        correctionMessage = "equalAndAdd";
-      } else if (money === '0' && moneyIncrease === '0') {
-        _this.opponentStatusCheck = true;
-        correctionMessage = 'check';
-      } else if (money !== '0' && moneyIncrease === 'equal') {
-        moneyIncrease = '';
-        correctionMessage = 'equal';
-      } else if (money !== '0' && moneyIncrease === 'drop') {
-        moneyIncrease = '';
-        correctionMessage = 'drop';
       } else {
-        correctionMessage = 'betFinished';
-      }
+        var correctionMessage;
 
-      axios.post('/game/room/1', {
-        updateState: 'BettingState',
-        roomName: 'room_1',
-        correctionStatusMessage: correctionMessage,
-        money: money,
-        moneyIncrease: moneyIncrease
-      }).then(function (response) {
-        _this.vueGameParameters = response.data.gameParameters;
-
-        if (correctionMessage === "equal" || correctionMessage === "drop") {
-          _this.sendFinishGameRequest();
+        if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
+          correctionMessage = "equalAndAdd";
+        } else if (money === '0' && moneyIncrease === '0') {
+          correctionMessage = 'check';
+        } else if (money !== '0' && moneyIncrease === 'equal') {
+          moneyIncrease = '';
+          correctionMessage = 'equal';
+        } else if (money !== '0' && moneyIncrease === 'drop') {
+          moneyIncrease = '';
+          correctionMessage = 'drop';
+        } else {
+          correctionMessage = 'betFinished';
         }
-      })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
-      });
+
+        axios.post('/game/room/1', {
+          updateState: 'BettingState',
+          roomName: 'room_1',
+          correctionStatusMessage: correctionMessage,
+          money: money,
+          moneyIncrease: moneyIncrease
+        }).then(function (response) {
+          _this.vueGameParameters = response.data.gameParameters;
+
+          if (correctionMessage === "equal" || correctionMessage === "drop") {
+            _this.sendFinishGameRequest();
+          }
+        })["catch"](function (error) {
+          console.log(error);
+          alert('Не удалось отправить запрос. Повторите попытку позже.');
+        });
+      }
     });
   },
   methods: {
@@ -2778,10 +2779,9 @@ __webpack_require__.r(__webpack_exports__);
       if ("gameParameters" in $event) {
         this.vueGameParameters = $event.gameParameters;
       } // this.vueGameParameters = $event;
+      // console.log('update');
+      // console.log($event);
 
-
-      console.log('update');
-      console.log($event);
     },
     changeActiveCardsStorage: function changeActiveCardsStorage($event) {
       var index = $event;
@@ -55650,7 +55650,7 @@ var render = function() {
           "add-opponent-money": _vm.vueGameParameters.addOpponentMoney,
           "increase-after-equal-money":
             _vm.vueGameParameters.increaseAfterEqualMoney,
-          "opponent-status-check": _vm.opponentStatusCheck
+          "opponent-status-check": _vm.vueGameParameters.opponentStatusCheck
         },
         on: {
           "update:parameters": function($event) {

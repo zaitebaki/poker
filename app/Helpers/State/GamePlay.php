@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Redis;
 // room_1:1:dropGameMoney
 // room_1:1:isAlreadyChangedCards
 // room_1:startGameStatus
+// room_1:opponentStatusCheck
 
 class GamePlay
 {
@@ -100,7 +101,7 @@ class GamePlay
         // инициализировать состояние из Redis-хранилища
         $stateName            = Redis::get($roomName . ':' . $this->currentUser->id . ':state');
         $argumentsStorageName = $roomName . ':' . $this->currentUser->id . ':' . $stateName;
-        $stateArguments       = Redis::lrange($argumentsStorageName, 0, 5);
+        $stateArguments       = Redis::lrange($argumentsStorageName, 0, 6);
 
         $stateArguments = array_reverse($stateArguments);
         $stateName      = 'App\\Helpers\\State\\States\\' . $stateName;
@@ -133,6 +134,7 @@ class GamePlay
             'addOpponentMoney'        => (string) $this->addOpponentMoney,
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
             'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
+            'opponentStatusCheck' => $this->getOpponentStatusCheck()
             // 'dump'                    => $this->dump,
         );
     }
@@ -366,6 +368,19 @@ class GamePlay
     private function getAlreadyChangedCardsStatus()
     {
         $flag = Redis::exists($this->roomName . ':' . $this->currentUser->id . ":isAlreadyChangedCards");
+        if ($flag === 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Получить значение флага -
+     * был ли ход "чек"
+     */
+    private function getOpponentStatusCheck()
+    {
+        $flag = Redis::exists($this->roomName . ":opponentStatusCheck");
         if ($flag === 0) {
             return false;
         }

@@ -54,6 +54,7 @@ export default {
         });
 
         this.$root.$on('changed:cards:false', () => {
+            this.imgElementsClasses = [false, false, false, false, false];
             this.changedCardsFlag = false;
         });
 

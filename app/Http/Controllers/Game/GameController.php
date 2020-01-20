@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Game;
 
 use App\Helpers\State\GamePlay;
+use App\Helpers\State\States\FinishState;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
-use App\Helpers\State\States\FinishState;
 
 class GameController extends \App\Http\Controllers\SuperController
 {
@@ -128,11 +128,10 @@ class GameController extends \App\Http\Controllers\SuperController
         // инициализировать следующую партию
         // после завершение предыдущей
         if ($request->initAction === 'nextRound') {
-            
-            FinishState::then($this->user, $request->roomName);
+
+            $res  = FinishState::then($this->user, $request->roomName);
             $game = new Gameplay($this->user, $request->roomName, $request);
             $game->startGame();
-
             return json_encode(array('gameParameters' => $game->getGameParameters()));
         }
 
@@ -141,7 +140,9 @@ class GameController extends \App\Http\Controllers\SuperController
         $game->$method();
 
         // конец игры
-        if ($request->initAction === 'equal' || $request->initAction === 'gameOver') {
+        if ($request->initAction === 'equal' ||
+            $request->initAction === 'gameOver' ||
+            $request->initAction == 'opponentCheck') {
             return json_encode(array(
                 'user'           => $game->currentUser,
                 'gameParameters' => $game->getFinishGameParameters()));

@@ -37,7 +37,7 @@
         :money="vueGameParameters.money"
         :add-opponent-money="vueGameParameters.addOpponentMoney"
         :increase-after-equal-money="vueGameParameters.increaseAfterEqualMoney"
-        :opponent-status-check="opponentStatusCheck"
+        :opponent-status-check="vueGameParameters.opponentStatusCheck"
         @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
@@ -86,7 +86,6 @@ export default {
                 'DVOIKA': 'Двойка',
                 'WASTE': 'Хлам'
             },
-            opponentStatusCheck: false
         }
     },
     computed: {
@@ -95,6 +94,9 @@ export default {
         },
     },
     mounted() {
+        this.$root.$on('changed:cards:false', () => {
+            this.activeCardsStorage = [true, true, true, true, true];
+        });
         console.log(this.gameParameters);
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
@@ -142,42 +144,41 @@ export default {
 
                 if(moneyIncrease === 'drop' || moneyIncrease === 'opponentCheck') {
                     this.sendFinishGameRequest();
-                    return;
-                }
-
-                let correctionMessage;
-                if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
-                    correctionMessage = "equalAndAdd"
-                }
-                else if (money === '0' && moneyIncrease === '0') {
-                    this.opponentStatusCheck = true;
-                    correctionMessage = 'check';
-                }
-                else if (money !== '0' && moneyIncrease === 'equal') {
-                    moneyIncrease = '';
-                    correctionMessage = 'equal';
-                }
-                else if (money !== '0' && moneyIncrease === 'drop') {
-                    moneyIncrease = '';
-                    correctionMessage = 'drop';
                 }
                 else {
-                    correctionMessage = 'betFinished';
+                    let correctionMessage;
+                    if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
+                        correctionMessage = "equalAndAdd"
+                    }
+                    else if (money === '0' && moneyIncrease === '0') {
+                        correctionMessage = 'check';
+                    }
+                    else if (money !== '0' && moneyIncrease === 'equal') {
+                        moneyIncrease = '';
+                        correctionMessage = 'equal';
+                    }
+                    else if (money !== '0' && moneyIncrease === 'drop') {
+                        moneyIncrease = '';
+                        correctionMessage = 'drop';
+                    }
+                    else {
+                        correctionMessage = 'betFinished';
+                    }
+                    axios.post('/game/room/1', {
+                        updateState: 'BettingState',
+                        roomName: 'room_1',
+                        correctionStatusMessage: correctionMessage,
+                        money: money,
+                        moneyIncrease: moneyIncrease}).then( (response) => {
+                            this.vueGameParameters = response.data.gameParameters;
+                            if (correctionMessage === "equal" || correctionMessage === "drop") {
+                                this.sendFinishGameRequest();
+                            }
+                    }).catch(function (error) {
+                        console.log(error);
+                        alert('Не удалось отправить запрос. Повторите попытку позже.');
+                    });
                 }
-                axios.post('/game/room/1', {
-                    updateState: 'BettingState',
-                    roomName: 'room_1',
-                    correctionStatusMessage: correctionMessage,
-                    money: money,
-                    moneyIncrease: moneyIncrease}).then( (response) => {
-                        this.vueGameParameters = response.data.gameParameters;
-                        if (correctionMessage === "equal" || correctionMessage === "drop") {
-                            this.sendFinishGameRequest();
-                        }
-                }).catch(function (error) {
-                    console.log(error);
-                    alert('Не удалось отправить запрос. Повторите попытку позже.');
-                });
             })
     },
     methods: {
@@ -189,8 +190,8 @@ export default {
                 this.vueGameParameters = $event.gameParameters;
             }
             // this.vueGameParameters = $event;
-            console.log('update');
-            console.log($event);
+            // console.log('update');
+            // console.log($event);
         },
         changeActiveCardsStorage($event) {
             const index = $event;

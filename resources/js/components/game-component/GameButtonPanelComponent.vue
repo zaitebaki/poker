@@ -173,10 +173,23 @@ export default {
 
         // чек
         check() {
-            if(this.opponentStatusCheck === true) {
+            if (this.opponentStatusCheck === true) {
                 console.log('Another check');
                 axios.post('/game/room/1', {
                     initAction: 'opponentCheck',
+                    roomName: 'room_1',
+                    }).
+                then( (response) => {
+                    console.log(response.data);
+                    this.$emit('update:parameters', response.data);
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+            }
+            else {
+                axios.post('/game/room/1', {
+                    initAction: 'check',
                     roomName: 'room_1',
                     }).
                 then( (response) => {
@@ -185,18 +198,7 @@ export default {
                     console.log(error);
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
                 });
-
             }
-            axios.post('/game/room/1', {
-                initAction: 'check',
-                roomName: 'room_1',
-                }).
-            then( (response) => {
-                this.$emit('update:parameters', response.data);
-            }).catch(function (error) {
-                console.log(error);
-                alert('Не удалось отправить запрос. Повторите попытку позже.');
-            });
         },
 
         // сравянть и добавить
@@ -241,7 +243,7 @@ export default {
             then( (response) => {
                 this.$emit('update:parameters', response.data);
 
-                console.log(response.data);
+                // console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');

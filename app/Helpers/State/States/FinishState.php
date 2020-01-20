@@ -231,21 +231,49 @@ class FinishState extends State
     public static function then($user, $roomName)
     {
         $userId =  $user->id;
-        
-        // удалить данные пользователя
-        self::removeUserDataFromRedis($roomName, $userId);
+        $idUserCurrent  = (int) Redis::get($roomName . ':idUserCurrent');
+        $idUserOpponent = (int) Redis::get($roomName . ':idUserOpponent');
 
-        // получить id игрока, игравшего 1-ым номером
-        $currentUserId = self::getCurrentUserId($roomName);
-
-        // удалить общие данные партии
-        if ((int)$currentUserId === $userId) {
-            self::removeCommonDataFromRedis($roomName);
+        if ($userId === $idUserCurrent) {
+            $role = 'currentUser';
+            $anotherUserId = $idUserOpponent;
+        } else {
+            $role = 'opponentUser';
+            $anotherUserId = $idUserCurrent;
         }
 
-        // установить текущеее состояние пользователя
-        // в ReadyState
-        self::setReadyState($roomName, $userId);
+        $opponentState = self::getOpponentState($roomName, $anotherUserId);
+
+        if ($opponentState === 'WaitingState') {
+            $winnerId = (int)self::getWinner($roomName);
+            self::removeUserDataFromRedis($roomName, $userId);
+            self::removeUserDataFromRedis($roomName, $anotherUserId);
+            self::removeCommonDataFromRedis($roomName);
+            
+            if ($winnerId === $userId && $role == 'currentUser') {
+                self::setIdUserCurrent($roomName, $idUserOpponent);
+                self::setIdUserOpponent($roomName, $idUserCurrent);
+                \App\Events\SendStartedGameStatus::dispatch();
+            }
+            if ($winnerId === $userId && $role == 'opponentUser') {
+                self::setIdUserCurrent($roomName, $idUserCurrent);
+                self::setIdUserOpponent($roomName, $idUserOpponent);
+                \App\Events\SendStartedGameStatus::dispatch();
+            }
+            if ($winnerId !== $userId && $role == 'opponentUser') {
+                self::setIdUserCurrent($roomName, $idUserOpponent);
+                self::setIdUserOpponent($roomName, $idUserCurrent);
+            }
+            if ($winnerId !== $userId && $role == 'currentUser') {
+                self::setIdUserCurrent($roomName, $idUserCurrent);
+                self::setIdUserOpponent($roomName, $idUserOpponent);
+            }
+
+            self::setState($roomName, $userId, 'ReadyState');
+        }
+        else {
+            self::setState($roomName, $userId, 'NewRoundState');
+        }
     }
 
     /**
@@ -253,10 +281,7 @@ class FinishState extends State
      */
     private static function removeUserDataFromRedis($roomName, $currentUserId)
     {
-
         $namesUserKeys = [
-            'state',
-            'WaitingState',
             'userCards',
             'pushStartBet',
             'correctionMessage',
@@ -288,7 +313,8 @@ class FinishState extends State
             'startGameStatus',
             'addOpponentMoney',
             'countFirstUserChangeCards',
-            'increaseAfterEqualMoney'
+            'increaseAfterEqualMoney',
+            'opponentStatusCheck',
         ];
 
         $begKeyString = $roomName . ':';
@@ -302,8 +328,8 @@ class FinishState extends State
     /**
      * Установить состояние пользователя в ReadyState
      */
-    private static function setReadyState($roomName, $userId) {
-        Redis::set($roomName . ':' . $userId . ':state', 'ReadyState');
+    private static function setState($roomName, $userId, $nameState) {
+        Redis::set($roomName . ':' . $userId . ':state', $nameState);
     }
 
     /**
@@ -320,6 +346,37 @@ class FinishState extends State
     private static function getOpponentUserId($roomName)
     {
         return Redis::get($roomName . ':idUserOpponent');
+    }
+
+    /**
+     * Сохранить id победителя в Redis,
+     * Сохранить 0 в случае ничьи
+     */
+    private static function getWinner(string $roomName)
+    {
+        return Redis::get($roomName . ":winner");
+    }
+
+    /**
+     * Установить значение idUserCurrent
+     */
+    private static function setIdUserCurrent($roomName, $userId) {
+        Redis::set($roomName . ':idUserCurrent', $userId);
+    }
+
+    /**
+     * Установить значение idUserOpponent
+     */
+    private static function setIdUserOpponent($roomName, $userId) {
+        Redis::set($roomName . ':idUserOpponent', $userId);
+    }
+
+    /**
+     * Ивзвлечь текущее состояние оппонента
+     */
+    private static function getOpponentState($roomName, $opponentUserId): string
+    {
+        return Redis::get($roomName . ':' . $opponentUserId . ':state');
     }
 
     public function waitingOpponentUser()
