@@ -1,17 +1,31 @@
 <template>
-    <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
-        <div class="uk-flex">
-            <div>
-                <ul class="uk-list uk-text-small uk-text-light uk-text-success">
-                    <template v-for="(message, index) in getMessages">
-                        <li>{{ message.login }}: + {{ message.money }}</li>
-                    </template>
-                </ul>
-            </div>
-            <div >
-                <p><img src="/assets/images/game/money-icon.svg" alt="" class="money__img">
-                    <span>{{ money }} руб.</span>
-                </p>
+    <div class="uk-width-auto ">
+        <div class="uk-background-muted uk-padding-small">
+            <div class="uk-flex">
+                <div class="uk-flex uk-flex-middle">
+                    <ul class="uk-list uk-text-light money__text_color_red uk-margin-remove">
+                        <template v-for="(message, index) in getMessages">
+                            <li :class="{ money__text_color_blue: index%2 }">{{ message.login }}: + {{ message.money }}</li>
+                        </template>
+                    </ul>
+                </div>
+                <div class="uk-flex uk-flex-middle">
+                    <div class="uk-padding-small">                       
+                        <svg class="money__icon">
+                            <use xlink:href="/assets/images/game/money-icon.svg#money"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="uk-text money__total-text">{{ money }} </span>
+                    </div>
+                    <div>
+                        <span>
+                            <svg class="logo__ruble-icon_big_width" aria-hidden="true">
+                                <use xlink:href="/assets/images/game/ruble-icon.svg#Capa_1"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

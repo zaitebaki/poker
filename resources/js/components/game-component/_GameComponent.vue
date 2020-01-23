@@ -12,21 +12,23 @@
             :bank-messages=vueGameParameters.bankMessages>
         </game-bank-component>
 
-        <game-opponent-cards-component
-            v-if="vueGameParameters.opponentUserCards"
-            :cards="vueGameParameters.opponentUserCards"
-            :combination="vueGameParameters.opponentCombination"
-            :points="vueGameParameters.opponentPoints">
-        </game-opponent-cards-component>
+        <div class="uk-width-expand uk-flex uk-flex-middle"
+            v-bind:class="[vueGameParameters.indicator === 'wait' ? 'status-text__background_color_orange'
+                                                                    : 'status-text__background_color_green']">
+            <game-status-text-component
+                :status-message="vueGameParameters.statusMessage"
+                :indicator-status="vueGameParameters.indicator">
+            </game-status-text-component>
+        </div>
     </div>
 
-    <game-indicator-component
-        :indicator-status="vueGameParameters.indicator">
-    </game-indicator-component>
+    <game-opponent-cards-component
+        v-if="vueGameParameters.opponentUserCards"
+        :cards="vueGameParameters.opponentUserCards"
+        :combination="vueGameParameters.opponentCombination"
+        :points="vueGameParameters.opponentPoints">
+    </game-opponent-cards-component>
 
-    <game-status-text-component
-        :status-message="vueGameParameters.statusMessage">
-    </game-status-text-component>
 
     <game-button-panel-component
         :buttons-captions="content.buttonsCaptions"

@@ -1,6 +1,6 @@
 <template>
-<div>
-    <div>
+<div class="uk-margin-medium-top">
+    <div class="uk-flex uk-flex-center">
         <p uk-margin>
             <button
                 v-if="isActiveButton('startGame')"
@@ -66,7 +66,7 @@
             </button>
         </p>
     </div>
-    <div>
+    <div class="uk-flex uk-flex-center">
         <b-form-slider
             ref="ticks"
             v-if="isActiveButton('addMoney') || isActiveButton('equalAndAdd')"
@@ -75,6 +75,7 @@
             :min="5"
             :max="100"
             :ticks="ticks"
+            tooltip="hide"
             :ticks-labels="tickLabels">
         </b-form-slider>
     </div>

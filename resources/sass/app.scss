@@ -1,5 +1,18 @@
 .logo__img {
   width: 35px;
+  fill: red;
+}
+
+.logo__ruble-icon {
+  width: 11px;
+  height: 12px;
+  fill: greenyellow;
+
+  &_big_width {
+    width: 20px;
+    height: 22px;
+    fill: green;
+  }
 }
 
 .header {
@@ -32,12 +45,54 @@
   }
 }
 
-.money__img {
-  width: 40px;
+.status-text {
+
+  font-size: 22px;
+  &__background {
+    &_color_green {
+      background-color: #edfbf6;
+      color: #32d296;
+      @extend .status-text;
+    }
+    &_color_orange {
+      background-color: #fff6ee;
+      color: #faa05a;
+      @extend .status-text;
+    }
+  }
+}
+
+.money {
+  &__icon {
+    width: 80px;
+    height: 100px;
+    fill: green;
+  }
+  &__text {
+    font-size: 16px;
+    &_color_red {
+      @extend .money__text;
+      color: dodgerblue;
+    }
+    &_color_blue {
+      @extend .money__text;
+      color: lightcoral;
+    }
+
+  }
+  &__total-text {
+    font-size: 28px;
+    font-weight: 700;
+    color: green;
+    padding-right: 5px;
+  }
+  &__message {
+    color: blue;
+  }
 }
 
 .card__img {
-  width: 130px;
+  width: 15vw;
   cursor: pointer;
 }
 
@@ -48,7 +103,7 @@
 .card__img_change {
   filter: grayscale(1);
   transition: 0.05s ease-in-out;
-  margin-top: -30px;
+  margin-top: -25px;
 }
 
 .indicator__circle__status_ready {
@@ -69,10 +124,6 @@
   font-size: 10px;
 }
 
-// .slider-tick-label-container {
-//   margin-top: 30px;
-// }
-
-// .slider-horizontal {
-//   width: 310px;
-// }
+.slider-horizontal {
+  width: 320px !important;
+}

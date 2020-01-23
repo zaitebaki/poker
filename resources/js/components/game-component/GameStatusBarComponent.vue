@@ -1,8 +1,5 @@
 <template>
 <div class="uk-section-secondary uk-preserve-color">
-
-    <!-- <div uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; top: 200"> -->
-
         <nav class="uk-navbar-container uk-navbar-transparent uk-light">
             <div class="uk-container uk-container-expand">
                 <div uk-navbar>
@@ -13,7 +10,6 @@
                         </a>
                         <div class="uk-navbar-item">
                             <span><img src="/assets/images/logo.svg" alt="" class="logo__img"></span>
-                            <!-- <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span> -->
                             <p class="uk-text uk-margin-remove header__user-name">{{ user.name }}
                             </p>
                         </div>
@@ -21,9 +17,12 @@
                             <span><img src="/assets/images/logo.svg" alt="" class="logo__img"></span>
                             <p class="uk-text uk-margin-remove header__statistic-text">{{ content.balance }}: 
                                 <span>
-                                    {{ user.balance }}
+                                    {{ user.balance }}&nbsp;
                                 </span>
                             </p>
+                            <svg class="logo__ruble-icon" aria-hidden="true">
+                                <use xlink:href="/assets/images/game/ruble-icon.svg#Capa_1"/>
+                            </svg>
                         </div>
                     </div>
                     <div class="uk-navbar-right">

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="uk-flex uk-flex-center uk-margin-small-top">
     <div>
         <p class="uk-text" v-if="combination">{{ printCombination }}</p>
     </div>

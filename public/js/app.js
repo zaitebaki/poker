@@ -1812,6 +1812,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     money: String,
@@ -1860,6 +1874,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_bootstrap_slider_es_form_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-bootstrap-slider/es/form-slider */ "./node_modules/vue-bootstrap-slider/es/form-slider.js");
 /* harmony import */ var vue_bootstrap_slider_es_form_slider__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_bootstrap_slider_es_form_slider__WEBPACK_IMPORTED_MODULE_0__);
+//
 //
 //
 //
@@ -2421,7 +2436,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: Object,
@@ -2452,12 +2466,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    // invitationText: String,
-    // formRoute: String,
-    // formButtonCaption: String,
-    statusMessage: String
+    statusMessage: String,
+    indicatorStatus: String
   },
   data: function data() {
     return {
@@ -2575,6 +2594,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
 /* harmony import */ var _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GameIndicatorComponent */ "./resources/js/components/game-component/GameIndicatorComponent.vue");
+//
+//
 //
 //
 //
@@ -54949,21 +54970,20 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "uk-card uk-card-default uk-card-body uk-width-1-3@m" },
-    [
+  return _c("div", { staticClass: "uk-width-auto " }, [
+    _c("div", { staticClass: "uk-background-muted uk-padding-small" }, [
       _c("div", { staticClass: "uk-flex" }, [
-        _c("div", [
+        _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
           _c(
             "ul",
             {
-              staticClass: "uk-list uk-text-small uk-text-light uk-text-success"
+              staticClass:
+                "uk-list uk-text-light money__text_color_red uk-margin-remove"
             },
             [
               _vm._l(_vm.getMessages, function(message, index) {
                 return [
-                  _c("li", [
+                  _c("li", { class: { money__text_color_blue: index % 2 } }, [
                     _vm._v(
                       _vm._s(message.login) + ": + " + _vm._s(message.money)
                     )
@@ -54975,19 +54995,45 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", [
-          _c("p", [
-            _c("img", {
-              staticClass: "money__img",
-              attrs: { src: "/assets/images/game/money-icon.svg", alt: "" }
-            }),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(_vm.money) + " руб.")])
+        _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
+          _c("div", { staticClass: "uk-padding-small" }, [
+            _c("svg", { staticClass: "money__icon" }, [
+              _c("use", {
+                attrs: {
+                  "xlink:href": "/assets/images/game/money-icon.svg#money"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("span", { staticClass: "uk-text money__total-text" }, [
+              _vm._v(_vm._s(_vm.money) + " ")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("span", [
+              _c(
+                "svg",
+                {
+                  staticClass: "logo__ruble-icon_big_width",
+                  attrs: { "aria-hidden": "true" }
+                },
+                [
+                  _c("use", {
+                    attrs: {
+                      "xlink:href": "/assets/images/game/ruble-icon.svg#Capa_1"
+                    }
+                  })
+                ]
+              )
+            ])
           ])
         ])
       ])
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55011,8 +55057,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", [
+  return _c("div", { staticClass: "uk-margin-medium-top" }, [
+    _c("div", { staticClass: "uk-flex uk-flex-center" }, [
       _c("p", { attrs: { "uk-margin": "" } }, [
         _vm.isActiveButton("startGame")
           ? _c(
@@ -55215,6 +55261,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
+      { staticClass: "uk-flex uk-flex-center" },
       [
         _vm.isActiveButton("addMoney") || _vm.isActiveButton("equalAndAdd")
           ? _c("b-form-slider", {
@@ -55224,6 +55271,7 @@ var render = function() {
                 min: 5,
                 max: 100,
                 ticks: _vm.ticks,
+                tooltip: "hide",
                 "ticks-labels": _vm.tickLabels
               },
               model: {
@@ -55380,9 +55428,25 @@ var render = function() {
                       _vm._v(
                         "\n                                    " +
                           _vm._s(_vm.user.balance) +
-                          "\n                                "
+                          " \n                                "
                       )
                     ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "logo__ruble-icon",
+                    attrs: { "aria-hidden": "true" }
+                  },
+                  [
+                    _c("use", {
+                      attrs: {
+                        "xlink:href":
+                          "/assets/images/game/ruble-icon.svg#Capa_1"
+                      }
+                    })
                   ]
                 )
               ])
@@ -55519,7 +55583,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("p", [_vm._v(_vm._s(_vm.statusMessage))])])
+  return _c("div", { staticClass: "uk-flex uk-flex-middle uk-padding" }, [
+    _c("div", [
+      _c("p", { staticClass: "uk-margin-remove" }, [
+        _vm._v(_vm._s(_vm.statusMessage))
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.indicatorStatus === "wait"
+      ? _c("div", { staticClass: "uk-padding-small" }, [
+          _c("img", { attrs: { src: "/assets/images/game/830.gif", alt: "" } })
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55543,39 +55619,43 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", [
-      _vm.combination
-        ? _c("p", { staticClass: "uk-text" }, [
-            _vm._v(_vm._s(_vm.printCombination))
-          ])
-        : _vm._e()
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "uk-flex" },
-      [
-        _vm._l(_vm.cards, function(card, index) {
-          return [
-            _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
-              _c("img", {
-                staticClass: "card__img",
-                class: { card__img_change: _vm.imgElementsClasses[index] },
-                attrs: { src: _vm.getPathToImage(index), alt: "" },
-                on: {
-                  click: function($event) {
-                    return _vm.switcher(index)
-                  }
-                }
-              })
+  return _c(
+    "div",
+    { staticClass: "uk-flex uk-flex-center uk-margin-small-top" },
+    [
+      _c("div", [
+        _vm.combination
+          ? _c("p", { staticClass: "uk-text" }, [
+              _vm._v(_vm._s(_vm.printCombination))
             ])
-          ]
-        })
-      ],
-      2
-    )
-  ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "uk-flex" },
+        [
+          _vm._l(_vm.cards, function(card, index) {
+            return [
+              _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
+                _c("img", {
+                  staticClass: "card__img",
+                  class: { card__img_change: _vm.imgElementsClasses[index] },
+                  attrs: { src: _vm.getPathToImage(index), alt: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.switcher(index)
+                    }
+                  }
+                })
+              ])
+            ]
+          })
+        ],
+        2
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55618,26 +55698,39 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _vm.vueGameParameters.opponentUserCards
-            ? _c("game-opponent-cards-component", {
+          _c(
+            "div",
+            {
+              staticClass: "uk-width-expand uk-flex uk-flex-middle",
+              class: [
+                _vm.vueGameParameters.indicator === "wait"
+                  ? "status-text__background_color_orange"
+                  : "status-text__background_color_green"
+              ]
+            },
+            [
+              _c("game-status-text-component", {
                 attrs: {
-                  cards: _vm.vueGameParameters.opponentUserCards,
-                  combination: _vm.vueGameParameters.opponentCombination,
-                  points: _vm.vueGameParameters.opponentPoints
+                  "status-message": _vm.vueGameParameters.statusMessage,
+                  "indicator-status": _vm.vueGameParameters.indicator
                 }
               })
-            : _vm._e()
+            ],
+            1
+          )
         ],
         1
       ),
       _vm._v(" "),
-      _c("game-indicator-component", {
-        attrs: { "indicator-status": _vm.vueGameParameters.indicator }
-      }),
-      _vm._v(" "),
-      _c("game-status-text-component", {
-        attrs: { "status-message": _vm.vueGameParameters.statusMessage }
-      }),
+      _vm.vueGameParameters.opponentUserCards
+        ? _c("game-opponent-cards-component", {
+            attrs: {
+              cards: _vm.vueGameParameters.opponentUserCards,
+              combination: _vm.vueGameParameters.opponentCombination,
+              points: _vm.vueGameParameters.opponentPoints
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
       _c("game-button-panel-component", {
         attrs: {
