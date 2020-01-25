@@ -72,7 +72,6 @@ export default {
     },
     data() {
         return {
-            cards: null,
             vueGameParameters: this.gameParameters,
             userParameters: this.user,
             activeCardsStorage: [true, true, true, true, true],
@@ -99,7 +98,6 @@ export default {
         this.$root.$on('changed:cards:false', () => {
             this.activeCardsStorage = [true, true, true, true, true];
         });
-        console.log(this.gameParameters);
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
                 axios.post('/game/room/1', { updateState: 'ReadyState', roomName: 'room_1', sendPost: 'true'}).then( (response) => {
@@ -191,13 +189,13 @@ export default {
             if("gameParameters" in $event ) {
                 this.vueGameParameters = $event.gameParameters;
             }
-            // this.vueGameParameters = $event;
-            // console.log('update');
-            // console.log($event);
+            console.log(this.vueGameParameters.userCards);
         },
         changeActiveCardsStorage($event) {
             const index = $event;
             this.activeCardsStorage[index] = !this.activeCardsStorage[index];
+
+            console.log(this.activeCardsStorage);
         },
         sendFinishGameRequest() {
             axios.post('/game/room/1', {
@@ -210,6 +208,20 @@ export default {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
             });
+        },
+        getCardsArr() {
+            let array = [];
+            console.log(this.gameParameters.userCards);
+            if("userCards" in this.vueGameParameters && this.vueGameParameters.userCards) {
+                this.vueGameParameters.userCards.forEach(function(item, i, arr) {
+                    let obj = {
+                        index: i,
+                        value: item
+                    }
+                   array.push(obj);
+                });
+            }
+            return array;
         }
     },
     components: {

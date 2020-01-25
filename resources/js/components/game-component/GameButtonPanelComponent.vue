@@ -243,8 +243,6 @@ export default {
                 }).
             then( (response) => {
                 this.$emit('update:parameters', response.data);
-
-                // console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -301,7 +299,6 @@ export default {
                 return this.increaseAfterEqualMoney;
             }
             else {
-                console.log("Зайте");
                 return this.addOpponentMoney;
             }
         },

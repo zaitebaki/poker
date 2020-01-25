@@ -2126,8 +2126,7 @@ __webpack_require__.r(__webpack_exports__);
         roomName: 'room_1',
         money: this.getDropMoney()
       }).then(function (response) {
-        _this7.$emit('update:parameters', response.data); // console.log(response.data);
-
+        _this7.$emit('update:parameters', response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2179,7 +2178,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.increaseAfterEqualMoney !== '0') {
         return this.increaseAfterEqualMoney;
       } else {
-        console.log("Зайте");
         return this.addOpponentMoney;
       }
     },
@@ -2534,7 +2532,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       imgElementsClasses: [false, false, false, false, false],
       changedCardsFlag: this.isAlreadyChangedCards,
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      copyCardsObj: [],
+      arrCards: this.cards
     };
   },
   computed: {
@@ -2542,34 +2542,81 @@ __webpack_require__.r(__webpack_exports__);
       var table = this.$parent.combinationTable;
       var rusCombination = table[this.combination];
       return rusCombination + ' —  ' + this.points;
+    },
+    getArrCards: function getArrCards() {
+      return this.arrCards;
     }
   },
   mounted: function mounted() {
     var _this = this;
 
+    this.sortCards();
     this.$root.$on('clean:cards:classes', function () {
       _this.imgElementsClasses = [false, false, false, false, false];
       _this.changedCardsFlag = true;
+      setTimeout(function () {
+        _this.arrCards = _this.cards;
+
+        _this.sortCards();
+      }, 100);
     });
     this.$root.$on('changed:cards:false', function () {
       _this.imgElementsClasses = [false, false, false, false, false];
       _this.changedCardsFlag = false;
+      setTimeout(function () {
+        _this.arrCards = _this.cards;
+
+        _this.sortCards();
+      }, 100);
     });
     this.handleSwitcher = this.normalSwitcher;
   },
   methods: {
+    sortCards: function sortCards() {
+      var copyCardsArr = this.arrCards.slice();
+      var obj = {};
+      copyCardsArr.forEach(function (currentValue, index) {
+        obj[currentValue] = index;
+      });
+      this.copyCardsObj = obj;
+      this.arrCards.sort(this.compareCards);
+    },
+    compareCards: function compareCards(a, b) {
+      var valueA = this.getValueForSmb(a);
+      var valueB = this.getValueForSmb(b);
+      if (valueA > valueB) return 1;
+      if (valueA == valueB) return 0;
+      if (valueA < valueB) return -1;
+    },
+    getValueForSmb: function getValueForSmb(smb) {
+      var smbTable = {
+        'x': 10,
+        'v': 11,
+        'd': 12,
+        'k': 13,
+        't': 14
+      };
+      if (smb === '1j' || smb === '2j') return 20;
+      var curSmb = smb[0];
+
+      if (curSmb in smbTable) {
+        return smbTable[curSmb];
+      } else {
+        return Number.parseInt(curSmb);
+      }
+    },
     getPathToImage: function getPathToImage(index) {
-      var cardCode = this.cards[index];
-      var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".jpg");
+      var cardCode = this.arrCards[index];
+      var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".png");
       return "/assets/images/cards/".concat(fileCardName);
     },
-    switcher: function switcher(index) {
-      console.log(this.changedCardsFlag);
-      console.log(this.isAlreadyChangedCards);
-      if (this.changedCardsFlag === false) this.normalSwitcher(index);
+    switcher: function switcher(card, index) {
+      if (this.changedCardsFlag === false) this.normalSwitcher(card, index);
     },
-    normalSwitcher: function normalSwitcher(index) {
-      this.$emit('change:active:cards:storage', index);
+    normalSwitcher: function normalSwitcher(card, index) {
+      var srcIndex = this.copyCardsObj[card];
+      console.log(srcIndex);
+      this.$emit('change:active:cards:storage', srcIndex);
       var newValue = !this.imgElementsClasses[index];
       this.$set(this.imgElementsClasses, index, newValue);
     }
@@ -2666,7 +2713,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      cards: null,
       vueGameParameters: this.gameParameters,
       userParameters: this.user,
       activeCardsStorage: [true, true, true, true, true],
@@ -2695,7 +2741,6 @@ __webpack_require__.r(__webpack_exports__);
     this.$root.$on('changed:cards:false', function () {
       _this.activeCardsStorage = [true, true, true, true, true];
     });
-    console.log(this.gameParameters);
     this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
       var data = _ref.data;
       axios.post('/game/room/1', {
@@ -2799,14 +2844,14 @@ __webpack_require__.r(__webpack_exports__);
 
       if ("gameParameters" in $event) {
         this.vueGameParameters = $event.gameParameters;
-      } // this.vueGameParameters = $event;
-      // console.log('update');
-      // console.log($event);
+      }
 
+      console.log(this.vueGameParameters.userCards);
     },
     changeActiveCardsStorage: function changeActiveCardsStorage($event) {
       var index = $event;
       this.activeCardsStorage[index] = !this.activeCardsStorage[index];
+      console.log(this.activeCardsStorage);
     },
     sendFinishGameRequest: function sendFinishGameRequest() {
       var _this2 = this;
@@ -2821,6 +2866,22 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
+    },
+    getCardsArr: function getCardsArr() {
+      var array = [];
+      console.log(this.gameParameters.userCards);
+
+      if ("userCards" in this.vueGameParameters && this.vueGameParameters.userCards) {
+        this.vueGameParameters.userCards.forEach(function (item, i, arr) {
+          var obj = {
+            index: i,
+            value: item
+          };
+          array.push(obj);
+        });
+      }
+
+      return array;
     }
   },
   components: {
@@ -55631,30 +55692,34 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "uk-flex" },
-        [
-          _vm._l(_vm.cards, function(card, index) {
-            return [
-              _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
-                _c("img", {
-                  staticClass: "card__img",
-                  class: { card__img_change: _vm.imgElementsClasses[index] },
-                  attrs: { src: _vm.getPathToImage(index), alt: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.switcher(index)
+      _vm.arrCards
+        ? _c(
+            "transition-group",
+            {
+              staticClass: "uk-flex",
+              attrs: { name: "cards-list", tag: "ul" }
+            },
+            _vm._l(_vm.getArrCards, function(card, index) {
+              return _c("div", { key: card }, [
+                _c("div", { staticClass: "uk-margin-small-left" }, [
+                  _c("img", {
+                    staticClass: "card__img",
+                    class: { card__img_change: _vm.imgElementsClasses[index] },
+                    attrs: { src: _vm.getPathToImage(index), alt: "" },
+                    on: {
+                      click: function($event) {
+                        return _vm.switcher(card, index)
+                      }
                     }
-                  }
-                })
+                  })
+                ])
               ])
-            ]
-          })
-        ],
-        2
-      )
-    ]
+            }),
+            0
+          )
+        : _vm._e()
+    ],
+    1
   )
 }
 var staticRenderFns = []

@@ -127,3 +127,21 @@
 .slider-horizontal {
   width: 320px !important;
 }
+
+.cards-list-move {
+  transition: transform 1s;
+}
+
+.cards-list-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 10px;
+}
+.cards-list-enter, .cards-list-leave-to
+/* .list-complete-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.cards-list-leave-active {
+  position: absolute;
+}
