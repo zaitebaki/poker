@@ -1958,6 +1958,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2254,6 +2256,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     cards: Array,
@@ -2275,8 +2285,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     printCombination: function printCombination() {
       var table = this.$parent.combinationTable;
-      var rusCombination = table[this.combination];
-      return rusCombination + ' —  ' + this.points;
+      return table[this.combination];
     }
   },
   mounted: function mounted() {
@@ -2507,15 +2516,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     statusMessage: String,
-    indicatorStatus: String
+    indicatorStatus: String,
+    isVictory: Number
   },
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
+  },
+  mounted: function mounted() {},
+  methods: {
+    getPathToSmile: function getPathToSmile() {
+      var randSmileNumber;
+      var correctPath;
+
+      if (this.isVictory === -1) {
+        randSmileNumber = this.getRandomIntInclusive(1, 9);
+        correctPath = 'gameover';
+      }
+
+      if (this.isVictory === 1) {
+        randSmileNumber = this.getRandomIntInclusive(1, 7);
+        correctPath = 'win';
+      }
+
+      return "/assets/images/game/smiles/".concat(correctPath, "/").concat(randSmileNumber, ".png");
+    },
+    // получить случайное целое число
+    // максимум и минимум включаются
+    getRandomIntInclusive: function getRandomIntInclusive(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
   }
 });
 
@@ -2530,6 +2570,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2576,8 +2622,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     printCombination: function printCombination() {
       var table = this.$parent.combinationTable;
-      var rusCombination = table[this.combination];
-      return rusCombination + ' —  ' + this.points;
+      return table[this.combination];
     },
     getArrCards: function getArrCards() {
       return this.arrCards;
@@ -2769,6 +2814,20 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     gameActionChannel: function gameActionChannel() {
       return window.Echo["private"]('room-action.1');
+    },
+    getVictoryStatus: function getVictoryStatus() {
+      if ('isVictory' in this.vueGameParameters) {
+        return this.vueGameParameters.isVictory;
+      }
+
+      return -2;
+    },
+    getBackgroundColorClasse: function getBackgroundColorClasse() {
+      if (this.vueGameParameters.isVictory === -1) {
+        return 'status-text__background_color_red';
+      }
+
+      return this.vueGameParameters.indicator === 'wait' ? 'status-text__background_color_orange' : 'status-text__background_color_green';
     }
   },
   mounted: function mounted() {
@@ -55154,236 +55213,250 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "uk-margin-medium-top" }, [
-    _c("div", { staticClass: "uk-flex uk-flex-center" }, [
-      _c("p", { attrs: { "uk-margin": "" } }, [
-        _vm.isActiveButton("startGame")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-primary",
-                on: {
-                  click: function($event) {
-                    return _vm.startGame()
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.buttonsCaptions.startButton) +
-                    "\n            "
+  return _c(
+    "div",
+    {
+      staticClass: "uk-margin-medium-top uk-margin-medium-bottom",
+      class: { "uk-margin-remove uk-padding-small": _vm.isActiveButton("then") }
+    },
+    [
+      _c("div", { staticClass: "uk-flex uk-flex-center" }, [
+        _c(
+          "p",
+          { staticClass: "uk-margin-remove", attrs: { "uk-margin": "" } },
+          [
+            _vm.isActiveButton("startGame")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.startGame()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.buttonsCaptions.startButton) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("changeCards")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-secondary",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.changeCards("change")
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.buttonsCaptions.changeCards) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("changeCards")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-secondary",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.changeCards("change")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.buttonsCaptions.changeCards) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("notChange")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-danger",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.changeCards("no:change")
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.buttonsCaptions.notChange) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("notChange")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-danger",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.changeCards("no:change")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.buttonsCaptions.notChange) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("addMoney")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-primary",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.addMoney()
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.addMoneyCaption) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("addMoney")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-primary",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.addMoney()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.addMoneyCaption) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("noMoney")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-secondary",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.check()
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.buttonsCaptions.noMoney) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("noMoney")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-secondary",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.check()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.buttonsCaptions.noMoney) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("equalAndAdd")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-primary",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.equalAndAdd()
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.equalAndAddCaption) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("equalAndAdd")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-primary",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.equalAndAdd()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.equalAndAddCaption) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("equal")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-primary",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.equal()
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.equalCaption) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("equal")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-primary",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.equal()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.equalCaption) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("gameOver")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-danger",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.gameOver()
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.buttonsCaptions.gameOver) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("gameOver")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-danger",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.gameOver()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.buttonsCaptions.gameOver) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isActiveButton("then")
-          ? _c(
-              "button",
-              {
-                staticClass: "uk-button uk-button-danger",
-                attrs: { disabled: _vm.indicatorStatus === "wait" },
-                on: {
-                  click: function($event) {
-                    return _vm.then()
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.buttonsCaptions.then) +
-                    "\n            "
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isActiveButton("then")
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "uk-button uk-button-danger",
+                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    on: {
+                      click: function($event) {
+                        return _vm.then()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.buttonsCaptions.then) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          : _vm._e()
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "uk-flex uk-flex-center" },
-      [
-        _vm.isActiveButton("addMoney") || _vm.isActiveButton("equalAndAdd")
-          ? _c("b-form-slider", {
-              ref: "ticks",
-              attrs: {
-                step: 5,
-                min: 5,
-                max: 100,
-                ticks: _vm.ticks,
-                tooltip: "hide",
-                "ticks-labels": _vm.tickLabels
-              },
-              model: {
-                value: _vm.moneySumForAdd,
-                callback: function($$v) {
-                  _vm.moneySumForAdd = $$v
-                },
-                expression: "moneySumForAdd"
-              }
-            })
-          : _vm._e()
-      ],
-      1
-    )
-  ])
+              : _vm._e()
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      !_vm.isActiveButton("then")
+        ? _c(
+            "div",
+            { staticClass: "uk-flex uk-flex-center uk-margin-small-top" },
+            [
+              _vm.isActiveButton("addMoney") ||
+              _vm.isActiveButton("equalAndAdd")
+                ? _c("b-form-slider", {
+                    ref: "ticks",
+                    attrs: {
+                      step: 5,
+                      min: 5,
+                      max: 100,
+                      ticks: _vm.ticks,
+                      tooltip: "hide",
+                      "ticks-labels": _vm.tickLabels
+                    },
+                    model: {
+                      value: _vm.moneySumForAdd,
+                      callback: function($$v) {
+                        _vm.moneySumForAdd = $$v
+                      },
+                      expression: "moneySumForAdd"
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55431,35 +55504,53 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "uk-width-2-3@m" }, [
-    _c("h4", [_vm._v("Карты соперника")]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "uk-flex" },
-      [
+  return _c(
+    "div",
+    { staticClass: "uk-flex uk-flex-middle opponents-card__small-padding" },
+    [
+      _c("div", [
+        _c("p", { staticClass: "opponents-card__header-text" }, [
+          _vm._v("Карты соперника")
+        ]),
+        _vm._v(" "),
+        _vm.combination
+          ? _c(
+              "p",
+              { staticClass: "uk-text opponents-card__combination-text" },
+              [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.printCombination) +
+                    "\n            "
+                ),
+                _c("br"),
+                _vm._v("\n            /" + _vm._s(_vm.points) + "\n        ")
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "transition-group",
+        {
+          staticClass: "uk-flex uk-margin-remove",
+          attrs: { name: "cards-list", tag: "ul" }
+        },
         _vm._l(_vm.arrCards, function(card, index) {
-          return [
-            _c("div", { key: card, staticClass: "uk-margin-small-left" }, [
+          return _c("div", { key: card }, [
+            _c("div", { staticClass: "uk-margin-small-left" }, [
               _c("img", {
                 staticClass: "card__img card__img_opponent-card_true",
                 attrs: { src: _vm.getPathToImage(index) }
               })
             ])
-          ]
-        })
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _c("div", [
-      _vm.combination
-        ? _c("p", { staticClass: "uk-text" }, [
-            _vm._v(_vm._s(_vm.printCombination))
           ])
-        : _vm._e()
-    ])
-  ])
+        }),
+        0
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55689,7 +55780,18 @@ var render = function() {
     _vm._v(" "),
     _vm.indicatorStatus === "wait"
       ? _c("div", { staticClass: "uk-padding-small" }, [
-          _c("img", { attrs: { src: "/assets/images/game/830.gif", alt: "" } })
+          _c("img", {
+            attrs: { src: "/assets/images/game/waiting.gif", alt: "" }
+          })
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isVictory !== -2
+      ? _c("div", { staticClass: "message-block__smile" }, [
+          _c("img", {
+            staticClass: "message-block__smile-img",
+            attrs: { src: _vm.getPathToSmile(), alt: "" }
+          })
         ])
       : _vm._e()
   ])
@@ -55718,13 +55820,23 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "uk-flex uk-flex-center uk-margin-small-top" },
+    { staticClass: "uk-flex uk-flex-middle uk-flex-center" },
     [
       _c("div", [
         _vm.combination
-          ? _c("p", { staticClass: "uk-text" }, [
-              _vm._v(_vm._s(_vm.printCombination))
-            ])
+          ? _c(
+              "p",
+              { staticClass: "uk-text opponents-card__combination-text" },
+              [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.printCombination) +
+                    "\n            "
+                ),
+                _c("br"),
+                _vm._v("\n            /" + _vm._s(_vm.points) + "\n        ")
+              ]
+            )
           : _vm._e()
       ]),
       _vm._v(" "),
@@ -55732,7 +55844,7 @@ var render = function() {
         ? _c(
             "transition-group",
             {
-              staticClass: "uk-flex",
+              staticClass: "uk-flex uk-margin-remove",
               attrs: { name: "cards-list", tag: "ul" }
             },
             _vm._l(_vm.getArrCards, function(card, index) {
@@ -55803,17 +55915,14 @@ var render = function() {
             "div",
             {
               staticClass: "uk-width-expand uk-flex uk-flex-middle",
-              class: [
-                _vm.vueGameParameters.indicator === "wait"
-                  ? "status-text__background_color_orange"
-                  : "status-text__background_color_green"
-              ]
+              class: _vm.getBackgroundColorClasse
             },
             [
               _c("game-status-text-component", {
                 attrs: {
                   "status-message": _vm.vueGameParameters.statusMessage,
-                  "indicator-status": _vm.vueGameParameters.indicator
+                  "indicator-status": _vm.vueGameParameters.indicator,
+                  "is-victory": _vm.getVictoryStatus
                 }
               })
             ],

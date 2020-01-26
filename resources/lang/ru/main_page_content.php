@@ -67,7 +67,7 @@ return [
             'checkMessageOpponent'    => ':user сказал «чек». Ваш ход.',
             'equalAndAddMoney'        => ':user сравнял :money1 и добавил еще :money2 рублей. Ваш ход.',
             'equalMoney'              => ':user сравнял :money1 рублей. Определяем победителя...',
-            'winFinishMessage'        => 'Победа! Вы выиграли :money рублей.',
+            'winFinishMessage'        => 'Победа! Вы выиграли :money рублей. Зайте Баки!',
             'loseFinishMessage'       => 'Проигрыш. Вы проиграли :money рублей.',
             'drawFinishMessage'       => 'Ничья. :money возвращаются вам на счет.',
             'gameOverMessage1'        => 'Победа! :user сбросил карты. Вы выиграли :money рублей.',

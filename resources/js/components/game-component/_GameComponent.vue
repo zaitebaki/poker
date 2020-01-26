@@ -13,11 +13,11 @@
         </game-bank-component>
 
         <div class="uk-width-expand uk-flex uk-flex-middle"
-            v-bind:class="[vueGameParameters.indicator === 'wait' ? 'status-text__background_color_orange'
-                                                                    : 'status-text__background_color_green']">
+            v-bind:class="getBackgroundColorClasse">
             <game-status-text-component
                 :status-message="vueGameParameters.statusMessage"
-                :indicator-status="vueGameParameters.indicator">
+                :indicator-status="vueGameParameters.indicator"
+                :is-victory="getVictoryStatus">
             </game-status-text-component>
         </div>
     </div>
@@ -93,6 +93,19 @@ export default {
         gameActionChannel() {
             return window.Echo.private('room-action.1');
         },
+        getVictoryStatus() {
+            if('isVictory' in this.vueGameParameters) {
+                return this.vueGameParameters.isVictory;
+            }
+            return -2;
+        },
+        getBackgroundColorClasse() {
+            if(this.vueGameParameters.isVictory === -1) {
+                return 'status-text__background_color_red';
+            }
+            return (this.vueGameParameters.indicator === 'wait') ? 'status-text__background_color_orange' : 
+            'status-text__background_color_green';
+        }
     },
     mounted() {
         this.$root.$on('changed:cards:false', () => {

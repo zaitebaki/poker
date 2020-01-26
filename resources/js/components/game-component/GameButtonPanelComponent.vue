@@ -1,7 +1,9 @@
 <template>
-<div class="uk-margin-medium-top">
+<div
+    class="uk-margin-medium-top uk-margin-medium-bottom"
+    :class="{'uk-margin-remove uk-padding-small': isActiveButton('then')}">
     <div class="uk-flex uk-flex-center">
-        <p uk-margin>
+        <p uk-margin class="uk-margin-remove">
             <button
                 v-if="isActiveButton('startGame')"
                 class="uk-button uk-button-primary"
@@ -66,7 +68,7 @@
             </button>
         </p>
     </div>
-    <div class="uk-flex uk-flex-center">
+    <div class="uk-flex uk-flex-center uk-margin-small-top" v-if="!isActiveButton('then')">
         <b-form-slider
             ref="ticks"
             v-if="isActiveButton('addMoney') || isActiveButton('equalAndAdd')"

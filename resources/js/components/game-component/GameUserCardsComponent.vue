@@ -1,9 +1,15 @@
 <template>
-<div class="uk-flex uk-flex-center uk-margin-small-top">
+<div class="uk-flex uk-flex-middle uk-flex-center">
     <div>
-        <p class="uk-text" v-if="combination">{{ printCombination }}</p>
+        <p
+            class="uk-text opponents-card__combination-text"
+            v-if="combination">
+            {{ printCombination }}
+            <br>
+            /{{ points }}
+        </p>
     </div>
-    <transition-group name="cards-list" class="uk-flex" tag="ul" v-if="arrCards">
+    <transition-group name="cards-list" class="uk-flex uk-margin-remove" tag="ul" v-if="arrCards">
         <div v-for="(card, index) in getArrCards" v-bind:key="card">
             <div class="uk-margin-small-left">
                 <img
@@ -45,8 +51,7 @@ export default {
     computed: {
         printCombination() {
             const table = this.$parent.combinationTable;
-            const rusCombination = table[this.combination];
-            return rusCombination + ' —  ' + this.points;
+            return table[this.combination];
         },
         getArrCards() {
             return this.arrCards;
