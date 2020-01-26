@@ -2268,7 +2268,8 @@ __webpack_require__.r(__webpack_exports__);
         'v': 'vini',
         'k': 'kresti',
         'j': 'joker'
-      }
+      },
+      arrCards: this.cards
     };
   },
   computed: {
@@ -2278,11 +2279,46 @@ __webpack_require__.r(__webpack_exports__);
       return rusCombination + ' —  ' + this.points;
     }
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.sortCards();
+  },
   methods: {
+    sortCards: function sortCards() {
+      // let copyCardsArr = this.arrCards.slice();
+      // let obj = {};
+      // copyCardsArr.forEach(function(currentValue, index) {
+      //     obj[currentValue] = index;
+      // });
+      // this.copyCardsObj = obj;
+      this.arrCards.sort(this.compareCards);
+    },
+    compareCards: function compareCards(a, b) {
+      var valueA = this.getValueForSmb(a);
+      var valueB = this.getValueForSmb(b);
+      if (valueA > valueB) return 1;
+      if (valueA == valueB) return 0;
+      if (valueA < valueB) return -1;
+    },
+    getValueForSmb: function getValueForSmb(smb) {
+      var smbTable = {
+        'x': 10,
+        'v': 11,
+        'd': 12,
+        'k': 13,
+        't': 14
+      };
+      if (smb === '1j' || smb === '2j') return 20;
+      var curSmb = smb[0];
+
+      if (curSmb in smbTable) {
+        return smbTable[curSmb];
+      } else {
+        return Number.parseInt(curSmb);
+      }
+    },
     getPathToImage: function getPathToImage(index) {
       var cardCode = this.cards[index];
-      var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".jpg");
+      var fileCardName = "".concat(this.suitTable[cardCode[1]], "-").concat(cardCode[0], ".png");
       return "/assets/images/cards/".concat(fileCardName);
     }
   }
@@ -55402,9 +55438,9 @@ var render = function() {
       "div",
       { staticClass: "uk-flex" },
       [
-        _vm._l(_vm.cards, function(card, index) {
+        _vm._l(_vm.arrCards, function(card, index) {
           return [
-            _c("div", { key: index, staticClass: "uk-margin-small-left" }, [
+            _c("div", { key: card, staticClass: "uk-margin-small-left" }, [
               _c("img", {
                 staticClass: "card__img card__img_opponent-card_true",
                 attrs: { src: _vm.getPathToImage(index) }
