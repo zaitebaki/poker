@@ -45,7 +45,7 @@ class StartedGameState extends State
             // $this->context->indicator = 'ready';
             $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
 
-            \App\Events\SendBettingStatus::dispatch();
+            \App\Events\SendBettingStatus::dispatch($this->context->roomId);
         }
 
         if ($this->context->role === 'opponentUser') {
@@ -56,7 +56,7 @@ class StartedGameState extends State
                 $this->updateUserCards(10 + $countCards, $cntIndexes, $indexesArr);
             }
 
-            \App\Events\SendFinishChangeStatus::dispatch();
+            \App\Events\SendFinishChangeStatus::dispatch($this->context->roomId);
             $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage4',
                 ['user' => $this->context->opponentUser->name]);
             $buttons = 'equal,equalAndAdd,gameOver';
@@ -77,11 +77,12 @@ class StartedGameState extends State
         }
         $this->context->saveUserCards();
     }
-    
+
     /**
      * Сохранить флаг начала игры
      */
-    private function saveStartGameStatus() {
+    private function saveStartGameStatus()
+    {
         Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":startGameStatus", 'ok');
     }
 

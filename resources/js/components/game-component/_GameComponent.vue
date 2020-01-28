@@ -31,6 +31,8 @@
 
 
     <game-button-panel-component
+        :room-url="roomUrl"
+        :room-name="roomName"
         :buttons-captions="content.buttonsCaptions"
         :buttons="vueGameParameters.buttons"
         :user="userParameters"
@@ -87,11 +89,13 @@ export default {
                 'DVOIKA': 'Двойка',
                 'WASTE': 'Хлам'
             },
+            roomUrl: '/game/room/' + this.gameParameters.roomId,
+            roomName: 'room_' + this.gameParameters.roomId
         }
     },
     computed: {
         gameActionChannel() {
-            return window.Echo.private('room-action.1');
+            return window.Echo.private('room-action.' + this.vueGameParameters.roomId);
         },
         getVictoryStatus() {
             if('isVictory' in this.vueGameParameters) {
@@ -108,12 +112,16 @@ export default {
         }
     },
     mounted() {
+        console.log('roomUrl');
+        console.log(this.roomUrl);
         this.$root.$on('changed:cards:false', () => {
             this.activeCardsStorage = [true, true, true, true, true];
         });
         this.gameActionChannel
             .listen('SendReadyStatus', ({data}) => {
-                axios.post('/game/room/1', { updateState: 'ReadyState', roomName: 'room_1', sendPost: 'true'}).then( (response) => {
+                axios.post(this.roomUrl, { updateState: 'ReadyState', roomName: this.roomName, sendPost: 'true'}).then( (response) => {
+                    console.log(this.roomName);
+                    console.log("Пришел ответ после отправки SendReadyStatus");
                     this.vueGameParameters = response.data.gameParameters;
                 }).catch(function (error) {
                     console.log(error);
@@ -123,7 +131,7 @@ export default {
             })
             .listen('SendStartedGameStatus', ({data}) => {
                 console.log("Hello from SendStartedGameStatus!!!");
-                axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
+                axios.post(this.roomUrl, { initAction: 'startGame', roomName: this.roomName}).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                     this.$root.$emit('changed:cards:false');
                 }).catch(function (error) {
@@ -133,7 +141,7 @@ export default {
             })
             .listen('SendBettingStatus', ({data}) => {
                 console.log("Hello from SendBettingStatus!!!");
-                axios.post('/game/room/1', { updateState: 'StartedGameState', roomName: 'room_1'}).then( (response) => {
+                axios.post(this.roomUrl, { updateState: 'StartedGameState', roomName: this.roomName}).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                 }).catch(function (error) {
                     console.log(error);
@@ -142,9 +150,9 @@ export default {
             })
             .listen('SendFinishChangeStatus', ({data}) => {
                 console.log("Hello from SendFinishChangeStatus!!!");
-                axios.post('/game/room/1', {
+                axios.post(this.roomUrl, {
                     updateState: 'BettingState',
-                    roomName: 'room_1',
+                    roomName: this.roomName,
                     correctionStatusMessage: 'changeFinished'}).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                 }).catch(function (error) {
@@ -177,9 +185,9 @@ export default {
                     else {
                         correctionMessage = 'betFinished';
                     }
-                    axios.post('/game/room/1', {
+                    axios.post(this.roomUrl, {
                         updateState: 'BettingState',
-                        roomName: 'room_1',
+                        roomName: this.roomName,
                         correctionStatusMessage: correctionMessage,
                         money: money,
                         moneyIncrease: moneyIncrease}).then( (response) => {
@@ -211,9 +219,9 @@ export default {
             console.log(this.activeCardsStorage);
         },
         sendFinishGameRequest() {
-            axios.post('/game/room/1', {
+            axios.post(this.roomUrl, {
                 updateState: 'FinishState',
-                roomName: 'room_1'
+                roomName: this.roomName
                 }).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                     this.userParameters = response.data.user;

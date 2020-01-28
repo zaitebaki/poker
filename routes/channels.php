@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Redis;
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -20,18 +21,26 @@ Broadcast::channel('connect', function ($user) {
     return $user->login;
 });
 
-Broadcast::channel('room.{room_id}', function ($user, $id) {
-    return $user->login;
-});
+// Broadcast::channel('room.{room_id}', function ($user, $id) {
+//     return $user->login;
+// });
 
-Broadcast::channel('room-action.{room_id}', function ($user, $id) {
-    return $user->login;
+Broadcast::channel('room-action.{room_id}', function ($user, $roomId) {
+
+    $data = Redis::exists('room_' . $roomId . ':' . $user->id);
+
+    if ($data) {
+        return true;
+    }
+
+    return false;
 });
 
 Broadcast::channel('invitation.{id}', function ($user, $id) {
 
-    // if ($user->invitations->contains($id)) {
-    //     return true;
-    // }
-    return true;
+    if ((int) $user->id === (int) $id) {
+        return true;
+    }
+
+    return false;
 });

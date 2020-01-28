@@ -20,10 +20,17 @@ return [
             'gameover' => 0,
             'balance'  => 0,
         ],
-
         [
             'name'     => 'Саня',
             'login'    => 'sanya',
+            'password' => '123456',
+            'victory'  => 0,
+            'gameover' => 0,
+            'balance'  => 0,
+        ],
+        [
+            'name'     => 'Вася',
+            'login'    => 'vasya',
             'password' => '123456',
             'victory'  => 0,
             'gameover' => 0,

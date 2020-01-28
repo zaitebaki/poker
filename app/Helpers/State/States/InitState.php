@@ -17,7 +17,7 @@ class InitState extends State
 
     public function connectionOpponentUser()
     {
-        \App\Events\SendReadyStatus::dispatch();
+        \App\Events\SendReadyStatus::dispatch($this->context->roomId);
         $this->context->updateState('ReadyState');
     }
 

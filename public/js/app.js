@@ -1963,6 +1963,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    roomUrl: String,
+    roomName: String,
     buttonsCaptions: Object,
     buttons: Array,
     user: Object,
@@ -2005,9 +2007,9 @@ __webpack_require__.r(__webpack_exports__);
     startGame: function startGame() {
       var _this = this;
 
-      axios.post('/game/room/1', {
+      axios.post(this.roomUrl, {
         initAction: 'startGame',
-        roomName: 'room_1'
+        roomName: this.roomName
       }).then(function (response) {
         console.log(response.data);
 
@@ -2027,9 +2029,9 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      axios.post('/game/room/1', {
+      axios.post(this.roomUrl, {
         initAction: 'changeCards',
-        roomName: 'room_1',
+        roomName: this.roomName,
         cardsIndexForChange: this.getcardsIndexForChange(change)
       }).then(function (response) {
         console.log(response.data);
@@ -2046,9 +2048,9 @@ __webpack_require__.r(__webpack_exports__);
     addMoney: function addMoney() {
       var _this3 = this;
 
-      axios.post('/game/room/1', {
+      axios.post(this.roomUrl, {
         initAction: 'addMoney',
-        roomName: 'room_1',
+        roomName: this.roomName,
         money: this.moneySumForAdd
       }).then(function (response) {
         _this3.$emit('update:parameters', response.data);
@@ -2063,9 +2065,9 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.opponentStatusCheck === true) {
         console.log('Another check');
-        axios.post('/game/room/1', {
+        axios.post(this.roomUrl, {
           initAction: 'opponentCheck',
-          roomName: 'room_1'
+          roomName: this.roomName
         }).then(function (response) {
           console.log(response.data);
 
@@ -2075,9 +2077,9 @@ __webpack_require__.r(__webpack_exports__);
           alert('Не удалось отправить запрос. Повторите попытку позже.');
         });
       } else {
-        axios.post('/game/room/1', {
+        axios.post(this.roomUrl, {
           initAction: 'check',
-          roomName: 'room_1'
+          roomName: this.roomName
         }).then(function (response) {
           _this4.$emit('update:parameters', response.data);
         })["catch"](function (error) {
@@ -2090,9 +2092,9 @@ __webpack_require__.r(__webpack_exports__);
     equalAndAdd: function equalAndAdd() {
       var _this5 = this;
 
-      axios.post('/game/room/1', {
+      axios.post(this.roomUrl, {
         initAction: 'equalAndAdd',
-        roomName: 'room_1',
+        roomName: this.roomName,
         moneyequal: this.getCurrentAddingMoney(),
         moneyAdd: this.moneySumForAdd
       }).then(function (response) {
@@ -2106,9 +2108,9 @@ __webpack_require__.r(__webpack_exports__);
     equal: function equal() {
       var _this6 = this;
 
-      axios.post('/game/room/1', {
+      axios.post(this.roomUrl, {
         initAction: 'equal',
-        roomName: 'room_1',
+        roomName: this.roomName,
         money: this.getCurrentAddingMoney()
       }).then(function (response) {
         console.log(response.data);
@@ -2123,9 +2125,9 @@ __webpack_require__.r(__webpack_exports__);
     gameOver: function gameOver() {
       var _this7 = this;
 
-      axios.post('/game/room/1', {
+      axios.post(this.roomUrl, {
         initAction: 'gameOver',
-        roomName: 'room_1',
+        roomName: this.roomName,
         money: this.getDropMoney()
       }).then(function (response) {
         _this7.$emit('update:parameters', response.data);
@@ -2138,9 +2140,10 @@ __webpack_require__.r(__webpack_exports__);
     then: function then() {
       var _this8 = this;
 
-      axios.post('/game/room/1', {
+      console.log(this.roomName);
+      axios.post(this.roomUrl, {
         initAction: 'nextRound',
-        roomName: 'room_1'
+        roomName: this.roomName
       }).then(function (response) {
         _this8.$emit('update:parameters', response.data);
 
@@ -2779,6 +2782,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2808,12 +2813,14 @@ __webpack_require__.r(__webpack_exports__);
         'TWO_PAIRS': 'Две пары',
         'DVOIKA': 'Двойка',
         'WASTE': 'Хлам'
-      }
+      },
+      roomUrl: '/game/room/' + this.gameParameters.roomId,
+      roomName: 'room_' + this.gameParameters.roomId
     };
   },
   computed: {
     gameActionChannel: function gameActionChannel() {
-      return window.Echo["private"]('room-action.1');
+      return window.Echo["private"]('room-action.' + this.vueGameParameters.roomId);
     },
     getVictoryStatus: function getVictoryStatus() {
       if ('isVictory' in this.vueGameParameters) {
@@ -2833,16 +2840,20 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    console.log('roomUrl');
+    console.log(this.roomUrl);
     this.$root.$on('changed:cards:false', function () {
       _this.activeCardsStorage = [true, true, true, true, true];
     });
     this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
       var data = _ref.data;
-      axios.post('/game/room/1', {
+      axios.post(_this.roomUrl, {
         updateState: 'ReadyState',
-        roomName: 'room_1',
+        roomName: _this.roomName,
         sendPost: 'true'
       }).then(function (response) {
+        console.log(_this.roomName);
+        console.log("Пришел ответ после отправки SendReadyStatus");
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
         console.log(error);
@@ -2852,9 +2863,9 @@ __webpack_require__.r(__webpack_exports__);
     }).listen('SendStartedGameStatus', function (_ref2) {
       var data = _ref2.data;
       console.log("Hello from SendStartedGameStatus!!!");
-      axios.post('/game/room/1', {
+      axios.post(_this.roomUrl, {
         initAction: 'startGame',
-        roomName: 'room_1'
+        roomName: _this.roomName
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
 
@@ -2866,9 +2877,9 @@ __webpack_require__.r(__webpack_exports__);
     }).listen('SendBettingStatus', function (_ref3) {
       var data = _ref3.data;
       console.log("Hello from SendBettingStatus!!!");
-      axios.post('/game/room/1', {
+      axios.post(_this.roomUrl, {
         updateState: 'StartedGameState',
-        roomName: 'room_1'
+        roomName: _this.roomName
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
@@ -2878,9 +2889,9 @@ __webpack_require__.r(__webpack_exports__);
     }).listen('SendFinishChangeStatus', function (_ref4) {
       var data = _ref4.data;
       console.log("Hello from SendFinishChangeStatus!!!");
-      axios.post('/game/room/1', {
+      axios.post(_this.roomUrl, {
         updateState: 'BettingState',
-        roomName: 'room_1',
+        roomName: _this.roomName,
         correctionStatusMessage: 'changeFinished'
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
@@ -2912,9 +2923,9 @@ __webpack_require__.r(__webpack_exports__);
           correctionMessage = 'betFinished';
         }
 
-        axios.post('/game/room/1', {
+        axios.post(_this.roomUrl, {
           updateState: 'BettingState',
-          roomName: 'room_1',
+          roomName: _this.roomName,
           correctionStatusMessage: correctionMessage,
           money: money,
           moneyIncrease: moneyIncrease
@@ -2951,9 +2962,9 @@ __webpack_require__.r(__webpack_exports__);
     sendFinishGameRequest: function sendFinishGameRequest() {
       var _this2 = this;
 
-      axios.post('/game/room/1', {
+      axios.post(this.roomUrl, {
         updateState: 'FinishState',
-        roomName: 'room_1'
+        roomName: this.roomName
       }).then(function (response) {
         _this2.vueGameParameters = response.data.gameParameters;
         _this2.userParameters = response.data.user;
@@ -3161,14 +3172,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return window.Echo.join('connect');
     },
     invitationChannel: function invitationChannel() {
-      console.log(this.user);
-      return window.Echo["private"]('invitation.1');
+      // return window.Echo.private('invitation.1');
+      return window.Echo["private"]('invitation.' + this.user.id);
     }
   },
   mounted: function mounted() {
     var _this = this;
 
-    console.log(this.invitationCardContent);
+    console.log(this.friends);
     this.connectChannel.here(function (users) {
       _this.activeUsers = users;
     }).joining(function (user) {
@@ -55944,6 +55955,8 @@ var render = function() {
       _vm._v(" "),
       _c("game-button-panel-component", {
         attrs: {
+          "room-url": _vm.roomUrl,
+          "room-name": _vm.roomName,
           "buttons-captions": _vm.content.buttonsCaptions,
           buttons: _vm.vueGameParameters.buttons,
           user: _vm.userParameters,
@@ -56176,7 +56189,7 @@ var render = function() {
                           ? _c(
                               "li",
                               {
-                                key: index,
+                                key: friend.login,
                                 staticClass: "friends-card__item__online"
                               },
                               [
@@ -56192,7 +56205,7 @@ var render = function() {
                                     "form",
                                     {
                                       attrs: {
-                                        id: "sendIvitationForm",
+                                        id: "sendInvitationForm" + index,
                                         action: _vm.formJoinGameRoute,
                                         method: "POST"
                                       }
@@ -56205,7 +56218,7 @@ var render = function() {
                                             "uk-button uk-button-secondary uk-button-small",
                                           attrs: {
                                             type: "submit",
-                                            form: "sendIvitationForm"
+                                            form: "sendInvitationForm" + index
                                           }
                                         },
                                         [

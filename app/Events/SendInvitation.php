@@ -14,6 +14,7 @@ class SendInvitation implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $roomId;
     public $srcUserId;
     public $dstUserId;
     public $srcUserLogin;
@@ -31,7 +32,6 @@ class SendInvitation implements ShouldBroadcast
 
         $this->srcUserLogin = $user->login;
         $this->dontBroadcastToCurrentUser();
-
     }
 
     /**
@@ -41,9 +41,6 @@ class SendInvitation implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-
-        // return new PrivateChannel('invitation.' . $this->srcUserId);
-        return new PrivateChannel('invitation.1');
-
+        return new PrivateChannel('invitation.' . $this->dstUserId);
     }
 }

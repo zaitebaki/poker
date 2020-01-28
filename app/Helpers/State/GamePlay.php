@@ -18,28 +18,28 @@ use Illuminate\Support\Facades\Redis;
  * состояние Контекста.
  */
 
-// room_1:count
-// room_1:1:state - имя состояния для текущего пользователя
-// room_1:idUserCurrent
-// room_1:idUserOpponent
-// room_1:1:WaitingState - аргументы для конструктора состояния
-// room_1:1:userCards
-// room_1:cards
-// room_1:money
-// room_1:1:pushStartBet - пользователь сделал начальную ставку
-// room_1:messages
-// room_1:1:correctionMessage
-// room_1:countFirstUserChangeCards
-// room_1:addOpponentMoney
-// room_1:increaseAfterEqualMoney
-// room_1:winner
-// room_1:1:combination
-// room_1:1:points
-// room_1:1:endGameStatus - игра закончилась дропом
-// room_1:1:dropGameMoney
-// room_1:1:isAlreadyChangedCards
-// room_1:startGameStatus
-// room_1:opponentStatusCheck
+// room_x:count
+// room_x:1:state - имя состояния для текущего пользователя
+// room_x:idUserCurrent
+// room_x:idUserOpponent
+// room_x:1:WaitingState - аргументы для конструктора состояния
+// room_x:1:userCards
+// room_x:cards
+// room_x:money
+// room_x:1:pushStartBet - пользователь сделал начальную ставку
+// room_x:messages
+// room_x:1:correctionMessage
+// room_x:countFirstUserChangeCards
+// room_x:addOpponentMoney
+// room_x:increaseAfterEqualMoney
+// room_x:winner
+// room_x:1:combination
+// room_x:1:points
+// room_x:1:endGameStatus - игра закончилась дропом
+// room_x:1:dropGameMoney
+// room_x:1:isAlreadyChangedCards
+// room_x:startGameStatus
+// room_x:opponentStatusCheck
 
 class GamePlay
 {
@@ -54,6 +54,7 @@ class GamePlay
     public $opponentUser;
     public $buttons;
     public $roomName;
+    public $roomId;
     public $userCards;
     public $role;
     public $request;
@@ -83,6 +84,8 @@ class GamePlay
     {
         $this->roomName = $roomName;
         $this->request  = $request;
+
+        $this->roomId = $this->getRoomId();
 
         // определить создателя и приглашенного игрока
         $idUserCurrent  = Redis::get($roomName . ':idUserCurrent');
@@ -125,6 +128,7 @@ class GamePlay
     public function getGameParameters(): array
     {
         return array(
+            'roomId' => $this->roomId,
             'statusMessage'           => $this->statusText,
             'buttons'                 => $this->buttons,
             'userCards'               => $this->userCards,
@@ -135,13 +139,13 @@ class GamePlay
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
             'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
             'opponentStatusCheck' => $this->getOpponentStatusCheck()
-            // 'dump'                    => $this->dump,
         );
     }
 
     public function getFinishGameParameters(): array
     {
         return array(
+            'roomId' => $this->roomId,
             'statusMessage'       => $this->statusText,
             'userCards'           => $this->userCards, 
             'opponentUserCards'   => $this->opponentUserCards,
@@ -154,8 +158,15 @@ class GamePlay
             'userPoints' => $this->userPoints,
             'opponentPoints' => $this->opponentPoints,
             'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
-            // 'dump'                => $this->dump
         );
+    }
+
+    /**
+     * Получить id комнаты
+     */
+    private function getRoomId() {
+        $pieces = explode("_", $this->roomName);
+        return $pieces[1];
     }
 
     public function connectionCurrentUser(): void

@@ -17,8 +17,10 @@ class SendStartedGameStatus implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public $roomId;
+    public function __construct($roomId)
     {
+        $this->roomId = $roomId;
         $this->dontBroadcastToCurrentUser();
     }
 
@@ -29,6 +31,6 @@ class SendStartedGameStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room-action.1');
+        return new PrivateChannel('room-action.' . $this->roomId);
     }
 }

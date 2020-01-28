@@ -17,10 +17,12 @@ class SendFinishBettingStatus implements ShouldBroadcast
      *
      * @return void
      */
+    public $roomId;
     public $money;
     public $moneyIncrease;
-    public function __construct($money, $moneyIncrease)
+    public function __construct($roomId, $money, $moneyIncrease)
     {
+        $this->roomId         = $roomId;
         $this->money         = $money;
         $this->moneyIncrease = $moneyIncrease;
         $this->dontBroadcastToCurrentUser();
@@ -33,6 +35,6 @@ class SendFinishBettingStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room-action.1');
+        return new PrivateChannel('room-action.' . $this->roomId);
     }
 }

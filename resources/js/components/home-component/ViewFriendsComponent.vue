@@ -14,14 +14,14 @@
         <template v-if="friends.length !== 0">
             <ul class="uk-list">               
                 <template v-for="(friend, index) in friends">
-                    <li v-if="isOnline(friend.login)" v-bind:key="index" class="friends-card__item__online">
+                    <li v-if="isOnline(friend.login)" v-bind:key="friend.login" class="friends-card__item__online">
                         {{ friend.name }}-{{ friend.login }} |
                         <span>
-                            <form id="sendIvitationForm" :action="formJoinGameRoute" method="POST">
+                            <form :id="'sendInvitationForm' + index" :action="formJoinGameRoute" method="POST">
                                 <button
                                     class="uk-button uk-button-secondary uk-button-small"
                                     type="submit"
-                                    form="sendIvitationForm">
+                                    :form="'sendInvitationForm' + index">
                                     {{ content.startGameText }}
                                 </button>
                                 <input type="hidden" name="_token" :value="csrf">
@@ -77,12 +77,12 @@ export default {
             return window.Echo.join('connect');
         },
         invitationChannel() {
-            console.log(this.user);
-            return window.Echo.private('invitation.1');
+            // return window.Echo.private('invitation.1');
+            return window.Echo.private('invitation.' + this.user.id);
         }
     },
     mounted() {
-        console.log(this.invitationCardContent);
+        console.log(this.friends);
         this.connectChannel
             .here((users) => {
                 this.activeUsers = users;

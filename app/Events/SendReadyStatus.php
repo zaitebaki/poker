@@ -5,10 +5,9 @@ namespace App\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
 
 class SendReadyStatus implements ShouldBroadcast
 {
@@ -18,8 +17,10 @@ class SendReadyStatus implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public $roomId;
+    public function __construct($roomId)
     {
+        $this->roomId = $roomId;
         $this->dontBroadcastToCurrentUser();
     }
 
@@ -30,6 +31,6 @@ class SendReadyStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room-action.1');
+        return new PrivateChannel('room-action.' . $this->roomId);
     }
 }

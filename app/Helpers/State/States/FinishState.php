@@ -244,6 +244,9 @@ class FinishState extends State
 
         $opponentState = self::getOpponentState($roomName, $anotherUserId);
 
+        $pieces = explode("_", $roomName);
+        $roomId = $pieces[1];
+
         if ($opponentState === 'WaitingState') {
             $winnerId = (int)self::getWinner($roomName);
             self::removeUserDataFromRedis($roomName, $userId);
@@ -253,12 +256,12 @@ class FinishState extends State
             if ($winnerId === $userId && $role == 'currentUser') {
                 self::setIdUserCurrent($roomName, $idUserOpponent);
                 self::setIdUserOpponent($roomName, $idUserCurrent);
-                \App\Events\SendStartedGameStatus::dispatch();
+                \App\Events\SendStartedGameStatus::dispatch($roomId);
             }
             if ($winnerId === $userId && $role == 'opponentUser') {
                 self::setIdUserCurrent($roomName, $idUserCurrent);
                 self::setIdUserOpponent($roomName, $idUserOpponent);
-                \App\Events\SendStartedGameStatus::dispatch();
+                \App\Events\SendStartedGameStatus::dispatch($roomId);
             }
             if ($winnerId !== $userId && $role == 'opponentUser') {
                 self::setIdUserCurrent($roomName, $idUserOpponent);

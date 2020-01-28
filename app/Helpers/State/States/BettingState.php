@@ -62,7 +62,7 @@ class BettingState extends State
         $buttons = 'equal,equalAndAdd,gameOver';
 
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
-        \App\Events\SendFinishBettingStatus::dispatch($money, '0');
+        \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $money, '0');
     }
 
     public function check()
@@ -74,13 +74,13 @@ class BettingState extends State
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
 
         $this->saveOpponentStatusCheck();
-        \App\Events\SendFinishBettingStatus::dispatch('0', '0');
+        \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, '0', '0');
     }
 
     public function opponentCheck()
     {
         $this->context->updateState('FinishState');
-        \App\Events\SendFinishBettingStatus::dispatch('0', 'opponentCheck');
+        \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, '0', 'opponentCheck');
     }
 
     public function equalAndAdd()
@@ -102,7 +102,7 @@ class BettingState extends State
         $buttons = 'equal,equalAndAdd,gameOver';
 
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
-        \App\Events\SendFinishBettingStatus::dispatch($moneyequal, $moneyAdd);
+        \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $moneyequal, $moneyAdd);
     }
 
     public function equal()
@@ -112,7 +112,7 @@ class BettingState extends State
         $this->context->saveMoney();
         $this->context->saveBankMessage($money);
         $this->context->updateState('FinishState');
-        \App\Events\SendFinishBettingStatus::dispatch($money, 'equal');
+        \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $money, 'equal');
     }
 
     public function gameOver()
@@ -144,7 +144,7 @@ class BettingState extends State
         $this->saveDropMoney($this->context->opponentUser->id, $loseMoney);
 
         $this->context->updateState('FinishState');
-        \App\Events\SendFinishBettingStatus::dispatch($loseMoney, 'drop');
+        \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $loseMoney, 'drop');
     }
 
     private function getCorrectionStatusMessage()

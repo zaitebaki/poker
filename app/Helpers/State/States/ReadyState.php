@@ -38,7 +38,7 @@ class ReadyState extends State
 
             $this->context->updateState('StartedGameState');
 
-            \App\Events\SendStartedGameStatus::dispatch();
+            \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
         } else {
             $this->context->userCards = $cards->getCards(5, 5);
             $waitingMessage           = __('main_page_content.gamePage.statusMessages.waitingMessage3',

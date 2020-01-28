@@ -89,6 +89,8 @@ import bFormSlider from 'vue-bootstrap-slider/es/form-slider';
 
 export default {
     props: {
+        roomUrl: String,
+        roomName: String,
         buttonsCaptions: Object,
         buttons: Array,
         user: Object,
@@ -131,7 +133,7 @@ export default {
         
         // инициировать раздачу карт
         startGame() {
-            axios.post('/game/room/1', { initAction: 'startGame', roomName: 'room_1'}).then( (response) => {
+            axios.post(this.roomUrl, { initAction: 'startGame', roomName: this.roomName}).then( (response) => {
                 console.log(response.data);
                 this.$emit('update:parameters', response.data);
             }).catch(function (error) {
@@ -144,9 +146,9 @@ export default {
         changeCards(change) {
             console.log(this.activeCardsStorage);
             if (change !== 'no:change' && this.isNotChoosingCardsForChanging() ) { return; }
-            axios.post('/game/room/1', {
+            axios.post(this.roomUrl, {
                 initAction: 'changeCards',
-                roomName: 'room_1',
+                roomName: this.roomName,
                 cardsIndexForChange: this.getcardsIndexForChange(change)
                 }).
             then( (response) => {
@@ -161,9 +163,9 @@ export default {
 
         // добавить карты
         addMoney() {
-            axios.post('/game/room/1', {
+            axios.post(this.roomUrl, {
                 initAction: 'addMoney',
-                roomName: 'room_1',
+                roomName: this.roomName,
                 money: this.moneySumForAdd
                 }).
             then( (response) => {
@@ -178,9 +180,9 @@ export default {
         check() {
             if (this.opponentStatusCheck === true) {
                 console.log('Another check');
-                axios.post('/game/room/1', {
+                axios.post(this.roomUrl, {
                     initAction: 'opponentCheck',
-                    roomName: 'room_1',
+                    roomName: this.roomName,
                     }).
                 then( (response) => {
                     console.log(response.data);
@@ -191,9 +193,9 @@ export default {
                 });
             }
             else {
-                axios.post('/game/room/1', {
+                axios.post(this.roomUrl, {
                     initAction: 'check',
-                    roomName: 'room_1',
+                    roomName: this.roomName,
                     }).
                 then( (response) => {
                     this.$emit('update:parameters', response.data);
@@ -206,9 +208,9 @@ export default {
 
         // сравянть и добавить
         equalAndAdd() {
-            axios.post('/game/room/1', {
+            axios.post(this.roomUrl, {
                 initAction: 'equalAndAdd',
-                roomName: 'room_1',
+                roomName: this.roomName,
                 moneyequal: this.getCurrentAddingMoney(),
                 moneyAdd: this.moneySumForAdd
                 }).
@@ -222,9 +224,9 @@ export default {
 
         // сравнять
         equal() {
-            axios.post('/game/room/1', {
+            axios.post(this.roomUrl, {
                 initAction: 'equal',
-                roomName: 'room_1',
+                roomName: this.roomName,
                 money: this.getCurrentAddingMoney()
                 }).
             then( (response) => {
@@ -238,9 +240,9 @@ export default {
 
         // сбросить карты
         gameOver() {
-            axios.post('/game/room/1', {
+            axios.post(this.roomUrl, {
                 initAction: 'gameOver',
-                roomName: 'room_1',
+                roomName: this.roomName,
                 money: this.getDropMoney()
                 }).
             then( (response) => {
@@ -253,9 +255,10 @@ export default {
 
         // начать новую партию
         then() {
-            axios.post('/game/room/1', {
+            console.log(this.roomName);
+            axios.post(this.roomUrl, {
                 initAction: 'nextRound',
-                roomName: 'room_1',
+                roomName: this.roomName,
                 }).
             then( (response) => {
                 this.$emit('update:parameters', response.data);

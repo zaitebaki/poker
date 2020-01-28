@@ -45,8 +45,13 @@ class GameController extends \App\Http\Controllers\SuperController
 
                 $countRoomsNow = Redis::get('room:count');
 
-                $roomName = 'room_' . ((int) $countRoomsNow + 1);
+                $newRoomNumber = (int) $countRoomsNow + 1;
+                $roomName      = 'room_' . $newRoomNumber;
+
                 Redis::set($roomCreated, $roomName);
+                Redis::set($roomName . ':' . $userId, 'ok');
+                Redis::set($roomName . ':' . $opponentId, 'ok');
+                Redis::set('room:count', $newRoomNumber);
 
                 Redis::set($roomName . ':idUserCurrent', $userId);
                 Redis::set($roomName . ':idUserOpponent', $opponentId);
