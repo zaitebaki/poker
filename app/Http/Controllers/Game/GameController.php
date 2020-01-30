@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Game;
 
+use App\Exceptions\UnauthorizedRoomAccessException;
 use App\Helpers\State\GamePlay;
 use App\Helpers\State\States\FinishState;
 use App\Http\Controllers\Controller;
@@ -15,20 +16,12 @@ class GameController extends \App\Http\Controllers\SuperController
      *
      * @return void     */
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         parent::__construct();
         $this->title  = 'Пятикарточный покер';
         $this->layout = env('THEME') . ".route.main";
     }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {}
 
     public function invitationMessage(Request $request)
     {
@@ -37,12 +30,11 @@ class GameController extends \App\Http\Controllers\SuperController
 
         // инициализировать приглашение в игру
         if ($request->updateState === 'InitState' && $request->sendInvitationRequest === 'true') {
-
             $roomCreated = 'room:' . $userId . ':' . $opponentId;
             $result      = Redis::command('exists', [$roomCreated]);
             $roomName    = '';
-            if ($result === 0) {
 
+            if ($result === 0) {
                 $countRoomsNow = Redis::get('room:count');
 
                 $newRoomNumber = (int) $countRoomsNow + 1;
@@ -72,7 +64,6 @@ class GameController extends \App\Http\Controllers\SuperController
 
         // принять приглашение для начала игры
         if ($request->updateState === 'InitState' && $request->takeInvitationRequest === 'true') {
-
             $roomName = Redis::get('room:' . $opponentId . ':' . $userId);
             Redis::set($roomName . ':' . $userId . ':state', 'InitState');
             $game = new Gameplay($this->user, $roomName, $request);
@@ -94,7 +85,6 @@ class GameController extends \App\Http\Controllers\SuperController
         }
 
         if ($request->isMethod('post')) {
-
             // обновить состояние в GamePlay
             if (isset($request->updateState)) {
                 return $this->updateStateHandle($request);
@@ -133,7 +123,6 @@ class GameController extends \App\Http\Controllers\SuperController
         // инициализировать следующую партию
         // после завершение предыдущей
         if ($request->initAction === 'nextRound') {
-
             $res  = FinishState::then($this->user, $request->roomName);
             $game = new Gameplay($this->user, $request->roomName, $request);
             $game->startGame();
@@ -157,10 +146,14 @@ class GameController extends \App\Http\Controllers\SuperController
     }
 
     /**
-     * Обработка get-запроса /game
+     * Обработка get-запроса /game/room/{room_id}
      */
     private function handleGetRequest(Request $request, $room_id)
     {
+        if (!$this->isUserBelongRoom($room_id)) {
+            throw new UnauthorizedRoomAccessException("Неавторизованная попытка доступа к комнате $room_id!", 1);
+        }
+
         $game = new Gameplay($this->user, 'room_' . $room_id, $request);
 
         if ($game->state instanceof \App\Helpers\State\States\FinishState) {
@@ -171,5 +164,17 @@ class GameController extends \App\Http\Controllers\SuperController
 
         $this->content = view(env('THEME') . '.game.index')->with(['gameParameters' => $gameParameters])->render();
         return $this->renderOutput();
+    }
+
+    /**
+     * Проверить существует ли в БД Redis текущая комната
+     */
+    private function isUserBelongRoom($room_id)
+    {
+        $roomName = 'room_' . $room_id;
+        if (Redis::exists($roomName . ':' . $this->user->id)) {
+            return true;
+        }
+        return false;
     }
 }

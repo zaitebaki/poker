@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class MyAuthController extends Controller
 {
-    public function authencticate(Request $request)
+    public function authenticate(Request $request)
     {
         session(['typeForm' => 'login']);
 

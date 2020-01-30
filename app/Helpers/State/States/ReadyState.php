@@ -21,7 +21,7 @@ class ReadyState extends State
 
         // проверить - если 1-ый игрок не получил карты
         // то перевести 2-го игрока в состояние ожидания
-        if ($this->context->role === 'opponentUser' && $this->context->getOpponentState() !== 'StartedGameState') {
+        if ($this->context->role === 'opponentUser' && $this->context->getOpponentState() === 'ReadyState') {
             $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage2',
                 ['user' => $this->context->opponentUser->name]);
             $this->context->updateState('WaitingState', $waitingMessage);
@@ -34,11 +34,15 @@ class ReadyState extends State
         if ($this->context->role === 'currentUser') {
             $this->context->userCards = $cards->getCards(0, 5);
             $this->context->saveUserCards();
-            $this->context->indicator = 'ready';
+            // $this->context->indicator = 'ready';
+            // $this->context->updateState('StartedGameState');
 
-            $this->context->updateState('StartedGameState');
+            $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage2',
+                ['user' => $this->context->opponentUser->name]);
+            $this->context->updateState('WaitingState', $waitingMessage, "changeCards,notChange");
 
             \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
+
         } else {
             $this->context->userCards = $cards->getCards(5, 5);
             $waitingMessage           = __('main_page_content.gamePage.statusMessages.waitingMessage3',

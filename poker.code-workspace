@@ -4,6 +4,12 @@
 			"path": "."
 		},
 		{
+			"path": "C:\\OSPanel\\domains\\testing"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\handler_error"
+		},
+		{
 			"path": "C:\\OSPanel\\domains\\zaitebaki"
 		}
 	],

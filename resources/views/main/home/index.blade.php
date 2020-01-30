@@ -19,7 +19,7 @@
 <login-and-registration-component
     type-form={{ session('typeForm') }}
     :props-array="{{ json_encode(__('main_page_content.startPage'), JSON_UNESCAPED_UNICODE) }}"
-    :form-route-login="{{ json_encode(route('authencticate'), JSON_UNESCAPED_UNICODE) }}"
+    :form-route-login="{{ json_encode(route('authenticate'), JSON_UNESCAPED_UNICODE) }}"
     :form-route-registration="{{ json_encode(route('registration'), JSON_UNESCAPED_UNICODE) }}"
     old-login="{{ old('login') }}"
     old-reg-login="{{ old('reg-login') }}"

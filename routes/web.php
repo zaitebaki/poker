@@ -12,21 +12,20 @@
  */
 
 Route::get('/', 'Home\IndexController@index')->name('startPage');
-Route::post('/login', 'Auth\MyAuthController@authencticate')->name('authencticate');
+Route::post('/login', 'Auth\MyAuthController@authenticate')->name('authenticate');
 Route::post('/register', 'Auth\RegisterController@register')->name('registration');
 
-Route::get('/home', 'User\UserController@index')->name('userPage');
-Route::post('/invitation', 'User\UserController@sendInvitation')->name('sendInvitations');
+Route::middleware('auth', 'throttle:60,1')->group(function () {
+    Route::get('/home', 'User\UserController@index')->name('userPage');
+    // Route::post('/invitation', 'User\UserController@sendInvitation')->name('sendInvitations');
+    Route::post('/game/room', 'Game\GameController@invitationMessage')->name('invitationMessage');
+    Route::post('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessagePost');
+    Route::get('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
 
-// Route::get('/game', 'Game\GameController@index')->name('startGame');
-
-Route::post('/game/room', 'Game\GameController@invitationMessage')->name('invitationMessage');
-
-Route::post('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessagePost');
-Route::get('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
-
-// Route::post('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
-
-// Route::post('messages', function (Illuminate\Http\Request $request) {
-//     App\Events\ConnectOnline::dispatch($request->all());
-// });
+    Route::get('/game/room', function () {
+        abort(404);
+    });
+    Route::get('/invitation', function () {
+        abort(404);
+    });
+});
