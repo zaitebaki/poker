@@ -20,6 +20,9 @@ class FinishState extends State
         if (!$this->isResultsAlreadyAnnounced()) {
             $gameBones = Cards::getCombintationsAndPoits($this->context->userCards, $this->context->opponentUserCards);
             $this->summarizeGameResults($gameBones);
+
+            // сохранить состояние кнопки "продолжить" (кнопка недоступна)
+            $this->context->saveNewGameButtonIndicator($this->context->currentUser->id);
         }
 
         $this->context->userCombination     = $this->getUserCombinationFromRedis();
@@ -271,10 +274,8 @@ class FinishState extends State
                 self::setIdUserCurrent($roomName, $idUserCurrent);
                 self::setIdUserOpponent($roomName, $idUserOpponent);
             }
-
             self::setState($roomName, $userId, 'ReadyState');
-        }
-        else {
+        } else {
             self::setState($roomName, $userId, 'NewRoundState');
         }
     }
@@ -331,7 +332,8 @@ class FinishState extends State
     /**
      * Установить состояние пользователя в ReadyState
      */
-    private static function setState($roomName, $userId, $nameState) {
+    private static function setState($roomName, $userId, $nameState)
+    {
         Redis::set($roomName . ':' . $userId . ':state', $nameState);
     }
 
@@ -363,14 +365,16 @@ class FinishState extends State
     /**
      * Установить значение idUserCurrent
      */
-    private static function setIdUserCurrent($roomName, $userId) {
+    private static function setIdUserCurrent($roomName, $userId)
+    {
         Redis::set($roomName . ':idUserCurrent', $userId);
     }
 
     /**
      * Установить значение idUserOpponent
      */
-    private static function setIdUserOpponent($roomName, $userId) {
+    private static function setIdUserOpponent($roomName, $userId)
+    {
         Redis::set($roomName . ':idUserOpponent', $userId);
     }
 
@@ -380,6 +384,16 @@ class FinishState extends State
     private static function getOpponentState($roomName, $opponentUserId): string
     {
         return Redis::get($roomName . ':' . $opponentUserId . ':state');
+    }
+
+    /**
+     * Удалить состояние кнопки "продолжить"
+     * состояние - ДОСТУПНА
+     */
+    public function delNewGameButtonIndicator($roomId, $userId)
+    {
+        Redis::del($this->context->roomName . ':' .  $userId . ':newGameButtonIndicator');
+        \App\Events\SendUpdateIndicatorButtonStatus::dispatch($roomId);
     }
 
     public function waitingOpponentUser()

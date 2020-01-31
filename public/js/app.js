@@ -1960,6 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1973,7 +1974,9 @@ __webpack_require__.r(__webpack_exports__);
     money: String,
     addOpponentMoney: String,
     increaseAfterEqualMoney: String,
-    opponentStatusCheck: Boolean
+    startButtonIndicator: Boolean,
+    opponentStatusCheck: Boolean,
+    newGameButtonIndicator: Boolean
   },
   data: function data() {
     return {
@@ -2063,6 +2066,7 @@ __webpack_require__.r(__webpack_exports__);
     check: function check() {
       var _this4 = this;
 
+      // если оппонент уже ответил "чек"
       if (this.opponentStatusCheck === true) {
         console.log('Another check');
         axios.post(this.roomUrl, {
@@ -2076,17 +2080,18 @@ __webpack_require__.r(__webpack_exports__);
           console.log(error);
           alert('Не удалось отправить запрос. Повторите попытку позже.');
         });
-      } else {
-        axios.post(this.roomUrl, {
-          initAction: 'check',
-          roomName: this.roomName
-        }).then(function (response) {
-          _this4.$emit('update:parameters', response.data);
-        })["catch"](function (error) {
-          console.log(error);
-          alert('Не удалось отправить запрос. Повторите попытку позже.');
-        });
-      }
+      } // пользователь говорит "чек" в 1-ый раз
+      else {
+          axios.post(this.roomUrl, {
+            initAction: 'check',
+            roomName: this.roomName
+          }).then(function (response) {
+            _this4.$emit('update:parameters', response.data);
+          })["catch"](function (error) {
+            console.log(error);
+            alert('Не удалось отправить запрос. Повторите попытку позже.');
+          });
+        }
     },
     // сравянть и добавить
     equalAndAdd: function equalAndAdd() {
@@ -2145,11 +2150,11 @@ __webpack_require__.r(__webpack_exports__);
         initAction: 'nextRound',
         roomName: this.roomName
       }).then(function (response) {
+        console.log(response.data);
+
         _this8.$emit('update:parameters', response.data);
 
         _this8.$root.$emit('changed:cards:false');
-
-        console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2784,6 +2789,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2815,7 +2822,8 @@ __webpack_require__.r(__webpack_exports__);
         'WASTE': 'Хлам'
       },
       roomUrl: '/game/room/' + this.gameParameters.roomId,
-      roomName: 'room_' + this.gameParameters.roomId
+      roomName: 'room_' + this.gameParameters.roomId // startGameSessionFlag: true
+
     };
   },
   computed: {
@@ -2829,7 +2837,7 @@ __webpack_require__.r(__webpack_exports__);
 
       return -2;
     },
-    getBackgroundColorClasse: function getBackgroundColorClasse() {
+    getBackgroundColorClass: function getBackgroundColorClass() {
       if (this.vueGameParameters.isVictory === -1) {
         return 'status-text__background_color_red';
       }
@@ -2860,8 +2868,21 @@ __webpack_require__.r(__webpack_exports__);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
       _this.startGameButtonReady = true;
-    }).listen('SendStartedGameStatus', function (_ref2) {
+    }).listen('SendStartChangeCardsStatus', function (_ref2) {
       var data = _ref2.data;
+      axios.post(_this.roomUrl, {
+        updateState: 'StartedGameState',
+        roomName: _this.roomName
+      }).then(function (response) {
+        console.log('SendStartChangeCardsStatus');
+        _this.vueGameParameters = response.data.gameParameters;
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+      _this.startGameButtonReady = true;
+    }).listen('SendStartedGameStatus', function (_ref3) {
+      var data = _ref3.data;
       console.log("Hello from SendStartedGameStatus!!!");
       axios.post(_this.roomUrl, {
         initAction: 'startGame',
@@ -2869,13 +2890,17 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
 
-        _this.$root.$emit('changed:cards:false');
+        _this.$root.$emit('changed:cards:false'); // if (this.startGameSessionFlag) {
+        // this.startChangeCardsEvent();
+        // this.startGameSessionFlag = false;
+        // }
+
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
-    }).listen('SendBettingStatus', function (_ref3) {
-      var data = _ref3.data;
+    }).listen('SendBettingStatus', function (_ref4) {
+      var data = _ref4.data;
       console.log("Hello from SendBettingStatus!!!");
       axios.post(_this.roomUrl, {
         updateState: 'StartedGameState',
@@ -2886,8 +2911,8 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
-    }).listen('SendFinishChangeStatus', function (_ref4) {
-      var data = _ref4.data;
+    }).listen('SendFinishChangeStatus', function (_ref5) {
+      var data = _ref5.data;
       console.log("Hello from SendFinishChangeStatus!!!");
       axios.post(_this.roomUrl, {
         updateState: 'BettingState',
@@ -2899,9 +2924,9 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
-    }).listen('SendFinishBettingStatus', function (_ref5) {
-      var money = _ref5.money,
-          moneyIncrease = _ref5.moneyIncrease;
+    }).listen('SendFinishBettingStatus', function (_ref6) {
+      var money = _ref6.money,
+          moneyIncrease = _ref6.moneyIncrease;
       console.log("Hello from SendFinishBettingStatus!!!");
 
       if (moneyIncrease === 'drop' || moneyIncrease === 'opponentCheck') {
@@ -2940,6 +2965,14 @@ __webpack_require__.r(__webpack_exports__);
           alert('Не удалось отправить запрос. Повторите попытку позже.');
         });
       }
+    }).listen('SendUpdateIndicatorButtonStatus', function (_ref7) {
+      var data = _ref7.data;
+      console.log('SendUpdateIndicatorButtonStatus');
+      _this.vueGameParameters.newGameButtonIndicator = false;
+    }).listen('SendUpdateIndicatorStartButtonStatus', function (_ref8) {
+      var data = _ref8.data;
+      console.log('SendUpdateIndicatorStartButtonStatus');
+      _this.vueGameParameters.startButtonIndicator = false;
     });
   },
   methods: {
@@ -2967,7 +3000,9 @@ __webpack_require__.r(__webpack_exports__);
         roomName: this.roomName
       }).then(function (response) {
         _this2.vueGameParameters = response.data.gameParameters;
-        _this2.userParameters = response.data.user;
+        _this2.userParameters = response.data.user; // сделать кнопку "продолжить" доступной у оппонента
+
+        _this2.sendResponseAfterFinishEvent();
       })["catch"](function (error) {
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -2988,6 +3023,18 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return array;
+    },
+    sendResponseAfterFinishEvent: function sendResponseAfterFinishEvent() {
+      console.log('DELETE');
+      axios.post(this.roomUrl, {
+        initAction: 'delNewGameButtonIndicator',
+        roomName: this.roomName
+      }).then(function (response) {
+        console.log('delNewGameButtonIndicator');
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
     }
   },
   components: {
@@ -55241,6 +55288,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "uk-button uk-button-primary",
+                    attrs: { disabled: _vm.startButtonIndicator },
                     on: {
                       click: function($event) {
                         return _vm.startGame()
@@ -55249,9 +55297,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.buttonsCaptions.startButton) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55271,9 +55319,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.buttonsCaptions.changeCards) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55293,9 +55341,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.buttonsCaptions.notChange) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55315,9 +55363,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.addMoneyCaption) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55337,9 +55385,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.buttonsCaptions.noMoney) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55359,9 +55407,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.equalAndAddCaption) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55381,9 +55429,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.equalCaption) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55403,9 +55451,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.buttonsCaptions.gameOver) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55416,7 +55464,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "uk-button uk-button-danger",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
+                    attrs: { disabled: _vm.newGameButtonIndicator },
                     on: {
                       click: function($event) {
                         return _vm.then()
@@ -55425,9 +55473,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\r\n                " +
                         _vm._s(_vm.buttonsCaptions.then) +
-                        "\n            "
+                        "\r\n            "
                     )
                   ]
                 )
@@ -55926,7 +55974,7 @@ var render = function() {
             "div",
             {
               staticClass: "uk-width-expand uk-flex uk-flex-middle",
-              class: _vm.getBackgroundColorClasse
+              class: _vm.getBackgroundColorClass
             },
             [
               _c("game-status-text-component", {
@@ -55966,7 +56014,10 @@ var render = function() {
           "add-opponent-money": _vm.vueGameParameters.addOpponentMoney,
           "increase-after-equal-money":
             _vm.vueGameParameters.increaseAfterEqualMoney,
-          "opponent-status-check": _vm.vueGameParameters.opponentStatusCheck
+          "opponent-status-check": _vm.vueGameParameters.opponentStatusCheck,
+          "start-button-indicator": _vm.vueGameParameters.startButtonIndicator,
+          "new-game-button-indicator":
+            _vm.vueGameParameters.newGameButtonIndicator
         },
         on: {
           "update:parameters": function($event) {

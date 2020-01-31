@@ -123,7 +123,9 @@ class GameController extends \App\Http\Controllers\SuperController
         // инициализировать следующую партию
         // после завершение предыдущей
         if ($request->initAction === 'nextRound') {
-            $res  = FinishState::then($this->user, $request->roomName);
+            $res = FinishState::then($this->user, $request->roomName);
+
+            // return $res;
             $game = new Gameplay($this->user, $request->roomName, $request);
             $game->startGame();
             return json_encode(array('gameParameters' => $game->getGameParameters()));

@@ -143,6 +143,8 @@ class BettingState extends State
         $this->saveDropMoney($this->context->currentUser->id, $loseMoney);
         $this->saveDropMoney($this->context->opponentUser->id, $loseMoney);
 
+        // сохранить состояние кнопки "продолжить" (кнопка недоступна)
+        $this->context->saveNewGameButtonIndicator($this->context->currentUser->id);
         $this->context->updateState('FinishState');
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $loseMoney, 'drop');
     }

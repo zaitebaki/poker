@@ -13,7 +13,7 @@
         </game-bank-component>
 
         <div class="uk-width-expand uk-flex uk-flex-middle"
-            v-bind:class="getBackgroundColorClasse">
+            v-bind:class="getBackgroundColorClass">
             <game-status-text-component
                 :status-message="vueGameParameters.statusMessage"
                 :indicator-status="vueGameParameters.indicator"
@@ -42,6 +42,8 @@
         :add-opponent-money="vueGameParameters.addOpponentMoney"
         :increase-after-equal-money="vueGameParameters.increaseAfterEqualMoney"
         :opponent-status-check="vueGameParameters.opponentStatusCheck"
+        :start-button-indicator="vueGameParameters.startButtonIndicator"
+        :new-game-button-indicator="vueGameParameters.newGameButtonIndicator"
         @update:parameters="updateParameters($event)">
     </game-button-panel-component>
 
@@ -90,7 +92,8 @@ export default {
                 'WASTE': 'Хлам'
             },
             roomUrl: '/game/room/' + this.gameParameters.roomId,
-            roomName: 'room_' + this.gameParameters.roomId
+            roomName: 'room_' + this.gameParameters.roomId,
+            // startGameSessionFlag: true
         }
     },
     computed: {
@@ -103,7 +106,7 @@ export default {
             }
             return -2;
         },
-        getBackgroundColorClasse() {
+        getBackgroundColorClass() {
             if(this.vueGameParameters.isVictory === -1) {
                 return 'status-text__background_color_red';
             }
@@ -129,11 +132,25 @@ export default {
                 });
                 this.startGameButtonReady = true;
             })
+            .listen('SendStartChangeCardsStatus', ({data}) => {
+                axios.post(this.roomUrl, { updateState: 'StartedGameState', roomName: this.roomName}).then( (response) => {
+                    console.log('SendStartChangeCardsStatus');
+                    this.vueGameParameters = response.data.gameParameters;
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+                });
+                this.startGameButtonReady = true;
+            })
             .listen('SendStartedGameStatus', ({data}) => {
                 console.log("Hello from SendStartedGameStatus!!!");
                 axios.post(this.roomUrl, { initAction: 'startGame', roomName: this.roomName}).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                     this.$root.$emit('changed:cards:false');
+                    // if (this.startGameSessionFlag) {
+                        // this.startChangeCardsEvent();
+                        // this.startGameSessionFlag = false;
+                    // }
                 }).catch(function (error) {
                     console.log(error);
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -201,6 +218,14 @@ export default {
                     });
                 }
             })
+            .listen('SendUpdateIndicatorButtonStatus', ({data}) => {
+                console.log('SendUpdateIndicatorButtonStatus');
+                this.vueGameParameters.newGameButtonIndicator = false;
+            })
+            .listen('SendUpdateIndicatorStartButtonStatus', ({data}) => {
+                console.log('SendUpdateIndicatorStartButtonStatus');
+                this.vueGameParameters.startButtonIndicator = false;
+            })
     },
     methods: {
         updateParameters($event) {
@@ -225,6 +250,8 @@ export default {
                 }).then( (response) => {
                     this.vueGameParameters = response.data.gameParameters;
                     this.userParameters = response.data.user;
+                    // сделать кнопку "продолжить" доступной у оппонента
+                    this.sendResponseAfterFinishEvent();
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');
@@ -243,7 +270,17 @@ export default {
                 });
             }
             return array;
-        }
+        },
+        sendResponseAfterFinishEvent() {
+
+            console.log('DELETE');
+            axios.post(this.roomUrl, { initAction: 'delNewGameButtonIndicator', roomName: this.roomName}).then( (response) => {
+                console.log('delNewGameButtonIndicator');
+                }).catch(function (error) {
+                    console.log(error);
+                    alert('Не удалось отправить запрос. Повторите попытку позже.');
+            });
+        },
     },
     components: {
         'game-status-bar-component': GameStatusBarComponent,

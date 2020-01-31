@@ -40,6 +40,8 @@ use Illuminate\Support\Facades\Redis;
 // room_x:1:isAlreadyChangedCards
 // room_x:startGameStatus
 // room_x:opponentStatusCheck
+// room_x:startButtonIndicator
+// room_x:newGameButtonIndicator
 
 class GamePlay
 {
@@ -138,7 +140,8 @@ class GamePlay
             'addOpponentMoney'        => (string) $this->addOpponentMoney,
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
             'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
-            'opponentStatusCheck' => $this->getOpponentStatusCheck()
+            'opponentStatusCheck' => $this->getOpponentStatusCheck(),
+            'startButtonIndicator' => $this->getStartButtonIndicator()
         );
     }
 
@@ -147,7 +150,7 @@ class GamePlay
         return array(
             'roomId' => $this->roomId,
             'statusMessage'       => $this->statusText,
-            'userCards'           => $this->userCards, 
+            'userCards'           => $this->userCards,
             'opponentUserCards'   => $this->opponentUserCards,
             'buttons'             => $this->buttons,
             'userCombination'     => $this->userCombination,
@@ -157,6 +160,7 @@ class GamePlay
             'bankMessages'        => $this->bankMessages,
             'userPoints' => $this->userPoints,
             'opponentPoints' => $this->opponentPoints,
+            'newGameButtonIndicator' => $this->getNewGameButtonIndicator(),
             'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
         );
     }
@@ -164,7 +168,8 @@ class GamePlay
     /**
      * Получить id комнаты
      */
-    private function getRoomId() {
+    private function getRoomId()
+    {
         $pieces = explode("_", $this->roomName);
         return $pieces[1];
     }
@@ -182,6 +187,16 @@ class GamePlay
     public function startGame()
     {
         return $this->state->startGame();
+    }
+
+    public function startChangeCards()
+    {
+        return $this->state->startChangeCards();
+    }
+
+    public function startChangeCardsEvent()
+    {
+        return $this->state->startChangeCardsEvent();
     }
 
     public function changeCards()
@@ -224,6 +239,11 @@ class GamePlay
         return $this->state->then();
     }
 
+    public function delNewGameButtonIndicator()
+    {
+        return $this->state->delNewGameButtonIndicator($this->roomId, $this->opponentUser->id);
+    }
+
     // сервисные функции
     public function setStatusText($text): void
     {
@@ -235,9 +255,12 @@ class GamePlay
         return $this->statusText;
     }
 
+    /**
+     * Отправить приглашение пользователю чтобы начать игру
+     */
     public function dispatchInvitation(): void
     {
-        $this->opponentUser->invitations()->attach($this->currentUser->id);
+        // $this->opponentUser->invitations()->attach($this->currentUser->id);
         \App\Events\SendInvitation::dispatch($this->currentUser->id, $this->opponentUser->id);
     }
 
@@ -287,7 +310,6 @@ class GamePlay
         if (!$this->startBetsAlreadyPush()) {
             $this->money += $moneySum;
             $this->saveStartBetForUser();
-
         }
         $this->saveMoney();
     }
@@ -387,6 +409,32 @@ class GamePlay
 
     /**
      * Получить значение флага -
+     * доступна ли кнопка "Продолжить"
+     */
+    private function getNewGameButtonIndicator()
+    {
+        $flag = Redis::exists($this->roomName . ':' . $this->currentUser->id . ":newGameButtonIndicator");
+        if ($flag === 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Получить значение флага -
+     * доступна ли кнопка "Начать игру"
+     */
+    private function getStartButtonIndicator()
+    {
+        $flag = Redis::exists($this->roomName . ':' . $this->currentUser->id . ":startButtonIndicator");
+        if ($flag === 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Получить значение флага -
      * был ли ход "чек"
      */
     private function getOpponentStatusCheck()
@@ -404,5 +452,14 @@ class GamePlay
     public function saveChangedCardsFlag()
     {
         Redis::set($this->roomName . ':' . $this->currentUser->id . ":isAlreadyChangedCards", 'ok');
+    }
+
+    /**
+     * Сохранить состояние кнопки "продолжить"
+     * состояние - НЕДОСТУПНА
+     */
+    public function saveNewGameButtonIndicator($userId)
+    {
+        Redis::set($this->roomName . ':' .  $userId . ':newGameButtonIndicator', 'ok');
     }
 }

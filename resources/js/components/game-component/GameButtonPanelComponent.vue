@@ -7,7 +7,8 @@
             <button
                 v-if="isActiveButton('startGame')"
                 class="uk-button uk-button-primary"
-                v-on:click="startGame()">
+                v-on:click="startGame()"
+                v-bind:disabled="startButtonIndicator">
                 {{ buttonsCaptions.startButton }}
             </button>
             <button
@@ -63,7 +64,7 @@
                 v-if="isActiveButton('then')"
                 class="uk-button uk-button-danger"
                 v-on:click="then()"
-                v-bind:disabled="indicatorStatus==='wait'">
+                v-bind:disabled="newGameButtonIndicator">
                 {{ buttonsCaptions.then }}
             </button>
         </p>
@@ -99,7 +100,9 @@ export default {
         money: String,
         addOpponentMoney: String,
         increaseAfterEqualMoney: String,
-        opponentStatusCheck: Boolean
+        startButtonIndicator: Boolean,
+        opponentStatusCheck: Boolean,
+        newGameButtonIndicator: Boolean
     },
     data() {
         return {
@@ -178,6 +181,7 @@ export default {
 
         // чек
         check() {
+            // если оппонент уже ответил "чек"
             if (this.opponentStatusCheck === true) {
                 console.log('Another check');
                 axios.post(this.roomUrl, {
@@ -192,6 +196,7 @@ export default {
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
                 });
             }
+            // пользователь говорит "чек" в 1-ый раз
             else {
                 axios.post(this.roomUrl, {
                     initAction: 'check',
@@ -261,9 +266,11 @@ export default {
                 roomName: this.roomName,
                 }).
             then( (response) => {
+
+                console.log(response.data);
                 this.$emit('update:parameters', response.data);
                 this.$root.$emit('changed:cards:false');
-                console.log(response.data);
+                
             }).catch(function (error) {
                 console.log(error);
                 alert('Не удалось отправить запрос. Повторите попытку позже.');

@@ -33,6 +33,17 @@ class WaitingState extends State
         $this->context->startGame();
     }
 
+    public function startChangeCardsEvent()
+    {
+        \App\Events\SendStartChangeCardsStatus::dispatch($this->context->roomId);
+    }
+
+    // public function startChangeCards()
+    // {
+    //     $this->context->indicator = 'ready';
+    //     $this->context->updateState('StartedGameState');
+    // }
+
     public function waitingopponentUser()
     {
     }
@@ -62,6 +73,9 @@ class WaitingState extends State
     }
 
     public function gameOver()
+    {
+    }
+    public function addMoney()
     {
     }
 }
