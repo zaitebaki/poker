@@ -320,7 +320,7 @@ class FinishState extends State
             'cards',
             'money',
             'messages',
-            // 'winner',
+            'winner',
             'startGameStatus',
             'addOpponentMoney',
             'countFirstUserChangeCards',

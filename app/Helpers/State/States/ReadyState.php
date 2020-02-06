@@ -44,9 +44,6 @@ class ReadyState extends State
                 $this->delStartButtonIndicator($userId);
                 \App\Events\SendUpdateIndicatorStartButtonStatus::dispatch($this->context->roomId);
             } else {
-                // if ((int) $winnerId === $userId) {
-                //     $this->context->updateState('StartedGameState');
-                // } else {
                 if ($whoStartRound === 'winner') {
                     $this->context->updateState('StartedGameState');
                 } elseif ($whoStartRound === 'looser') {
@@ -72,24 +69,7 @@ class ReadyState extends State
                 } elseif ($whoStartRound === 'looser') {
                     \App\Events\SendBettingStatus::dispatch($this->context->roomId);
                 }
-                // if ((int) $winnerId !== $userId) {
-
-                // } else {
-
-                // победитель - current user, первым ходит - opponent user // 1,2
-                // \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
-                // }
             }
-
-            //     $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage3',
-            //         ['user' => $this->context->opponentUser->name]);
-            //     $this->context->saveUserCards();
-            //     $buttons = 'changeCards,notChange';
-            //     $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
-            //     \App\Events\SendBettingStatus::dispatch($this->context->roomId);
-            // } else {
-            // $this->context->updateState('StartedGameState');
-            // }
         }
     }
 

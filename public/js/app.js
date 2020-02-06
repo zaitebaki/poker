@@ -2416,77 +2416,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: Object,
@@ -2494,8 +2423,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      balance: 100
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   }
 });
@@ -55651,7 +55579,7 @@ var render = function() {
                   { staticClass: "uk-text uk-margin-remove header__user-name" },
                   [
                     _vm._v(
-                      _vm._s(_vm.user.name) + "\n                            "
+                      _vm._s(_vm.user.name) + "\r\n                        "
                     )
                   ]
                 )
@@ -55669,13 +55597,13 @@ var render = function() {
                   [
                     _vm._v(
                       _vm._s(_vm.content.balance) +
-                        ": \n                                "
+                        ": \r\n                            "
                     ),
                     _c("span", [
                       _vm._v(
-                        "\n                                    " +
+                        "\r\n                                " +
                           _vm._s(_vm.user.balance) +
-                          " \n                                "
+                          " \r\n                            "
                       )
                     ])
                   ]
@@ -55710,7 +55638,7 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__victory-text"
                       },
                       [
-                        _vm._v("/в:\n                                        "),
+                        _vm._v("/в:\r\n                                    "),
                         _c("span", [_vm._v(_vm._s(_vm.user.victory))])
                       ]
                     )
@@ -55724,7 +55652,7 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__gameover-text"
                       },
                       [
-                        _vm._v("п:\n                                        "),
+                        _vm._v("п:\r\n                                    "),
                         _c("span", [_vm._v(_vm._s(_vm.user.gameover) + "/")])
                       ]
                     )
@@ -55753,9 +55681,7 @@ var staticRenderFns = [
           staticClass: "logo__img",
           attrs: { src: "/assets/images/logo.svg", alt: "" }
         }),
-        _vm._v(
-          "\n                            Зайте баки\n                        "
-        )
+        _vm._v("\r\n                        Зайте баки\r\n                    ")
       ]
     )
   },
@@ -55786,24 +55712,28 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "uk-navbar-item uk-margin-xlarge-right" }, [
-      _c(
-        "a",
-        {
-          staticClass: "uk-navbar-toggle uk-text-warning",
-          attrs: { href: "#" }
-        },
-        [_c("span", { attrs: { "uk-navbar-toggle-icon": "" } })]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "uk-navbar-dropdown" }, [
-        _c("ul", { staticClass: "uk-nav uk-navbar-dropdown-nav" }, [
-          _c("li", { staticClass: "uk-active" }, [
-            _c("a", { attrs: { href: "#" } }, [_vm._v("Active")])
-          ]),
+      _c("ul", { staticClass: "uk-navbar-nav" }, [
+        _c("li", [
+          _c(
+            "a",
+            {
+              staticClass: "uk-navbar-toggle uk-text-warning",
+              attrs: { href: "#" }
+            },
+            [_c("span", { attrs: { "uk-navbar-toggle-icon": "" } })]
+          ),
           _vm._v(" "),
-          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Item")])]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Item")])])
+          _c("div", { staticClass: "uk-navbar-dropdown" }, [
+            _c("ul", { staticClass: "uk-nav uk-navbar-dropdown-nav" }, [
+              _c("li", [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Статистика")])
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Закончить игру")])
+              ])
+            ])
+          ])
         ])
       ])
     ])
