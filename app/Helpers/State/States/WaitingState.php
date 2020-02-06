@@ -33,10 +33,10 @@ class WaitingState extends State
         $this->context->startGame();
     }
 
-    public function startChangeCardsEvent()
-    {
-        \App\Events\SendStartChangeCardsStatus::dispatch($this->context->roomId);
-    }
+    // public function startChangeCardsEvent()
+    // {
+    //     \App\Events\SendStartChangeCardsStatus::dispatch($this->context->roomId);
+    // }
 
     // public function startChangeCards()
     // {

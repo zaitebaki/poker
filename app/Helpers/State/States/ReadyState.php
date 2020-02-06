@@ -22,21 +22,17 @@ class ReadyState extends State
     public function startGame()
     {
         $this->context->pushStartingBet(5);
-
-        // проверить - если 1-ый игрок не получил карты
-        // то перевести 2-го игрока в состояние ожидания
-        // if ($this->context->role === 'opponentUser' && $this->context->getOpponentState() === 'ReadyState') {
-        //     $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage2',
-        //         ['user' => $this->context->opponentUser->name]);
-        //     $this->context->updateState('WaitingState', $waitingMessage);
-        //     return;
-        // }
-
         $keyStorage = $this->context->getKeyStorageForCards();
         $cards      = new Cards($keyStorage);
 
+        $winnerId = $this->context->getWinnerIdFromRedis();
+        $userId   = $this->context->currentUser->id;
+
+        $whoStartRound = $this->whoStartRound();
+
         // текущий пользователь начинает игру
         if ($this->context->role === 'currentUser') {
+
             $this->context->userCards = $cards->getCards(0, 5);
             $this->context->saveUserCards();
 
@@ -45,12 +41,20 @@ class ReadyState extends State
             $this->context->updateState('WaitingState', $waitingMessage, "changeCards,notChange");
             if ($this->isStartGameFlag()) {
                 // сделать кнопку "Начать игру" доступной
-                $this->delStartButtonIndicator($this->context->currentUser->id);
+                $this->delStartButtonIndicator($userId);
                 \App\Events\SendUpdateIndicatorStartButtonStatus::dispatch($this->context->roomId);
             } else {
-                \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
+                // if ((int) $winnerId === $userId) {
+                //     $this->context->updateState('StartedGameState');
+                // } else {
+                if ($whoStartRound === 'winner') {
+                    $this->context->updateState('StartedGameState');
+                } elseif ($whoStartRound === 'looser') {
+                    \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
+                }
             }
         } else {
+            $this->context->dump      = $userId;
             $this->context->userCards = $cards->getCards(5, 5);
             $waitingMessage           = __('main_page_content.gamePage.statusMessages.waitingMessage3',
                 ['user' => $this->context->opponentUser->name]);
@@ -60,9 +64,32 @@ class ReadyState extends State
 
             if ($this->isStartGameFlag()) {
                 $this->delStartGameFlag();
+                \App\Events\SendBettingStatus::dispatch($this->context->roomId);
+            } else {
+
+                if ($whoStartRound === 'winner') {
+                    \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
+                } elseif ($whoStartRound === 'looser') {
+                    \App\Events\SendBettingStatus::dispatch($this->context->roomId);
+                }
+                // if ((int) $winnerId !== $userId) {
+
+                // } else {
+
+                // победитель - current user, первым ходит - opponent user // 1,2
+                // \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
+                // }
             }
 
-            \App\Events\SendBettingStatus::dispatch($this->context->roomId);
+            //     $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage3',
+            //         ['user' => $this->context->opponentUser->name]);
+            //     $this->context->saveUserCards();
+            //     $buttons = 'changeCards,notChange';
+            //     $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
+            //     \App\Events\SendBettingStatus::dispatch($this->context->roomId);
+            // } else {
+            // $this->context->updateState('StartedGameState');
+            // }
         }
     }
 
@@ -86,6 +113,15 @@ class ReadyState extends State
             return false;
         }
         return true;
+    }
+
+    /**
+     * Получить значение поля
+     * кто начал раунд? - winner|looser
+     */
+    private function whoStartRound()
+    {
+        return Redis::get($this->context->roomName . ':whoStartRound');
     }
 
     /**

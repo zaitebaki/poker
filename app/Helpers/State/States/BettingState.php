@@ -46,6 +46,8 @@ class BettingState extends State
         $this->context->bankMessages = $this->context->extractBankMessages();
         $this->context->userCards    = $this->context->extractUserCardsFromRedis();
         $this->context->indicator    = 'ready';
+
+        $this->delWinnerId();
     }
 
     public function addMoney()
@@ -210,6 +212,14 @@ class BettingState extends State
     private function saveDropMoney(int $idUser, int $money)
     {
         Redis::set($this->context->roomName . ':' . $idUser . ":dropGameMoney", $money);
+    }
+
+    /**
+     * Удалить winner-id из Redis
+     */
+    private function delWinnerId()
+    {
+        Redis::del($this->context->roomName . ':winner');
     }
 
     /**

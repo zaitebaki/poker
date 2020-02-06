@@ -21,7 +21,7 @@ class StartedGameState extends State
 
         $keyStorage  = $this->context->getKeyStorageForCards();
         $this->cards = new Cards($keyStorage);
-        $this->saveStartGameStatus();
+        // $this->saveStartGameStatus();
     }
 
     public function changeCards()

@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Redis;
 // room_x:1:endGameStatus - игра закончилась дропом
 // room_x:1:dropGameMoney
 // room_x:1:isAlreadyChangedCards
-// room_x:startGameStatus
+    // room_x:startGameStatus
 // room_x:opponentStatusCheck
 // room_x:startButtonIndicator
 // room_x:newGameButtonIndicator
@@ -141,7 +141,8 @@ class GamePlay
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
             'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
             'opponentStatusCheck' => $this->getOpponentStatusCheck(),
-            'startButtonIndicator' => $this->getStartButtonIndicator()
+            'startButtonIndicator' => $this->getStartButtonIndicator(),
+            'dump' => $this->dump
         );
     }
 
@@ -194,10 +195,10 @@ class GamePlay
         return $this->state->startChangeCards();
     }
 
-    public function startChangeCardsEvent()
-    {
-        return $this->state->startChangeCardsEvent();
-    }
+    // public function startChangeCardsEvent()
+    // {
+    //     return $this->state->startChangeCardsEvent();
+    // }
 
     public function changeCards()
     {
@@ -376,6 +377,14 @@ class GamePlay
     public function saveWinner(int $idUser): void
     {
         Redis::set($this->roomName . ":winner", $idUser);
+    }
+
+    /**
+     * Извлечь id победителя
+     */
+    public function getWinnerIdFromRedis()
+    {
+        return Redis::get($this->roomName . ':winner');
     }
 
     /**
