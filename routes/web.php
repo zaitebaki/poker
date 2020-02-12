@@ -20,6 +20,8 @@ Route::middleware('auth', 'throttle:60,1')->group(function () {
     // Route::post('/invitation', 'User\UserController@sendInvitation')->name('sendInvitations');
     Route::post('/game/room', 'Game\GameController@invitationMessage')->name('invitationMessage');
     Route::post('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessagePost');
+
+    Route::post('/game/cancel_payment', 'Game\GameController@cancelPayment')->name('cancelPayment');
     Route::get('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
 
     Route::get('/game/room', function () {

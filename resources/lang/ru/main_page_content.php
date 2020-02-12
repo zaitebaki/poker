@@ -34,6 +34,14 @@ return [
             'noFriendsText' => 'У вас нет друзей',
             'startGameText' => 'Начать игру',
         ],
+        'payments' => [
+            'header' => 'Финансовый отчет',
+            'credit' => 'Вы должны пользователю :user :money рублей',
+            'income' => 'Пользователь :user должен вам :money рублей',
+            'incomeButtonCaption' => 'Списать',
+            'incomeAlertMessage' => 'Вы уверены что хотите списать долг?',
+            'successMessage' => 'Долг для пользователя :user успешно списан'
+        ]
     ],
 
     'gamePage'    => [

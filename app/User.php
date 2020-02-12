@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'login', 'password', 'victory', 'gameover', 'balance'
+        'name', 'login', 'password', 'victory', 'gameover', 'balance',
     ];
 
     /**
@@ -41,13 +42,38 @@ class User extends Authenticatable
         return $this->belongsToMany('App\User', 'friends', 'user1_id', 'user2_id');
     }
 
-    public function rooms()
+    public function payments()
     {
-        return $this->belongsToMany('App\Room', 'user_room');
+        return $this->belongsToMany('App\Payment', 'user_payment');
     }
 
-    public function invitations()
+    /**
+     * Сохранить текущий заработок пользователя в базе данных
+     */
+    public function savePaymentValue($opponentUserId, $money)
     {
-        return $this->belongsToMany('App\User', 'invitations', 'id_src_user', 'id_dst_user');
+        $payment = $this->payments()->where('opponent_user_id', $opponentUserId);
+
+        if ($payment->get()->isEmpty()) {
+            $this->payments()->create([
+                'user_id'          => $this->id,
+                'opponent_user_id' => $opponentUserId,
+                'value'            => $money,
+            ]);
+            return;
+        }
+        $payment->increment('value', $money);
     }
+
+    /**
+     * Инициализировать действие - списать долг
+     * Удалить информацию о долге в базе данных
+     */
+    // public function deletePaymentMessage($paymentId)
+    // {
+        // $payment = $this->payments()->where('opponent_user_id', $paymentId);
+
+    //     $this->payments()->detach($paymentId);
+    //     Payment::destroy($paymentId);
+    // }
 }

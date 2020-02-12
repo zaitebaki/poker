@@ -77,7 +77,6 @@ export default {
             return window.Echo.join('connect');
         },
         invitationChannel() {
-            // return window.Echo.private('invitation.1');
             return window.Echo.private('invitation.' + this.user.id);
         }
     },

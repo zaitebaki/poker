@@ -1982,8 +1982,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       moneySumForAdd: 5,
       ticks: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-      tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'] // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
     };
   },
   computed: {
@@ -3059,6 +3059,113 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    content: Object,
+    payments: Array,
+    cancelPaymentRoute: String,
+    status: String,
+    sessionStatusUserLogin: String
+  },
+  data: function data() {
+    return {
+      urlPost: '/game/cancel_payment',
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
+  computed: {
+    successMessage: function successMessage() {
+      return this.content.successMessage.replace(/:user/gi, this.sessionStatusUserLogin);
+    }
+  },
+  methods: {
+    // получить "финансовое сообщение"
+    getCreditMessage: function getCreditMessage(payment) {
+      var userFullName = "".concat(payment.nameOpponent, " (").concat(payment.loginOpponent, ")");
+      var message = '';
+      var money = 0;
+
+      if (payment.moneyValue > 0) {
+        message = this.content.income;
+        money = payment.moneyValue;
+      } else {
+        message = this.content.credit;
+        money = -payment.moneyValue;
+      }
+
+      message = message.replace(/:user/i, userFullName);
+      message = message.replace(/:money/i, money);
+      return message;
+    },
+    getJsonData: function getJsonData(payment) {
+      return JSON.stringify(payment);
+    },
+    getIdForm: function getIdForm(payment) {
+      return 'delPaymentForm_' + payment.loginOpponent;
+    },
+    paymentMessageClass: function paymentMessageClass(value) {
+      if (value > 0) {
+        return 'friends-card__item__online';
+      }
+
+      return 'header__gameover-text';
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js& ***!
@@ -3147,7 +3254,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return window.Echo.join('connect');
     },
     invitationChannel: function invitationChannel() {
-      // return window.Echo.private('invitation.1');
       return window.Echo["private"]('invitation.' + this.user.id);
     }
   },
@@ -3211,6 +3317,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HeaderComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HeaderComponent */ "./resources/js/components/home-component/HeaderComponent.vue");
 /* harmony import */ var _ViewFriendsComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ViewFriendsComponent */ "./resources/js/components/home-component/ViewFriendsComponent.vue");
+/* harmony import */ var _PaymentsComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PaymentsComponent */ "./resources/js/components/home-component/PaymentsComponent.vue");
 //
 //
 //
@@ -3226,20 +3333,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     nameProject: String,
     content: Object,
+    contentPayments: Object,
     invitationCardContent: Object,
     friends: Array,
     user: Object,
-    formJoinGameRoute: String
+    payments: Array,
+    formJoinGameRoute: String,
+    cancelPaymentRoute: String,
+    status: String,
+    sessionStatusUserLogin: String
+  },
+  mounted: function mounted() {
+    console.log('status');
+    console.log(this.status);
   },
   components: {
     'header-component': _HeaderComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'view-friends-component': _ViewFriendsComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'view-friends-component': _ViewFriendsComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'payments-component': _PaymentsComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -56119,6 +56244,110 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "uk-container" }, [
+    _c("div", [
+      _c("h4", [_vm._v(_vm._s(_vm.content.header))]),
+      _vm._v(" "),
+      _vm.status === "success"
+        ? _c("div", { staticClass: "status-text__background_color_green" }, [
+            _c("p", [_vm._v(_vm._s(_vm.successMessage))])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("table", { staticClass: "uk-table uk-table-divider" }, [
+        _c(
+          "tbody",
+          _vm._l(_vm.payments, function(payment) {
+            return _c("tr", { key: payment.login }, [
+              _c(
+                "td",
+                {
+                  staticClass: "uk-table-shrink",
+                  class: _vm.paymentMessageClass(payment.moneyValue)
+                },
+                [
+                  _vm._v(
+                    "\r\n                        " +
+                      _vm._s(_vm.getCreditMessage(payment)) +
+                      "\r\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              payment.moneyValue > 0
+                ? _c("td", { staticClass: "uk-table-shrink" }, [
+                    _c(
+                      "form",
+                      {
+                        attrs: {
+                          id: _vm.getIdForm(payment),
+                          action: _vm.cancelPaymentRoute,
+                          method: "POST"
+                        }
+                      },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "uk-button uk-button-secondary uk-button-small",
+                            attrs: {
+                              type: "submit",
+                              form: _vm.getIdForm(payment)
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\r\n                                " +
+                                _vm._s(_vm.content.incomeButtonCaption) +
+                                "\r\n                            "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          attrs: { type: "hidden", name: "_token" },
+                          domProps: { value: _vm.csrf }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          attrs: { type: "hidden", name: "data" },
+                          domProps: { value: _vm.getJsonData(payment) }
+                        })
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ])
+          }),
+          0
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c&":
 /*!**************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c& ***!
@@ -56319,6 +56548,16 @@ var render = function() {
           friends: _vm.friends,
           user: _vm.user,
           "form-join-game-route": _vm.formJoinGameRoute
+        }
+      }),
+      _vm._v(" "),
+      _c("payments-component", {
+        attrs: {
+          content: _vm.contentPayments,
+          payments: _vm.payments,
+          "cancel-payment-route": _vm.cancelPaymentRoute,
+          status: _vm.status,
+          "session-status-user-login": _vm.sessionStatusUserLogin
         }
       })
     ],
@@ -69682,6 +69921,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvitationAlertCardComponent_vue_vue_type_template_id_06a6f5ef___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvitationAlertCardComponent_vue_vue_type_template_id_06a6f5ef___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/home-component/PaymentsComponent.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/home-component/PaymentsComponent.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true& */ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true&");
+/* harmony import */ var _PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "cab4100a",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/home-component/PaymentsComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PaymentsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true&":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/components/home-component/PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true& ***!
+  \*****************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

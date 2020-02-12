@@ -39,33 +39,26 @@ class CreateBdTable extends Migration
             });
         }
 
-        // create 'rooms'
-        if (!Schema::hasTable('rooms')) {
-            Schema::create('rooms', function (Blueprint $table) {
-                $table->increments('id');
-                $table->timestamps();
-            });
-        }
-
-        // create 'user_room'
-        if (!Schema::hasTable('user_room')) {
-            Schema::create('user_room', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('user_id')->unsigned();
-                $table->integer('room_id')->unsigned();
-                $table->foreign('user_id')->references('id')->on('users');
-                $table->foreign('room_id')->references('id')->on('rooms');
-            });
-        }
-
         // create 'payments'
         if (!Schema::hasTable('payments')) {
             Schema::create('payments', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('user_id')->unsigned();
                 $table->integer('opponent_user_id')->unsigned();
+                $table->integer('value');
                 $table->foreign('user_id')->references('id')->on('users');
                 $table->foreign('opponent_user_id')->references('id')->on('users');
+            });
+        }
+
+        // create 'user_room'
+        if (!Schema::hasTable('user_payment')) {
+            Schema::create('user_payment', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned();
+                $table->integer('payment_id')->unsigned();
+                $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('payment_id')->references('id')->on('payments');
             });
         }
     }
@@ -83,16 +76,20 @@ class CreateBdTable extends Migration
             $table->dropForeign('friends_user2_id_foreign');
         });
 
-        Schema::table('user_room', function (Blueprint $table) {
-            $table->dropForeign('user_room_room_id_foreign');
-            $table->dropForeign('user_room_user_id_foreign');
+        Schema::table('payments', function (Blueprint $table) {
+            $table->dropForeign('payments_opponent_user_id_foreign');
+            $table->dropForeign('payments_user_id_foreign');
+        });
+
+        Schema::table('user_payment', function (Blueprint $table) {
+            $table->dropForeign('user_payment_payment_id_foreign');
+            $table->dropForeign('user_payment_user_id_foreign');
         });
 
         // delete tables
         Schema::dropIfExists('users');
         Schema::dropIfExists('friends');
-        Schema::dropIfExists('rooms');
-        Schema::dropIfExists('user_room');
         Schema::dropIfExists('payments');
+        Schema::dropIfExists('user_payment');
     }
 }

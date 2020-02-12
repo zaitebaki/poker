@@ -8,6 +8,8 @@ use App\Helpers\State\States\FinishState;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use App\User;
+use App\Payment;
 
 class GameController extends \App\Http\Controllers\SuperController
 {
@@ -95,6 +97,35 @@ class GameController extends \App\Http\Controllers\SuperController
                 return $this->handleInitAction($request);
             }
         }
+    }
+
+    /**
+     * Списать долг
+     */
+    public function cancelPayment(Request $request)
+    {
+        $paymentData = json_decode($request->data);
+
+        // удалить "финансовое" сообщение у текущего пользователя
+        $paymentId = $paymentData->idPayment;
+        $payment = $this->user->payments()->get();
+        $payment = $payment->where('id', $paymentId)->first();
+        $opponentId = $payment->opponent_user_id;
+
+        $this->user->payments()->detach($paymentId);
+        Payment::destroy($paymentId);
+
+        // удалить "финансовое" сообщение у пользователя-оппонента
+        $opponentUser = User::find($opponentId);
+        $paymentOpponent    = $opponentUser->payments()->get();
+        $paymentOpponent = $paymentOpponent->where('opponent_user_id', $this->user->id)->first();
+
+        $paymentId = $paymentOpponent->id;
+
+        $opponentUser->payments()->detach($paymentId);
+        Payment::destroy($paymentId);
+
+        return redirect()->back()->with(['status' => 'success', 'sessionStatusUserLogin' => $opponentUser->login]);
     }
 
     /**

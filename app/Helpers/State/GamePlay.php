@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Redis;
 // room_x:1:endGameStatus - игра закончилась дропом
 // room_x:1:dropGameMoney
 // room_x:1:isAlreadyChangedCards
-    // room_x:startGameStatus
+// room_x:startGameStatus
 // room_x:opponentStatusCheck
 // room_x:startButtonIndicator
 // room_x:newGameButtonIndicator

@@ -78,10 +78,11 @@ class FinishState extends State
         }
 
         $this->context->buttons = ['then'];
-        $this->updateUserBalance($money);
 
-        // сохранить результаты в базу данных
-        // $this->context->dump    = $this->context->opponentUser->id;
+        // обновить баланс пользователя в базе данных
+        $this->updateUserBalanceAndPayment($money);
+
+        // обновить "счета" пользователя в базе данных
     }
 
      /**
@@ -244,7 +245,7 @@ class FinishState extends State
     /**
      * Обновить баланс пользователя в базе данных
      */
-    private function updateUserBalance($money)
+    private function updateUserBalanceAndPayment($money)
     {
         // проверить существование победителя
         // если победителя нет - результаты партии
@@ -266,9 +267,11 @@ class FinishState extends State
             $user->gameover = $user->gameover + 1;
         }
 
-        $newBalance    = $user->balance + $this->context->isVictory * $money;
-        $user->balance = $newBalance;
-        $user->save();
+        $money = $this->context->isVictory * $money;
+        $user->increment('balance', $money);
+
+        // обновить payment с пользователем-оппонентом
+        $user->savePaymentValue($this->context->opponentUser->id, $money);
     }
 
     /**

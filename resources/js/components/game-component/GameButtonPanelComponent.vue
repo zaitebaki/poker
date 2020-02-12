@@ -109,7 +109,7 @@ export default {
             moneySumForAdd: 5,
             ticks: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
             tickLabels: ['5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     },
     computed: {
