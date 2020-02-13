@@ -80,6 +80,8 @@ class BettingState extends State
     public function opponentCheck()
     {
         $this->context->updateState('FinishState');
+        $this->saveUserEndGameStatus($this->context->currentUser->id, 'check');
+        $this->saveUserEndGameStatus($this->context->opponentUser->id, 'check');
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, '0', 'opponentCheck');
     }
 
@@ -111,6 +113,7 @@ class BettingState extends State
         $this->context->money += $money;
         $this->context->saveMoney();
         $this->context->saveBankMessage($money);
+        $this->saveUserEndGameStatus($this->context->opponentUser->id, 'equal');
         $this->context->updateState('FinishState');
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $money, 'equal');
     }

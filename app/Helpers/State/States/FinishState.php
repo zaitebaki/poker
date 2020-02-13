@@ -37,7 +37,7 @@ class FinishState extends State
         // если игра закончилась дропом карт одним из игроков
         $statusGame = $this->getEndStatusGame();
         $money      = 0;
-        if ($statusGame !== false) {
+        if ($statusGame === 'drop' || $statusGame === 'winDrop') {
             if ($statusGame === "drop") {
                 $money                     = $this->getDropMoney();
                 $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage2',
@@ -59,14 +59,36 @@ class FinishState extends State
             // победа
             $money = $this->context->money / 2;
             if ($winnerId === (string) $this->context->currentUser->id) {
-                $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage',
+
+                if ($statusGame === 'check') {
+                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.checkWinFinishMessage',
+                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
+                }
+                elseif ($statusGame === 'equal') {
+                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalWinFinishMessage',
+                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
+                }
+                else {
+                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage',
                     ['money' => $money]);
+                }
                 $this->context->isVictory = 1;
 
                 // проигрыш
             } elseif ($winnerId === (string) $this->context->opponentUser->id) {
-                $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage',
+                
+                if ($statusGame === 'check') {
+                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.checkLoseFinishMessage',
+                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
+                }
+                elseif ($statusGame === 'equal') {
+                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalLoseFinishMessage',
+                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
+                }
+                else {
+                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage',
                     ['money' => $money]);
+                }
                 $this->context->isVictory = -1;
 
                 // ничья

@@ -34,14 +34,14 @@ return [
             'noFriendsText' => 'У вас нет друзей',
             'startGameText' => 'Начать игру',
         ],
-        'payments' => [
-            'header' => 'Финансовый отчет',
-            'credit' => 'Вы должны пользователю :user :money рублей',
-            'income' => 'Пользователь :user должен вам :money рублей',
+        'payments'       => [
+            'header'              => 'Финансовый отчет',
+            'credit'              => 'Вы должны пользователю :user :money рублей',
+            'income'              => 'Пользователь :user должен вам :money рублей',
             'incomeButtonCaption' => 'Списать',
-            'incomeAlertMessage' => 'Вы уверены что хотите списать долг?',
-            'successMessage' => 'Долг для пользователя :user успешно списан'
-        ]
+            'incomeAlertMessage'  => 'Вы уверены что хотите списать долг?',
+            'successMessage'      => 'Долг для пользователя :user успешно списан',
+        ],
     ],
 
     'gamePage'    => [
@@ -80,6 +80,10 @@ return [
             'drawFinishMessage'       => 'Ничья. :money возвращаются вам на счет.',
             'gameOverMessage1'        => 'Победа! :user сбросил карты. Вы выиграли :money рублей.',
             'gameOverMessage2'        => 'Проигрыш. Вы сбросили карты и проиграли :money рублей.',
+            'checkLoseFinishMessage'  => 'Проигрыш. :user ответил «чек».  Вы проиграли :money рублей.',
+            'checkWinFinishMessage'   => 'Победа! :user ответил «чек».  Вы выиграли :money рублей.',
+            'equalLoseFinishMessage'  => 'Проигрыш. :user сравнял ставку.  Вы проиграли :money рублей.',
+            'equalWinFinishMessage'   => 'Победа! :user сравнял ставку.  Вы выиграли :money рублей.',
         ],
     ],
 ];
