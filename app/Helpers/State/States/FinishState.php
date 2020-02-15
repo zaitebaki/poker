@@ -315,7 +315,7 @@ class FinishState extends State
     /**
      * Удалить данные пользователя из БД Redis
      */
-    private static function removeUserDataFromRedis($roomName, $currentUserId)
+    public static function removeUserDataFromRedis($roomName, $currentUserId)
     {
         $namesUserKeys = [
             'userCards',
@@ -339,14 +339,13 @@ class FinishState extends State
     /**
      * Удалить общие данные из БД Redis
      */
-    private static function removeCommonDataFromRedis($roomName)
+    public static function removeCommonDataFromRedis($roomName)
     {
         $namesCommonKeys = [
             'cards',
             'money',
             'messages',
             'winner',
-            'startGameStatus',
             'addOpponentMoney',
             'countFirstUserChangeCards',
             'increaseAfterEqualMoney',
@@ -359,6 +358,41 @@ class FinishState extends State
                 $pipe->del($begKeyString . $value);
             }
         });
+    }
+
+    /**
+     * Удалить оставшиеся данные из БД Redis
+     * при завершениии сеанса игры
+     */
+    public static function removeAllRoomDataFromRedis($roomName, $userId, $opponentUserId)
+    {
+        $namesCommonKeys = [
+            'idUserCurrent',
+            'idUserOpponent',
+            'isStartGameFlag',
+            $userId . ':startGameStatus',
+            $opponentUserId . ':startGameStatus',
+            $userId . ':startButtonIndicator',
+            $opponentUserId . ':startButtonIndicator',
+            $userId . ':WaitingState',
+            $opponentUserId . ':WaitingState',
+            $userId . ':state',
+            $opponentUserId . ':state',
+            (string)$userId,
+            (string)$opponentUserId
+        ];
+
+        $begKeyString = $roomName . ':';
+        Redis::pipeline(function ($pipe) use ($namesCommonKeys, $begKeyString) {
+            foreach ($namesCommonKeys as $key => $value) {
+                $pipe->del($begKeyString . $value);
+            }
+        });
+
+        $key = 'room:' . $userId . ':' . $opponentUserId;
+        Redis::del($key);
+        $key = 'room:' . $opponentUserId . ':' . $userId;
+        Redis::del($key);
     }
 
     /**

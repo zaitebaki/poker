@@ -49,7 +49,11 @@
                                 <div class="uk-navbar-dropdown">
                                     <ul class="uk-nav uk-navbar-dropdown-nav">
                                         <li><a href="#">Статистика</a></li>
-                                        <li><a href="#">Закончить игру</a></li>
+                                        <li>
+                                            <a 
+                                                href="#"
+                                                v-on:click="finishGameSession">
+                                                Закончить игру</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -66,11 +70,31 @@
 export default {
     props: {
         content: Object,
-        user: Object
+        user: Object,
+        roomId: String,
+        roomName: String
     },
     data() {
         return {
+            roomUrl: '/game/room/' + this.roomId + '/finish_game_session',
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        }
+    },
+
+    mounted() {
+        console.log(this.roomUrl);
+    },
+
+    methods: {
+        // Закончить сеанс игры
+        finishGameSession() {
+            axios.post(this.roomUrl, {}).then( (response) => {
+                console.log(response.data);
+                window.location.replace('/home');
+            }).catch(function (error) {
+                console.log(error);
+                alert('Не удалось отправить запрос. Повторите попытку позже.');
+            });
         }
     }
 }

@@ -210,4 +210,38 @@ class GameController extends \App\Http\Controllers\SuperController
         }
         return false;
     }
+
+    /**
+     * Закончить сеанс игры
+     */
+    public function finishGameSession(Request $request, $room_id) {
+        
+        $roomName = 'room_' . $room_id;
+        $userId =  $this->user->id;
+        $userName = $this->user->login;
+
+        // удалить данные о текущем сеансе игры из бд Redis
+        $opponentUserId = $this->getOpponentIdFromRedis($roomName, $userId);
+        FinishState::removeUserDataFromRedis($roomName, $userId);
+        FinishState::removeUserDataFromRedis($roomName, $opponentUserId);
+        FinishState::removeCommonDataFromRedis($roomName);
+
+        FinishState::removeAllRoomDataFromRedis($roomName, $userId, $opponentUserId);
+
+        \App\Events\SendFinishGameSessionStatus::dispatch($room_id, $userName);
+    }
+
+    // получить id пользователя-оппонента
+    private function getOpponentIdFromRedis($roomName, $userId) {
+        $id = Redis::get($roomName . ':idUserCurrent');
+
+        if ($userId === (int)$id) {
+            return Redis::get($roomName . ':idUserOpponent');
+        }
+        else {
+            return $id;
+        }
+    }
+
+
 }

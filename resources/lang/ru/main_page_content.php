@@ -85,5 +85,8 @@ return [
             'equalLoseFinishMessage'  => 'Проигрыш. :user сравнял ставку.  Вы проиграли :money рублей.',
             'equalWinFinishMessage'   => 'Победа! :user сравнял ставку.  Вы выиграли :money рублей.',
         ],
+        'alertMessages' => [
+            'finishGameSessionMessage' => 'Пользователь :user завершил сеанс игры!'
+        ]
     ],
 ];

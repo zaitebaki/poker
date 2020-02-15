@@ -3,7 +3,9 @@
 
     <game-status-bar-component
         :content="content.header"
-        :user="userParameters">
+        :user="userParameters"
+        :room-id="gameParameters.roomId"
+        :room-name="roomName">
     </game-status-bar-component>
 
     <div class="uk-flex">
@@ -28,7 +30,6 @@
         :combination="vueGameParameters.opponentCombination"
         :points="vueGameParameters.opponentPoints">
     </game-opponent-cards-component>
-
 
     <game-button-panel-component
         :room-url="roomUrl"
@@ -56,7 +57,21 @@
         @change:active:cards:storage="changeActiveCardsStorage($event)">
     </game-user-cards-component>
 
-
+    <!-- модальное окно о завершении сеанса игры -->
+    <div id="js-modal-dialog" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title"></h2>
+            <p class="uk-text-center uk-text-danger"> {{ getFinishGameMessage }}</p>
+            <button class="uk-modal-close-outside" type="button" uk-close></button>
+            <p class="uk-text-center">
+                <button 
+                    class="uk-button uk-button-danger uk-modal-close" type="button"
+                    v-on:click="finishGameButtonClick()">
+                    ok
+                </button>
+            </p>
+        </div>
+    </div>
 </div>
 </template>
 <script>
@@ -93,7 +108,8 @@ export default {
             },
             roomUrl: '/game/room/' + this.gameParameters.roomId,
             roomName: 'room_' + this.gameParameters.roomId,
-            // startGameSessionFlag: true
+            isFinishGameComponentVisible: false,
+            opponentUserName: ''
         }
     },
     computed: {
@@ -112,11 +128,13 @@ export default {
             }
             return (this.vueGameParameters.indicator === 'wait') ? 'status-text__background_color_orange' : 
             'status-text__background_color_green';
-        }
+        },
+        getFinishGameMessage() {
+            const re = /:user/gi;
+            return this.content.alertMessages.finishGameSessionMessage.replace(re, this.opponentUserName);
+        },
     },
     mounted() {
-        console.log('roomUrl');
-        console.log(this.roomUrl);
         this.$root.$on('changed:cards:false', () => {
             this.activeCardsStorage = [true, true, true, true, true];
         });
@@ -225,7 +243,17 @@ export default {
             .listen('SendUpdateIndicatorStartButtonStatus', ({data}) => {
                 console.log('SendUpdateIndicatorStartButtonStatus');
                 this.vueGameParameters.startButtonIndicator = false;
+            }).
+            listen('SendFinishGameSessionStatus', ({opponentUserName}) => {
+                console.log("Hello from SendFinishGameSessionStatus!!!");
+                this.opponentUserName = opponentUserName;
+                UIkit.modal('#js-modal-dialog').show();
             })
+        UIkit.util.on('#js-modal-dialog', 'click', function (e) {
+            e.preventDefault();
+            e.target.blur();
+             window.location.replace('/home');
+       });
     },
     methods: {
         updateParameters($event) {
@@ -272,7 +300,6 @@ export default {
             return array;
         },
         sendResponseAfterFinishEvent() {
-
             console.log('DELETE');
             axios.post(this.roomUrl, { initAction: 'delNewGameButtonIndicator', roomName: this.roomName}).then( (response) => {
                 console.log('delNewGameButtonIndicator');
@@ -281,6 +308,9 @@ export default {
                     alert('Не удалось отправить запрос. Повторите попытку позже.');
             });
         },
+        finishGameButtonClick() {
+            window.location.replace('/home');
+        }
     },
     components: {
         'game-status-bar-component': GameStatusBarComponent,
@@ -289,7 +319,7 @@ export default {
         'game-status-text-component': GameStatusTextComponent,
         'game-user-cards-component': GameUserCardsComponent,
         'game-opponent-cards-component': GameOpponentCardsComponent,
-        'game-indicator-component': GameIndicatorComponent,
+        'game-indicator-component': GameIndicatorComponent
     }
 }
 

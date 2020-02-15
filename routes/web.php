@@ -24,10 +24,15 @@ Route::middleware('auth', 'throttle:60,1')->group(function () {
     Route::post('/game/cancel_payment', 'Game\GameController@cancelPayment')->name('cancelPayment');
     Route::get('/game/room/{room_id}', 'Game\GameController@sendMessage')->name('sendMessage');
 
+    Route::post('/game/room/{room_id}/finish_game_session', 'Game\GameController@finishGameSession')->name('finishGameSession');
+
     Route::get('/game/room', function () {
         abort(404);
     });
     Route::get('/invitation', function () {
         abort(404);
     });
+    // Route::get('/game/cancel_payment', function () {
+    //     abort(404);
+    // });
 });

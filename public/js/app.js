@@ -2416,15 +2416,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: Object,
-    user: Object
+    user: Object,
+    roomId: String,
+    roomName: String
   },
   data: function data() {
     return {
+      roomUrl: '/game/room/' + this.roomId + '/finish_game_session',
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
+  },
+  mounted: function mounted() {
+    console.log(this.roomUrl);
+  },
+  methods: {
+    // Закончить сеанс игры
+    finishGameSession: function finishGameSession() {
+      axios.post(this.roomUrl, {}).then(function (response) {
+        console.log(response.data);
+        window.location.replace('/home');
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      });
+    }
   }
 });
 
@@ -2719,6 +2741,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2750,8 +2787,9 @@ __webpack_require__.r(__webpack_exports__);
         'WASTE': 'Хлам'
       },
       roomUrl: '/game/room/' + this.gameParameters.roomId,
-      roomName: 'room_' + this.gameParameters.roomId // startGameSessionFlag: true
-
+      roomName: 'room_' + this.gameParameters.roomId,
+      isFinishGameComponentVisible: false,
+      opponentUserName: ''
     };
   },
   computed: {
@@ -2771,13 +2809,15 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return this.vueGameParameters.indicator === 'wait' ? 'status-text__background_color_orange' : 'status-text__background_color_green';
+    },
+    getFinishGameMessage: function getFinishGameMessage() {
+      var re = /:user/gi;
+      return this.content.alertMessages.finishGameSessionMessage.replace(re, this.opponentUserName);
     }
   },
   mounted: function mounted() {
     var _this = this;
 
-    console.log('roomUrl');
-    console.log(this.roomUrl);
     this.$root.$on('changed:cards:false', function () {
       _this.activeCardsStorage = [true, true, true, true, true];
     });
@@ -2901,6 +2941,16 @@ __webpack_require__.r(__webpack_exports__);
       var data = _ref8.data;
       console.log('SendUpdateIndicatorStartButtonStatus');
       _this.vueGameParameters.startButtonIndicator = false;
+    }).listen('SendFinishGameSessionStatus', function (_ref9) {
+      var opponentUserName = _ref9.opponentUserName;
+      console.log("Hello from SendFinishGameSessionStatus!!!");
+      _this.opponentUserName = opponentUserName;
+      UIkit.modal('#js-modal-dialog').show();
+    });
+    UIkit.util.on('#js-modal-dialog', 'click', function (e) {
+      e.preventDefault();
+      e.target.blur();
+      window.location.replace('/home');
     });
   },
   methods: {
@@ -2963,6 +3013,9 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         alert('Не удалось отправить запрос. Повторите попытку позже.');
       });
+    },
+    finishGameButtonClick: function finishGameButtonClick() {
+      window.location.replace('/home');
     }
   },
   components: {
@@ -55785,7 +55838,42 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(3)
+              _c(
+                "div",
+                { staticClass: "uk-navbar-item uk-margin-xlarge-right" },
+                [
+                  _c("ul", { staticClass: "uk-navbar-nav" }, [
+                    _c("li", [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "uk-navbar-dropdown" }, [
+                        _c(
+                          "ul",
+                          { staticClass: "uk-nav uk-navbar-dropdown-nav" },
+                          [
+                            _vm._m(4),
+                            _vm._v(" "),
+                            _c("li", [
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "#" },
+                                  on: { click: _vm.finishGameSession }
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                                                Закончить игру"
+                                  )
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
             ])
           ])
         ])
@@ -55836,32 +55924,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "uk-navbar-item uk-margin-xlarge-right" }, [
-      _c("ul", { staticClass: "uk-navbar-nav" }, [
-        _c("li", [
-          _c(
-            "a",
-            {
-              staticClass: "uk-navbar-toggle uk-text-warning",
-              attrs: { href: "#" }
-            },
-            [_c("span", { attrs: { "uk-navbar-toggle-icon": "" } })]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "uk-navbar-dropdown" }, [
-            _c("ul", { staticClass: "uk-nav uk-navbar-dropdown-nav" }, [
-              _c("li", [
-                _c("a", { attrs: { href: "#" } }, [_vm._v("Статистика")])
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("a", { attrs: { href: "#" } }, [_vm._v("Закончить игру")])
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
+    return _c(
+      "a",
+      { staticClass: "uk-navbar-toggle uk-text-warning", attrs: { href: "#" } },
+      [_c("span", { attrs: { "uk-navbar-toggle-icon": "" } })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Статистика")])])
   }
 ]
 render._withStripped = true
@@ -56011,7 +56084,12 @@ var render = function() {
     { staticClass: "uk-container" },
     [
       _c("game-status-bar-component", {
-        attrs: { content: _vm.content.header, user: _vm.userParameters }
+        attrs: {
+          content: _vm.content.header,
+          user: _vm.userParameters,
+          "room-id": _vm.gameParameters.roomId,
+          "room-name": _vm.roomName
+        }
       }),
       _vm._v(" "),
       _c(
@@ -56096,7 +56174,38 @@ var render = function() {
               }
             }
           })
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "js-modal-dialog", "uk-modal": "" } }, [
+        _c("div", { staticClass: "uk-modal-dialog uk-modal-body" }, [
+          _c("h2", { staticClass: "uk-modal-title" }),
+          _vm._v(" "),
+          _c("p", { staticClass: "uk-text-center uk-text-danger" }, [
+            _vm._v(" " + _vm._s(_vm.getFinishGameMessage))
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "uk-modal-close-outside",
+            attrs: { type: "button", "uk-close": "" }
+          }),
+          _vm._v(" "),
+          _c("p", { staticClass: "uk-text-center" }, [
+            _c(
+              "button",
+              {
+                staticClass: "uk-button uk-button-danger uk-modal-close",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.finishGameButtonClick()
+                  }
+                }
+              },
+              [_vm._v("\r\n                    ok\r\n                ")]
+            )
+          ])
+        ])
+      ])
     ],
     1
   )
