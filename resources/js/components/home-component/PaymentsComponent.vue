@@ -1,42 +1,47 @@
 <template>
-<div class="uk-container">
-    <div>
-        <h4>{{ content.header }}</h4>
-        <div
-            v-if="status === 'success'"
-            class="status-text__background_color_green">
-            <p>{{ successMessage }}</p>
+<div class="uk-card uk-card-default uk-card-body uk-width-expand">
+    <div class="uk-flex">
+        <div class="uk-margin-remove">
+            <h4 class="uk-margin-remove user-bar__balance-text">{{ content.header }}</h4>
         </div>
-
-        <table class="uk-table uk-table-divider">
-            <tbody>
-                <tr v-for="payment in payments" v-bind:key=payment.login>
-                    <td
-                        class="uk-table-shrink"
-                        :class="paymentMessageClass(payment.moneyValue)">
-                        {{ getCreditMessage(payment) }}
-                    </td>
-                    <td
-                        v-if="payment.moneyValue > 0"
-                        class="uk-table-shrink">
-                        <form
-                            :id="getIdForm(payment)"
-                            :action="cancelPaymentRoute"
-                            method="POST">
-                            <button
-                                class="uk-button uk-button-secondary uk-button-small"
-                                type="submit"
-                                :form="getIdForm(payment)">
-                                {{ content.incomeButtonCaption }}
-                            </button>
-                            <input type="hidden" name="_token" :value="csrf">
-                            <input type="hidden" name="data" :value="getJsonData(payment)">
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="uk-margin-remove">
+            <span class="uk-margin-medium-left" uk-icon="chevron-right"></span>
+        </div>
     </div>
+    <div
+        v-if="status === 'success'"
+        class="status-text__background_color_green">
+        <p>{{ successMessage }}</p>
+    </div>
+
+    <table class="uk-table uk-table-divider">
+        <tbody>
+            <tr v-for="payment in payments" v-bind:key=payment.login>
+                <td
+                    class="uk-table-shrink"
+                    :class="paymentMessageClass(payment.moneyValue)">
+                    {{ getCreditMessage(payment) }}
+                </td>
+                <td
+                    v-if="payment.moneyValue > 0"
+                    class="uk-table-shrink">
+                    <form
+                        :id="getIdForm(payment)"
+                        :action="cancelPaymentRoute"
+                        method="POST">
+                        <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="submit"
+                            :form="getIdForm(payment)">
+                            {{ content.incomeButtonCaption }}
+                        </button>
+                        <input type="hidden" name="_token" :value="csrf">
+                        <input type="hidden" name="data" :value="getJsonData(payment)">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </template>
 
@@ -90,9 +95,9 @@ export default {
 
         paymentMessageClass(value) {
             if(value > 0) {
-                return 'friends-card__item__online';
+                return 'user-bar__balance-text';
             }
-            return 'header__gameover-text';
+            return 'user-bar__gameover-text';
         }
     }
 }

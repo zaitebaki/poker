@@ -2420,6 +2420,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: Object,
@@ -3031,6 +3032,171 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvitationAlertCardComponent */ "./resources/js/components/home-component/InvitationAlertCardComponent.vue");
+/* harmony import */ var _PaymentsComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentsComponent */ "./resources/js/components/home-component/PaymentsComponent.vue");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    content: Object,
+    invitationCardContent: Object,
+    friends: Array,
+    user: Object,
+    formJoinGameRoute: String,
+    contentPayments: Object,
+    payments: Array,
+    cancelPaymentRoute: String,
+    status: String,
+    sessionStatusUserLogin: String
+  },
+  data: function data() {
+    return {
+      messages: [],
+      textMessage: '',
+      isActive: false,
+      typingTimer: false,
+      activeUsers: [],
+      currenUserIndex: undefined,
+      isSendInvitation: false,
+      curSrcUserId: '',
+      invitationText: '',
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
+  computed: {
+    connectChannel: function connectChannel() {
+      return window.Echo.join('connect');
+    },
+    invitationChannel: function invitationChannel() {
+      return window.Echo["private"]('invitation.' + this.user.id);
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    console.log(this.friends);
+    this.connectChannel.here(function (users) {
+      _this.activeUsers = users;
+    }).joining(function (user) {
+      console.log(_this.activeUsers);
+
+      _this.activeUsers.push(user);
+    }).leaving(function (user) {
+      _this.activeUsers.splice(_this.activeUsers.indexOf(user), 1);
+    }), this.invitationChannel.listen('SendInvitation', function (_ref) {
+      var srcUserId = _ref.srcUserId,
+          srcUserLogin = _ref.srcUserLogin;
+      _this.invitationText = _this.invitationCardContent.text;
+      _this.invitationText = _this.invitationText.replace(/:name/i, srcUserLogin);
+      _this.curSrcUserId = srcUserId;
+      _this.curSrcUserLogin = srcUserLogin;
+      _this.isSendInvitation = true;
+    });
+  },
+  methods: _defineProperty({
+    // sendMessage() {
+    //     axios.post('/messages', { body: this.textMessage, room_id: 1});
+    //     this.messages.push(this.textMessage);
+    //     this.textMessage = '';
+    // },
+    // actionUser() {
+    //     this.channel
+    //         .whisper('typing', {
+    //             name: this.user.name
+    //         });
+    // },
+    isOnline: function isOnline(friendLogin) {
+      if (this.activeUsers.indexOf(friendLogin) !== -1) return 'friends-card__item__online';
+      return 'friends-card__item__offline';
+    }
+  }, "isOnline", function isOnline(friendLogin) {
+    if (this.activeUsers.indexOf(friendLogin) !== -1) return true;
+    return false;
+  }),
+  components: {
+    'invitation-alert-card-component': _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'payments-component': _PaymentsComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/HeaderComponent.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/HeaderComponent.vue?vue&type=script&lang=js& ***!
@@ -3163,6 +3329,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: Object,
@@ -3209,28 +3380,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     paymentMessageClass: function paymentMessageClass(value) {
       if (value > 0) {
-        return 'friends-card__item__online';
+        return 'user-bar__balance-text';
       }
 
-      return 'header__gameover-text';
+      return 'user-bar__gameover-text';
     }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/UserStatusComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/UserStatusComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvitationAlertCardComponent */ "./resources/js/components/home-component/InvitationAlertCardComponent.vue");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -3276,85 +3444,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    content: Object,
-    invitationCardContent: Object,
-    friends: Array,
-    user: Object,
-    formJoinGameRoute: String
+    // content: Object,
+    userParameters: Object // roomId: String,
+    // roomName: String
+
   },
   data: function data() {
-    return {
-      messages: [],
-      textMessage: '',
-      isActive: false,
-      typingTimer: false,
-      activeUsers: [],
-      currenUserIndex: undefined,
-      isSendInvitation: false,
-      curSrcUserId: '',
-      invitationText: '',
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    return {// roomUrl: '/game/room/' + this.roomId + '/finish_game_session',
+      // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     };
   },
-  computed: {
-    connectChannel: function connectChannel() {
-      return window.Echo.join('connect');
-    },
-    invitationChannel: function invitationChannel() {
-      return window.Echo["private"]('invitation.' + this.user.id);
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    console.log(this.friends);
-    this.connectChannel.here(function (users) {
-      _this.activeUsers = users;
-    }).joining(function (user) {
-      console.log(_this.activeUsers);
-
-      _this.activeUsers.push(user);
-    }).leaving(function (user) {
-      _this.activeUsers.splice(_this.activeUsers.indexOf(user), 1);
-    }), this.invitationChannel.listen('SendInvitation', function (_ref) {
-      var srcUserId = _ref.srcUserId,
-          srcUserLogin = _ref.srcUserLogin;
-      _this.invitationText = _this.invitationCardContent.text;
-      _this.invitationText = _this.invitationText.replace(/:name/i, srcUserLogin);
-      _this.curSrcUserId = srcUserId;
-      _this.curSrcUserLogin = srcUserLogin;
-      _this.isSendInvitation = true;
-    });
-  },
-  methods: _defineProperty({
-    // sendMessage() {
-    //     axios.post('/messages', { body: this.textMessage, room_id: 1});
-    //     this.messages.push(this.textMessage);
-    //     this.textMessage = '';
-    // },
-    // actionUser() {
-    //     this.channel
-    //         .whisper('typing', {
-    //             name: this.user.name
-    //         });
-    // },
-    isOnline: function isOnline(friendLogin) {
-      if (this.activeUsers.indexOf(friendLogin) !== -1) return 'friends-card__item__online';
-      return 'friends-card__item__offline';
-    }
-  }, "isOnline", function isOnline(friendLogin) {
-    if (this.activeUsers.indexOf(friendLogin) !== -1) return true;
-    return false;
-  }),
-  components: {
-    'invitation-alert-card-component': _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
+  mounted: function mounted() {},
+  methods: {}
 });
 
 /***/ }),
@@ -3369,8 +3472,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HeaderComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HeaderComponent */ "./resources/js/components/home-component/HeaderComponent.vue");
-/* harmony import */ var _ViewFriendsComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ViewFriendsComponent */ "./resources/js/components/home-component/ViewFriendsComponent.vue");
-/* harmony import */ var _PaymentsComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PaymentsComponent */ "./resources/js/components/home-component/PaymentsComponent.vue");
+/* harmony import */ var _UserStatusComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserStatusComponent */ "./resources/js/components/home-component/UserStatusComponent.vue");
+/* harmony import */ var _FriendsAndPaymentsComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FriendsAndPaymentsComponent */ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -3416,8 +3523,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     'header-component': _HeaderComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'view-friends-component': _ViewFriendsComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'payments-component': _PaymentsComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
+    'user-status-component': _UserStatusComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'friends-and-payments-component': _FriendsAndPaymentsComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -56217,6 +56324,218 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "uk-container" },
+    [
+      this.isSendInvitation
+        ? _c("invitation-alert-card-component", {
+            attrs: {
+              "invitation-text": _vm.invitationText,
+              "form-route": _vm.formJoinGameRoute,
+              "form-button-caption":
+                _vm.invitationCardContent.formButtonCaption,
+              "opponent-id": _vm.curSrcUserId
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "uk-flex" },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "uk-card uk-card-default uk-card-body uk-margin-small-right uk-width-1-3"
+            },
+            [
+              _c("div", { staticClass: "uk-flex" }, [
+                _c("div", { staticClass: "uk-margin-remove" }, [
+                  _c(
+                    "h4",
+                    { staticClass: "uk-margin-remove user-bar__friend-header" },
+                    [_vm._v(_vm._s(_vm.content.header))]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]),
+              _vm._v(" "),
+              _vm.friends.length !== 0
+                ? [
+                    _c(
+                      "ul",
+                      { staticClass: "uk-list" },
+                      [
+                        _vm._l(_vm.friends, function(friend, index) {
+                          return [
+                            _vm.isOnline(friend.login)
+                              ? _c(
+                                  "li",
+                                  {
+                                    key: friend.login,
+                                    staticClass: "friends-card__item__online"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\r\n                            " +
+                                        _vm._s(friend.name) +
+                                        "-" +
+                                        _vm._s(friend.login) +
+                                        " |\r\n                            "
+                                    ),
+                                    _c("span", [
+                                      _c(
+                                        "form",
+                                        {
+                                          attrs: {
+                                            id: "sendInvitationForm" + index,
+                                            action: _vm.formJoinGameRoute,
+                                            method: "POST"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "uk-button uk-button-secondary uk-button-small",
+                                              attrs: {
+                                                type: "submit",
+                                                form:
+                                                  "sendInvitationForm" + index
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\r\n                                        " +
+                                                  _vm._s(
+                                                    _vm.content.startGameText
+                                                  ) +
+                                                  "\r\n                                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            attrs: {
+                                              type: "hidden",
+                                              name: "_token"
+                                            },
+                                            domProps: { value: _vm.csrf }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            attrs: {
+                                              type: "hidden",
+                                              name: "sendInvitationRequest",
+                                              value: "true"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            attrs: {
+                                              type: "hidden",
+                                              name: "updateState",
+                                              value: "InitState"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            attrs: {
+                                              type: "hidden",
+                                              name: "opponentId"
+                                            },
+                                            domProps: { value: friend.id }
+                                          })
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              : _c(
+                                  "li",
+                                  {
+                                    key: index,
+                                    staticClass: "friends-card__item__offline"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\r\n                            " +
+                                        _vm._s(friend.name) +
+                                        "-" +
+                                        _vm._s(friend.login) +
+                                        "\r\n                        "
+                                    )
+                                  ]
+                                )
+                          ]
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                : [
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(_vm.content.noFriendsText))])
+                  ]
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("payments-component", {
+            attrs: {
+              content: _vm.contentPayments,
+              payments: _vm.payments,
+              "cancel-payment-route": _vm.cancelPaymentRoute,
+              status: _vm.status,
+              "session-status-user-login": _vm.sessionStatusUserLogin
+            }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "uk-margin-remove" }, [
+      _c("span", {
+        staticClass: "uk-margin-medium-left",
+        attrs: { "uk-icon": "chevron-right" }
+      })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/HeaderComponent.vue?vue&type=template&id=b3b06d4a&":
 /*!*********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/HeaderComponent.vue?vue&type=template&id=b3b06d4a& ***!
@@ -56236,7 +56555,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "uk-section-primary uk-panel uk-light uk-padding-small uk-margin-medium-bottom"
+        "uk-section-primary uk-panel uk-light uk-padding-small uk-margin-small-bottom"
     },
     [
       _c(
@@ -56368,9 +56687,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "uk-container" }, [
-    _c("div", [
-      _c("h4", [_vm._v(_vm._s(_vm.content.header))]),
+  return _c(
+    "div",
+    { staticClass: "uk-card uk-card-default uk-card-body uk-width-expand" },
+    [
+      _c("div", { staticClass: "uk-flex" }, [
+        _c("div", { staticClass: "uk-margin-remove" }, [
+          _c("h4", { staticClass: "uk-margin-remove user-bar__balance-text" }, [
+            _vm._v(_vm._s(_vm.content.header))
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]),
       _vm._v(" "),
       _vm.status === "success"
         ? _c("div", { staticClass: "status-text__background_color_green" }, [
@@ -56391,9 +56720,9 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        " +
+                    "\r\n                    " +
                       _vm._s(_vm.getCreditMessage(payment)) +
-                      "\r\n                    "
+                      "\r\n                "
                   )
                 ]
               ),
@@ -56422,9 +56751,9 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\r\n                                " +
+                              "\r\n                            " +
                                 _vm._s(_vm.content.incomeButtonCaption) +
-                                "\r\n                            "
+                                "\r\n                        "
                             )
                           ]
                         ),
@@ -56447,20 +56776,32 @@ var render = function() {
           0
         )
       ])
-    ])
-  ])
+    ]
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "uk-margin-remove" }, [
+      _c("span", {
+        staticClass: "uk-margin-medium-left",
+        attrs: { "uk-icon": "chevron-right" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c&":
-/*!**************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c& ***!
-  \**************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/UserStatusComponent.vue?vue&type=template&id=63d13e6a&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/UserStatusComponent.vue?vue&type=template&id=63d13e6a& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56472,158 +56813,138 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "uk-container" },
-    [
-      this.isSendInvitation
-        ? _c("invitation-alert-card-component", {
-            attrs: {
-              "invitation-text": _vm.invitationText,
-              "form-route": _vm.formJoinGameRoute,
-              "form-button-caption":
-                _vm.invitationCardContent.formButtonCaption,
-              "opponent-id": _vm.curSrcUserId
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "uk-card uk-card-default uk-card-body uk-width-1-3@m" },
-        [
-          _c("h3", { staticClass: "uk-card-title" }, [
-            _vm._v(_vm._s(_vm.content.header))
+  return _c("div", { staticClass: "uk-container" }, [
+    _c(
+      "div",
+      {
+        staticClass:
+          "uk-card uk-card-default uk-card-body uk-margin-small-bottom uk-width-1-1"
+      },
+      [
+        _c("div", { staticClass: "uk-flex" }, [
+          _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
+            _c(
+              "p",
+              {
+                staticClass:
+                  "header__user-name header__status-text uk-margin-remove"
+              },
+              [_vm._v(_vm._s(_vm.userParameters.name))]
+            )
           ]),
           _vm._v(" "),
-          _vm.friends.length !== 0
-            ? [
-                _c(
-                  "ul",
-                  { staticClass: "uk-list" },
-                  [
-                    _vm._l(_vm.friends, function(friend, index) {
-                      return [
-                        _vm.isOnline(friend.login)
-                          ? _c(
-                              "li",
-                              {
-                                key: friend.login,
-                                staticClass: "friends-card__item__online"
-                              },
-                              [
-                                _vm._v(
-                                  "\r\n                        " +
-                                    _vm._s(friend.name) +
-                                    "-" +
-                                    _vm._s(friend.login) +
-                                    " |\r\n                        "
-                                ),
-                                _c("span", [
-                                  _c(
-                                    "form",
-                                    {
-                                      attrs: {
-                                        id: "sendInvitationForm" + index,
-                                        action: _vm.formJoinGameRoute,
-                                        method: "POST"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "uk-button uk-button-secondary uk-button-small",
-                                          attrs: {
-                                            type: "submit",
-                                            form: "sendInvitationForm" + index
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\r\n                                    " +
-                                              _vm._s(
-                                                _vm.content.startGameText
-                                              ) +
-                                              "\r\n                                "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("input", {
-                                        attrs: {
-                                          type: "hidden",
-                                          name: "_token"
-                                        },
-                                        domProps: { value: _vm.csrf }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("input", {
-                                        attrs: {
-                                          type: "hidden",
-                                          name: "sendInvitationRequest",
-                                          value: "true"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("input", {
-                                        attrs: {
-                                          type: "hidden",
-                                          name: "updateState",
-                                          value: "InitState"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("input", {
-                                        attrs: {
-                                          type: "hidden",
-                                          name: "opponentId"
-                                        },
-                                        domProps: { value: friend.id }
-                                      })
-                                    ]
-                                  )
-                                ])
-                              ]
-                            )
-                          : _c(
-                              "li",
-                              {
-                                key: index,
-                                staticClass: "friends-card__item__offline"
-                              },
-                              [
-                                _vm._v(
-                                  "\r\n                        " +
-                                    _vm._s(friend.name) +
-                                    "-" +
-                                    _vm._s(friend.login) +
-                                    "\r\n                    "
-                                )
-                              ]
-                            )
-                      ]
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c("hr")
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
+            _c("div", { staticClass: "user-bar__money-div" }, [
+              _c(
+                "p",
+                {
+                  staticClass:
+                    "uk-text user-bar__balance-text header__status-text uk-margin-remove"
+                },
+                [
+                  _vm._v(
+                    "Баланс:\n                        " +
+                      _vm._s(_vm.userParameters.balance) +
+                      "\n                    "
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "svg",
+                {
+                  staticClass: "logo__ruble-icon_home_size",
+                  attrs: { "aria-hidden": "true" }
+                },
+                [
+                  _c("use", {
+                    attrs: {
+                      "xlink:href": "/assets/images/game/ruble-icon.svg#Capa_1"
+                    }
+                  })
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "uk-flex uk-flex-middle user-bar__victory-div" },
+            [
+              _c(
+                "p",
+                {
+                  staticClass:
+                    "header__victory-text header__status-text uk-margin-remove"
+                },
+                [
+                  _vm._v("/в:\n                    "),
+                  _c("span", [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.userParameters.victory) +
+                        "\n                    "
+                    )
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
+            _c(
+              "p",
+              {
+                staticClass:
+                  "user-bar__gameover-text header__status-text uk-margin-remove"
+              },
+              [
+                _vm._v("п:\n                    "),
+                _c("span", [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.userParameters.gameover) +
+                      "/\n                    "
+                  )
+                ])
               ]
-            : [
-                _c("hr"),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.content.noFriendsText))])
-              ]
-        ],
-        2
-      )
-    ],
-    1
-  )
+            )
+          ])
+        ])
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
+      _c("span", {
+        staticClass: "uk-margin-medium-left uk-margin-medium-right",
+        attrs: { "uk-icon": "chevron-right" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
+      _c("span", {
+        staticClass: "uk-margin-medium-left uk-margin-medium-right",
+        attrs: { "uk-icon": "chevron-right" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -56650,19 +56971,16 @@ var render = function() {
     [
       _c("header-component", { attrs: { "name-project": _vm.nameProject } }),
       _vm._v(" "),
-      _c("view-friends-component", {
+      _c("user-status-component", { attrs: { "user-parameters": _vm.user } }),
+      _vm._v(" "),
+      _c("friends-and-payments-component", {
         attrs: {
           content: _vm.content,
           "invitation-card-content": _vm.invitationCardContent,
           friends: _vm.friends,
           user: _vm.user,
-          "form-join-game-route": _vm.formJoinGameRoute
-        }
-      }),
-      _vm._v(" "),
-      _c("payments-component", {
-        attrs: {
-          content: _vm.contentPayments,
+          "form-join-game-route": _vm.formJoinGameRoute,
+          "content-payments": _vm.contentPayments,
           payments: _vm.payments,
           "cancel-payment-route": _vm.cancelPaymentRoute,
           status: _vm.status,
@@ -69897,6 +70215,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/home-component/FriendsAndPaymentsComponent.vue ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FriendsAndPaymentsComponent_vue_vue_type_template_id_7ee76d59___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59& */ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59&");
+/* harmony import */ var _FriendsAndPaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FriendsAndPaymentsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FriendsAndPaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FriendsAndPaymentsComponent_vue_vue_type_template_id_7ee76d59___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FriendsAndPaymentsComponent_vue_vue_type_template_id_7ee76d59___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/home-component/FriendsAndPaymentsComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FriendsAndPaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FriendsAndPaymentsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FriendsAndPaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59& ***!
+  \***************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FriendsAndPaymentsComponent_vue_vue_type_template_id_7ee76d59___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/FriendsAndPaymentsComponent.vue?vue&type=template&id=7ee76d59&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FriendsAndPaymentsComponent_vue_vue_type_template_id_7ee76d59___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FriendsAndPaymentsComponent_vue_vue_type_template_id_7ee76d59___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/home-component/HeaderComponent.vue":
 /*!********************************************************************!*\
   !*** ./resources/js/components/home-component/HeaderComponent.vue ***!
@@ -70104,17 +70491,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/home-component/ViewFriendsComponent.vue":
-/*!*************************************************************************!*\
-  !*** ./resources/js/components/home-component/ViewFriendsComponent.vue ***!
-  \*************************************************************************/
+/***/ "./resources/js/components/home-component/UserStatusComponent.vue":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/home-component/UserStatusComponent.vue ***!
+  \************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ViewFriendsComponent_vue_vue_type_template_id_4087cc5c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ViewFriendsComponent.vue?vue&type=template&id=4087cc5c& */ "./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c&");
-/* harmony import */ var _ViewFriendsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ViewFriendsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _UserStatusComponent_vue_vue_type_template_id_63d13e6a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserStatusComponent.vue?vue&type=template&id=63d13e6a& */ "./resources/js/components/home-component/UserStatusComponent.vue?vue&type=template&id=63d13e6a&");
+/* harmony import */ var _UserStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserStatusComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/home-component/UserStatusComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -70124,9 +70511,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ViewFriendsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ViewFriendsComponent_vue_vue_type_template_id_4087cc5c___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ViewFriendsComponent_vue_vue_type_template_id_4087cc5c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _UserStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UserStatusComponent_vue_vue_type_template_id_63d13e6a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UserStatusComponent_vue_vue_type_template_id_63d13e6a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -70136,38 +70523,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/home-component/ViewFriendsComponent.vue"
+component.options.__file = "resources/js/components/home-component/UserStatusComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************!*\
-  !*** ./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************/
+/***/ "./resources/js/components/home-component/UserStatusComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/home-component/UserStatusComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewFriendsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ViewFriendsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewFriendsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./UserStatusComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/UserStatusComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c&":
-/*!********************************************************************************************************!*\
-  !*** ./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c& ***!
-  \********************************************************************************************************/
+/***/ "./resources/js/components/home-component/UserStatusComponent.vue?vue&type=template&id=63d13e6a&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/home-component/UserStatusComponent.vue?vue&type=template&id=63d13e6a& ***!
+  \*******************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewFriendsComponent_vue_vue_type_template_id_4087cc5c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ViewFriendsComponent.vue?vue&type=template&id=4087cc5c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/ViewFriendsComponent.vue?vue&type=template&id=4087cc5c&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewFriendsComponent_vue_vue_type_template_id_4087cc5c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserStatusComponent_vue_vue_type_template_id_63d13e6a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UserStatusComponent.vue?vue&type=template&id=63d13e6a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/UserStatusComponent.vue?vue&type=template&id=63d13e6a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserStatusComponent_vue_vue_type_template_id_63d13e6a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewFriendsComponent_vue_vue_type_template_id_4087cc5c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserStatusComponent_vue_vue_type_template_id_63d13e6a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

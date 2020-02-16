@@ -53,7 +53,8 @@
                                             <a 
                                                 href="#"
                                                 v-on:click="finishGameSession">
-                                                Закончить игру</a></li>
+                                                Закончить игру</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

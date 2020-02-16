@@ -13,6 +13,11 @@
     height: 22px;
     fill: green;
   }
+  &_home_size {
+    width: 14px;
+    height: 15px;
+    fill: #32d296;
+  }
 }
 
 .header {
@@ -33,6 +38,12 @@
   }
   &__user-name {
     color: orange;
+  }
+  &__status-text {
+    font-size: 20px;
+  }
+  &__balance-text {
+    color: green;
   }
 }
 
@@ -174,13 +185,20 @@
   }
 }
 
-.test {
-  width: 60px;
+.user-bar {
+  &__money-div {
+    padding-right: 5px;
+  }
+  &__gameover-text {
+    color: lightcoral;
+  }
+  &__victory-div {
+    padding-right: 15px;
+  }
+  &__balance-text {
+    color: #32d296;
+  }
+  &__friend-header {
+    color: dodgerblue;
+  }
 }
-
-// .buttons-panel {
-//   &__padding {
-//     padding-top: 15px;
-//     padding-bottom: 15px;
-//   }
-// }

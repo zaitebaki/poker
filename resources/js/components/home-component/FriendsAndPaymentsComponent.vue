@@ -9,46 +9,64 @@
         :opponent-id="curSrcUserId">
     </invitation-alert-card-component>
     
-    <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
-        <h3 class="uk-card-title">{{ content.header }}</h3>
-        <template v-if="friends.length !== 0">
-            <ul class="uk-list">               
-                <template v-for="(friend, index) in friends">
-                    <li v-if="isOnline(friend.login)" v-bind:key="friend.login" class="friends-card__item__online">
-                        {{ friend.name }}-{{ friend.login }} |
-                        <span>
-                            <form :id="'sendInvitationForm' + index" :action="formJoinGameRoute" method="POST">
-                                <button
-                                    class="uk-button uk-button-secondary uk-button-small"
-                                    type="submit"
-                                    :form="'sendInvitationForm' + index">
-                                    {{ content.startGameText }}
-                                </button>
-                                <input type="hidden" name="_token" :value="csrf">
-                                <input type="hidden" name="sendInvitationRequest" value="true">
-                                <input type="hidden" name="updateState" value="InitState">
-                                <input type="hidden" name="opponentId" :value="friend.id">
-                            </form>
-                        </span>
-                    </li>
-                    <li v-else v-bind:key="index" class="friends-card__item__offline">
-                        {{ friend.name }}-{{ friend.login }}
-                    </li>
-                </template>
-            </ul>
-            <hr>
-        </template>
-        <template v-else>
-            <hr>
-            <p>{{ content.noFriendsText }}</p>
-        </template>
+    <div class="uk-flex">
+        <div class="uk-card uk-card-default uk-card-body uk-margin-small-right uk-width-1-3">
+            <div class="uk-flex">
+                <div class="uk-margin-remove">
+                    <h4 class="uk-margin-remove user-bar__friend-header">{{ content.header }}</h4>
+                </div>
+                <div class="uk-margin-remove">
+                    <span class="uk-margin-medium-left" uk-icon="chevron-right"></span>
+                </div>
+            </div>
+            <template v-if="friends.length !== 0">
+                <ul class="uk-list">
+                    <template v-for="(friend, index) in friends">
+                        <li v-if="isOnline(friend.login)" v-bind:key="friend.login" class="friends-card__item__online">
+                            {{ friend.name }}-{{ friend.login }} |
+                            <span>
+                                <form :id="'sendInvitationForm' + index" :action="formJoinGameRoute" method="POST">
+                                    <button
+                                        class="uk-button uk-button-secondary uk-button-small"
+                                        type="submit"
+                                        :form="'sendInvitationForm' + index">
+                                        {{ content.startGameText }}
+                                    </button>
+                                    <input type="hidden" name="_token" :value="csrf">
+                                    <input type="hidden" name="sendInvitationRequest" value="true">
+                                    <input type="hidden" name="updateState" value="InitState">
+                                    <input type="hidden" name="opponentId" :value="friend.id">
+                                </form>
+                            </span>
+                        </li>
+                        <li v-else v-bind:key="index" class="friends-card__item__offline">
+                            {{ friend.name }}-{{ friend.login }}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template v-else>
+                <hr>
+                <p>{{ content.noFriendsText }}</p>
+            </template>
+        </div>
+
+        <payments-component
+            :content="contentPayments"
+            :payments="payments"
+            :cancel-payment-route="cancelPaymentRoute"
+            :status="status"
+            :session-status-user-login="sessionStatusUserLogin">
+        </payments-component>
     </div>
+    
 </div>
 </template>
 
 <script>
 
 import InvitationAlertCardComponent from './InvitationAlertCardComponent'
+import PaymentsComponent from './PaymentsComponent'
 
 export default {
     props: {
@@ -56,7 +74,12 @@ export default {
         invitationCardContent: Object,
         friends: Array,
         user: Object,
-        formJoinGameRoute: String
+        formJoinGameRoute: String,
+        contentPayments: Object,
+        payments: Array,
+        cancelPaymentRoute: String,
+        status: String,
+        sessionStatusUserLogin: String
     },
     data() {
         return {
@@ -147,7 +170,8 @@ export default {
     },
 
     components: {
-        'invitation-alert-card-component': InvitationAlertCardComponent
+        'invitation-alert-card-component': InvitationAlertCardComponent,
+        'payments-component': PaymentsComponent
     }
 }
 </script>

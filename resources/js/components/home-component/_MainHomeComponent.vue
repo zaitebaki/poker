@@ -3,27 +3,31 @@
     <header-component
         :name-project="nameProject">
     </header-component>
-    <view-friends-component
+    <user-status-component
+        :user-parameters="user">
+    </user-status-component>
+
+    <friends-and-payments-component
         :content="content"
         :invitation-card-content="invitationCardContent"
         :friends="friends"
         :user="user"
         :form-join-game-route="formJoinGameRoute"
-    ></view-friends-component>
-    <payments-component
-        :content="contentPayments"
+
+        :content-payments="contentPayments"
         :payments="payments"
         :cancel-payment-route="cancelPaymentRoute"
         :status="status"
         :session-status-user-login="sessionStatusUserLogin">
-    </payments-component>
+    </friends-and-payments-component>
+
 </header>
 </template>
 
 <script>
 import HeaderComponent from './HeaderComponent'
-import ViewFriendsComponent from './ViewFriendsComponent'
-import PaymentsComponent from './PaymentsComponent'
+import UserStatusComponent from './UserStatusComponent'
+import FriendsAndPaymentsComponent from './FriendsAndPaymentsComponent'
 
 export default {
     props: {
@@ -47,8 +51,8 @@ export default {
 
     components: {
         'header-component': HeaderComponent,
-        'view-friends-component': ViewFriendsComponent,
-        'payments-component': PaymentsComponent
+        'user-status-component': UserStatusComponent,
+        'friends-and-payments-component': FriendsAndPaymentsComponent
     }
 }
 </script>

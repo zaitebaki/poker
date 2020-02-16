@@ -1,6 +1,6 @@
 <template>  
 <!-- навигационная панель в header'e -->
-<div class="uk-section-primary uk-panel uk-light uk-padding-small uk-margin-medium-bottom">
+<div class="uk-section-primary uk-panel uk-light uk-padding-small uk-margin-small-bottom">
     <!-- основной контейнер навигационной панели -->
     <div class="uk-container uk-container-small uk-align-center">
         <!-- логотип с описанием -->

@@ -15,6 +15,12 @@
   fill: green;
 }
 
+.logo__ruble-icon_home_size {
+  width: 14px;
+  height: 15px;
+  fill: #32d296;
+}
+
 .header__logo-text {
   color: white !important;
 }
@@ -37,6 +43,14 @@
 
 .header__user-name {
   color: orange;
+}
+
+.header__status-text {
+  font-size: 20px;
+}
+
+.header__balance-text {
+  color: green;
 }
 
 .friends-card__item__online {
@@ -185,7 +199,23 @@
   width: 60px;
 }
 
-.test {
-  width: 60px;
+.user-bar__money-div {
+  padding-right: 5px;
+}
+
+.user-bar__gameover-text {
+  color: lightcoral;
+}
+
+.user-bar__victory-div {
+  padding-right: 15px;
+}
+
+.user-bar__balance-text {
+  color: #32d296;
+}
+
+.user-bar__friend-header {
+  color: dodgerblue;
 }
 
