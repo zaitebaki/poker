@@ -3334,6 +3334,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: Object,
@@ -3380,7 +3386,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     paymentMessageClass: function paymentMessageClass(value) {
       if (value > 0) {
-        return 'user-bar__balance-text';
+        return 'header__balance-text';
       }
 
       return 'user-bar__gameover-text';
@@ -56691,7 +56697,7 @@ var render = function() {
     "div",
     { staticClass: "uk-card uk-card-default uk-card-body uk-width-expand" },
     [
-      _c("div", { staticClass: "uk-flex" }, [
+      _c("div", { staticClass: "uk-flex payment-block__header" }, [
         _c("div", { staticClass: "uk-margin-remove" }, [
           _c("h4", { staticClass: "uk-margin-remove user-bar__balance-text" }, [
             _vm._v(_vm._s(_vm.content.header))
@@ -56707,29 +56713,35 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("table", { staticClass: "uk-table uk-table-divider" }, [
-        _c(
-          "tbody",
-          _vm._l(_vm.payments, function(payment) {
-            return _c("tr", { key: payment.login }, [
-              _c(
-                "td",
-                {
-                  staticClass: "uk-table-shrink",
-                  class: _vm.paymentMessageClass(payment.moneyValue)
-                },
-                [
-                  _vm._v(
-                    "\r\n                    " +
-                      _vm._s(_vm.getCreditMessage(payment)) +
-                      "\r\n                "
+      _c(
+        "table",
+        _vm._l(_vm.payments, function(payment) {
+          return _c("tr", { key: payment.login }, [
+            _c("td", [
+              _c("div", { staticClass: "uk-flex" }, [
+                _c("div", { staticClass: "uk-margin-medium-right" }, [
+                  _c(
+                    "p",
+                    {
+                      staticClass: "uk-margin-small-bottom",
+                      class: _vm.paymentMessageClass(payment.moneyValue)
+                    },
+                    [
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(_vm.getCreditMessage(payment)) +
+                          "\r\n                        "
+                      )
+                    ]
                   )
-                ]
-              ),
-              _vm._v(" "),
-              payment.moneyValue > 0
-                ? _c("td", { staticClass: "uk-table-shrink" }, [
-                    _c(
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c("div", [
+                payment.moneyValue > 0
+                  ? _c(
                       "form",
                       {
                         attrs: {
@@ -56743,7 +56755,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "uk-button uk-button-secondary uk-button-small",
+                              "uk-button uk-button-secondary uk-button-small uk-margin-small-bottom",
                             attrs: {
                               type: "submit",
                               form: _vm.getIdForm(payment)
@@ -56769,13 +56781,13 @@ var render = function() {
                         })
                       ]
                     )
-                  ])
-                : _vm._e()
+                  : _vm._e()
+              ])
             ])
-          }),
-          0
-        )
-      ])
+          ])
+        }),
+        0
+      )
     ]
   )
 }

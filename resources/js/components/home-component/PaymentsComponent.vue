@@ -1,6 +1,6 @@
 <template>
 <div class="uk-card uk-card-default uk-card-body uk-width-expand">
-    <div class="uk-flex">
+    <div class="uk-flex payment-block__header">
         <div class="uk-margin-remove">
             <h4 class="uk-margin-remove user-bar__balance-text">{{ content.header }}</h4>
         </div>
@@ -13,24 +13,30 @@
         class="status-text__background_color_green">
         <p>{{ successMessage }}</p>
     </div>
-
-    <table class="uk-table uk-table-divider">
-        <tbody>
-            <tr v-for="payment in payments" v-bind:key=payment.login>
-                <td
-                    class="uk-table-shrink"
-                    :class="paymentMessageClass(payment.moneyValue)">
-                    {{ getCreditMessage(payment) }}
-                </td>
-                <td
-                    v-if="payment.moneyValue > 0"
-                    class="uk-table-shrink">
+    <table>
+        <tr
+            v-for="payment in payments"
+            v-bind:key=payment.login>
+            <td>
+                <div class="uk-flex">
+                    <div class="uk-margin-medium-right">
+                        <p
+                            :class="paymentMessageClass(payment.moneyValue)"
+                            class="uk-margin-small-bottom">
+                            {{ getCreditMessage(payment) }}
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div>
                     <form
+                        v-if="payment.moneyValue > 0"
                         :id="getIdForm(payment)"
                         :action="cancelPaymentRoute"
                         method="POST">
                         <button
-                            class="uk-button uk-button-secondary uk-button-small"
+                            class="uk-button uk-button-secondary uk-button-small uk-margin-small-bottom"
                             type="submit"
                             :form="getIdForm(payment)">
                             {{ content.incomeButtonCaption }}
@@ -38,9 +44,9 @@
                         <input type="hidden" name="_token" :value="csrf">
                         <input type="hidden" name="data" :value="getJsonData(payment)">
                     </form>
-                </td>
-            </tr>
-        </tbody>
+                </div>
+            </td>
+        </tr>
     </table>
 </div>
 </template>
@@ -95,7 +101,7 @@ export default {
 
         paymentMessageClass(value) {
             if(value > 0) {
-                return 'user-bar__balance-text';
+                return 'header__balance-text';
             }
             return 'user-bar__gameover-text';
         }
