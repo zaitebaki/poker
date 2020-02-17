@@ -3109,7 +3109,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3287,6 +3286,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -56405,75 +56416,79 @@ var render = function() {
                                         _vm._s(friend.name) +
                                         "-" +
                                         _vm._s(friend.login) +
-                                        " |\r\n                            "
+                                        "\r\n                            "
                                     ),
-                                    _c("span", [
-                                      _c(
-                                        "form",
-                                        {
+                                    _c("span", {
+                                      staticClass:
+                                        "uk-margin-small-left uk-margin-small-right",
+                                      attrs: { "uk-icon": "chevron-right" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "form",
+                                      {
+                                        staticClass: "uk-inline",
+                                        attrs: {
+                                          id: "sendInvitationForm" + index,
+                                          action: _vm.formJoinGameRoute,
+                                          method: "POST"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "uk-button uk-button-secondary uk-button-small",
+                                            attrs: {
+                                              type: "submit",
+                                              form: "sendInvitationForm" + index
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\r\n                                    " +
+                                                _vm._s(
+                                                  _vm.content.startGameText
+                                                ) +
+                                                "\r\n                                "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("input", {
                                           attrs: {
-                                            id: "sendInvitationForm" + index,
-                                            action: _vm.formJoinGameRoute,
-                                            method: "POST"
+                                            type: "hidden",
+                                            name: "_token"
+                                          },
+                                          domProps: { value: _vm.csrf }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          attrs: {
+                                            type: "hidden",
+                                            name: "sendInvitationRequest",
+                                            value: "true"
                                           }
-                                        },
-                                        [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "uk-button uk-button-secondary uk-button-small",
-                                              attrs: {
-                                                type: "submit",
-                                                form:
-                                                  "sendInvitationForm" + index
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\r\n                                        " +
-                                                  _vm._s(
-                                                    _vm.content.startGameText
-                                                  ) +
-                                                  "\r\n                                    "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            attrs: {
-                                              type: "hidden",
-                                              name: "_token"
-                                            },
-                                            domProps: { value: _vm.csrf }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            attrs: {
-                                              type: "hidden",
-                                              name: "sendInvitationRequest",
-                                              value: "true"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            attrs: {
-                                              type: "hidden",
-                                              name: "updateState",
-                                              value: "InitState"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            attrs: {
-                                              type: "hidden",
-                                              name: "opponentId"
-                                            },
-                                            domProps: { value: friend.id }
-                                          })
-                                        ]
-                                      )
-                                    ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          attrs: {
+                                            type: "hidden",
+                                            name: "updateState",
+                                            value: "InitState"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          attrs: {
+                                            type: "hidden",
+                                            name: "opponentId"
+                                          },
+                                          domProps: { value: friend.id }
+                                        })
+                                      ]
+                                    )
                                   ]
                                 )
                               : _c(
@@ -56713,82 +56728,92 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "table",
-        _vm._l(_vm.payments, function(payment) {
-          return _c("tr", { key: payment.login }, [
-            _c("td", [
-              _c("div", { staticClass: "uk-flex" }, [
-                _c("div", { staticClass: "uk-margin-medium-right" }, [
-                  _c(
-                    "p",
-                    {
-                      staticClass: "uk-margin-small-bottom",
-                      class: _vm.paymentMessageClass(payment.moneyValue)
-                    },
-                    [
-                      _vm._v(
-                        "\r\n                            " +
-                          _vm._s(_vm.getCreditMessage(payment)) +
-                          "\r\n                        "
+      _vm.payments.length !== 0
+        ? [
+            _c(
+              "table",
+              _vm._l(_vm.payments, function(payment) {
+                return _c("tr", { key: payment.login }, [
+                  _c("td", { attrs: { valign: "middle" } }, [
+                    _c("div", { staticClass: "uk-flex" }, [
+                      _c(
+                        "p",
+                        { class: _vm.paymentMessageClass(payment.moneyValue) },
+                        [
+                          _vm._v(
+                            "\r\n                            " +
+                              _vm._s(_vm.getCreditMessage(payment)) +
+                              "\r\n                        "
+                          )
+                        ]
                       )
-                    ]
-                  )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1, true),
+                  _vm._v(" "),
+                  _c("td", { attrs: { valign: "middle" } }, [
+                    _c("div", { staticClass: "uk-flex" }, [
+                      payment.moneyValue > 0
+                        ? _c(
+                            "form",
+                            {
+                              attrs: {
+                                id: _vm.getIdForm(payment),
+                                action: _vm.cancelPaymentRoute,
+                                method: "POST"
+                              }
+                            },
+                            [
+                              _c("p", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "uk-button uk-button-secondary uk-button-small",
+                                    attrs: {
+                                      type: "submit",
+                                      form: _vm.getIdForm(payment)
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\r\n                                    " +
+                                        _vm._s(
+                                          _vm.content.incomeButtonCaption
+                                        ) +
+                                        "\r\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                attrs: { type: "hidden", name: "_token" },
+                                domProps: { value: _vm.csrf }
+                              }),
+                              _vm._v(" "),
+                              _c("input", {
+                                attrs: { type: "hidden", name: "data" },
+                                domProps: { value: _vm.getJsonData(payment) }
+                              })
+                            ]
+                          )
+                        : _vm._e()
+                    ])
+                  ])
                 ])
-              ])
-            ]),
+              }),
+              0
+            )
+          ]
+        : [
+            _c("hr"),
             _vm._v(" "),
-            _c("td", [
-              _c("div", [
-                payment.moneyValue > 0
-                  ? _c(
-                      "form",
-                      {
-                        attrs: {
-                          id: _vm.getIdForm(payment),
-                          action: _vm.cancelPaymentRoute,
-                          method: "POST"
-                        }
-                      },
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "uk-button uk-button-secondary uk-button-small uk-margin-small-bottom",
-                            attrs: {
-                              type: "submit",
-                              form: _vm.getIdForm(payment)
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\r\n                            " +
-                                _vm._s(_vm.content.incomeButtonCaption) +
-                                "\r\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          attrs: { type: "hidden", name: "_token" },
-                          domProps: { value: _vm.csrf }
-                        }),
-                        _vm._v(" "),
-                        _c("input", {
-                          attrs: { type: "hidden", name: "data" },
-                          domProps: { value: _vm.getJsonData(payment) }
-                        })
-                      ]
-                    )
-                  : _vm._e()
-              ])
-            ])
-          ])
-        }),
-        0
-      )
-    ]
+            _c("p", [_vm._v(_vm._s(_vm.content.voidPaymentMessage))])
+          ]
+    ],
+    2
   )
 }
 var staticRenderFns = [
@@ -56801,6 +56826,21 @@ var staticRenderFns = [
         staticClass: "uk-margin-medium-left",
         attrs: { "uk-icon": "chevron-right" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { valign: "middle" } }, [
+      _c("div", { staticClass: "uk-flex" }, [
+        _c("p", [
+          _c("span", {
+            staticClass: "uk-margin-small-left uk-margin-small-right",
+            attrs: { "uk-icon": "chevron-right" }
+          })
+        ])
+      ])
     ])
   }
 ]

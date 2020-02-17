@@ -41,6 +41,7 @@ return [
             'incomeButtonCaption' => 'Списать',
             'incomeAlertMessage'  => 'Вы уверены что хотите списать долг?',
             'successMessage'      => 'Долг для пользователя :user успешно списан',
+            'voidPaymentMessage'      => 'Нет отчетности'
         ],
     ],
 

@@ -23,21 +23,20 @@
                 <ul class="uk-list">
                     <template v-for="(friend, index) in friends">
                         <li v-if="isOnline(friend.login)" v-bind:key="friend.login" class="friends-card__item__online">
-                            {{ friend.name }}-{{ friend.login }} |
-                            <span>
-                                <form :id="'sendInvitationForm' + index" :action="formJoinGameRoute" method="POST">
-                                    <button
-                                        class="uk-button uk-button-secondary uk-button-small"
-                                        type="submit"
-                                        :form="'sendInvitationForm' + index">
-                                        {{ content.startGameText }}
-                                    </button>
-                                    <input type="hidden" name="_token" :value="csrf">
-                                    <input type="hidden" name="sendInvitationRequest" value="true">
-                                    <input type="hidden" name="updateState" value="InitState">
-                                    <input type="hidden" name="opponentId" :value="friend.id">
-                                </form>
-                            </span>
+                            {{ friend.name }}-{{ friend.login }}
+                            <span uk-icon="chevron-right" class="uk-margin-small-left uk-margin-small-right"></span>
+                            <form class="uk-inline" :id="'sendInvitationForm' + index" :action="formJoinGameRoute" method="POST">
+                                <button
+                                    class="uk-button uk-button-secondary uk-button-small"
+                                    type="submit"
+                                    :form="'sendInvitationForm' + index">
+                                    {{ content.startGameText }}
+                                </button>
+                                <input type="hidden" name="_token" :value="csrf">
+                                <input type="hidden" name="sendInvitationRequest" value="true">
+                                <input type="hidden" name="updateState" value="InitState">
+                                <input type="hidden" name="opponentId" :value="friend.id">
+                            </form>
                         </li>
                         <li v-else v-bind:key="index" class="friends-card__item__offline">
                             {{ friend.name }}-{{ friend.login }}

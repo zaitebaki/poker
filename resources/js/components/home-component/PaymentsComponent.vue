@@ -13,41 +13,53 @@
         class="status-text__background_color_green">
         <p>{{ successMessage }}</p>
     </div>
-    <table>
-        <tr
-            v-for="payment in payments"
-            v-bind:key=payment.login>
-            <td>
-                <div class="uk-flex">
-                    <div class="uk-margin-medium-right">
+    <template v-if="payments.length !== 0">
+        <table>
+            <tr
+                v-for="payment in payments"
+                v-bind:key=payment.login>
+                <td valign="middle">
+                    <div class="uk-flex">
                         <p
-                            :class="paymentMessageClass(payment.moneyValue)"
-                            class="uk-margin-small-bottom">
+                            :class="paymentMessageClass(payment.moneyValue)">
                             {{ getCreditMessage(payment) }}
                         </p>
                     </div>
-                </div>
-            </td>
-            <td>
-                <div>
-                    <form
-                        v-if="payment.moneyValue > 0"
-                        :id="getIdForm(payment)"
-                        :action="cancelPaymentRoute"
-                        method="POST">
-                        <button
-                            class="uk-button uk-button-secondary uk-button-small uk-margin-small-bottom"
-                            type="submit"
-                            :form="getIdForm(payment)">
-                            {{ content.incomeButtonCaption }}
-                        </button>
-                        <input type="hidden" name="_token" :value="csrf">
-                        <input type="hidden" name="data" :value="getJsonData(payment)">
-                    </form>
-                </div>
-            </td>
-        </tr>
-    </table>
+                </td>
+                <td valign="middle">
+                    <div class="uk-flex">
+                        <p>
+                            <span uk-icon="chevron-right" class="uk-margin-small-left uk-margin-small-right"></span>
+                        </p>
+                    </div>
+                </td>
+                <td valign="middle">
+                    <div class="uk-flex">
+                        <form
+                            v-if="payment.moneyValue > 0"
+                            :id="getIdForm(payment)"
+                            :action="cancelPaymentRoute"
+                            method="POST">
+                            <p>
+                                <button
+                                    class="uk-button uk-button-secondary uk-button-small"
+                                    type="submit"
+                                    :form="getIdForm(payment)">
+                                    {{ content.incomeButtonCaption }}
+                                </button>
+                            </p>
+                            <input type="hidden" name="_token" :value="csrf">
+                            <input type="hidden" name="data" :value="getJsonData(payment)">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </template>
+    <template v-else>
+        <hr>
+        <p>{{ content.voidPaymentMessage }}</p>
+    </template>
 </div>
 </template>
 
