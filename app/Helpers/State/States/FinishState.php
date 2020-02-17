@@ -101,10 +101,8 @@ class FinishState extends State
 
         $this->context->buttons = ['then'];
 
-        // обновить баланс пользователя в базе данных
+        // обновить баланс и статистику пользователя в базе данных
         $this->updateUserBalanceAndPayment($money);
-
-        // обновить "счета" пользователя в базе данных
     }
 
      /**
@@ -283,10 +281,12 @@ class FinishState extends State
         $victory = $this->context->isVictory;
 
         if ($victory === 1) {
-            $user->victory = $user->victory + 1;
+            // $user->victory = $user->victory + 1;
+            $user->increment('victory', 1);
         }
         if ($victory === -1) {
-            $user->gameover = $user->gameover + 1;
+            // $user->gameover = $user->gameover + 1;
+            $user->increment('gameover', 1);
         }
 
         $money = $this->context->isVictory * $money;

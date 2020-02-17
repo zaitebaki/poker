@@ -64,16 +64,4 @@ class User extends Authenticatable
         }
         $payment->increment('value', $money);
     }
-
-    /**
-     * Инициализировать действие - списать долг
-     * Удалить информацию о долге в базе данных
-     */
-    // public function deletePaymentMessage($paymentId)
-    // {
-        // $payment = $this->payments()->where('opponent_user_id', $paymentId);
-
-    //     $this->payments()->detach($paymentId);
-    //     Payment::destroy($paymentId);
-    // }
 }
