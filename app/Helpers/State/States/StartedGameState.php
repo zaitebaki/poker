@@ -24,6 +24,9 @@ class StartedGameState extends State
         $this->saveStartGameStatus();
     }
 
+    /**
+     * Инициировать действие - поменять карты
+     */
     public function changeCards()
     {
         $indexes    = $this->context->request->cardsIndexForChange;
@@ -39,10 +42,12 @@ class StartedGameState extends State
             }
 
             $this->context->saveCountFirstUserChangeCards($cntIndexes);
-            $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage3',
-                ['user' => $this->context->opponentUser->name]);
+            $waitingMessage =
+            __(
+                'main_page_content.gamePage.statusMessages.waitingMessage3',
+                ['user' => $this->context->opponentUser->name]
+            );
             $buttons = 'addMoney,noMoney';
-            // $this->context->indicator = 'ready';
             $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
 
             \App\Events\SendBettingStatus::dispatch($this->context->roomId);
@@ -57,15 +62,21 @@ class StartedGameState extends State
             }
 
             \App\Events\SendFinishChangeStatus::dispatch($this->context->roomId);
-            $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage4',
-                ['user' => $this->context->opponentUser->name]);
+            $waitingMessage =
+            __(
+                'main_page_content.gamePage.statusMessages.waitingMessage4',
+                ['user' => $this->context->opponentUser->name]
+            );
             $buttons = 'equal,equalAndAdd,gameOver';
             $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
         }
 
         $this->context->saveChangedCardsFlag();
     }
-
+    
+    /**
+     * Поменять карты пользователя
+     */
     private function updateUserCards($startIndex, $cntIndexes, $indexesArr)
     {
         $newCards = $this->cards->getCards($startIndex, $cntIndexes);
@@ -84,45 +95,5 @@ class StartedGameState extends State
     private function saveStartGameStatus()
     {
         Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":startGameStatus", 'ok');
-    }
-
-    public function then()
-    {
-    }
-
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function startGame()
-    {
-    }
-
-    public function addMoney()
-    {
-    }
-
-    public function check()
-    {
-    }
-
-    public function equalAndAdd()
-    {
-    }
-
-    public function equal()
-    {
-    }
-
-    public function gameOver()
-    {
     }
 }

@@ -13,8 +13,11 @@ class InitState extends State
      */
     public function connectionCurrentUser()
     {
-        $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage',
-            ['user' => $this->context->opponentUser->name]);
+        $waitingMessage =
+            __(
+                'main_page_content.gamePage.statusMessages.waitingMessage',
+                ['user' => $this->context->opponentUser->name]
+            );
         $this->context->updateState('WaitingState', $waitingMessage);
 
         // сохранить состояние кнопки "продолжить" (кнопка доступна)
@@ -50,41 +53,5 @@ class InitState extends State
     private function saveStartGameFlag()
     {
         Redis::set($this->context->roomName . ':isStartGameFlag', 'ok');
-    }
-
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function startGame()
-    {
-    }
-
-    public function changeCards()
-    {
-    }
-
-    public function addMoney()
-    {
-    }
-
-    public function check()
-    {
-    }
-
-    public function equalAndAdd()
-    {
-    }
-
-    public function equal()
-    {
-    }
-
-    public function gameOver()
-    {
-    }
-
-    public function then()
-    {
     }
 }

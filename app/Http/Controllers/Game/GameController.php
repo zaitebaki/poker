@@ -25,6 +25,9 @@ class GameController extends \App\Http\Controllers\SuperController
         $this->layout = env('THEME') . ".route.main";
     }
 
+    /**
+     * Приглась пользователя-оппонента начать партию
+     */
     public function invitationMessage(Request $request)
     {
         $userId     = $this->user->id;
@@ -36,6 +39,8 @@ class GameController extends \App\Http\Controllers\SuperController
             $result      = Redis::command('exists', [$roomCreated]);
             $roomName    = '';
 
+            // создать "игровую комнату",
+            // если она еще не была создана
             if ($result === 0) {
                 $countRoomsNow = Redis::get('room:count');
 
@@ -51,6 +56,8 @@ class GameController extends \App\Http\Controllers\SuperController
                 Redis::set($roomName . ':idUserOpponent', $opponentId);
             }
 
+            // получить имя игровой комнаты,
+            // если она уже создана
             if ($result === 1) {
                 $roomName = Redis::get('room:' . $userId . ':' . $opponentId);
             }
@@ -214,7 +221,8 @@ class GameController extends \App\Http\Controllers\SuperController
     /**
      * Закончить сеанс игры
      */
-    public function finishGameSession(Request $request, $room_id) {
+    public function finishGameSession(Request $request, $room_id)
+    {
         
         $roomName = 'room_' . $room_id;
         $userId =  $this->user->id;
@@ -230,18 +238,18 @@ class GameController extends \App\Http\Controllers\SuperController
 
         \App\Events\SendFinishGameSessionStatus::dispatch($room_id, $userName);
     }
-
-    // получить id пользователя-оппонента
-    private function getOpponentIdFromRedis($roomName, $userId) {
+    
+    /**
+     * Получить id пользователя-оппонента
+     */
+    private function getOpponentIdFromRedis($roomName, $userId)
+    {
         $id = Redis::get($roomName . ':idUserCurrent');
 
         if ($userId === (int)$id) {
             return Redis::get($roomName . ':idUserOpponent');
-        }
-        else {
+        } else {
             return $id;
         }
     }
-
-
 }

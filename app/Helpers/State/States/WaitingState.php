@@ -6,11 +6,11 @@ use App\Helpers\State\State;
 
 class WaitingState extends State
 {
-    public function __construct($context, $watingText, $buttons = 'none', $extractCards = false, $extractMoney = true)
+    public function __construct($context, $waitingText, $buttons = 'none', $extractCards = false, $extractMoney = true)
     {
         parent::__construct($context);
 
-        $this->context->statusText = $watingText;
+        $this->context->statusText = $waitingText;
         $this->context->buttons    = explode(',', $buttons);
 
         if ($extractMoney) {
@@ -21,61 +21,17 @@ class WaitingState extends State
 
         if ($extractCards) {
             $this->context->userCards = $this->context->extractUserCardsFromRedis();
-
         }
 
         $this->context->indicator = 'wait';
     }
 
+    /**
+     * Начать партию
+     */
     public function startGame()
     {
         $this->context->updateState('ReadyState');
         $this->context->startGame();
-    }
-
-    // public function startChangeCardsEvent()
-    // {
-    //     \App\Events\SendStartChangeCardsStatus::dispatch($this->context->roomId);
-    // }
-
-    // public function startChangeCards()
-    // {
-    //     $this->context->indicator = 'ready';
-    //     $this->context->updateState('StartedGameState');
-    // }
-
-    public function waitingopponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function changeCards()
-    {
-    }
-
-    public function check()
-    {
-    }
-
-    public function equalAndAdd()
-    {
-    }
-
-    public function equal()
-    {
-    }
-
-    public function gameOver()
-    {
-    }
-    public function addMoney()
-    {
     }
 }

@@ -79,9 +79,12 @@ class GamePlay
      * 1 - победа
      */
     public $isVictory;
-
     public $dump = '';
 
+    /**
+     * Создать главный объект GamePlay,
+     * отвечающего за игровой процесс
+     */
     public function __construct($user, string $roomName, $request)
     {
         $this->roomName = $roomName;
@@ -114,6 +117,9 @@ class GamePlay
         $this->state = new $stateName($this, ...$stateArguments);
     }
 
+    /**
+     * Обновить текущее состояние у пользователя
+     */
     public function updateState(string $nameState, ...$arg): void
     {
         $stateName            = 'App\\Helpers\\State\\States\\' . $nameState;
@@ -127,10 +133,13 @@ class GamePlay
         Redis::set($this->roomName . ':' . $this->currentUser->id . ':state', $nameState);
     }
 
+    /**
+     * Получить параметры игры
+     */
     public function getGameParameters(): array
     {
         return array(
-            'roomId' => $this->roomId,
+            'roomId'                  => $this->roomId,
             'statusMessage'           => $this->statusText,
             'buttons'                 => $this->buttons,
             'userCards'               => $this->userCards,
@@ -139,30 +148,34 @@ class GamePlay
             'bankMessages'            => $this->bankMessages,
             'addOpponentMoney'        => (string) $this->addOpponentMoney,
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
-            'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
-            'opponentStatusCheck' => $this->getOpponentStatusCheck(),
-            'startButtonIndicator' => $this->getStartButtonIndicator(),
-            'dump' => $this->dump
+            'isAlreadyChangedCards'   => $this->getAlreadyChangedCardsStatus(),
+            'opponentStatusCheck'     => $this->getOpponentStatusCheck(),
+            'startButtonIndicator'    => $this->getStartButtonIndicator(),
+            'dump'                    => $this->dump,
         );
     }
 
+    /**
+     * Получить параметры игры,
+     * необходимые при расчете результатов игры
+     */
     public function getFinishGameParameters(): array
     {
         return array(
-            'roomId' => $this->roomId,
-            'statusMessage'       => $this->statusText,
-            'userCards'           => $this->userCards,
-            'opponentUserCards'   => $this->opponentUserCards,
-            'buttons'             => $this->buttons,
-            'userCombination'     => $this->userCombination,
-            'opponentCombination' => $this->opponentCombination,
-            'isVictory'           => $this->isVictory,
-            'money'               => (string) $this->money,
-            'bankMessages'        => $this->bankMessages,
-            'userPoints' => $this->userPoints,
-            'opponentPoints' => $this->opponentPoints,
+            'roomId'                 => $this->roomId,
+            'statusMessage'          => $this->statusText,
+            'userCards'              => $this->userCards,
+            'opponentUserCards'      => $this->opponentUserCards,
+            'buttons'                => $this->buttons,
+            'userCombination'        => $this->userCombination,
+            'opponentCombination'    => $this->opponentCombination,
+            'isVictory'              => $this->isVictory,
+            'money'                  => (string) $this->money,
+            'bankMessages'           => $this->bankMessages,
+            'userPoints'             => $this->userPoints,
+            'opponentPoints'         => $this->opponentPoints,
             'newGameButtonIndicator' => $this->getNewGameButtonIndicator(),
-            'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
+            'isAlreadyChangedCards'  => $this->getAlreadyChangedCardsStatus(),
         );
     }
 
@@ -175,134 +188,190 @@ class GamePlay
         return $pieces[1];
     }
 
+    /**
+     * Подключение к игре текущего пользователя
+     */
     public function connectionCurrentUser(): void
     {
         $this->state->connectionCurrentUser();
     }
 
+    /**
+     * Подключение к игре пользователя-оппонента
+     */
     public function connectionOpponentUser(): void
     {
         $this->state->connectionOpponentUser();
     }
 
+    /**
+     * Начать игровую сессию
+     */
     public function startGame()
     {
         return $this->state->startGame();
     }
 
-    public function startChangeCards()
-    {
-        return $this->state->startChangeCards();
-    }
-
-    // public function startChangeCardsEvent()
-    // {
-    //     return $this->state->startChangeCardsEvent();
-    // }
-
+    /**
+     * Поменять карты
+     */
     public function changeCards()
     {
         return $this->state->changeCards();
     }
 
+    /**
+     * Добавить в банк ставку
+     */
     public function addMoney()
     {
         return $this->state->addMoney();
     }
 
+    /**
+     * Инициировать действие пользователя - чек
+     */
     public function check()
     {
         return $this->state->check();
     }
 
+    /**
+     * Инициировать действие пользователя-оппонента - чек
+     */
     public function opponentCheck()
     {
         return $this->state->opponentCheck();
     }
-
+    
+    /**
+     * Инициировать действие - сравнять и добавить ставку
+     */
     public function equalAndAdd()
     {
         return $this->state->equalAndAdd();
     }
 
+    /**
+     * Инициировать действие - сравнять ставку
+     */
     public function equal()
     {
         return $this->state->equal();
     }
 
+    /**
+     * Инициировать действие - сбросить карты
+     */
     public function gameOver()
     {
         return $this->state->gameOver();
     }
-
+    
+    /**
+     * Инициировать действие - начало следующей партии
+     */
     public function then()
     {
         return $this->state->then();
     }
 
+    /**
+     * Удалить из Redis индикатор начала игры
+     */
     public function delNewGameButtonIndicator()
     {
         return $this->state->delNewGameButtonIndicator($this->roomId, $this->opponentUser->id);
     }
 
-    // сервисные функции
+    /**
+     * Установить значение свойства statusText
+     */
     public function setStatusText($text): void
     {
         $this->statusText = $text;
     }
 
+    /**
+     * Вернуть значение свойства statusText
+     */
     public function getStatusText(): string
     {
         return $this->statusText;
     }
 
     /**
-     * Отправить приглашение пользователю чтобы начать игру
+     * Отправить приглашение пользователю для начала игры
      */
     public function dispatchInvitation(): void
     {
-        // $this->opponentUser->invitations()->attach($this->currentUser->id);
         \App\Events\SendInvitation::dispatch($this->currentUser->id, $this->opponentUser->id);
     }
-
+    
+    /**
+     * Получить ключ Redis, содержащий текущуюю колоду
+     */
     public function getKeyStorageForCards(): string
     {
         return $this->roomName . ':cards';
     }
 
+    /**
+     * Сохранить карты пользователя в Redis
+     */
     public function saveUserCards()
     {
         $data = implode(",", $this->userCards);
         Redis::set($this->roomName . ':' . $this->currentUser->id . ':userCards', $data);
     }
 
+    /**
+     * Получить карты пользователя из Redis
+     */
     public function extractUserCardsFromRedis(): array
     {
         $data = Redis::get($this->roomName . ':' . $this->currentUser->id . ':userCards');
         return explode(',', $data);
     }
 
+    /**
+     * Получить карты пользователя-оппонента из Redis
+     */
     public function extractOpponentUserCardsFromRedis(): array
     {
         $data = Redis::get($this->roomName . ':' . $this->opponentUser->id . ':userCards');
         return explode(',', $data);
     }
 
+    /**
+     * Получить состояние пользователя-оппонента
+     */
     public function getOpponentState()
     {
         return Redis::get($this->roomName . ':' . $this->opponentUser->id . ':state');
     }
 
+    /**
+     * Сохранить количество карт,
+     * которые пользователь выбрал для замены
+     */
     public function saveCountFirstUserChangeCards($cntCards): string
     {
         return Redis::set($this->roomName . ':countFirstUserChangeCards', $cntCards);
     }
 
+    /**
+     * Получить количество карт,
+     * которые пользователь выбрал для замены
+     */
     public function getCountFirstUserChangeCards(): string
     {
         return Redis::get($this->roomName . ':countFirstUserChangeCards');
     }
 
+    /**
+     * Инициировать действие - сделать ставку
+     */
     public function pushStartingBet($moneySum)
     {
         $this->money        = $this->extractMoney();
@@ -315,39 +384,64 @@ class GamePlay
         $this->saveMoney();
     }
 
+    /**
+     * Вернуть значение флага -
+     * пользователь уже сделал ставку?
+     */
     private function startBetsAlreadyPush(): bool
     {
         return Redis::exists($this->roomName . ':' . $this->currentUser->id . ":pushStartBet");
     }
 
+    /**
+     * Получить количество денег в банке из Redis
+     */
     public function extractMoney()
     {
         return Redis::get($this->roomName . ":money");
     }
 
+    /**
+     * Получить "сообщения банка" вида 'victor: + 5' из Redis
+     */
     public function extractBankMessages()
     {
         $messages = Redis::lrange($this->roomName . ":messages", 0, 5);
         return array_reverse($messages);
     }
 
+    /**
+     * Сохранить количество денег в банке в Redis
+     */
     public function saveMoney()
     {
         Redis::set($this->roomName . ":money", $this->money);
     }
 
+    /**
+     * Инициировать действие - начальная ставка пользователя
+     * при старте партии
+     */
     private function saveStartBetForUser()
     {
         Redis::set($this->roomName . ':' . $this->currentUser->id . ":pushStartBet", 'ok');
         $this->saveBankMessage('5');
     }
 
+    /**
+     * Сохранить "сообщения банка" вида 'victor: + 5' в Redis
+     */
     public function saveBankMessage($money)
     {
         $data = $this->currentUser->login . '|' . $money;
         Redis::lpush($this->roomName . ':messages', $data);
     }
 
+    /**
+     * Получить сумму ставки,
+     * сделанную в режиме "сравнять и добавить".
+     * Сохранить ставку в бд, если она была не сохранена
+     */
     public function getIncreaseAfterEqualMoney()
     {
         $moneyIncrease = $this->request->moneyIncrease;
@@ -360,11 +454,19 @@ class GamePlay
         }
     }
 
+    /**
+     * Сохранить в Redis сумму ставки,
+     * сделанную в режиме "сравнять и добавить"
+     */
     public function saveIncreaseAfterEqualMoney($money)
     {
         Redis::set($this->roomName . ":increaseAfterEqualMoney", $money);
     }
 
+    /**
+     * Получить из Redis сумму ставки,
+     * сделанную в режиме "сравнять и добавить"
+     */
     public function extractIncreaseAfterEqualMoney()
     {
         return Redis::get($this->roomName . ":increaseAfterEqualMoney");
@@ -469,6 +571,6 @@ class GamePlay
      */
     public function saveNewGameButtonIndicator($userId)
     {
-        Redis::set($this->roomName . ':' .  $userId . ':newGameButtonIndicator', 'ok');
+        Redis::set($this->roomName . ':' . $userId . ':newGameButtonIndicator', 'ok');
     }
 }

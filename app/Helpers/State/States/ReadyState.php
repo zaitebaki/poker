@@ -17,7 +17,7 @@ class ReadyState extends State
     }
 
     /**
-     * Начало партии
+     * Начать партию
      */
     public function startGame()
     {
@@ -32,12 +32,14 @@ class ReadyState extends State
 
         // текущий пользователь начинает игру
         if ($this->context->role === 'currentUser') {
-
             $this->context->userCards = $cards->getCards(0, 5);
             $this->context->saveUserCards();
 
-            $waitingMessage = __('main_page_content.gamePage.statusMessages.waitingMessage2',
-                ['user' => $this->context->opponentUser->name]);
+            $waitingMessage =
+            __(
+                'main_page_content.gamePage.statusMessages.waitingMessage2',
+                ['user' => $this->context->opponentUser->name]
+            );
             $this->context->updateState('WaitingState', $waitingMessage, "changeCards,notChange");
             if ($this->isStartGameFlag()) {
                 // сделать кнопку "Начать игру" доступной
@@ -50,11 +52,15 @@ class ReadyState extends State
                     \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
                 }
             }
+        // игру начинает пользователь-оппонент
         } else {
             $this->context->dump      = $userId;
             $this->context->userCards = $cards->getCards(5, 5);
-            $waitingMessage           = __('main_page_content.gamePage.statusMessages.waitingMessage3',
-                ['user' => $this->context->opponentUser->name]);
+            $waitingMessage           =
+            __(
+                'main_page_content.gamePage.statusMessages.waitingMessage3',
+                ['user' => $this->context->opponentUser->name]
+            );
             $this->context->saveUserCards();
             $buttons = 'changeCards,notChange';
             $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
@@ -63,7 +69,6 @@ class ReadyState extends State
                 $this->delStartGameFlag();
                 \App\Events\SendBettingStatus::dispatch($this->context->roomId);
             } else {
-
                 if ($whoStartRound === 'winner') {
                     \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
                 } elseif ($whoStartRound === 'looser') {
@@ -110,45 +115,5 @@ class ReadyState extends State
     private function delStartGameFlag()
     {
         Redis::del($this->context->roomName . ':isStartGameFlag');
-    }
-
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function changeCards()
-    {
-    }
-
-    public function addMoney()
-    {
-    }
-
-    public function check()
-    {
-    }
-
-    public function equalAndAdd()
-    {
-    }
-
-    public function equal()
-    {
-    }
-
-    public function gameOver()
-    {
-    }
-
-    public function then()
-    {
     }
 }

@@ -25,7 +25,6 @@ class UserController extends \App\Http\Controllers\SuperController
      */
     public function index(Request $request)
     {
-
         $payments = $this->user->payments()->with('opponentUser')->get();
 
         $paymentsData = [];
@@ -48,17 +47,4 @@ class UserController extends \App\Http\Controllers\SuperController
 
         return $this->renderOutput();
     }
-
-    /**
-     * Инициализировать предложение о начале игры
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    // public function sendInvitation(Request $request)
-    // {
-    //     $id_dst_user = User::where('login', $request->dstUserLogin)->first();
-    //     $id_dst_user->invitations()->attach($this->user->id);
-
-    //     \App\Events\SendInvitation::dispatch($request->srcUserId, $id_dst_user->id);
-    // }
 }

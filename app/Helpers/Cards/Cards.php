@@ -56,10 +56,14 @@ class Cards
     ];
 
     private static $disOrderNumberForStreet = 0;
-    private static $isStreetWithLowTuz = false;
-
+    private static $isStreetWithLowTuz      = false;
     private $keyStorageForCards;
 
+    /**
+     * Создать колоду карт для новой игры
+     *
+     * @param string $keyStorage
+     */
     public function __construct($keyStorage)
     {
         $this->keyStorageForCards = $keyStorage;
@@ -72,16 +76,26 @@ class Cards
         }
     }
 
+    /**
+     * Получить часть колоды карт
+     */
     public function getCards(int $startIndex, int $endIndex)
     {
         return array_slice($this->deckOfCards, $startIndex, $endIndex);
     }
 
+    /**
+     * Сохранить колоду карты в бд Redis
+     */
     private function saveCards()
     {
         Redis::set($this->keyStorageForCards, implode(',', $this->deckOfCards));
     }
 
+    /**
+     * Получить значение флага -
+     * колода карт уже создана?
+     */
     private function cardsAlreadyExists(): bool
     {
         return Redis::exists($this->keyStorageForCards);
@@ -106,24 +120,24 @@ class Cards
         self::handleJokers($opponentUserHand);
 
         // получить комбинацию для руки
-        $currentUserCombination = self::getCombination($currentUserHand);
+        $currentUserCombination  = self::getCombination($currentUserHand);
         $opponentUserCombination = self::getCombination($opponentUserHand);
 
         // получить очки для комбинации
-        $currentUserPoints = self::getPoints($currentUserHand, $currentUserCombination);
+        $currentUserPoints  = self::getPoints($currentUserHand, $currentUserCombination);
         $opponentUserPoints = self::getPoints($opponentUserHand, $opponentUserCombination);
 
-        $currentUserPoints = (float)$currentUserPoints;
-        $opponentUserPoints = (float)$opponentUserPoints;
+        $currentUserPoints  = (float) $currentUserPoints;
+        $opponentUserPoints = (float) $opponentUserPoints;
 
         return [
             'combinations' => [
-                'currentUserCombination' => $currentUserCombination,
-                'opponentUserCombination' => $opponentUserCombination
+                'currentUserCombination'  => $currentUserCombination,
+                'opponentUserCombination' => $opponentUserCombination,
             ],
-            'points' => [
-                'currentUserPoints' => $currentUserPoints,
-                'opponentUserPoints' => $opponentUserPoints
+            'points'       => [
+                'currentUserPoints'  => $currentUserPoints,
+                'opponentUserPoints' => $opponentUserPoints,
             ],
         ];
     }
@@ -153,15 +167,14 @@ class Cards
         $countJokers = self::getCountJokers($hand);
         if ($countJokers > 0 && ($combination === 'STREET' || $combination === 'STREETFLASH')) {
             $stringPoints = self::getPointsForStreet($hand, $countJokers);
-        }
-        else {
+        } else {
             if ($countJokers > 0 && $combination === 'FLASH') {
                 self::getHandForFlash($hand, $countJokers);
             }
 
             $arrWithoutJokers = self::getArrWithoutJokers($hand);
 
-            $values = self::getValues($arrWithoutJokers);
+            $values      = self::getValues($arrWithoutJokers);
             $valuesCount = array_count_values($values);
             $valuesCount = self::changeMaskSymbolsOnKeys($valuesCount);
 
@@ -176,16 +189,14 @@ class Cards
             foreach ($arr as $key => $value) {
                 $str .= ($key . '-' . $value . ' ');
             }
-            
+
             foreach ($arr as $key => $value) {
-                
                 $split = explode(',', $value);
-                $num = $split[0];
+                $num   = $split[0];
 
                 if (mb_strlen($num) === 1) {
                     $stringPoints .= ('0' . $num);
-                }
-                else {
+                } else {
                     $stringPoints .= $num;
                 }
             }
@@ -202,7 +213,8 @@ class Cards
     /**
      * Сравнить две карты
      */
-    private static function cmp($a, $b) {
+    private static function cmp($a, $b)
+    {
 
         $aSplit = explode(",", $a);
         $bSplit = explode(",", $b);
@@ -214,7 +226,7 @@ class Cards
             return 1;
         }
         if ($aSplit[1] === $bSplit[1]) {
-            return ($aSplit[0] < $bSplit[0]) ? 1: -1;
+            return ($aSplit[0] < $bSplit[0]) ? 1 : -1;
         }
     }
     /**
@@ -230,19 +242,19 @@ class Cards
         }
         return $countJokers;
     }
-    
+
     /**
      * Получить очки для комбинаций 'TWO_PAIRS' и 'FULLHOUSE'
      */
-    private static function getPointsForTwoPairsFullhouse(string &$stringPoints) {
-        $firstNum = (int)substr($stringPoints, 0, 2);
-        $secondNum = (int)substr($stringPoints, 2, 2);
-        $sum = $firstNum + $secondNum;
+    private static function getPointsForTwoPairsFullhouse(string &$stringPoints)
+    {
+        $firstNum  = (int) substr($stringPoints, 0, 2);
+        $secondNum = (int) substr($stringPoints, 2, 2);
+        $sum       = $firstNum + $secondNum;
 
         if ($sum < 10) {
-            $sum = '0' . (string)$sum;
-        }
-        else {
+            $sum = '0' . (string) $sum;
+        } else {
             $sum = (string) $sum;
         }
 
@@ -253,10 +265,11 @@ class Cards
     /**
      * Получить очки для комбинации STREET
      */
-    private static function getPointsForStreet(array $hand, int $countJokers): string {
+    private static function getPointsForStreet(array $hand, int $countJokers): string
+    {
 
         $values = self::getValues($hand);
-        
+
         // удалить туза из комбинации,
         // если туз играет роль единицы
         if (Cards::$isStreetWithLowTuz) {
@@ -266,7 +279,7 @@ class Cards
 
         self::changeMaskSymbols($values);
 
-        $maxValueCard = max($values);
+        $maxValueCard  = max($values);
         $disOrderValue = Cards::$disOrderNumberForStreet;
 
         $computedMaxCardValue = $maxValueCard + ($countJokers - $disOrderValue);
@@ -275,7 +288,7 @@ class Cards
             $computedMaxCardValue = 14;
         }
 
-        return (string)$computedMaxCardValue;
+        return (string) $computedMaxCardValue;
     }
 
     /**
@@ -289,8 +302,8 @@ class Cards
         self::changeMaskSymbols($values);
 
         $startIndex = 14;
-        for ($i=0; $i <  $countJokers; $i++) { 
-            for ($j = $startIndex; $j > 1; $j--) { 
+        for ($i = 0; $i < $countJokers; $i++) {
+            for ($j = $startIndex; $j > 1; $j--) {
                 if (array_search($j, $values) === false) {
                     $newValues[] = $j;
                     $startIndex--;
@@ -300,11 +313,11 @@ class Cards
             }
         }
 
-        $i = 0;
+        $i    = 0;
         $suit = self::getSuiteCode($hand);
         foreach ($hand as $key => $value) {
             if ($value[0] === 'j') {
-                $newKey = array_search((string)$newValues[$i++], Cards::MASKS_FOR_VALUES);
+                $newKey     = array_search((string) $newValues[$i++], Cards::MASKS_FOR_VALUES);
                 $hand[$key] = $newKey . $suit;
             }
         }
@@ -314,7 +327,8 @@ class Cards
     /**
      * Получить код масти для "руки"
      */
-    private static function getSuiteCode($hand) {
+    private static function getSuiteCode($hand)
+    {
         foreach ($hand as $key => $value) {
             if ($value[0] !== 'j') {
                 return $value[1];
@@ -329,7 +343,7 @@ class Cards
     {
         $mask        = self::getMask($hand);
         $combination = Cards::MASKS_FOR_COMBINATIONS[$mask];
-        $cntJokers = self::getCountJokers($hand);
+        $cntJokers   = self::getCountJokers($hand);
 
         if (($combination === 'WASTE') ||
             ($combination === 'DVOIKA' && $cntJokers > 0) ||
@@ -345,14 +359,13 @@ class Cards
             }
 
             // проверка на стрит с наименьшим тузом
-            $cntTuz = 0;
+            $cntTuz      = 0;
             $specialHand = [];
             foreach ($hand as $key => $value) {
                 if ($value[0] === 't') {
                     $specialHand[$key] = '1' . $value[1];
                     $cntTuz++;
-                }
-                else {
+                } else {
                     $specialHand[$key] = $value;
                 }
             }
@@ -361,7 +374,7 @@ class Cards
                 $isStreet = self::isStreet($specialHand);
                 if ($isStreet) {
                     Cards::$isStreetWithLowTuz = true;
-                    $combination = 'STREET';
+                    $combination               = 'STREET';
                 }
             }
 
@@ -404,7 +417,6 @@ class Cards
         self::changeMaskSymbols($values);
         asort($values);
 
-
         $arrWithoutJokers = [];
         foreach ($values as $key => $value) {
             if ($value !== 0) {
@@ -431,9 +443,8 @@ class Cards
 
         if ($disOrder > $cntJokers) {
             return false;
-        }
-        else {
-            // сохраним значение "неупорядоченности"
+        } else {
+            // сохранить значение "неупорядоченности"
             // в переменную класса
             Cards::$disOrderNumberForStreet = $disOrder;
             return true;
@@ -456,7 +467,6 @@ class Cards
         return $arrWithoutJokers;
     }
 
-
     /**
      * Заменить символы-маски на числовые эквиваленты
      * ["d", "2", "6", "9", "x"] => [12, 2, 6, 9, 10]
@@ -473,7 +483,7 @@ class Cards
         unset($hand);
     }
 
-        /**
+    /**
      * Заменить символы-маски на числовые эквиваленты
      * ["d", "2", "6", "9", "x"] => [12, 2, 6, 9, 10]
      */
@@ -482,7 +492,7 @@ class Cards
         $arr = [];
         foreach ($hand as $key => $value) {
             if (isset(Cards::MASKS_FOR_VALUES[$key])) {
-                $newKey = (string)Cards::MASKS_FOR_VALUES[$key];
+                $newKey       = (string) Cards::MASKS_FOR_VALUES[$key];
                 $arr[$newKey] = $value;
             } else {
                 $arr[$key] = (int) $value;

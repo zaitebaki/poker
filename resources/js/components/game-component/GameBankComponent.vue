@@ -57,13 +57,6 @@ export default {
     },
     data() {
         return {
-            // messages: {
-            //     messages: [
-            //         {login: 'valera', money: 5},
-            //         {login: 'victor', money: 5}
-            //     ]
-            // }
-            // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     }
 }

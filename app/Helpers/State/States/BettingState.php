@@ -16,29 +16,46 @@ class BettingState extends State
         $this->context->increaseAfterEqualMoney = $this->context->getIncreaseAfterEqualMoney();
 
         if ($message === 'changeFinished') {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.bettingMessage1',
-                ['user' => $this->context->opponentUser->name]);
+            $this->context->statusText =
+            __(
+                'main_page_content.gamePage.statusMessages.bettingMessage1',
+                ['user' => $this->context->opponentUser->name]
+            );
             $this->context->buttons = ['addMoney', 'noMoney'];
-
         } elseif ($message === 'betFinished') {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.bettingMessage2',
-                ['user' => $this->context->opponentUser->name, 'money' => $this->context->addOpponentMoney]);
+            $this->context->statusText =
+            __(
+                'main_page_content.gamePage.statusMessages.bettingMessage2',
+                ['user' => $this->context->opponentUser->name,
+                'money' => $this->context->addOpponentMoney]
+            );
             $this->context->buttons = ['equal', 'equalAndAdd', 'gameOver'];
-
         } elseif ($message === 'check') {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.checkMessageOpponent',
-                ['user' => $this->context->opponentUser->name]);
+            $this->context->statusText =
+            __(
+                'main_page_content.gamePage.statusMessages.checkMessageOpponent',
+                ['user' => $this->context->opponentUser->name]
+            );
             $this->context->buttons = ['addMoney', 'noMoney'];
         } elseif ($message === 'equalAndAdd') {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalAndAddMoney',
-                ['user'  => $this->context->opponentUser->name,
+            $this->context->statusText =
+            __(
+                'main_page_content.gamePage.statusMessages.equalAndAddMoney',
+                [
+                    'user'  => $this->context->opponentUser->name,
                     'money1' => $this->context->addOpponentMoney,
-                    'money2' => $this->context->increaseAfterEqualMoney]);
+                    'money2' => $this->context->increaseAfterEqualMoney
+                ]
+            );
             $this->context->buttons = ['equal', 'equalAndAdd', 'gameOver'];
         } elseif ($message === 'equal') {
-            $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalMoney',
+            $this->context->statusText =
+            __(
+                'main_page_content.gamePage.statusMessages.equalMoney',
                 ['user'  => $this->context->opponentUser->name,
-                    'money1' => $this->context->addOpponentMoney]);
+                'money1' => $this->context->addOpponentMoney
+                ]
+            );
             $this->context->buttons = [];
         }
 
@@ -48,6 +65,9 @@ class BettingState extends State
         $this->context->indicator    = 'ready';
     }
 
+    /**
+     * Добавить в банк ставку
+     */
     public function addMoney()
     {
         $money = $this->context->request->money;
@@ -56,27 +76,41 @@ class BettingState extends State
         $this->context->saveBankMessage($money);
         $this->saveAddOpponetMoney($money);
 
-        $waitingMessage = __('main_page_content.gamePage.statusMessages.addMoneyMessageCurrent',
-            ['user' => $this->context->opponentUser->name,
-                'money' => $money]);
+        $waitingMessage = __(
+            'main_page_content.gamePage.statusMessages.addMoneyMessageCurrent',
+            [
+                'user' => $this->context->opponentUser->name,
+                'money' => $money
+            ]
+        );
         $buttons = 'equal,equalAndAdd,gameOver';
-
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $money, '0');
     }
 
+
+    /**
+     * Инициировать действие пользователя - чек
+     */
     public function check()
     {
-        $waitingMessage = __('main_page_content.gamePage.statusMessages.checkMessage',
-            ['user' => $this->context->opponentUser->name]);
+        $waitingMessage =
+        __(
+            'main_page_content.gamePage.statusMessages.checkMessage',
+            [
+                'user' => $this->context->opponentUser->name
+            ]
+        );
         $buttons = 'addMoney, noMoney';
-
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
 
         $this->saveOpponentStatusCheck();
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, '0', '0');
     }
 
+    /**
+     * Инициировать действие пользователя-оппонента - чек
+     */
     public function opponentCheck()
     {
         $this->context->updateState('FinishState');
@@ -85,6 +119,9 @@ class BettingState extends State
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, '0', 'opponentCheck');
     }
 
+    /**
+     * Инициировать действие - сравнять и добавить ставку
+     */
     public function equalAndAdd()
     {
         $moneyequal = $this->context->request->moneyequal;
@@ -98,15 +135,23 @@ class BettingState extends State
         $this->saveAddOpponetMoney($moneyequal);
         $this->context->saveIncreaseAfterEqualMoney($moneyAdd);
 
-        $waitingMessage = __('main_page_content.gamePage.statusMessages.addMoneyMessageCurrent2',
-            ['user'  => $this->context->opponentUser->name,
-                'money1' => $moneyequal, 'money2' => $moneyAdd]);
+        $waitingMessage =
+        __(
+            'main_page_content.gamePage.statusMessages.addMoneyMessageCurrent2',
+            [
+                'user'  => $this->context->opponentUser->name,
+                'money1' => $moneyequal, 'money2' => $moneyAdd
+            ]
+        );
         $buttons = 'equal,equalAndAdd,gameOver';
 
         $this->context->updateState('WaitingState', $waitingMessage, $buttons, true);
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $moneyequal, $moneyAdd);
     }
 
+    /**
+     * Инициировать действие - сравнять ставку
+     */
     public function equal()
     {
         $money = $this->context->request->money;
@@ -118,6 +163,9 @@ class BettingState extends State
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $money, 'equal');
     }
 
+    /**
+     * Инициировать действие - сбросить карты
+     */
     public function gameOver()
     {
         $this->context->userCards         = $this->context->extractUserCardsFromRedis();
@@ -152,6 +200,10 @@ class BettingState extends State
         \App\Events\SendFinishBettingStatus::dispatch($this->context->roomId, $loseMoney, 'drop');
     }
 
+    /**
+     * Получить значение уточняющего статус-сообщения
+     * Сохранить сообщение в бд, если оно еще не было сохранено
+     */
     private function getCorrectionStatusMessage()
     {
         $message = $this->context->request->correctionStatusMessage;
@@ -164,16 +216,26 @@ class BettingState extends State
         }
     }
 
+    /**
+     * Сохранить значение уточняющего статус-сообщения
+     */
     private function saveCorrectionMessage($message)
     {
         Redis::set($this->context->roomName . ':' . $this->context->currentUser->id . ":correctionMessage", $message);
     }
 
+    /**
+     * Получить значение уточняющего статус-сообщения из Redis
+     */
     private function extractCorrectionMessage()
     {
         return Redis::get($this->context->roomName . ':' . $this->context->currentUser->id . ":correctionMessage");
     }
 
+    /**
+     * Получить значение добавленной оппонентом ставки
+     * Сохранить сохранить ставку в бд, если она не сохранена
+     */
     private function getAddOpponentMoney()
     {
         $money = $this->context->request->money;
@@ -186,13 +248,16 @@ class BettingState extends State
         }
     }
 
+    /**
+     * Сохранить значение добавленной оппонентом ставки
+     */
     private function saveAddOpponetMoney($money)
     {
         Redis::set($this->context->roomName . ":addOpponentMoney", $money);
     }
 
     /**
-     * Извлечь деньги игрока-оппонента
+     * Получить значение добавленной оппонентом ставки
      */
     private function extractAddOpponentMoney()
     {
@@ -216,34 +281,10 @@ class BettingState extends State
     }
 
     /**
-     * Сохранить деньги, которые были проиграны/выиграны при дропе
+     * Сохранить ключ 'opponentStatusCheck' в Redis
      */
     private function saveOpponentStatusCheck()
     {
         Redis::set($this->context->roomName . ":opponentStatusCheck", 'ok');
-    }
-
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function startGame()
-    {
-    }
-
-    public function changeCards()
-    {
-    }
-
-    public function then()
-    {
     }
 }

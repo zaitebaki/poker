@@ -40,61 +40,80 @@ class FinishState extends State
         if ($statusGame === 'drop' || $statusGame === 'winDrop') {
             if ($statusGame === "drop") {
                 $money                     = $this->getDropMoney();
-                $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage2',
-                    ['money' => $money]);
+                $this->context->statusText =
+                __(
+                    'main_page_content.gamePage.statusMessages.gameOverMessage2',
+                    ['money' => $money]
+                );
                 $this->context->isVictory = -1;
             } elseif ($statusGame === "winDrop") {
                 $money                     = $this->getDropMoney();
-                $this->context->statusText = __('main_page_content.gamePage.statusMessages.gameOverMessage1',
-                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
+                $this->context->statusText =
+                __(
+                    'main_page_content.gamePage.statusMessages.gameOverMessage1',
+                    ['user' => $this->context->opponentUser->name, 'money' => $money]
+                );
                 $this->context->isVictory = 1;
             }
-        }
-
         // вычислить результат игры,
         // если необходимо рассчитать комбинацию и очки
-        else {
+        } else {
             $winnerId = $this->context->getWinnerIdFromRedis();
 
             // победа
             $money = $this->context->money / 2;
             if ($winnerId === (string) $this->context->currentUser->id) {
-
                 if ($statusGame === 'check') {
-                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.checkWinFinishMessage',
-                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
-                }
-                elseif ($statusGame === 'equal') {
-                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalWinFinishMessage',
-                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
-                }
-                else {
-                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.winFinishMessage',
-                    ['money' => $money]);
+                    $this->context->statusText =
+                    __(
+                        'main_page_content.gamePage.statusMessages.checkWinFinishMessage',
+                        ['user' => $this->context->opponentUser->name, 'money' => $money]
+                    );
+                } elseif ($statusGame === 'equal') {
+                    $this->context->statusText =
+                    __(
+                        'main_page_content.gamePage.statusMessages.equalWinFinishMessage',
+                        ['user' => $this->context->opponentUser->name, 'money' => $money]
+                    );
+                } else {
+                    $this->context->statusText =
+                    __(
+                        'main_page_content.gamePage.statusMessages.winFinishMessage',
+                        ['money' => $money]
+                    );
                 }
                 $this->context->isVictory = 1;
 
-                // проигрыш
+            // проигрыш
             } elseif ($winnerId === (string) $this->context->opponentUser->id) {
-                
                 if ($statusGame === 'check') {
-                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.checkLoseFinishMessage',
-                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
-                }
-                elseif ($statusGame === 'equal') {
-                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.equalLoseFinishMessage',
-                    ['user' => $this->context->opponentUser->name, 'money' => $money]);
-                }
-                else {
-                    $this->context->statusText = __('main_page_content.gamePage.statusMessages.loseFinishMessage',
-                    ['money' => $money]);
+                    $this->context->statusText =
+                    __(
+                        'main_page_content.gamePage.statusMessages.checkLoseFinishMessage',
+                        ['user' => $this->context->opponentUser->name, 'money' => $money]
+                    );
+                } elseif ($statusGame === 'equal') {
+                    $this->context->statusText =
+                    __(
+                        'main_page_content.gamePage.statusMessages.equalLoseFinishMessage',
+                        ['user' => $this->context->opponentUser->name, 'money' => $money]
+                    );
+                } else {
+                    $this->context->statusText =
+                    __(
+                        'main_page_content.gamePage.statusMessages.loseFinishMessage',
+                        ['money' => $money]
+                    );
                 }
                 $this->context->isVictory = -1;
 
                 // ничья
             } elseif ($winnerId === '0') {
-                $this->context->statusText = __('main_page_content.gamePage.statusMessages.drawFinishMessage',
-                    ['money' => $money]);
+                $this->context->statusText =
+                __(
+                    'main_page_content.gamePage.statusMessages.drawFinishMessage',
+                    ['money' => $money]
+                );
                 $this->context->isVictory = 0;
             }
         }
@@ -138,26 +157,21 @@ class FinishState extends State
                 self::setIdUserCurrent($roomName, $idUserOpponent);
                 self::setIdUserOpponent($roomName, $idUserCurrent);
                 self::saveWhoStartRound($roomName, 'winner');
-                // \App\Events\SendStartedGameStatus::dispatch($roomId);
             }
             if ($winnerId === $userId && $role === 'opponentUser') {
                 self::setIdUserCurrent($roomName, $idUserCurrent);
                 self::setIdUserOpponent($roomName, $idUserOpponent);
                 self::saveWhoStartRound($roomName, 'winner');
-                // \App\Events\SendStartedGameStatus::dispatch($roomId);
             }
             if ($winnerId !== $userId && $role === 'opponentUser') {
                 self::setIdUserCurrent($roomName, $idUserOpponent);
                 self::setIdUserOpponent($roomName, $idUserCurrent);
                 self::saveWhoStartRound($roomName, 'looser');
-
-                // \App\Events\SendStartedGameStatus::dispatch($roomId);
             }
             if ($winnerId !== $userId && $role === 'currentUser') {
                 self::setIdUserCurrent($roomName, $idUserCurrent);
                 self::setIdUserOpponent($roomName, $idUserOpponent);
                 self::saveWhoStartRound($roomName, 'looser');
-                // \App\Events\SendStartedGameStatus::dispatch($roomId);
             }
             self::setState($roomName, $userId, 'ReadyState');
         } else {
@@ -213,7 +227,8 @@ class FinishState extends State
      * Сохранить значение поля
      * кто начал раунд? - winner|looser
      */
-    private static function saveWhoStartRound($roomName, $value) {
+    private static function saveWhoStartRound($roomName, $value)
+    {
         Redis::set($roomName . ':whoStartRound', $value);
     }
 
@@ -445,7 +460,7 @@ class FinishState extends State
     }
 
     /**
-     * Ивзвлечь текущее состояние оппонента
+     * Извлечь текущее состояние оппонента
      */
     private static function getOpponentState($roomName, $opponentUserId): string
     {
@@ -460,44 +475,5 @@ class FinishState extends State
     {
         Redis::del($this->context->roomName . ':' .  $userId . ':newGameButtonIndicator');
         \App\Events\SendUpdateIndicatorButtonStatus::dispatch($roomId);
-    }
-
-    public function waitingOpponentUser()
-    {
-    }
-
-    public function connectionOpponentUser()
-    {
-    }
-
-    public function connectionCurrentUser()
-    {
-    }
-
-    public function startGame()
-    {
-    }
-
-    public function changeCards()
-    {
-    }
-
-    public function addMoney()
-    {
-    }
-    public function check()
-    {
-    }
-
-    public function equalAndAdd()
-    {
-    }
-
-    public function equal()
-    {
-    }
-
-    public function gameOver()
-    {
     }
 }

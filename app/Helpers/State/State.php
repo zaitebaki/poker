@@ -10,9 +10,4 @@ abstract class State
     {
         $this->context = $context;
     }
-
-    abstract public function connectionCurrentUser();
-    abstract public function waitingOpponentUser();
-    abstract public function connectionOpponentUser();
-    abstract public function startGame();
 }
