@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Redis;
+
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels

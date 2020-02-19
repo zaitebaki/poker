@@ -4,12 +4,11 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import 'bootstrap-slider/dist/css/bootstrap-slider.css';
 
 require('./bootstrap');
-
 window.Vue = require('vue');
 
-import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 
 /**
  * The following block of code may be used to automatically register your
@@ -33,5 +32,5 @@ Vue.component('game-component', require('./components/game-component/_GameCompon
  */
 
 const app = new Vue({
-    el: '#app'
+  el: '#app',
 });

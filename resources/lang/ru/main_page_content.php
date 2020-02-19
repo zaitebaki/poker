@@ -41,7 +41,7 @@ return [
             'incomeButtonCaption' => 'Списать',
             'incomeAlertMessage'  => 'Вы уверены что хотите списать долг?',
             'successMessage'      => 'Долг для пользователя :user успешно списан',
-            'voidPaymentMessage'      => 'Нет отчетности'
+            'voidPaymentMessage'  => 'Нет отчетности',
         ],
     ],
 
@@ -49,6 +49,11 @@ return [
         'header'          => [
             'shortNameProject' => '«Зайте Баки»',
             'balance'          => 'Баланс',
+        ],
+        'errors'          => [
+            'mainMessage'        =>
+            'Не удалось отправить запрос. Повторите попытку. В случае повторной ошибки необходимо завершить игру.',
+            'listenMessageError' => 'Ошибка при прослушивании канала :channel',
         ],
         'buttonsCaptions' => [
             'startButton' => 'Начать игру',
@@ -62,7 +67,8 @@ return [
             'then'        => 'Продолжить',
         ],
         'statusMessages'  => [
-            'initMessage'             => 'Начальная ставка — 5 рублей. Максимальная ставка — 100 рублей. Нажмите «Начать игру».',
+            'initMessage'             =>
+            'Начальная ставка — 5 рублей. Максимальная ставка — 100 рублей. Нажмите «Начать игру».',
             'waitingMessage'          => 'Ожидание пользователя «:user»...',
             'waitingMessage2'         => ':user берет карты...',
             'waitingMessage3'         => ':user меняет карты...',
@@ -86,8 +92,8 @@ return [
             'equalLoseFinishMessage'  => 'Проигрыш. :user сравнял ставку.  Вы проиграли :money рублей.',
             'equalWinFinishMessage'   => 'Победа! :user сравнял ставку.  Вы выиграли :money рублей.',
         ],
-        'alertMessages' => [
-            'finishGameSessionMessage' => 'Пользователь :user завершил сеанс игры!'
-        ]
+        'alertMessages'   => [
+            'finishGameSessionMessage' => 'Пользователь :user завершил сеанс игры!',
+        ],
     ],
 ];

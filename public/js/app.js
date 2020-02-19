@@ -1826,13 +1826,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    money: String,
-    bankMessages: Array
+    money: {
+      type: String,
+      "default": ''
+    },
+    bankMessages: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    }
   },
-  mounted: function mounted() {
-    console.log(this.bankMessages);
+  data: function data() {
+    return {};
   },
   computed: {
     getMessages: function getMessages() {
@@ -1849,9 +1869,7 @@ __webpack_require__.r(__webpack_exports__);
       return bankDataObject.messages;
     }
   },
-  data: function data() {
-    return {};
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -1954,19 +1972,72 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'b-form-slider': vue_bootstrap_slider_es_form_slider__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   props: {
-    roomUrl: String,
-    roomName: String,
-    buttonsCaptions: Object,
-    buttons: Array,
-    user: Object,
-    activeCardsStorage: Array,
-    indicatorStatus: String,
-    money: String,
-    addOpponentMoney: String,
-    increaseAfterEqualMoney: String,
+    roomUrl: {
+      type: String,
+      required: true
+    },
+    roomName: {
+      type: String,
+      "default": ''
+    },
+    buttonsCaptions: {
+      type: Object,
+      required: true
+    },
+    buttons: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    user: {
+      type: Object,
+      required: true
+    },
+    activeCardsStorage: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    indicatorStatus: {
+      type: String,
+      "default": ''
+    },
+    money: {
+      type: String,
+      "default": ''
+    },
+    addOpponentMoney: {
+      type: String,
+      "default": ''
+    },
+    increaseAfterEqualMoney: {
+      type: String,
+      "default": ''
+    },
     startButtonIndicator: Boolean,
     opponentStatusCheck: Boolean,
     newGameButtonIndicator: Boolean
@@ -1995,9 +2066,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.buttonsCaptions.equal.replace(re, this.getCurrentAddingMoney());
     }
   },
-  mounted: function mounted() {
-    console.log(this.increaseAfterEqualMoney);
-  },
+  mounted: function mounted() {},
   methods: {
     // инициировать раздачу карт
     startGame: function startGame() {
@@ -2007,19 +2076,14 @@ __webpack_require__.r(__webpack_exports__);
         initAction: 'startGame',
         roomName: this.roomName
       }).then(function (response) {
-        console.log(response.data);
-
         _this.$emit('update:parameters', response.data);
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this.$emit('catch:error', error);
       });
     },
     // поменять карты
     changeCards: function changeCards(change) {
       var _this2 = this;
-
-      console.log(this.activeCardsStorage);
 
       if (change !== 'no:change' && this.isNotChoosingCardsForChanging()) {
         return;
@@ -2030,14 +2094,11 @@ __webpack_require__.r(__webpack_exports__);
         roomName: this.roomName,
         cardsIndexForChange: this.getcardsIndexForChange(change)
       }).then(function (response) {
-        console.log(response.data);
-
         _this2.$emit('update:parameters', response.data);
 
         _this2.$root.$emit('clean:cards:classes');
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this2.$emit('catch:error', error);
       });
     },
     // добавить карты
@@ -2051,8 +2112,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this3.$emit('update:parameters', response.data);
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this3.$emit('catch:error', error);
       });
     },
     // чек
@@ -2061,30 +2121,24 @@ __webpack_require__.r(__webpack_exports__);
 
       // если оппонент уже ответил "чек"
       if (this.opponentStatusCheck === true) {
-        console.log('Another check');
         axios.post(this.roomUrl, {
           initAction: 'opponentCheck',
           roomName: this.roomName
         }).then(function (response) {
-          console.log(response.data);
-
           _this4.$emit('update:parameters', response.data);
         })["catch"](function (error) {
-          console.log(error);
-          alert('Не удалось отправить запрос. Повторите попытку позже.');
+          _this4.$emit('catch:error', error);
+        }); // пользователь говорит "чек" в 1-ый раз
+      } else {
+        axios.post(this.roomUrl, {
+          initAction: 'check',
+          roomName: this.roomName
+        }).then(function (response) {
+          _this4.$emit('update:parameters', response.data);
+        })["catch"](function (error) {
+          _this4.$emit('catch:error', error);
         });
-      } // пользователь говорит "чек" в 1-ый раз
-      else {
-          axios.post(this.roomUrl, {
-            initAction: 'check',
-            roomName: this.roomName
-          }).then(function (response) {
-            _this4.$emit('update:parameters', response.data);
-          })["catch"](function (error) {
-            console.log(error);
-            alert('Не удалось отправить запрос. Повторите попытку позже.');
-          });
-        }
+      }
     },
     // сравянть и добавить
     equalAndAdd: function equalAndAdd() {
@@ -2098,8 +2152,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this5.$emit('update:parameters', response.data);
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this5.$emit('catch:error', error);
       });
     },
     // сравнять
@@ -2111,12 +2164,9 @@ __webpack_require__.r(__webpack_exports__);
         roomName: this.roomName,
         money: this.getCurrentAddingMoney()
       }).then(function (response) {
-        console.log(response.data);
-
         _this6.$emit('update:parameters', response.data);
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this6.$emit('catch:error', error);
       });
     },
     // сбросить карты
@@ -2130,32 +2180,27 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this7.$emit('update:parameters', response.data);
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this7.$emit('catch:error', error);
       });
     },
     // начать новую партию
     then: function then() {
       var _this8 = this;
 
-      console.log(this.roomName);
       axios.post(this.roomUrl, {
         initAction: 'nextRound',
         roomName: this.roomName
       }).then(function (response) {
-        console.log(response.data);
-
         _this8.$emit('update:parameters', response.data);
 
         _this8.$root.$emit('changed:cards:false');
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this8.$emit('catch:error', error);
       });
     },
     // проверить есть ли карты для замены
     isNotChoosingCardsForChanging: function isNotChoosingCardsForChanging() {
-      for (var i = 0; i < this.activeCardsStorage.length; i++) {
+      for (var i = 0; i < this.activeCardsStorage.length; ++i) {
         if (this.activeCardsStorage[i] === false) return false;
       }
 
@@ -2165,7 +2210,7 @@ __webpack_require__.r(__webpack_exports__);
     getcardsIndexForChange: function getcardsIndexForChange(change) {
       if (change === 'no:change') return false;
       var indexArray = [];
-      this.activeCardsStorage.forEach(function (item, i, arr) {
+      this.activeCardsStorage.forEach(function (item, i) {
         if (item === false) {
           indexArray.push(i);
         }
@@ -2174,56 +2219,21 @@ __webpack_require__.r(__webpack_exports__);
       return indexArray.join(',');
     },
     isActiveButton: function isActiveButton(nameButton) {
-      if (this.buttons && this.buttons.indexOf(nameButton) !== -1) return true;
+      if (this.buttons && this.buttons.indexOf(nameButton) !== -1) {
+        return true;
+      }
+
       return false;
     },
     getCurrentAddingMoney: function getCurrentAddingMoney() {
       if (this.increaseAfterEqualMoney !== '0') {
         return this.increaseAfterEqualMoney;
-      } else {
-        return this.addOpponentMoney;
       }
+
+      return this.addOpponentMoney;
     },
     getDropMoney: function getDropMoney() {
       return (+this.money - +this.getCurrentAddingMoney()) / 2;
-    },
-    slideStart: function slideStart() {
-      console.log('slideStarted');
-    },
-    slideStop: function slideStop() {
-      console.log('slideStopped');
-    }
-  },
-  components: {
-    'b-form-slider': vue_bootstrap_slider_es_form_slider__WEBPACK_IMPORTED_MODULE_0___default.a
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    indicatorStatus: String
-  },
-  methods: {
-    getIndicatorClass: function getIndicatorClass() {
-      if (this.indicatorStatus === 'ready') return 'indicator__circle__status_ready';
-      if (this.indicatorStatus === 'wait') return 'indicator__circle__status_wait';
     }
   }
 });
@@ -2265,20 +2275,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    cards: Array,
-    combination: String,
-    points: String
+    cards: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    combination: {
+      type: String,
+      "default": ''
+    },
+    points: {
+      type: String,
+      "default": ''
+    }
   },
   data: function data() {
     return {
       suitTable: {
-        'c': 'chervi',
-        'b': 'bubi',
-        'v': 'vini',
-        'k': 'kresti',
-        'j': 'joker'
+        c: 'chervi',
+        b: 'bubi',
+        v: 'vini',
+        k: 'kresti',
+        j: 'joker'
       },
       arrCards: this.cards
     };
@@ -2306,25 +2338,26 @@ __webpack_require__.r(__webpack_exports__);
       var valueA = this.getValueForSmb(a);
       var valueB = this.getValueForSmb(b);
       if (valueA > valueB) return 1;
-      if (valueA == valueB) return 0;
-      if (valueA < valueB) return -1;
+      if (valueA === valueB) return 0; // valueA < valueB
+
+      return -1;
     },
     getValueForSmb: function getValueForSmb(smb) {
       var smbTable = {
-        'x': 10,
-        'v': 11,
-        'd': 12,
-        'k': 13,
-        't': 14
+        x: 10,
+        v: 11,
+        d: 12,
+        k: 13,
+        t: 14
       };
       if (smb === '1j' || smb === '2j') return 20;
       var curSmb = smb[0];
 
       if (curSmb in smbTable) {
         return smbTable[curSmb];
-      } else {
-        return Number.parseInt(curSmb);
       }
+
+      return Number.parseInt(curSmb, 10);
     },
     getPathToImage: function getPathToImage(index) {
       var cardCode = this.cards[index];
@@ -2414,31 +2447,74 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    content: Object,
-    user: Object,
-    roomId: String,
-    roomName: String
+    content: {
+      type: Object,
+      required: true
+    },
+    user: {
+      type: Object,
+      required: true
+    },
+    roomId: {
+      type: String,
+      "default": ''
+    },
+    roomName: {
+      type: String,
+      "default": ''
+    }
   },
   data: function data() {
     return {
-      roomUrl: '/game/room/' + this.roomId + '/finish_game_session',
+      roomUrl: "/game/room/".concat(this.roomId, "/finish_game_session"),
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
-  mounted: function mounted() {
-    console.log(this.roomUrl);
-  },
+  mounted: function mounted() {},
   methods: {
     // Закончить сеанс игры
     finishGameSession: function finishGameSession() {
-      axios.post(this.roomUrl, {}).then(function (response) {
-        console.log(response.data);
+      var _this = this;
+
+      axios.post(this.roomUrl, {}).then(function () {
         window.location.replace('/home');
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this.$emit('catch:error', error);
       });
     }
   }
@@ -2472,11 +2548,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    statusMessage: String,
-    indicatorStatus: String,
-    isVictory: Number
+    statusMessage: {
+      type: String,
+      "default": ''
+    },
+    indicatorStatus: {
+      type: String,
+      "default": ''
+    },
+    isVictory: {
+      type: Number,
+      "default": 0
+    }
   },
   data: function data() {
     return {
@@ -2504,9 +2601,9 @@ __webpack_require__.r(__webpack_exports__);
     // получить случайное целое число
     // максимум и минимум включаются
     getRandomIntInclusive: function getRandomIntInclusive(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min + 1)) + min;
+      var minValue = Math.ceil(min);
+      var maxValue = Math.floor(max);
+      return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
     }
   }
 });
@@ -2548,21 +2645,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    cards: Array,
-    combination: String,
-    points: String,
+    cards: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    combination: {
+      type: String,
+      "default": ''
+    },
+    points: {
+      type: String,
+      "default": ''
+    },
     isAlreadyChangedCards: Boolean
   },
   data: function data() {
     return {
       suitTable: {
-        'c': 'chervi',
-        'b': 'bubi',
-        'v': 'vini',
-        'k': 'kresti',
-        'j': 'joker'
+        c: 'chervi',
+        b: 'bubi',
+        v: 'vini',
+        k: 'kresti',
+        j: 'joker'
       },
       imgElementsClasses: [false, false, false, false, false],
       changedCardsFlag: this.isAlreadyChangedCards,
@@ -2618,25 +2736,26 @@ __webpack_require__.r(__webpack_exports__);
       var valueA = this.getValueForSmb(a);
       var valueB = this.getValueForSmb(b);
       if (valueA > valueB) return 1;
-      if (valueA == valueB) return 0;
-      if (valueA < valueB) return -1;
+      if (valueA === valueB) return 0; // valueA < valueB
+
+      return -1;
     },
     getValueForSmb: function getValueForSmb(smb) {
       var smbTable = {
-        'x': 10,
-        'v': 11,
-        'd': 12,
-        'k': 13,
-        't': 14
+        x: 10,
+        v: 11,
+        d: 12,
+        k: 13,
+        t: 14
       };
       if (smb === '1j' || smb === '2j') return 20;
       var curSmb = smb[0];
 
       if (curSmb in smbTable) {
         return smbTable[curSmb];
-      } else {
-        return Number.parseInt(curSmb);
       }
+
+      return Number.parseInt(curSmb, 10);
     },
     getPathToImage: function getPathToImage(index) {
       var cardCode = this.arrCards[index];
@@ -2648,7 +2767,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     normalSwitcher: function normalSwitcher(card, index) {
       var srcIndex = this.copyCardsObj[card];
-      console.log(srcIndex);
       this.$emit('change:active:cards:storage', srcIndex);
       var newValue = !this.imgElementsClasses[index];
       this.$set(this.imgElementsClasses, index, newValue);
@@ -2667,13 +2785,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameStatusBarComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusBarComponent */ "./resources/js/components/game-component/GameStatusBarComponent.vue");
-/* harmony import */ var _GameBankComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameBankComponent */ "./resources/js/components/game-component/GameBankComponent.vue");
-/* harmony import */ var _GameButtonPanelComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameButtonPanelComponent */ "./resources/js/components/game-component/GameButtonPanelComponent.vue");
-/* harmony import */ var _GameStatusTextComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GameStatusTextComponent */ "./resources/js/components/game-component/GameStatusTextComponent.vue");
-/* harmony import */ var _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
-/* harmony import */ var _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
-/* harmony import */ var _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GameIndicatorComponent */ "./resources/js/components/game-component/GameIndicatorComponent.vue");
+/* harmony import */ var _GameStatusBarComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusBarComponent.vue */ "./resources/js/components/game-component/GameStatusBarComponent.vue");
+/* harmony import */ var _GameBankComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameBankComponent.vue */ "./resources/js/components/game-component/GameBankComponent.vue");
+/* harmony import */ var _GameButtonPanelComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameButtonPanelComponent.vue */ "./resources/js/components/game-component/GameButtonPanelComponent.vue");
+/* harmony import */ var _GameStatusTextComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GameStatusTextComponent.vue */ "./resources/js/components/game-component/GameStatusTextComponent.vue");
+/* harmony import */ var _GameUserCardsComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent.vue */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
+/* harmony import */ var _GameOpponentCardsComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent.vue */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
 //
 //
 //
@@ -2750,7 +2867,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2758,10 +2914,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'game-status-bar-component': _GameStatusBarComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'game-bank-component': _GameBankComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'game-button-panel-component': _GameButtonPanelComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    'game-status-text-component': _GameStatusTextComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    'game-user-cards-component': _GameUserCardsComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    'game-opponent-cards-component': _GameOpponentCardsComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
   props: {
-    content: Object,
-    user: Object,
-    gameParameters: Object
+    content: {
+      type: Object,
+      required: true
+    },
+    user: {
+      type: Object,
+      required: true
+    },
+    gameParameters: {
+      type: Object,
+      required: true
+    }
   },
   data: function data() {
     return {
@@ -2769,26 +2942,26 @@ __webpack_require__.r(__webpack_exports__);
       userParameters: this.user,
       activeCardsStorage: [true, true, true, true, true],
       combinationTable: {
-        'POKER': 'Покер',
-        'STREETFLASH': 'Стрит флеш',
-        'KARE': 'Каре',
-        'FULLHOUSE': 'Фулхауз',
-        'FLASH': 'Флеш',
-        'STREET': 'Стрит',
-        'TROIKA': 'Тройка',
-        'TWO_PAIRS': 'Две пары',
-        'DVOIKA': 'Двойка',
-        'WASTE': 'Хлам'
+        POKER: 'Покер',
+        STREETFLASH: 'Стрит флеш',
+        KARE: 'Каре',
+        FULLHOUSE: 'Фулхауз',
+        FLASH: 'Флеш',
+        STREET: 'Стрит',
+        TROIKA: 'Тройка',
+        TWO_PAIRS: 'Две пары',
+        DVOIKA: 'Двойка',
+        WASTE: 'Хлам'
       },
-      roomUrl: '/game/room/' + this.gameParameters.roomId,
-      roomName: 'room_' + this.gameParameters.roomId,
+      roomUrl: "/game/room/".concat(this.gameParameters.roomId),
+      roomName: "room_".concat(this.gameParameters.roomId),
       isFinishGameComponentVisible: false,
       opponentUserName: ''
     };
   },
   computed: {
     gameActionChannel: function gameActionChannel() {
-      return window.Echo["private"]('room-action.' + this.vueGameParameters.roomId);
+      return window.Echo["private"]("room-action.".concat(this.vueGameParameters.roomId));
     },
     getVictoryStatus: function getVictoryStatus() {
       if ('isVictory' in this.vueGameParameters) {
@@ -2815,67 +2988,48 @@ __webpack_require__.r(__webpack_exports__);
     this.$root.$on('changed:cards:false', function () {
       _this.activeCardsStorage = [true, true, true, true, true];
     });
-    this.gameActionChannel.listen('SendReadyStatus', function (_ref) {
-      var data = _ref.data;
+    this.gameActionChannel.listen('SendReadyStatus', function () {
       axios.post(_this.roomUrl, {
         updateState: 'ReadyState',
         roomName: _this.roomName,
         sendPost: 'true'
       }).then(function (response) {
-        console.log(_this.roomName);
-        console.log("Пришел ответ после отправки SendReadyStatus");
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this.handleError(error);
       });
       _this.startGameButtonReady = true;
-    }).listen('SendStartChangeCardsStatus', function (_ref2) {
-      var data = _ref2.data;
+    }).listen('SendStartChangeCardsStatus', function () {
       axios.post(_this.roomUrl, {
         updateState: 'StartedGameState',
         roomName: _this.roomName
       }).then(function (response) {
-        console.log('SendStartChangeCardsStatus');
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this.handleError(error);
       });
       _this.startGameButtonReady = true;
-    }).listen('SendStartedGameStatus', function (_ref3) {
-      var data = _ref3.data;
-      console.log("Hello from SendStartedGameStatus!!!");
+    }).listen('SendStartedGameStatus', function () {
       axios.post(_this.roomUrl, {
         initAction: 'startGame',
         roomName: _this.roomName
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
 
-        _this.$root.$emit('changed:cards:false'); // if (this.startGameSessionFlag) {
-        // this.startChangeCardsEvent();
-        // this.startGameSessionFlag = false;
-        // }
-
+        _this.$root.$emit('changed:cards:false');
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this.handleError(error);
       });
-    }).listen('SendBettingStatus', function (_ref4) {
-      var data = _ref4.data;
-      console.log("Hello from SendBettingStatus!!!");
+    }).listen('SendBettingStatus', function () {
       axios.post(_this.roomUrl, {
         updateState: 'StartedGameState',
         roomName: _this.roomName
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this.handleError(error);
       });
-    }).listen('SendFinishChangeStatus', function (_ref5) {
-      var data = _ref5.data;
-      console.log("Hello from SendFinishChangeStatus!!!");
+    }).listen('SendFinishChangeStatus', function () {
       axios.post(_this.roomUrl, {
         updateState: 'BettingState',
         roomName: _this.roomName,
@@ -2883,13 +3037,13 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.vueGameParameters = response.data.gameParameters;
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this.handleError(error);
       });
-    }).listen('SendFinishBettingStatus', function (_ref6) {
-      var money = _ref6.money,
-          moneyIncrease = _ref6.moneyIncrease;
-      console.log("Hello from SendFinishBettingStatus!!!");
+    }).listen('SendFinishBettingStatus', function (_ref) {
+      var money = _ref.money,
+          moneyIncrease = _ref.moneyIncrease;
+      var moneyIncreaseValue = moneyIncrease;
+      var moneyValue = money;
 
       if (moneyIncrease === 'drop' || moneyIncrease === 'opponentCheck') {
         _this.sendFinishGameRequest();
@@ -2897,14 +3051,14 @@ __webpack_require__.r(__webpack_exports__);
         var correctionMessage;
 
         if (moneyIncrease !== '0' && moneyIncrease !== 'equal') {
-          correctionMessage = "equalAndAdd";
+          correctionMessage = 'equalAndAdd';
         } else if (money === '0' && moneyIncrease === '0') {
           correctionMessage = 'check';
         } else if (money !== '0' && moneyIncrease === 'equal') {
-          moneyIncrease = '';
+          moneyIncreaseValue = '';
           correctionMessage = 'equal';
         } else if (money !== '0' && moneyIncrease === 'drop') {
-          moneyIncrease = '';
+          moneyIncreaseValue = '';
           correctionMessage = 'drop';
         } else {
           correctionMessage = 'betFinished';
@@ -2914,30 +3068,24 @@ __webpack_require__.r(__webpack_exports__);
           updateState: 'BettingState',
           roomName: _this.roomName,
           correctionStatusMessage: correctionMessage,
-          money: money,
-          moneyIncrease: moneyIncrease
+          money: moneyValue,
+          moneyIncrease: moneyIncreaseValue
         }).then(function (response) {
           _this.vueGameParameters = response.data.gameParameters;
 
-          if (correctionMessage === "equal" || correctionMessage === "drop") {
+          if (correctionMessage === 'equal' || correctionMessage === 'drop') {
             _this.sendFinishGameRequest();
           }
         })["catch"](function (error) {
-          console.log(error);
-          alert('Не удалось отправить запрос. Повторите попытку позже.');
+          _this.handleError(error);
         });
       }
-    }).listen('SendUpdateIndicatorButtonStatus', function (_ref7) {
-      var data = _ref7.data;
-      console.log('SendUpdateIndicatorButtonStatus');
+    }).listen('SendUpdateIndicatorButtonStatus', function () {
       _this.vueGameParameters.newGameButtonIndicator = false;
-    }).listen('SendUpdateIndicatorStartButtonStatus', function (_ref8) {
-      var data = _ref8.data;
-      console.log('SendUpdateIndicatorStartButtonStatus');
+    }).listen('SendUpdateIndicatorStartButtonStatus', function () {
       _this.vueGameParameters.startButtonIndicator = false;
-    }).listen('SendFinishGameSessionStatus', function (_ref9) {
-      var opponentUserName = _ref9.opponentUserName;
-      console.log("Hello from SendFinishGameSessionStatus!!!");
+    }).listen('SendFinishGameSessionStatus', function (_ref2) {
+      var opponentUserName = _ref2.opponentUserName;
       _this.opponentUserName = opponentUserName;
       UIkit.modal('#js-modal-dialog').show();
     });
@@ -2949,20 +3097,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateParameters: function updateParameters($event) {
-      if ("user" in $event) {
+      if ('user' in $event) {
         this.userParameters = $event.user;
       }
 
-      if ("gameParameters" in $event) {
+      if ('gameParameters' in $event) {
         this.vueGameParameters = $event.gameParameters;
       }
-
-      console.log(this.vueGameParameters.userCards);
     },
     changeActiveCardsStorage: function changeActiveCardsStorage($event) {
       var index = $event;
       this.activeCardsStorage[index] = !this.activeCardsStorage[index];
-      console.log(this.activeCardsStorage);
     },
     sendFinishGameRequest: function sendFinishGameRequest() {
       var _this2 = this;
@@ -2976,16 +3121,14 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.sendResponseAfterFinishEvent();
       })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+        _this2.handleError(error);
       });
     },
     getCardsArr: function getCardsArr() {
       var array = [];
-      console.log(this.gameParameters.userCards);
 
-      if ("userCards" in this.vueGameParameters && this.vueGameParameters.userCards) {
-        this.vueGameParameters.userCards.forEach(function (item, i, arr) {
+      if ('userCards' in this.vueGameParameters && this.vueGameParameters.userCards) {
+        this.vueGameParameters.userCards.forEach(function (item, i) {
           var obj = {
             index: i,
             value: item
@@ -2997,29 +3140,23 @@ __webpack_require__.r(__webpack_exports__);
       return array;
     },
     sendResponseAfterFinishEvent: function sendResponseAfterFinishEvent() {
-      console.log('DELETE');
+      var _this3 = this;
+
       axios.post(this.roomUrl, {
         initAction: 'delNewGameButtonIndicator',
         roomName: this.roomName
-      }).then(function (response) {
-        console.log('delNewGameButtonIndicator');
-      })["catch"](function (error) {
-        console.log(error);
-        alert('Не удалось отправить запрос. Повторите попытку позже.');
+      }).then(function () {})["catch"](function (error) {
+        _this3.handleError(error);
       });
     },
     finishGameButtonClick: function finishGameButtonClick() {
       window.location.replace('/home');
+    },
+    // обработать ошибку
+    handleError: function handleError(error) {
+      console.log(error);
+      UIkit.modal('#js-modal-error').show();
     }
-  },
-  components: {
-    'game-status-bar-component': _GameStatusBarComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'game-bank-component': _GameBankComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'game-button-panel-component': _GameButtonPanelComponent__WEBPACK_IMPORTED_MODULE_2__["default"],
-    'game-status-text-component': _GameStatusTextComponent__WEBPACK_IMPORTED_MODULE_3__["default"],
-    'game-user-cards-component': _GameUserCardsComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
-    'game-opponent-cards-component': _GameOpponentCardsComponent__WEBPACK_IMPORTED_MODULE_5__["default"],
-    'game-indicator-component': _GameIndicatorComponent__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 
@@ -3034,10 +3171,46 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvitationAlertCardComponent */ "./resources/js/components/home-component/InvitationAlertCardComponent.vue");
-/* harmony import */ var _PaymentsComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentsComponent */ "./resources/js/components/home-component/PaymentsComponent.vue");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _InvitationAlertCardComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvitationAlertCardComponent.vue */ "./resources/js/components/home-component/InvitationAlertCardComponent.vue");
+/* harmony import */ var _PaymentsComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentsComponent.vue */ "./resources/js/components/home-component/PaymentsComponent.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3105,17 +3278,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'invitation-alert-card-component': _InvitationAlertCardComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'payments-component': _PaymentsComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   props: {
-    content: Object,
-    invitationCardContent: Object,
-    friends: Array,
-    user: Object,
-    formJoinGameRoute: String,
-    contentPayments: Object,
-    payments: Array,
-    cancelPaymentRoute: String,
-    status: String,
-    sessionStatusUserLogin: String
+    content: {
+      type: Object,
+      required: true
+    },
+    invitationCardContent: {
+      type: Object,
+      required: true
+    },
+    friends: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    user: {
+      type: Object,
+      required: true
+    },
+    formJoinGameRoute: {
+      type: String,
+      "default": ''
+    },
+    contentPayments: {
+      type: Object,
+      required: true
+    },
+    payments: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    cancelPaymentRoute: {
+      type: String,
+      "default": ''
+    },
+    status: {
+      type: String,
+      "default": ''
+    },
+    sessionStatusUserLogin: {
+      type: String,
+      "default": ''
+    }
   },
   data: function data() {
     return {
@@ -3136,22 +3347,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return window.Echo.join('connect');
     },
     invitationChannel: function invitationChannel() {
-      return window.Echo["private"]('invitation.' + this.user.id);
+      return window.Echo["private"]("invitation.".concat(this.user.id));
     }
   },
   mounted: function mounted() {
     var _this = this;
 
-    console.log(this.friends);
     this.connectChannel.here(function (users) {
       _this.activeUsers = users;
     }).joining(function (user) {
-      console.log(_this.activeUsers);
-
       _this.activeUsers.push(user);
     }).leaving(function (user) {
       _this.activeUsers.splice(_this.activeUsers.indexOf(user), 1);
-    }), this.invitationChannel.listen('SendInvitation', function (_ref) {
+    });
+    this.invitationChannel.listen('SendInvitation', function (_ref) {
       var srcUserId = _ref.srcUserId,
           srcUserLogin = _ref.srcUserLogin;
       _this.invitationText = _this.invitationCardContent.text;
@@ -3161,29 +3370,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this.isSendInvitation = true;
     });
   },
-  methods: _defineProperty({
-    // sendMessage() {
-    //     axios.post('/messages', { body: this.textMessage, room_id: 1});
-    //     this.messages.push(this.textMessage);
-    //     this.textMessage = '';
-    // },
-    // actionUser() {
-    //     this.channel
-    //         .whisper('typing', {
-    //             name: this.user.name
-    //         });
-    // },
+  methods: {
     isOnline: function isOnline(friendLogin) {
-      if (this.activeUsers.indexOf(friendLogin) !== -1) return 'friends-card__item__online';
-      return 'friends-card__item__offline';
+      if (this.activeUsers.indexOf(friendLogin) !== -1) return true;
+      return false;
     }
-  }, "isOnline", function isOnline(friendLogin) {
-    if (this.activeUsers.indexOf(friendLogin) !== -1) return true;
-    return false;
-  }),
-  components: {
-    'invitation-alert-card-component': _InvitationAlertCardComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'payments-component': _PaymentsComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -3219,9 +3410,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    nameProject: String
+    nameProject: {
+      type: String,
+      "default": ''
+    }
   }
 });
 
@@ -3254,12 +3455,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    invitationText: String,
-    formRoute: String,
-    formButtonCaption: String,
-    opponentId: Number
+    invitationText: {
+      type: String,
+      "default": ''
+    },
+    formRoute: {
+      type: String,
+      "default": ''
+    },
+    formButtonCaption: {
+      type: String,
+      "default": ''
+    },
+    opponentId: {
+      type: Number,
+      "default": 0
+    }
   },
   data: function data() {
     return {
@@ -3344,13 +3581,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    content: Object,
-    payments: Array,
-    cancelPaymentRoute: String,
-    status: String,
-    sessionStatusUserLogin: String
+    content: {
+      type: Object,
+      required: true
+    },
+    payments: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    cancelPaymentRoute: {
+      type: String,
+      "default": ''
+    },
+    status: {
+      type: String,
+      "default": ''
+    },
+    sessionStatusUserLogin: {
+      type: String,
+      "default": ''
+    }
   },
   data: function data() {
     return {
@@ -3386,7 +3659,7 @@ __webpack_require__.r(__webpack_exports__);
       return JSON.stringify(payment);
     },
     getIdForm: function getIdForm(payment) {
-      return 'delPaymentForm_' + payment.loginOpponent;
+      return "delPaymentForm_".concat(payment.loginOpponent);
     },
     paymentMessageClass: function paymentMessageClass(value) {
       if (value > 0) {
@@ -3454,17 +3727,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    // content: Object,
-    userParameters: Object // roomId: String,
-    // roomName: String
-
+    userParameters: {
+      type: Object,
+      required: true
+    }
   },
   data: function data() {
-    return {// roomUrl: '/game/room/' + this.roomId + '/finish_game_session',
-      // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    };
+    return {};
   },
   mounted: function mounted() {},
   methods: {}
@@ -3481,15 +3769,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HeaderComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HeaderComponent */ "./resources/js/components/home-component/HeaderComponent.vue");
-/* harmony import */ var _UserStatusComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserStatusComponent */ "./resources/js/components/home-component/UserStatusComponent.vue");
-/* harmony import */ var _FriendsAndPaymentsComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FriendsAndPaymentsComponent */ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue");
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _HeaderComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HeaderComponent.vue */ "./resources/js/components/home-component/HeaderComponent.vue");
+/* harmony import */ var _UserStatusComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserStatusComponent.vue */ "./resources/js/components/home-component/UserStatusComponent.vue");
+/* harmony import */ var _FriendsAndPaymentsComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FriendsAndPaymentsComponent.vue */ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue");
 //
 //
 //
@@ -3514,28 +3796,62 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    nameProject: String,
-    content: Object,
-    contentPayments: Object,
-    invitationCardContent: Object,
-    friends: Array,
-    user: Object,
-    payments: Array,
-    formJoinGameRoute: String,
-    cancelPaymentRoute: String,
-    status: String,
-    sessionStatusUserLogin: String
-  },
-  mounted: function mounted() {
-    console.log('status');
-    console.log(this.status);
-  },
   components: {
-    'header-component': _HeaderComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'user-status-component': _UserStatusComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'friends-and-payments-component': _FriendsAndPaymentsComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }
+    'header-component': _HeaderComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'user-status-component': _UserStatusComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'friends-and-payments-component': _FriendsAndPaymentsComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  props: {
+    nameProject: {
+      type: String,
+      "default": ''
+    },
+    content: {
+      type: Object,
+      required: true
+    },
+    contentPayments: {
+      type: Object,
+      required: true
+    },
+    invitationCardContent: {
+      type: Object,
+      required: true
+    },
+    friends: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    user: {
+      type: Object,
+      required: true
+    },
+    payments: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    formJoinGameRoute: {
+      type: String,
+      "default": ''
+    },
+    cancelPaymentRoute: {
+      type: String,
+      "default": ''
+    },
+    status: {
+      type: String,
+      "default": ''
+    },
+    sessionStatusUserLogin: {
+      type: String,
+      "default": ''
+    }
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -3584,12 +3900,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    propsArray: Object,
-    formRoute: String,
-    oldLogin: String,
-    oldErrors: Array
+    propsArray: {
+      type: Object,
+      required: true
+    },
+    formRoute: {
+      type: String,
+      "default": ''
+    },
+    oldLogin: {
+      type: String,
+      "default": ''
+    },
+    oldErrors: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    }
   },
   data: function data() {
     return {
@@ -3649,13 +4026,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    propsArray: Object,
-    formRoute: String,
-    oldName: String,
-    oldRegLogin: String,
-    oldErrors: Object
+    propsArray: {
+      type: Object,
+      required: true
+    },
+    formRoute: {
+      type: String,
+      "default": ''
+    },
+    oldName: {
+      type: String,
+      "default": ''
+    },
+    oldRegLogin: {
+      type: String,
+      "default": ''
+    },
+    oldErrors: {
+      type: Object,
+      "default": function _default() {}
+    }
   },
   data: function data() {
     return {
@@ -3675,8 +4122,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _LoginFormComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginFormComponent */ "./resources/js/components/login-and-registration-component/LoginFormComponent.vue");
-/* harmony import */ var _RegistrationFormComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegistrationFormComponent */ "./resources/js/components/login-and-registration-component/RegistrationFormComponent.vue");
+/* harmony import */ var _LoginFormComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginFormComponent.vue */ "./resources/js/components/login-and-registration-component/LoginFormComponent.vue");
+/* harmony import */ var _RegistrationFormComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegistrationFormComponent.vue */ "./resources/js/components/login-and-registration-component/RegistrationFormComponent.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -3706,15 +4157,45 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'login-form-component': _LoginFormComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'registration-form-component': _RegistrationFormComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   props: {
-    typeForm: String,
-    propsArray: Object,
-    formRouteLogin: String,
-    formRouteRegistration: String,
-    oldLogin: String,
-    oldRegLogin: String,
-    oldName: String,
-    oldErrors: String
+    typeForm: {
+      type: String,
+      "default": ''
+    },
+    propsArray: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    formRouteLogin: {
+      type: String,
+      "default": ''
+    },
+    formRouteRegistration: {
+      type: String,
+      "default": ''
+    },
+    oldLogin: {
+      type: String,
+      "default": ''
+    },
+    oldRegLogin: {
+      type: String,
+      "default": ''
+    },
+    oldName: {
+      type: String,
+      "default": ''
+    },
+    oldErrors: {
+      type: String,
+      "default": ''
+    }
   },
   data: function data() {
     return {
@@ -3740,10 +4221,6 @@ __webpack_require__.r(__webpack_exports__);
     enterLogin: function enterLogin() {
       this.currentAction = 'login';
     }
-  },
-  components: {
-    'login-form-component': _LoginFormComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'registration-form-component': _RegistrationFormComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -55407,7 +55884,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "uk-width-auto " }, [
+  return _c("div", { staticClass: "uk-width-auto" }, [
     _c("div", { staticClass: "uk-background-muted uk-padding-small" }, [
       _c("div", { staticClass: "uk-flex" }, [
         _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
@@ -55420,11 +55897,22 @@ var render = function() {
             [
               _vm._l(_vm.getMessages, function(message, index) {
                 return [
-                  _c("li", { class: { money__text_color_blue: index % 2 } }, [
-                    _vm._v(
-                      _vm._s(message.login) + ": + " + _vm._s(message.money)
-                    )
-                  ])
+                  _c(
+                    "li",
+                    {
+                      key: index,
+                      class: { money__text_color_blue: index % 2 }
+                    },
+                    [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(message.login) +
+                          ": + " +
+                          _vm._s(message.money) +
+                          "\n            "
+                      )
+                    ]
+                  )
                 ]
               })
             ],
@@ -55445,7 +55933,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", [
             _c("span", { staticClass: "uk-text money__total-text" }, [
-              _vm._v(_vm._s(_vm.money) + " ")
+              _vm._v("\n            " + _vm._s(_vm.money) + "\n          ")
             ])
           ]),
           _vm._v(" "),
@@ -55520,9 +56008,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
+                      "\n        " +
                         _vm._s(_vm.buttonsCaptions.startButton) +
-                        "\r\n            "
+                        "\n      "
                     )
                   ]
                 )
@@ -55542,9 +56030,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
+                      "\n        " +
                         _vm._s(_vm.buttonsCaptions.changeCards) +
-                        "\r\n            "
+                        "\n      "
                     )
                   ]
                 )
@@ -55564,9 +56052,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
+                      "\n        " +
                         _vm._s(_vm.buttonsCaptions.notChange) +
-                        "\r\n            "
+                        "\n      "
                     )
                   ]
                 )
@@ -55586,9 +56074,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
-                        _vm._s(_vm.addMoneyCaption) +
-                        "\r\n            "
+                      "\n        " + _vm._s(_vm.addMoneyCaption) + "\n      "
                     )
                   ]
                 )
@@ -55608,9 +56094,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
+                      "\n        " +
                         _vm._s(_vm.buttonsCaptions.noMoney) +
-                        "\r\n            "
+                        "\n      "
                     )
                   ]
                 )
@@ -55630,9 +56116,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
-                        _vm._s(_vm.equalAndAddCaption) +
-                        "\r\n            "
+                      "\n        " + _vm._s(_vm.equalAndAddCaption) + "\n      "
                     )
                   ]
                 )
@@ -55650,13 +56134,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _vm._v(
-                      "\r\n                " +
-                        _vm._s(_vm.equalCaption) +
-                        "\r\n            "
-                    )
-                  ]
+                  [_vm._v("\n        " + _vm._s(_vm.equalCaption) + "\n      ")]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -55674,9 +56152,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
+                      "\n        " +
                         _vm._s(_vm.buttonsCaptions.gameOver) +
-                        "\r\n            "
+                        "\n      "
                     )
                   ]
                 )
@@ -55696,9 +56174,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                " +
+                      "\n        " +
                         _vm._s(_vm.buttonsCaptions.then) +
-                        "\r\n            "
+                        "\n      "
                     )
                   ]
                 )
@@ -55747,30 +56225,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172& ***!
-  \****************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [_c("div", { class: _vm.getIndicatorClass() })])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&":
 /*!********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb& ***!
@@ -55792,7 +56246,7 @@ var render = function() {
     [
       _c("div", [
         _c("p", { staticClass: "opponents-card__header-text" }, [
-          _vm._v("Карты соперника")
+          _vm._v("\n      Карты соперника\n    ")
         ]),
         _vm._v(" "),
         _vm.combination
@@ -55800,13 +56254,9 @@ var render = function() {
               "p",
               { staticClass: "uk-text opponents-card__combination-text" },
               [
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.printCombination) +
-                    "\n            "
-                ),
+                _vm._v("\n      " + _vm._s(_vm.printCombination) + "\n      "),
                 _c("br"),
-                _vm._v("\n            /" + _vm._s(_vm.points) + "\n        ")
+                _vm._v("\n      /" + _vm._s(_vm.points) + "\n    ")
               ]
             )
           : _vm._e()
@@ -55874,7 +56324,9 @@ var render = function() {
                   { staticClass: "uk-text uk-margin-remove header__user-name" },
                   [
                     _vm._v(
-                      _vm._s(_vm.user.name) + "\r\n                        "
+                      "\n              " +
+                        _vm._s(_vm.user.name) +
+                        "\n            "
                     )
                   ]
                 )
@@ -55891,16 +56343,11 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      _vm._s(_vm.content.balance) +
-                        ": \r\n                            "
+                      "\n              " +
+                        _vm._s(_vm.content.balance) +
+                        ":\n              "
                     ),
-                    _c("span", [
-                      _vm._v(
-                        "\r\n                                " +
-                          _vm._s(_vm.user.balance) +
-                          " \r\n                            "
-                      )
-                    ])
+                    _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")])
                   ]
                 ),
                 _vm._v(" "),
@@ -55933,7 +56380,7 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__victory-text"
                       },
                       [
-                        _vm._v("/в:\r\n                                    "),
+                        _vm._v("\n                  /в:\n                  "),
                         _c("span", [_vm._v(_vm._s(_vm.user.victory))])
                       ]
                     )
@@ -55947,7 +56394,7 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__gameover-text"
                       },
                       [
-                        _vm._v("п:\r\n                                    "),
+                        _vm._v("\n                  п:\n                  "),
                         _c("span", [_vm._v(_vm._s(_vm.user.gameover) + "/")])
                       ]
                     )
@@ -55977,11 +56424,7 @@ var render = function() {
                                   attrs: { href: "#" },
                                   on: { click: _vm.finishGameSession }
                                 },
-                                [
-                                  _vm._v(
-                                    "\r\n                                                Закончить игру"
-                                  )
-                                ]
+                                [_vm._v("Закончить игру")]
                               )
                             ])
                           ]
@@ -56011,7 +56454,7 @@ var staticRenderFns = [
           staticClass: "logo__img",
           attrs: { src: "/assets/images/logo.svg", alt: "" }
         }),
-        _vm._v("\r\n                        Зайте баки\r\n                    ")
+        _vm._v("\n            Зайте баки\n          ")
       ]
     )
   },
@@ -56078,7 +56521,7 @@ var render = function() {
   return _c("div", { staticClass: "uk-flex uk-flex-middle uk-padding" }, [
     _c("div", [
       _c("p", { staticClass: "uk-margin-remove" }, [
-        _vm._v(_vm._s(_vm.statusMessage))
+        _vm._v("\n      " + _vm._s(_vm.statusMessage) + "\n    ")
       ])
     ]),
     _vm._v(" "),
@@ -56132,13 +56575,9 @@ var render = function() {
               "p",
               { staticClass: "uk-text opponents-card__combination-text" },
               [
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.printCombination) +
-                    "\n            "
-                ),
+                _vm._v("\n      " + _vm._s(_vm.printCombination) + "\n      "),
                 _c("br"),
-                _vm._v("\n            /" + _vm._s(_vm.points) + "\n        ")
+                _vm._v("\n      /" + _vm._s(_vm.points) + "\n    ")
               ]
             )
           : _vm._e()
@@ -56206,6 +56645,11 @@ var render = function() {
           user: _vm.userParameters,
           "room-id": _vm.gameParameters.roomId,
           "room-name": _vm.roomName
+        },
+        on: {
+          "catch:error": function($event) {
+            return _vm.handleError(_vm.error)
+          }
         }
       }),
       _vm._v(" "),
@@ -56272,6 +56716,9 @@ var render = function() {
         on: {
           "update:parameters": function($event) {
             return _vm.updateParameters($event)
+          },
+          "catch:error": function($event) {
+            return _vm.handleError(_vm.error)
           }
         }
       }),
@@ -56298,7 +56745,7 @@ var render = function() {
           _c("h2", { staticClass: "uk-modal-title" }),
           _vm._v(" "),
           _c("p", { staticClass: "uk-text-center uk-text-danger" }, [
-            _vm._v(" " + _vm._s(_vm.getFinishGameMessage))
+            _vm._v("\n        " + _vm._s(_vm.getFinishGameMessage) + "\n      ")
           ]),
           _vm._v(" "),
           _c("button", {
@@ -56318,16 +56765,51 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\r\n                    ok\r\n                ")]
+              [_vm._v("\n          ok\n        ")]
             )
           ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "js-modal-error", "uk-modal": "" } }, [
+        _c("div", { staticClass: "uk-modal-dialog uk-modal-body" }, [
+          _c("h2", { staticClass: "uk-modal-title" }),
+          _vm._v(" "),
+          _c("p", { staticClass: "uk-text-center uk-text-danger" }, [
+            _vm._v(
+              "\n        " + _vm._s(_vm.content.errors.mainMessage) + "\n      "
+            )
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "uk-modal-close-outside",
+            attrs: { type: "button", "uk-close": "" }
+          }),
+          _vm._v(" "),
+          _vm._m(0)
         ])
       ])
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "uk-text-center" }, [
+      _c(
+        "button",
+        {
+          staticClass: "uk-button uk-button-danger uk-modal-close",
+          attrs: { type: "button" }
+        },
+        [_vm._v("\n          ok\n        ")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -56353,7 +56835,7 @@ var render = function() {
     "div",
     { staticClass: "uk-container" },
     [
-      this.isSendInvitation
+      _vm.isSendInvitation
         ? _c("invitation-alert-card-component", {
             attrs: {
               "invitation-text": _vm.invitationText,
@@ -56381,7 +56863,13 @@ var render = function() {
                   _c(
                     "h4",
                     { staticClass: "uk-margin-remove user-bar__friend-header" },
-                    [_vm._v(_vm._s(_vm.content.header))]
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.content.header) +
+                          "\n          "
+                      )
+                    ]
                   )
                 ]),
                 _vm._v(" "),
@@ -56405,11 +56893,11 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\r\n                            " +
+                                      "\n              " +
                                         _vm._s(friend.name) +
                                         "-" +
                                         _vm._s(friend.login) +
-                                        "\r\n                            "
+                                        "\n              "
                                     ),
                                     _c("span", {
                                       staticClass:
@@ -56440,11 +56928,11 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\r\n                                    " +
+                                              "\n                  " +
                                                 _vm._s(
                                                   _vm.content.startGameText
                                                 ) +
-                                                "\r\n                                "
+                                                "\n                "
                                             )
                                           ]
                                         ),
@@ -56492,11 +56980,11 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\r\n                            " +
+                                      "\n              " +
                                         _vm._s(friend.name) +
                                         "-" +
                                         _vm._s(friend.login) +
-                                        "\r\n                        "
+                                        "\n            "
                                     )
                                   ]
                                 )
@@ -56592,9 +57080,9 @@ var render = function() {
                       attrs: { src: "/assets/images/logo.svg", alt: "" }
                     }),
                     _vm._v(
-                      "\n                    " +
+                      "\n            " +
                         _vm._s(_vm.nameProject) +
-                        "\n                "
+                        "\n          "
                     )
                   ]
                 )
@@ -56646,11 +57134,7 @@ var render = function() {
               staticClass: "uk-button uk-button-secondary uk-button-small",
               attrs: { type: "submit", form: "startGameForm" }
             },
-            [
-              _vm._v(
-                "\n            " + _vm._s(_vm.formButtonCaption) + "\n        "
-              )
-            ]
+            [_vm._v("\n      " + _vm._s(_vm.formButtonCaption) + "\n    ")]
           ),
           _vm._v(" "),
           _c("input", {
@@ -56708,7 +57192,7 @@ var render = function() {
       _c("div", { staticClass: "uk-flex payment-block__header" }, [
         _c("div", { staticClass: "uk-margin-remove" }, [
           _c("h4", { staticClass: "uk-margin-remove user-bar__balance-text" }, [
-            _vm._v(_vm._s(_vm.content.header))
+            _vm._v("\n        " + _vm._s(_vm.content.header) + "\n      ")
           ])
         ]),
         _vm._v(" "),
@@ -56734,9 +57218,9 @@ var render = function() {
                         { class: _vm.paymentMessageClass(payment.moneyValue) },
                         [
                           _vm._v(
-                            "\r\n                            " +
+                            "\n              " +
                               _vm._s(_vm.getCreditMessage(payment)) +
-                              "\r\n                        "
+                              "\n            "
                           )
                         ]
                       )
@@ -56771,11 +57255,11 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\r\n                                    " +
+                                      "\n                  " +
                                         _vm._s(
                                           _vm.content.incomeButtonCaption
                                         ) +
-                                        "\r\n                                "
+                                        "\n                "
                                     )
                                   ]
                                 )
@@ -56874,7 +57358,13 @@ var render = function() {
                 staticClass:
                   "header__user-name header__status-text uk-margin-remove"
               },
-              [_vm._v(_vm._s(_vm.userParameters.name))]
+              [
+                _vm._v(
+                  "\n          " +
+                    _vm._s(_vm.userParameters.name) +
+                    "\n        "
+                )
+              ]
             )
           ]),
           _vm._v(" "),
@@ -56890,9 +57380,9 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "Баланс:\n                        " +
+                    "\n            Баланс:\n            " +
                       _vm._s(_vm.userParameters.balance) +
-                      "\n                    "
+                      "\n          "
                   )
                 ]
               )
@@ -56929,12 +57419,12 @@ var render = function() {
                     "header__victory-text header__status-text uk-margin-remove"
                 },
                 [
-                  _vm._v("/в:\n                    "),
+                  _vm._v("\n          /в:\n          "),
                   _c("span", [
                     _vm._v(
-                      "\n                        " +
+                      "\n            " +
                         _vm._s(_vm.userParameters.victory) +
-                        "\n                    "
+                        "\n          "
                     )
                   ])
                 ]
@@ -56950,13 +57440,9 @@ var render = function() {
                   "user-bar__gameover-text header__status-text uk-margin-remove"
               },
               [
-                _vm._v("п:\n                    "),
+                _vm._v("\n          п:\n          "),
                 _c("span", [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(_vm.userParameters.gameover) +
-                      "/\n                    "
-                  )
+                  _vm._v(" " + _vm._s(_vm.userParameters.gameover) + "/ ")
                 ])
               ]
             )
@@ -57075,7 +57561,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("h3", { staticClass: "uk-card-title" }, [
-        _vm._v(_vm._s(_vm.propsArray.formCaption))
+        _vm._v("\n    " + _vm._s(_vm.propsArray.formCaption) + "\n  ")
       ]),
       _vm._v(" "),
       _c("fieldset", { staticClass: "uk-fieldset" }, [
@@ -57123,14 +57609,18 @@ var render = function() {
             staticClass: "uk-button uk-width-1-1",
             attrs: { type: "submit", form: "loginForm" }
           },
-          [_vm._v(_vm._s(_vm.propsArray.formButtonCaption))]
+          [
+            _vm._v(
+              "\n      " + _vm._s(_vm.propsArray.formButtonCaption) + "\n    "
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
           "ul",
           _vm._l(_vm.oldErrors, function(error, index) {
             return _c("li", { key: index, staticClass: "uk-text-danger" }, [
-              _vm._v("\n                " + _vm._s(error) + "\n            ")
+              _vm._v("\n        " + _vm._s(error) + "\n      ")
             ])
           }),
           0
@@ -57139,7 +57629,9 @@ var render = function() {
         _c("label", [
           _c("p", { staticClass: "uk-text-center uk-margin-medium-top" }, [
             _vm._v(
-              _vm._s(_vm.propsArray.formDescription) + "\n                "
+              "\n        " +
+                _vm._s(_vm.propsArray.formDescription) +
+                "\n        "
             ),
             _c(
               "a",
@@ -57197,7 +57689,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("h3", { staticClass: "uk-card-title" }, [
-        _vm._v(_vm._s(_vm.propsArray.formCaption))
+        _vm._v("\n    " + _vm._s(_vm.propsArray.formCaption) + "\n  ")
       ]),
       _vm._v(" "),
       _c("fieldset", { staticClass: "uk-fieldset" }, [
@@ -57263,14 +57755,18 @@ var render = function() {
             staticClass: "uk-button uk-width-1-1",
             attrs: { type: "submit", form: "regForm" }
           },
-          [_vm._v(_vm._s(_vm.propsArray.formButtonCaption))]
+          [
+            _vm._v(
+              "\n      " + _vm._s(_vm.propsArray.formButtonCaption) + "\n    "
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
           "ul",
           _vm._l(_vm.oldErrors, function(error, index) {
             return _c("li", { key: index, staticClass: "uk-text-danger" }, [
-              _vm._v("\n                " + _vm._s(error[0]) + "\n            ")
+              _vm._v("\n        " + _vm._s(error[0]) + "\n      ")
             ])
           }),
           0
@@ -57279,7 +57775,9 @@ var render = function() {
         _c("label", [
           _c("p", { staticClass: "uk-text-center uk-margin-medium-top" }, [
             _vm._v(
-              _vm._s(_vm.propsArray.formDescription) + "\n                "
+              "\n        " +
+                _vm._s(_vm.propsArray.formDescription) +
+                "\n        "
             ),
             _c(
               "a",
@@ -57325,16 +57823,16 @@ var render = function() {
       "div",
       {
         staticClass:
-          "uk-card uk-card-default uk-align-center uk-width-1-1 uk-width-large@s uk-card-body uk-box-shadow-small uk-flex uk-flex-middle"
+          "uk-card uk-card-default uk-align-center uk-width-1-1\n    uk-width-large@s uk-card-body uk-box-shadow-small uk-flex uk-flex-middle"
       },
       [
         _vm.currentAction === "login"
           ? _c("login-form-component", {
               attrs: {
-                propsArray: _vm.propsArray["loginForm"],
-                formRoute: _vm.formRouteLogin,
-                oldLogin: _vm.oldLogin,
-                oldErrors: _vm.errorMessages["loginErrors"]
+                "props-array": _vm.propsArray["loginForm"],
+                "form-route": _vm.formRouteLogin,
+                "old-login": _vm.oldLogin,
+                "old-errors": _vm.errorMessages["loginErrors"]
               },
               on: { enterRegistration: _vm.enterRegistration }
             })
@@ -57343,11 +57841,11 @@ var render = function() {
         _vm.currentAction === "registration"
           ? _c("registration-form-component", {
               attrs: {
-                propsArray: _vm.propsArray["registrationForm"],
-                formRoute: _vm.formRouteRegistration,
-                oldName: _vm.oldName,
-                oldRegLogin: _vm.oldRegLogin,
-                oldErrors: _vm.errorRegMessages
+                "props-array": _vm.propsArray["registrationForm"],
+                "form-route": _vm.formRouteRegistration,
+                "old-name": _vm.oldName,
+                "old-reg-login": _vm.oldRegLogin,
+                "old-errors": _vm.errorRegMessages
               },
               on: { enterLogin: _vm.enterLogin }
             })
@@ -69617,10 +70115,11 @@ __webpack_require__.r(__webpack_exports__);
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -69656,6 +70155,12 @@ var app = new Vue({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -69691,19 +70196,12 @@ if (token) {
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-
 
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js"); // window.Pusher = require('pusher-js');
 
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
-  host: window.location.hostname + ':6001'
+  host: "".concat(window.location.hostname, ":6001")
 });
 
 /***/ }),
@@ -69841,75 +70339,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/game-component/GameIndicatorComponent.vue":
-/*!***************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameIndicatorComponent.vue ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameIndicatorComponent.vue?vue&type=template&id=56398172& */ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&");
-/* harmony import */ var _GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameIndicatorComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/game-component/GameIndicatorComponent.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameIndicatorComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&":
-/*!**********************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172& ***!
-  \**********************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameIndicatorComponent.vue?vue&type=template&id=56398172& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameIndicatorComponent.vue?vue&type=template&id=56398172&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameIndicatorComponent_vue_vue_type_template_id_56398172___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -70899,8 +71328,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\OSPanel\domains\poker\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\OSPanel\domains\poker\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! c:\OSPanel\domains\poker\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! c:\OSPanel\domains\poker\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
