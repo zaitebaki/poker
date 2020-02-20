@@ -14,7 +14,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Poker\User::class, function (Faker $faker) {
+$factory->define(App\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,

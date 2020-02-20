@@ -1,12 +1,12 @@
 <?php
 
-namespace Poker\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use Poker\User;
-use Poker\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\Controller;
+use App\User;
 
 class RegisterController extends Controller
 {
@@ -19,7 +19,7 @@ class RegisterController extends Controller
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
-    */
+     */
 
     use RegistersUsers;
 
@@ -37,7 +37,6 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
     }
 
     /**
@@ -48,10 +47,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        session(['typeForm' => 'registration']);
+
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'name'     => ['required', 'string', 'max:255'],
+            'reg-login'    => ['required', 'string', 'max:255', 'unique:users,login'],
+            'password' => ['required', 'string', 'min:6', 'max:255'],
         ]);
     }
 
@@ -59,13 +60,13 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \Poker\User
+     * @return \App\User
      */
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'name'     => $data['name'],
+            'login'    => $data['reg-login'],
             'password' => Hash::make($data['password']),
         ]);
     }

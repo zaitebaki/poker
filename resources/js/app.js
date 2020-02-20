@@ -4,10 +4,11 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import 'bootstrap-slider/dist/css/bootstrap-slider.css';
 
 require('./bootstrap');
-
 window.Vue = require('vue');
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,7 +21,9 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('login-and-registration-component', require('./components/login-and-registration-component/_LoginAndRegistrationComponent.vue').default);
+Vue.component('main-home-component', require('./components/home-component/_MainHomeComponent.vue').default);
+Vue.component('game-component', require('./components/game-component/_GameComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,5 +32,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app'
+  el: '#app',
 });

@@ -1,14 +1,208 @@
+.logo__img {
+  width: 35px;
+  fill: red;
+}
 
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+.logo__ruble-icon {
+  width: 11px;
+  height: 12px;
+  fill: greenyellow;
 
-// Variables
-@import 'variables';
+  &_big_width {
+    width: 20px;
+    height: 22px;
+    fill: green;
+  }
+  &_home_size {
+    width: 14px;
+    height: 15px;
+    fill: #32d296;
+  }
+}
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+.header {
+  &__logo-text {
+    color: white !important;
+  }
+  &__statistic-text {
+    color: greenyellow;
+  }
+  &__logo-text {
+    color: orange;
+  }
+  &__gameover-text {
+    color: red;
+  }
+  &__victory-text {
+    color: orange;
+  }
+  &__user-name {
+    color: orange;
+  }
+  &__status-text {
+    font-size: 20px;
+  }
+  &__balance-text {
+    color: green;
+  }
+}
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+.friends-card {
+  &__item__online {
+    color: green;
+  }
+  &__item__offline {
+    color: grey;
+  }
+}
+
+.status-text {
+  font-size: 22px;
+  &__background {
+    &_color_green {
+      background-color: #edfbf6;
+      color: #32d296;
+      @extend .status-text;
+    }
+    &_color_orange {
+      background-color: #fff6ee;
+      color: #faa05a;
+      @extend .status-text;
+    }
+    &_color_red {
+      background-color: #fef4f6;
+      color: #f0506e;
+      @extend .status-text;
+    }
+  }
+}
+
+.money {
+  &__icon {
+    width: 80px;
+    height: 100px;
+    fill: green;
+  }
+  &__text {
+    font-size: 16px;
+    &_color_red {
+      @extend .money__text;
+      color: dodgerblue;
+    }
+    &_color_blue {
+      @extend .money__text;
+      color: lightcoral;
+    }
+
+  }
+  &__total-text {
+    font-size: 28px;
+    font-weight: 700;
+    color: green;
+    padding-right: 5px;
+  }
+  &__message {
+    color: blue;
+  }
+}
+
+.card__img {
+  width: 15vw;
+  cursor: pointer;
+}
+
+.card__img_opponent-card_true {
+  width: 90px;
+}
+
+.card__img_change {
+  filter: grayscale(1);
+  transition: 0.05s ease-in-out;
+  margin-top: -25px;
+}
+
+.indicator__circle__status_ready {
+  width: 15px;
+  height: 15px;
+  background: greenyellow;
+  border-radius: 50%;
+}
+
+.indicator__circle__status_wait {
+  width: 15px;
+  height: 15px;
+  background: orange;
+  border-radius: 50%;
+}
+
+.slider-tick-label {
+  font-size: 10px;
+}
+
+.slider-horizontal {
+  width: 320px !important;
+}
+
+.cards-list-move {
+  transition: transform 1s;
+}
+
+.cards-list-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 10px;
+}
+.cards-list-enter, .cards-list-leave-to
+/* .list-complete-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.cards-list-leave-active {
+  position: absolute;
+}
+
+.opponents-card {
+  &__combination-text {
+    font-size: 22px;
+    color: lightcoral;
+  }
+
+  &__small-padding {
+    padding-top: 5px;
+  }
+
+  &__header-text {
+    color: dodgerblue;
+  }
+}
+
+.message-block {
+  &__smile {
+    padding-left: 20px;
+  }
+  &__smile-img {
+    width: 60px;
+  }
+}
+
+.user-bar {
+  &__money-div {
+    padding-right: 5px;
+  }
+  &__gameover-text {
+    color: lightcoral;
+  }
+  &__victory-div {
+    padding-right: 15px;
+  }
+  &__balance-text {
+    color: #32d296;
+  }
+  &__friend-header {
+    color: dodgerblue;
+  }
+}
+
+.payment-block__header {
+  margin-bottom: 20px;
 }

@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\testing"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\handler_error"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\zaitebaki"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\landrover-code"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\parsing-some-dict"
+		}
+	],
+	"settings": {}
+}
