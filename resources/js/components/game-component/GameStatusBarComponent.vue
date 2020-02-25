@@ -80,9 +80,6 @@
                   <div class="uk-navbar-dropdown">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
                       <li>
-                        <a href="#">Статистика</a>
-                      </li>
-                      <li>
                         <a
                           href="#"
                           @click="finishGameSession"

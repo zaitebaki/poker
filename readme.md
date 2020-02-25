@@ -22,7 +22,7 @@ Redis*
 
 **Личный кабинет**
 
-<p align="center"><img src="https://b.radikal.ru/b32/2002/28/1d474c26b899.png" width="520"></p>
+<p align="center"><img src="https://b.radikal.ru/b32/2002/28/1d474c26b899.png" width="800"></p>
 
 Личный кабинет должен содержать следующую информацию:
 
@@ -39,7 +39,7 @@ Redis*
 
 **Игровая комната**
 
-<p align="center"><img src="https://c.radikal.ru/c18/2002/6d/5ffc3a59fc45.png" width="520"></p>
+<p align="center"><img src="https://c.radikal.ru/c18/2002/6d/5ffc3a59fc45.png" width="800"></p>
 
 Игровая комната должна содержать следующие элементы:
 1. Панель информации
@@ -64,7 +64,7 @@ Redis*
 
 Схема базы данных:
 
-<p align="center"><img src="https://b.radikal.ru/b03/2002/e3/b94dea54323f.png" width="200"></p>
+<p align="center"><img src="https://b.radikal.ru/b03/2002/e3/b94dea54323f.png" width="300"></p>
 
 - Для хранения данных игровой сессии использовался база данных [Redis](https://redis.io/)
 

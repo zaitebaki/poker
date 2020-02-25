@@ -43,7 +43,7 @@ class StartedGameState extends State
 
             $this->context->saveCountFirstUserChangeCards($cntIndexes);
             $waitingMessage =
-            __(
+                __(
                 'main_page_content.gamePage.statusMessages.waitingMessage3',
                 ['user' => $this->context->opponentUser->name]
             );
@@ -63,7 +63,7 @@ class StartedGameState extends State
 
             \App\Events\SendFinishChangeStatus::dispatch($this->context->roomId);
             $waitingMessage =
-            __(
+                __(
                 'main_page_content.gamePage.statusMessages.waitingMessage4',
                 ['user' => $this->context->opponentUser->name]
             );
@@ -73,7 +73,7 @@ class StartedGameState extends State
 
         $this->context->saveChangedCardsFlag();
     }
-    
+
     /**
      * Поменять карты пользователя
      */

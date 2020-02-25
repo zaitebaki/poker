@@ -2477,9 +2477,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: {
@@ -4167,10 +4164,8 @@ __webpack_require__.r(__webpack_exports__);
       "default": ''
     },
     propsArray: {
-      type: Array,
-      "default": function _default() {
-        return [];
-      }
+      type: Object,
+      required: true
     },
     formRouteLogin: {
       type: String,
@@ -56415,8 +56410,6 @@ var render = function() {
                           "ul",
                           { staticClass: "uk-nav uk-navbar-dropdown-nav" },
                           [
-                            _vm._m(4),
-                            _vm._v(" "),
                             _c("li", [
                               _c(
                                 "a",
@@ -56489,12 +56482,6 @@ var staticRenderFns = [
       { staticClass: "uk-navbar-toggle uk-text-warning", attrs: { href: "#" } },
       [_c("span", { attrs: { "uk-navbar-toggle-icon": "" } })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Статистика")])])
   }
 ]
 render._withStripped = true

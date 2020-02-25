@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
-use App\User;
 
 class RegisterController extends Controller
 {
@@ -50,9 +50,9 @@ class RegisterController extends Controller
         session(['typeForm' => 'registration']);
 
         return Validator::make($data, [
-            'name'     => ['required', 'string', 'max:255'],
-            'reg-login'    => ['required', 'string', 'max:255', 'unique:users,login'],
-            'password' => ['required', 'string', 'min:6', 'max:255'],
+            'name'      => ['required', 'string', 'max:255'],
+            'reg-login' => ['required', 'string', 'max:255', 'unique:users,login'],
+            'password'  => ['required', 'string', 'min:6', 'max:255'],
         ]);
     }
 

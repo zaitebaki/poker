@@ -43,8 +43,8 @@ export default {
       default: '',
     },
     propsArray: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      required: true,
     },
     formRouteLogin: {
       type: String,
