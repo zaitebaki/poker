@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
+use Auth;
 use Exception;
 use Log;
-use Auth;
 
 class UnauthorizedRoomAccessException extends Exception
 {

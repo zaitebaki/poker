@@ -22,7 +22,7 @@ class SendFinishBettingStatus implements ShouldBroadcast
     public $moneyIncrease;
     public function __construct($roomId, $money, $moneyIncrease)
     {
-        $this->roomId         = $roomId;
+        $this->roomId        = $roomId;
         $this->money         = $money;
         $this->moneyIncrease = $moneyIncrease;
         $this->dontBroadcastToCurrentUser();

@@ -36,7 +36,7 @@ class ReadyState extends State
             $this->context->saveUserCards();
 
             $waitingMessage =
-            __(
+                __(
                 'main_page_content.gamePage.statusMessages.waitingMessage2',
                 ['user' => $this->context->opponentUser->name]
             );
@@ -52,12 +52,12 @@ class ReadyState extends State
                     \App\Events\SendStartedGameStatus::dispatch($this->context->roomId);
                 }
             }
-        // игру начинает пользователь-оппонент
+            // игру начинает пользователь-оппонент
         } else {
             $this->context->dump      = $userId;
             $this->context->userCards = $cards->getCards(5, 5);
             $waitingMessage           =
-            __(
+                __(
                 'main_page_content.gamePage.statusMessages.waitingMessage3',
                 ['user' => $this->context->opponentUser->name]
             );

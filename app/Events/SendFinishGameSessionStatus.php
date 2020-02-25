@@ -21,7 +21,7 @@ class SendFinishGameSessionStatus implements ShouldBroadcast
     public $opponentUserName;
     public function __construct($roomId, $opponentUserName)
     {
-        $this->roomId = $roomId;
+        $this->roomId           = $roomId;
         $this->opponentUserName = $opponentUserName;
         $this->dontBroadcastToCurrentUser();
     }

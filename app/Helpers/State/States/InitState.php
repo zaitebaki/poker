@@ -15,9 +15,9 @@ class InitState extends State
     {
         $waitingMessage =
             __(
-                'main_page_content.gamePage.statusMessages.waitingMessage',
-                ['user' => $this->context->opponentUser->name]
-            );
+            'main_page_content.gamePage.statusMessages.waitingMessage',
+            ['user' => $this->context->opponentUser->name]
+        );
         $this->context->updateState('WaitingState', $waitingMessage);
 
         // сохранить состояние кнопки "продолжить" (кнопка доступна)
