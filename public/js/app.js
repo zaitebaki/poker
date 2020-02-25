@@ -4167,10 +4167,8 @@ __webpack_require__.r(__webpack_exports__);
       "default": ''
     },
     propsArray: {
-      type: Array,
-      "default": function _default() {
-        return [];
-      }
+      type: Object,
+      required: true
     },
     formRouteLogin: {
       type: String,
