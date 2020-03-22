@@ -1,22 +1,31 @@
 {
 	"folders": [
 		{
-			"path": "."
-		},
-		{
-			"path": "C:\\OSPanel\\domains\\testing"
-		},
-		{
-			"path": "C:\\OSPanel\\domains\\handler_error"
-		},
-		{
+			"name": "zaitebaki",
 			"path": "C:\\OSPanel\\domains\\zaitebaki"
 		},
 		{
+			"name": "landrover-code",
 			"path": "C:\\OSPanel\\domains\\landrover-code"
 		},
 		{
+			"name": "parsing-some-dict",
 			"path": "C:\\OSPanel\\domains\\parsing-some-dict"
+		},
+		{
+			"name": "poker",
+			"path": "."
+		},
+		{
+			"name": "testing",
+			"path": "C:\\OSPanel\\domains\\testing"
+		},
+		{
+			"name": "handler_error",
+			"path": "C:\\OSPanel\\domains\\handler_error"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\flix2"
 		}
 	],
 	"settings": {}

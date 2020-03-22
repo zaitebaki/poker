@@ -6,10 +6,10 @@ use App\Exceptions\UnauthorizedRoomAccessException;
 use App\Helpers\State\GamePlay;
 use App\Helpers\State\States\FinishState;
 use App\Http\Controllers\Controller;
+use App\Payment;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
-use App\User;
-use App\Payment;
 
 class GameController extends \App\Http\Controllers\SuperController
 {
@@ -26,7 +26,7 @@ class GameController extends \App\Http\Controllers\SuperController
     }
 
     /**
-     * Приглась пользователя-оппонента начать партию
+     * Пригласить пользователя-оппонента начать партию
      */
     public function invitationMessage(Request $request)
     {
@@ -114,17 +114,17 @@ class GameController extends \App\Http\Controllers\SuperController
         $paymentData = json_decode($request->data);
 
         // удалить "финансовое" сообщение у текущего пользователя
-        $paymentId = $paymentData->idPayment;
-        $payment = $this->user->payments()->get();
-        $payment = $payment->where('id', $paymentId)->first();
+        $paymentId  = $paymentData->idPayment;
+        $payment    = $this->user->payments()->get();
+        $payment    = $payment->where('id', $paymentId)->first();
         $opponentId = $payment->opponent_user_id;
 
         $this->user->payments()->detach($paymentId);
         Payment::destroy($paymentId);
 
         // удалить "финансовое" сообщение у пользователя-оппонента
-        $opponentUser = User::find($opponentId);
-        $paymentOpponent    = $opponentUser->payments()->get();
+        $opponentUser    = User::find($opponentId);
+        $paymentOpponent = $opponentUser->payments()->get();
         $paymentOpponent = $paymentOpponent->where('opponent_user_id', $this->user->id)->first();
 
         $paymentId = $paymentOpponent->id;
@@ -223,9 +223,9 @@ class GameController extends \App\Http\Controllers\SuperController
      */
     public function finishGameSession(Request $request, $room_id)
     {
-        
+
         $roomName = 'room_' . $room_id;
-        $userId =  $this->user->id;
+        $userId   = $this->user->id;
         $userName = $this->user->login;
 
         // удалить данные о текущем сеансе игры из бд Redis
@@ -238,7 +238,7 @@ class GameController extends \App\Http\Controllers\SuperController
 
         \App\Events\SendFinishGameSessionStatus::dispatch($room_id, $userName);
     }
-    
+
     /**
      * Получить id пользователя-оппонента
      */
@@ -246,7 +246,7 @@ class GameController extends \App\Http\Controllers\SuperController
     {
         $id = Redis::get($roomName . ':idUserCurrent');
 
-        if ($userId === (int)$id) {
+        if ($userId === (int) $id) {
             return Redis::get($roomName . ':idUserOpponent');
         } else {
             return $id;

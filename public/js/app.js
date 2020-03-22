@@ -1986,8 +1986,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2458,25 +2456,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: {
@@ -2504,7 +2483,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {},
   methods: {
-    // Закончить сеанс игры
+    // закончить сеанс игры
     finishGameSession: function finishGameSession() {
       var _this = this;
 
@@ -3386,9 +3365,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -56003,9 +55979,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " +
+                      "\n          " +
                         _vm._s(_vm.buttonsCaptions.startButton) +
-                        "\n      "
+                        "\n        "
                     )
                   ]
                 )
@@ -56025,9 +56001,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " +
+                      "\n          " +
                         _vm._s(_vm.buttonsCaptions.changeCards) +
-                        "\n      "
+                        "\n        "
                     )
                   ]
                 )
@@ -56047,9 +56023,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " +
+                      "\n          " +
                         _vm._s(_vm.buttonsCaptions.notChange) +
-                        "\n      "
+                        "\n        "
                     )
                   ]
                 )
@@ -56069,7 +56045,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " + _vm._s(_vm.addMoneyCaption) + "\n      "
+                      "\n          " +
+                        _vm._s(_vm.addMoneyCaption) +
+                        "\n        "
                     )
                   ]
                 )
@@ -56089,9 +56067,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " +
+                      "\n          " +
                         _vm._s(_vm.buttonsCaptions.noMoney) +
-                        "\n      "
+                        "\n        "
                     )
                   ]
                 )
@@ -56111,7 +56089,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " + _vm._s(_vm.equalAndAddCaption) + "\n      "
+                      "\n          " +
+                        _vm._s(_vm.equalAndAddCaption) +
+                        "\n        "
                     )
                   ]
                 )
@@ -56129,7 +56109,11 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("\n        " + _vm._s(_vm.equalCaption) + "\n      ")]
+                  [
+                    _vm._v(
+                      "\n          " + _vm._s(_vm.equalCaption) + "\n        "
+                    )
+                  ]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -56147,9 +56131,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " +
+                      "\n          " +
                         _vm._s(_vm.buttonsCaptions.gameOver) +
-                        "\n      "
+                        "\n        "
                     )
                   ]
                 )
@@ -56169,9 +56153,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " +
+                      "\n          " +
                         _vm._s(_vm.buttonsCaptions.then) +
-                        "\n      "
+                        "\n        "
                     )
                   ]
                 )
@@ -56319,9 +56303,9 @@ var render = function() {
                   { staticClass: "uk-text uk-margin-remove header__user-name" },
                   [
                     _vm._v(
-                      "\n              " +
+                      "\n                " +
                         _vm._s(_vm.user.name) +
-                        "\n            "
+                        "\n              "
                     )
                   ]
                 )
@@ -56338,9 +56322,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n              " +
+                      "\n                " +
                         _vm._s(_vm.content.balance) +
-                        ":\n              "
+                        ":\n                "
                     ),
                     _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")])
                   ]
@@ -56375,7 +56359,9 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__victory-text"
                       },
                       [
-                        _vm._v("\n                  /в:\n                  "),
+                        _vm._v(
+                          "\n                    /в:\n                    "
+                        ),
                         _c("span", [_vm._v(_vm._s(_vm.user.victory))])
                       ]
                     )
@@ -56389,7 +56375,9 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__gameover-text"
                       },
                       [
-                        _vm._v("\n                  п:\n                  "),
+                        _vm._v(
+                          "\n                    п:\n                    "
+                        ),
                         _c("span", [_vm._v(_vm._s(_vm.user.gameover) + "/")])
                       ]
                     )
@@ -56447,7 +56435,7 @@ var staticRenderFns = [
           staticClass: "logo__img",
           attrs: { src: "/assets/images/logo.svg", alt: "" }
         }),
-        _vm._v("\n            Зайте баки\n          ")
+        _vm._v("\n              Зайте баки\n            ")
       ]
     )
   },
@@ -71315,8 +71303,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\OSPanel\domains\poker\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\OSPanel\domains\poker\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! c:\OSPanel\domains\poker\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! c:\OSPanel\domains\poker\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
