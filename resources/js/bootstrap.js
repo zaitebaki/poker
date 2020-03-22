@@ -48,7 +48,6 @@ if (token) {
 }
 
 window.io = require('socket.io-client');
-
 // window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({

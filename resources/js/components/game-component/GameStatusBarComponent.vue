@@ -129,7 +129,7 @@ export default {
   mounted() {},
 
   methods: {
-    // Закончить сеанс игры
+    // закончить сеанс игры
     finishGameSession() {
       axios
         .post(this.roomUrl, {})
