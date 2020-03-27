@@ -8,10 +8,15 @@
       <!-- логотип с описанием -->
       <div class="logo">
         <h4 class="uk-text-center uk-padding-remove uk-margin-remove">
-          <a href="/"
-class="uk-link-heading">
+          <a
+            href="/"
+            class="uk-link-heading"
+          >
             <img
-src="/assets/images/logo.svg" alt="" class="logo__img" />
+              src="/assets/images/logo.svg"
+              alt=""
+              class="logo__img"
+            >
             {{ nameProject }}
           </a>
         </h4>
