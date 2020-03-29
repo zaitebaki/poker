@@ -1,12 +1,15 @@
 <template>
   <div
-    class="uk-margin-medium-top uk-margin-medium-bottom"
+    class="gbpc__margin uk-align-center"
     :class="{'uk-margin-remove uk-padding-small': isActiveButton('then')}"
   >
-    <div class="uk-flex uk-flex-center">
+    <div
+      class="uk-align-center gbpc__margin_none"
+      uk-grid
+    >
       <p
         uk-margin
-        class="uk-margin-remove"
+        class="uk-margin-remove uk-padding-remove uk-text-center"
       >
         <button
           v-if="isActiveButton('startGame')"
@@ -384,3 +387,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .gbpc__margin_none {
+    margin: 0;
+  }
+  .gbpc__margin {
+    margin: 30px 0 30px 0;
+  }
+  @media (max-width: 640px) {
+    .gbpc__margin {
+      margin: 20px 0 20px 0;
+    }
+  }
+</style>
+

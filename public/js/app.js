@@ -1988,6 +1988,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2286,6 +2289,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     cards: {
@@ -2326,20 +2373,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sortCards: function sortCards() {
-      // let copyCardsArr = this.arrCards.slice();
-      // let obj = {};
-      // copyCardsArr.forEach(function(currentValue, index) {
-      //     obj[currentValue] = index;
-      // });
-      // this.copyCardsObj = obj;
       this.arrCards.sort(this.compareCards);
     },
     compareCards: function compareCards(a, b) {
       var valueA = this.getValueForSmb(a);
       var valueB = this.getValueForSmb(b);
       if (valueA > valueB) return 1;
-      if (valueA === valueB) return 0; // valueA < valueB
-
+      if (valueA === valueB) return 0;
       return -1;
     },
     getValueForSmb: function getValueForSmb(smb) {
@@ -2378,6 +2418,85 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2652,6 +2771,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     cards: {
@@ -2733,8 +2853,7 @@ __webpack_require__.r(__webpack_exports__);
       var valueA = this.getValueForSmb(a);
       var valueB = this.getValueForSmb(b);
       if (valueA > valueB) return 1;
-      if (valueA === valueB) return 0; // valueA < valueB
-
+      if (valueA === valueB) return 0;
       return -1;
     },
     getValueForSmb: function getValueForSmb(smb) {
@@ -3272,6 +3391,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3599,6 +3720,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: {
@@ -3743,6 +3866,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     userParameters: {
@@ -3771,6 +3954,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HeaderComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HeaderComponent.vue */ "./resources/js/components/home-component/HeaderComponent.vue");
 /* harmony import */ var _UserStatusComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserStatusComponent.vue */ "./resources/js/components/home-component/UserStatusComponent.vue");
 /* harmony import */ var _FriendsAndPaymentsComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FriendsAndPaymentsComponent.vue */ "./resources/js/components/home-component/FriendsAndPaymentsComponent.vue");
+//
+//
 //
 //
 //
@@ -13165,6 +13350,139 @@ exports = module.exports = __webpack_require__(/*! ../../../css-loader/lib/css-b
 
 // module
 exports.push([module.i, "/*! =======================================================\n                      VERSION  10.6.2              \n========================================================= */\n/*! =========================================================\n * bootstrap-slider.js\n *\n * Maintainers:\n *\t\tKyle Kemp\n *\t\t\t- Twitter: @seiyria\n *\t\t\t- Github:  seiyria\n *\t\tRohit Kalkur\n *\t\t\t- Twitter: @Rovolutionary\n *\t\t\t- Github:  rovolution\n *\n * =========================================================\n  *\n * bootstrap-slider is released under the MIT License\n * Copyright (c) 2019 Kyle Kemp, Rohit Kalkur, and contributors\n * \n * Permission is hereby granted, free of charge, to any person\n * obtaining a copy of this software and associated documentation\n * files (the \"Software\"), to deal in the Software without\n * restriction, including without limitation the rights to use,\n * copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the\n * Software is furnished to do so, subject to the following\n * conditions:\n * \n * The above copyright notice and this permission notice shall be\n * included in all copies or substantial portions of the Software.\n * \n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\n * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES\n * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND\n * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT\n * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\n * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR\n * OTHER DEALINGS IN THE SOFTWARE.\n *\n * ========================================================= */\n.slider {\n  display: inline-block;\n  vertical-align: middle;\n  position: relative;\n}\n.slider.slider-horizontal {\n  width: 210px;\n  height: 20px;\n}\n.slider.slider-horizontal .slider-track {\n  height: 10px;\n  width: 100%;\n  margin-top: -5px;\n  top: 50%;\n  left: 0;\n}\n.slider.slider-horizontal .slider-selection,\n.slider.slider-horizontal .slider-track-low,\n.slider.slider-horizontal .slider-track-high {\n  height: 100%;\n  top: 0;\n  bottom: 0;\n}\n.slider.slider-horizontal .slider-tick,\n.slider.slider-horizontal .slider-handle {\n  margin-left: -10px;\n}\n.slider.slider-horizontal .slider-tick.triangle,\n.slider.slider-horizontal .slider-handle.triangle {\n  position: relative;\n  top: 50%;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%);\n  border-width: 0 10px 10px 10px;\n  width: 0;\n  height: 0;\n  border-bottom-color: #2e6da4;\n  margin-top: 0;\n}\n.slider.slider-horizontal .slider-tick-container {\n  white-space: nowrap;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n}\n.slider.slider-horizontal .slider-tick-label-container {\n  white-space: nowrap;\n  margin-top: 20px;\n}\n.slider.slider-horizontal .slider-tick-label-container .slider-tick-label {\n  padding-top: 4px;\n  display: inline-block;\n  text-align: center;\n}\n.slider.slider-horizontal .tooltip {\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n}\n.slider.slider-horizontal.slider-rtl .slider-track {\n  left: initial;\n  right: 0;\n}\n.slider.slider-horizontal.slider-rtl .slider-tick,\n.slider.slider-horizontal.slider-rtl .slider-handle {\n  margin-left: initial;\n  margin-right: -10px;\n}\n.slider.slider-horizontal.slider-rtl .slider-tick-container {\n  left: initial;\n  right: 0;\n}\n.slider.slider-horizontal.slider-rtl .tooltip {\n  -webkit-transform: translateX(50%);\n          transform: translateX(50%);\n}\n.slider.slider-vertical {\n  height: 210px;\n  width: 20px;\n}\n.slider.slider-vertical .slider-track {\n  width: 10px;\n  height: 100%;\n  left: 25%;\n  top: 0;\n}\n.slider.slider-vertical .slider-selection {\n  width: 100%;\n  left: 0;\n  top: 0;\n  bottom: 0;\n}\n.slider.slider-vertical .slider-track-low,\n.slider.slider-vertical .slider-track-high {\n  width: 100%;\n  left: 0;\n  right: 0;\n}\n.slider.slider-vertical .slider-tick,\n.slider.slider-vertical .slider-handle {\n  margin-top: -10px;\n}\n.slider.slider-vertical .slider-tick.triangle,\n.slider.slider-vertical .slider-handle.triangle {\n  border-width: 10px 0 10px 10px;\n  width: 1px;\n  height: 1px;\n  border-left-color: #2e6da4;\n  border-right-color: #2e6da4;\n  margin-left: 0;\n  margin-right: 0;\n}\n.slider.slider-vertical .slider-tick-label-container {\n  white-space: nowrap;\n}\n.slider.slider-vertical .slider-tick-label-container .slider-tick-label {\n  padding-left: 4px;\n}\n.slider.slider-vertical .tooltip {\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%);\n}\n.slider.slider-vertical.slider-rtl .slider-track {\n  left: initial;\n  right: 25%;\n}\n.slider.slider-vertical.slider-rtl .slider-selection {\n  left: initial;\n  right: 0;\n}\n.slider.slider-vertical.slider-rtl .slider-tick.triangle,\n.slider.slider-vertical.slider-rtl .slider-handle.triangle {\n  border-width: 10px 10px 10px 0;\n}\n.slider.slider-vertical.slider-rtl .slider-tick-label-container .slider-tick-label {\n  padding-left: initial;\n  padding-right: 4px;\n}\n.slider.slider-disabled .slider-handle {\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#dfdfdf), to(#bebebe));\n  background-image: linear-gradient(to bottom, #dfdfdf 0%, #bebebe 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdfdfdf', endColorstr='#ffbebebe', GradientType=0);\n  background-repeat: repeat-x;\n}\n.slider.slider-disabled .slider-track {\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#e5e5e5), to(#e9e9e9));\n  background-image: linear-gradient(to bottom, #e5e5e5 0%, #e9e9e9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5e5e5', endColorstr='#ffe9e9e9', GradientType=0);\n  background-repeat: repeat-x;\n  cursor: not-allowed;\n}\n.slider input {\n  display: none;\n}\n.slider .tooltip {\n  pointer-events: none;\n}\n.slider .tooltip.top {\n  margin-top: -36px;\n}\n.slider .tooltip-inner {\n  white-space: nowrap;\n  max-width: none;\n}\n.slider .hide {\n  display: none;\n}\n.slider-track {\n  position: absolute;\n  cursor: pointer;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#f9f9f9));\n  background-image: linear-gradient(to bottom, #f5f5f5 0%, #f9f9f9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff9f9f9', GradientType=0);\n  background-repeat: repeat-x;\n  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);\n  border-radius: 4px;\n}\n.slider-selection {\n  position: absolute;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#f5f5f5));\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);\n  background-repeat: repeat-x;\n  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n.slider-selection.tick-slider-selection {\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#8ac1ef), to(#82b3de));\n  background-image: linear-gradient(to bottom, #8ac1ef 0%, #82b3de 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8ac1ef', endColorstr='#ff82b3de', GradientType=0);\n  background-repeat: repeat-x;\n}\n.slider-track-low,\n.slider-track-high {\n  position: absolute;\n  background: transparent;\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n.slider-handle {\n  position: absolute;\n  top: 0;\n  width: 20px;\n  height: 20px;\n  background-color: #337ab7;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#337ab7), to(#2e6da4));\n  background-image: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2e6da4', GradientType=0);\n  background-repeat: repeat-x;\n  -webkit-filter: none;\n          filter: none;\n  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);\n  border: 0px solid transparent;\n}\n.slider-handle:hover {\n  cursor: pointer;\n}\n.slider-handle.round {\n  border-radius: 50%;\n}\n.slider-handle.triangle {\n  background: transparent none;\n}\n.slider-handle.custom {\n  background: transparent none;\n}\n.slider-handle.custom::before {\n  line-height: 20px;\n  font-size: 20px;\n  content: '\\2605';\n  color: #726204;\n}\n.slider-tick {\n  position: absolute;\n  cursor: pointer;\n  width: 20px;\n  height: 20px;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#f5f5f5));\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);\n  background-repeat: repeat-x;\n  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);\n  box-sizing: border-box;\n  -webkit-filter: none;\n          filter: none;\n  opacity: 0.8;\n  border: 0px solid transparent;\n}\n.slider-tick.round {\n  border-radius: 50%;\n}\n.slider-tick.triangle {\n  background: transparent none;\n}\n.slider-tick.custom {\n  background: transparent none;\n}\n.slider-tick.custom::before {\n  line-height: 20px;\n  font-size: 20px;\n  content: '\\2605';\n  color: #726204;\n}\n.slider-tick.in-selection {\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#8ac1ef), to(#82b3de));\n  background-image: linear-gradient(to bottom, #8ac1ef 0%, #82b3de 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8ac1ef', endColorstr='#ff82b3de', GradientType=0);\n  background-repeat: repeat-x;\n  opacity: 1;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.gbpc__margin_none[data-v-7a916b6f] {\n  margin: 0;\n}\n.gbpc__margin[data-v-7a916b6f] {\n  margin: 30px 0 30px 0;\n}\n@media (max-width: 640px) {\n.gbpc__margin[data-v-7a916b6f] {\n    margin: 20px 0 20px 0;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.gocc__card[data-v-7f780adb] {\n  margin-left: 10px;\n}\n@media (max-width: 640px) {\n.opponents-card__mobile_text[data-v-7f780adb] {\n    padding: 0 0 0 15px;\n    margin: 0;\n}\n.opponents-card__mobile-combination[data-v-7f780adb] {\n    padding: 0 0 10px 15px;\n    margin: 0;\n}\n.opponents-card__header-text[data-v-7f780adb] {\n    font-size: 14px;\n}\n.gocc__card[data-v-7f780adb] {\n    margin-left: 5px;\n}\n.opponents-card__combination-text[data-v-7f780adb] {\n    font-size: 16px;\n}\n.fefefe[data-v-7f780adb] {\n    /* margin-left: 10px; */\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n@media (max-width: 640px) {\n.header__logo-text[data-v-efa8cc00] {\n    font-size: 14px;\n}\n.header__user-name[data-v-efa8cc00] {\n    font-size: 14px;\n}\n.header__statistic-text[data-v-efa8cc00] {\n    font-size: 13.5px;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n@media (max-width: 640px) {\n.gsc__mobile-text[data-v-b5b4332c] {\n    font-size: 16px;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.gucc__card[data-v-93aae86e] {\n  margin-left: 10px;\n}\n@media (max-width: 640px) {\n.gucc__card[data-v-93aae86e] {\n    margin-left: 5px;\n}\n.opponents-card__combination-text[data-v-93aae86e] {\n    font-size: 16px;\n}\n.opponents-card__mobile-text[data-v-93aae86e] {\n    padding-left: 15px;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n@media (max-width: 640px) {\n.cg__padding_none {\n    padding: 0 0 0 0;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n@media (min-width: 640px) {\n.pc__padding_none[data-v-cab4100a] {\n    padding: 0 0 0 10px;\n}\n}\n", ""]);
 
 // exports
 
@@ -54954,6 +55272,216 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./_GameComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -55881,7 +56409,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "uk-width-auto" }, [
+  return _c("div", { staticClass: "uk-width-auto@s uk-width-1-1" }, [
     _c("div", { staticClass: "uk-background-muted uk-padding-small" }, [
       _c("div", { staticClass: "uk-flex" }, [
         _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
@@ -55964,10 +56492,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&":
-/*!******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f& ***!
-  \******************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -55982,205 +56510,221 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "uk-margin-medium-top uk-margin-medium-bottom",
+      staticClass: "gbpc__margin uk-align-center",
       class: { "uk-margin-remove uk-padding-small": _vm.isActiveButton("then") }
     },
     [
-      _c("div", { staticClass: "uk-flex uk-flex-center" }, [
-        _c(
-          "p",
-          { staticClass: "uk-margin-remove", attrs: { "uk-margin": "" } },
-          [
-            _vm.isActiveButton("startGame")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-primary",
-                    attrs: { disabled: _vm.startButtonIndicator },
-                    on: {
-                      click: function($event) {
-                        return _vm.startGame()
+      _c(
+        "div",
+        {
+          staticClass: "uk-align-center gbpc__margin_none",
+          attrs: { "uk-grid": "" }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticClass: "uk-margin-remove uk-padding-remove uk-text-center",
+              attrs: { "uk-margin": "" }
+            },
+            [
+              _vm.isActiveButton("startGame")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-primary",
+                      attrs: { disabled: _vm.startButtonIndicator },
+                      on: {
+                        click: function($event) {
+                          return _vm.startGame()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " +
-                        _vm._s(_vm.buttonsCaptions.startButton) +
-                        "\n      "
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("changeCards")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-secondary",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
-                    on: {
-                      click: function($event) {
-                        return _vm.changeCards("change")
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.buttonsCaptions.startButton) +
+                          "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("changeCards")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-secondary",
+                      attrs: { disabled: _vm.indicatorStatus === "wait" },
+                      on: {
+                        click: function($event) {
+                          return _vm.changeCards("change")
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " +
-                        _vm._s(_vm.buttonsCaptions.changeCards) +
-                        "\n      "
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("notChange")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-danger",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
-                    on: {
-                      click: function($event) {
-                        return _vm.changeCards("no:change")
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.buttonsCaptions.changeCards) +
+                          "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("notChange")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-danger",
+                      attrs: { disabled: _vm.indicatorStatus === "wait" },
+                      on: {
+                        click: function($event) {
+                          return _vm.changeCards("no:change")
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " +
-                        _vm._s(_vm.buttonsCaptions.notChange) +
-                        "\n      "
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("addMoney")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-primary",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
-                    on: {
-                      click: function($event) {
-                        return _vm.addMoney()
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.buttonsCaptions.notChange) +
+                          "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("addMoney")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-primary",
+                      attrs: { disabled: _vm.indicatorStatus === "wait" },
+                      on: {
+                        click: function($event) {
+                          return _vm.addMoney()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " + _vm._s(_vm.addMoneyCaption) + "\n      "
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("noMoney")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-secondary",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
-                    on: {
-                      click: function($event) {
-                        return _vm.check()
+                    },
+                    [
+                      _vm._v(
+                        "\n        " + _vm._s(_vm.addMoneyCaption) + "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("noMoney")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-secondary",
+                      attrs: { disabled: _vm.indicatorStatus === "wait" },
+                      on: {
+                        click: function($event) {
+                          return _vm.check()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " +
-                        _vm._s(_vm.buttonsCaptions.noMoney) +
-                        "\n      "
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("equalAndAdd")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-primary",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
-                    on: {
-                      click: function($event) {
-                        return _vm.equalAndAdd()
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.buttonsCaptions.noMoney) +
+                          "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("equalAndAdd")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-primary",
+                      attrs: { disabled: _vm.indicatorStatus === "wait" },
+                      on: {
+                        click: function($event) {
+                          return _vm.equalAndAdd()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " + _vm._s(_vm.equalAndAddCaption) + "\n      "
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("equal")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-primary",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
-                    on: {
-                      click: function($event) {
-                        return _vm.equal()
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.equalAndAddCaption) +
+                          "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("equal")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-primary",
+                      attrs: { disabled: _vm.indicatorStatus === "wait" },
+                      on: {
+                        click: function($event) {
+                          return _vm.equal()
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("\n        " + _vm._s(_vm.equalCaption) + "\n      ")]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("gameOver")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-danger",
-                    attrs: { disabled: _vm.indicatorStatus === "wait" },
-                    on: {
-                      click: function($event) {
-                        return _vm.gameOver()
+                    },
+                    [
+                      _vm._v(
+                        "\n        " + _vm._s(_vm.equalCaption) + "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("gameOver")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-danger",
+                      attrs: { disabled: _vm.indicatorStatus === "wait" },
+                      on: {
+                        click: function($event) {
+                          return _vm.gameOver()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " +
-                        _vm._s(_vm.buttonsCaptions.gameOver) +
-                        "\n      "
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isActiveButton("then")
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "uk-button uk-button-danger",
-                    attrs: { disabled: _vm.newGameButtonIndicator },
-                    on: {
-                      click: function($event) {
-                        return _vm.then()
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.buttonsCaptions.gameOver) +
+                          "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isActiveButton("then")
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "uk-button uk-button-danger",
+                      attrs: { disabled: _vm.newGameButtonIndicator },
+                      on: {
+                        click: function($event) {
+                          return _vm.then()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n        " +
-                        _vm._s(_vm.buttonsCaptions.then) +
-                        "\n      "
-                    )
-                  ]
-                )
-              : _vm._e()
-          ]
-        )
-      ]),
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.buttonsCaptions.then) +
+                          "\n      "
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ]
+          )
+        ]
+      ),
       _vm._v(" "),
       !_vm.isActiveButton("then")
         ? _c(
@@ -56222,10 +56766,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&":
-/*!********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb& ***!
-  \********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56239,46 +56783,126 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "uk-flex uk-flex-middle opponents-card__small-padding" },
+    {
+      staticClass:
+        "uk-padding-small uk-padding-remove-left uk-padding-remove-right"
+    },
     [
-      _c("div", [
-        _c("p", { staticClass: "opponents-card__header-text" }, [
-          _vm._v("\n      Карты соперника\n    ")
+      _c("div", { staticClass: "uk-hidden@s" }, [
+        _c("div", [
+          _c(
+            "p",
+            {
+              staticClass:
+                "opponents-card__header-text opponents-card__mobile_text"
+            },
+            [_vm._v("\n        Карты соперника\n      ")]
+          ),
+          _vm._v(" "),
+          _vm.combination
+            ? _c(
+                "p",
+                {
+                  staticClass:
+                    "uk-text opponents-card__combination-text opponents-card__mobile-combination"
+                },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.printCombination) +
+                      "\n        / " +
+                      _vm._s(_vm.points) +
+                      "\n      "
+                  )
+                ]
+              )
+            : _vm._e()
         ]),
         _vm._v(" "),
-        _vm.combination
-          ? _c(
-              "p",
-              { staticClass: "uk-text opponents-card__combination-text" },
-              [
-                _vm._v("\n      " + _vm._s(_vm.printCombination) + "\n      "),
-                _c("br"),
-                _vm._v("\n      /" + _vm._s(_vm.points) + "\n    ")
-              ]
+        _c(
+          "div",
+          [
+            _c(
+              "transition-group",
+              {
+                staticClass:
+                  "uk-flex uk-margin-remove uk-padding-remove uk-flex-center",
+                attrs: { name: "cards-list", tag: "ul" }
+              },
+              _vm._l(_vm.arrCards, function(card, index) {
+                return _c("div", { key: card }, [
+                  _c("div", { class: { gocc__card: index !== 0 } }, [
+                    _c("img", {
+                      staticClass: "card__img card__img_opponent-card_true",
+                      attrs: { src: _vm.getPathToImage(index) }
+                    })
+                  ])
+                ])
+              }),
+              0
             )
-          : _vm._e()
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
-      _c(
-        "transition-group",
-        {
-          staticClass: "uk-flex uk-margin-remove",
-          attrs: { name: "cards-list", tag: "ul" }
-        },
-        _vm._l(_vm.arrCards, function(card, index) {
-          return _c("div", { key: card }, [
-            _c("div", { staticClass: "uk-margin-small-left" }, [
-              _c("img", {
-                staticClass: "card__img card__img_opponent-card_true",
-                attrs: { src: _vm.getPathToImage(index) }
-              })
-            ])
-          ])
-        }),
-        0
-      )
-    ],
-    1
+      _c("div", { staticClass: "uk-visible@s", attrs: { "uk-grid": "" } }, [
+        _c("div", [
+          _c(
+            "p",
+            {
+              staticClass:
+                "opponents-card__header-text opponents-card__mobile_text"
+            },
+            [_vm._v("\n        Карты соперника\n      ")]
+          ),
+          _vm._v(" "),
+          _vm.combination
+            ? _c(
+                "p",
+                {
+                  staticClass:
+                    "uk-text opponents-card__combination-text opponents-card__mobile-combination"
+                },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.printCombination) +
+                      "\n        / " +
+                      _vm._s(_vm.points) +
+                      "\n      "
+                  )
+                ]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          [
+            _c(
+              "transition-group",
+              {
+                staticClass: "uk-flex",
+                attrs: { name: "cards-list", tag: "ul" }
+              },
+              _vm._l(_vm.arrCards, function(card, index) {
+                return _c("div", { key: card }, [
+                  _c("div", { class: { gocc__card: index !== 0 } }, [
+                    _c("img", {
+                      staticClass: "card__img card__img_opponent-card_true",
+                      attrs: { src: _vm.getPathToImage(index) }
+                    })
+                  ])
+                ])
+              }),
+              0
+            )
+          ],
+          1
+        )
+      ])
+    ]
   )
 }
 var staticRenderFns = []
@@ -56288,10 +56912,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00& ***!
-  \****************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56309,29 +56933,29 @@ var render = function() {
       { staticClass: "uk-navbar-container uk-navbar-transparent uk-light" },
       [
         _c("div", { staticClass: "uk-container uk-container-expand" }, [
-          _c("div", { attrs: { "uk-navbar": "" } }, [
-            _c("div", { staticClass: "uk-navbar-left uk-margin-small-left" }, [
+          _c(
+            "div",
+            {
+              staticClass: "uk-child-width-1-2 uk-padding-small uk-hidden@s",
+              attrs: { "uk-grid": "" }
+            },
+            [
               _vm._m(0),
               _vm._v(" "),
-              _c("div", { staticClass: "uk-navbar-item" }, [
-                _vm._m(1),
-                _vm._v(" "),
+              _c("div", [
                 _c(
                   "p",
                   { staticClass: "uk-text uk-margin-remove header__user-name" },
                   [
+                    _vm._m(1),
                     _vm._v(
-                      "\n              " +
-                        _vm._s(_vm.user.name) +
-                        "\n            "
+                      "\n            " + _vm._s(_vm.user.name) + "\n          "
                     )
                   ]
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "uk-navbar-item" }, [
-                _vm._m(2),
-                _vm._v(" "),
+              _c("div", [
                 _c(
                   "p",
                   {
@@ -56339,35 +56963,36 @@ var render = function() {
                       "uk-text uk-margin-remove header__statistic-text"
                   },
                   [
+                    _vm._m(2),
                     _vm._v(
-                      "\n              " +
+                      "\n            " +
                         _vm._s(_vm.content.balance) +
-                        ":\n              "
+                        ":\n            "
                     ),
-                    _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "logo__ruble-icon",
-                    attrs: { "aria-hidden": "true" }
-                  },
-                  [
-                    _c("use", {
-                      attrs: {
-                        "xlink:href":
-                          "/assets/images/game/ruble-icon.svg#Capa_1"
-                      }
-                    })
+                    _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")]),
+                    _vm._v(" "),
+                    _c("span", [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "logo__ruble-icon",
+                          attrs: { "aria-hidden": "true" }
+                        },
+                        [
+                          _c("use", {
+                            attrs: {
+                              "xlink:href":
+                                "/assets/images/game/ruble-icon.svg#Capa_1"
+                            }
+                          })
+                        ]
+                      )
+                    ])
                   ]
                 )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "uk-navbar-right" }, [
-              _c("div", { staticClass: "uk-navbar-item" }, [
+              ]),
+              _vm._v(" "),
+              _c("div", [
                 _c("div", { staticClass: "uk-flex" }, [
                   _c("div", { staticClass: "uk-margin-small-right" }, [
                     _c(
@@ -56377,7 +57002,7 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__victory-text"
                       },
                       [
-                        _vm._v("\n                  /в:\n                  "),
+                        _vm._v("\n                /в:\n                "),
                         _c("span", [_vm._v(_vm._s(_vm.user.victory))])
                       ]
                     )
@@ -56391,52 +57016,191 @@ var render = function() {
                           "uk-text uk-margin-remove uk-text-small header__gameover-text"
                       },
                       [
-                        _vm._v("\n                  п:\n                  "),
+                        _vm._v("\n                п:\n                "),
                         _c("span", [_vm._v(_vm._s(_vm.user.gameover) + "/")])
                       ]
                     )
                   ])
                 ])
-              ]),
-              _vm._v(" "),
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "uk-visible@s", attrs: { "uk-navbar": "" } },
+            [
               _c(
                 "div",
-                { staticClass: "uk-navbar-item uk-margin-xlarge-right" },
+                { staticClass: "uk-navbar-left uk-margin-small-left" },
                 [
-                  _c("ul", { staticClass: "uk-navbar-nav" }, [
-                    _c("li", [
-                      _vm._m(3),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "uk-navbar-dropdown" }, [
-                        _c(
-                          "ul",
-                          { staticClass: "uk-nav uk-navbar-dropdown-nav" },
-                          [
-                            _c("li", [
-                              _c(
-                                "a",
-                                {
-                                  attrs: { href: "#" },
-                                  on: { click: _vm.finishGameSession }
-                                },
-                                [_vm._v("Закончить игру")]
-                              )
-                            ])
-                          ]
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "uk-navbar-item" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass:
+                          "uk-text uk-margin-remove header__user-name"
+                      },
+                      [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(_vm.user.name) +
+                            "\n            "
                         )
-                      ])
-                    ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "uk-navbar-item" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass:
+                          "uk-text uk-margin-remove header__statistic-text"
+                      },
+                      [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(_vm.content.balance) +
+                            ":\n              "
+                        ),
+                        _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "logo__ruble-icon",
+                        attrs: { "aria-hidden": "true" }
+                      },
+                      [
+                        _c("use", {
+                          attrs: {
+                            "xlink:href":
+                              "/assets/images/game/ruble-icon.svg#Capa_1"
+                          }
+                        })
+                      ]
+                    )
                   ])
                 ]
-              )
-            ])
-          ])
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "uk-navbar-right" }, [
+                _c("div", { staticClass: "uk-navbar-item" }, [
+                  _c("div", { staticClass: "uk-flex" }, [
+                    _c("div", { staticClass: "uk-margin-small-right" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass:
+                            "uk-text uk-margin-remove uk-text-small header__victory-text"
+                        },
+                        [
+                          _vm._v("\n                  /в:\n                  "),
+                          _c("span", [_vm._v(_vm._s(_vm.user.victory))])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c(
+                        "p",
+                        {
+                          staticClass:
+                            "uk-text uk-margin-remove uk-text-small header__gameover-text"
+                        },
+                        [
+                          _vm._v("\n                  п:\n                  "),
+                          _c("span", [_vm._v(_vm._s(_vm.user.gameover) + "/")])
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "uk-navbar-item uk-margin-xlarge-right@s" },
+                  [
+                    _c("ul", { staticClass: "uk-navbar-nav" }, [
+                      _c("li", [
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "uk-navbar-dropdown" }, [
+                          _c(
+                            "ul",
+                            { staticClass: "uk-nav uk-navbar-dropdown-nav" },
+                            [
+                              _c("li", [
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "#" },
+                                    on: { click: _vm.finishGameSession }
+                                  },
+                                  [_vm._v("Закончить игру")]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ]
+          )
         ])
       ]
     )
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("a", { staticClass: "header__logo-text", attrs: { href: "/" } }, [
+        _c("img", {
+          staticClass: "logo__img",
+          attrs: { src: "/assets/images/logo.svg", alt: "" }
+        }),
+        _vm._v("\n            Зайте баки\n          ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "/" } }, [
+      _c("img", {
+        staticClass: "logo__img",
+        attrs: { src: "/assets/images/logo.svg", alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "/" } }, [
+      _c("img", {
+        staticClass: "logo__img",
+        attrs: { src: "/assets/images/logo.svg", alt: "" }
+      })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -56492,10 +57256,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&":
-/*!*****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& ***!
-  \*****************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56509,7 +57273,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "uk-flex uk-flex-middle uk-padding" }, [
     _c("div", [
-      _c("p", { staticClass: "uk-margin-remove" }, [
+      _c("p", { staticClass: "uk-margin-remove gsc__mobile-text" }, [
         _vm._v("\n      " + _vm._s(_vm.statusMessage) + "\n    ")
       ])
     ]),
@@ -56539,10 +57303,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e& ***!
-  \****************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56556,17 +57320,23 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "uk-flex uk-flex-middle uk-flex-center" },
     [
       _c("div", [
         _vm.combination
           ? _c(
               "p",
-              { staticClass: "uk-text opponents-card__combination-text" },
+              {
+                staticClass:
+                  "uk-text opponents-card__combination-text opponents-card__mobile-text"
+              },
               [
-                _vm._v("\n      " + _vm._s(_vm.printCombination) + "\n      "),
-                _c("br"),
-                _vm._v("\n      /" + _vm._s(_vm.points) + "\n    ")
+                _vm._v(
+                  "\n      " +
+                    _vm._s(_vm.printCombination) +
+                    "\n      /" +
+                    _vm._s(_vm.points) +
+                    "\n    "
+                )
               ]
             )
           : _vm._e()
@@ -56576,12 +57346,13 @@ var render = function() {
         ? _c(
             "transition-group",
             {
-              staticClass: "uk-flex uk-margin-remove",
+              staticClass:
+                "uk-flex uk-margin-remove uk-padding-remove uk-flex-center",
               attrs: { name: "cards-list", tag: "ul" }
             },
             _vm._l(_vm.getArrCards, function(card, index) {
               return _c("div", { key: card }, [
-                _c("div", { staticClass: "uk-margin-small-left" }, [
+                _c("div", { class: { gucc__card: index !== 0 } }, [
                   _c("img", {
                     staticClass: "card__img",
                     class: { card__img_change: _vm.imgElementsClasses[index] },
@@ -56626,7 +57397,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "uk-container" },
+    { staticClass: "uk-container cg__padding_none" },
     [
       _c("game-status-bar-component", {
         attrs: {
@@ -56644,7 +57415,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "uk-flex" },
+        { staticClass: "uk-grid" },
         [
           _c("game-bank-component", {
             attrs: {
@@ -56838,159 +57609,164 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "uk-flex" },
+        { attrs: { "uk-grid": "" } },
         [
-          _c(
-            "div",
-            {
-              staticClass:
-                "uk-card uk-card-default uk-card-body uk-margin-small-right uk-width-1-3"
-            },
-            [
-              _c("div", { staticClass: "uk-flex" }, [
-                _c("div", { staticClass: "uk-margin-remove" }, [
-                  _c(
-                    "h4",
-                    { staticClass: "uk-margin-remove user-bar__friend-header" },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(_vm.content.header) +
-                          "\n          "
-                      )
-                    ]
-                  )
+          _c("div", { staticClass: "uk-width-1-3@s" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "uk-card uk-card-default uk-card-body uk-margin-small-right@s"
+              },
+              [
+                _c("div", { staticClass: "uk-flex" }, [
+                  _c("div", { staticClass: "uk-margin-remove" }, [
+                    _c(
+                      "h4",
+                      {
+                        staticClass: "uk-margin-remove user-bar__friend-header"
+                      },
+                      [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(_vm.content.header) +
+                            "\n            "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0)
                 ]),
                 _vm._v(" "),
-                _vm._m(0)
-              ]),
-              _vm._v(" "),
-              _vm.friends.length !== 0
-                ? [
-                    _c(
-                      "ul",
-                      { staticClass: "uk-list" },
-                      [
-                        _vm._l(_vm.friends, function(friend, index) {
-                          return [
-                            _vm.isOnline(friend.login)
-                              ? _c(
-                                  "li",
-                                  {
-                                    key: friend.login,
-                                    staticClass: "friends-card__item__online"
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n              " +
-                                        _vm._s(friend.name) +
-                                        "-" +
-                                        _vm._s(friend.login) +
-                                        "\n              "
-                                    ),
-                                    _c("span", {
-                                      staticClass:
-                                        "uk-margin-small-left uk-margin-small-right",
-                                      attrs: { "uk-icon": "chevron-right" }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "form",
-                                      {
-                                        staticClass: "uk-inline",
-                                        attrs: {
-                                          id: "sendInvitationForm" + index,
-                                          action: _vm.formJoinGameRoute,
-                                          method: "POST"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "uk-button uk-button-secondary uk-button-small",
+                _vm.friends.length !== 0
+                  ? [
+                      _c(
+                        "ul",
+                        { staticClass: "uk-list" },
+                        [
+                          _vm._l(_vm.friends, function(friend, index) {
+                            return [
+                              _vm.isOnline(friend.login)
+                                ? _c(
+                                    "li",
+                                    {
+                                      key: friend.login,
+                                      staticClass: "friends-card__item__online"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                " +
+                                          _vm._s(friend.name) +
+                                          "-" +
+                                          _vm._s(friend.login) +
+                                          "\n                "
+                                      ),
+                                      _c("span", {
+                                        staticClass:
+                                          "uk-margin-small-left uk-margin-small-right",
+                                        attrs: { "uk-icon": "chevron-right" }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "form",
+                                        {
+                                          staticClass: "uk-inline",
+                                          attrs: {
+                                            id: "sendInvitationForm" + index,
+                                            action: _vm.formJoinGameRoute,
+                                            method: "POST"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "uk-button uk-button-secondary uk-button-small",
+                                              attrs: {
+                                                type: "submit",
+                                                form:
+                                                  "sendInvitationForm" + index
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                    " +
+                                                  _vm._s(
+                                                    _vm.content.startGameText
+                                                  ) +
+                                                  "\n                  "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("input", {
                                             attrs: {
-                                              type: "submit",
-                                              form: "sendInvitationForm" + index
+                                              type: "hidden",
+                                              name: "_token"
+                                            },
+                                            domProps: { value: _vm.csrf }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            attrs: {
+                                              type: "hidden",
+                                              name: "sendInvitationRequest",
+                                              value: "true"
                                             }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                  " +
-                                                _vm._s(
-                                                  _vm.content.startGameText
-                                                ) +
-                                                "\n                "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          attrs: {
-                                            type: "hidden",
-                                            name: "_token"
-                                          },
-                                          domProps: { value: _vm.csrf }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          attrs: {
-                                            type: "hidden",
-                                            name: "sendInvitationRequest",
-                                            value: "true"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          attrs: {
-                                            type: "hidden",
-                                            name: "updateState",
-                                            value: "InitState"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          attrs: {
-                                            type: "hidden",
-                                            name: "opponentId"
-                                          },
-                                          domProps: { value: friend.id }
-                                        })
-                                      ]
-                                    )
-                                  ]
-                                )
-                              : _c(
-                                  "li",
-                                  {
-                                    key: index,
-                                    staticClass: "friends-card__item__offline"
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n              " +
-                                        _vm._s(friend.name) +
-                                        "-" +
-                                        _vm._s(friend.login) +
-                                        "\n            "
-                                    )
-                                  ]
-                                )
-                          ]
-                        })
-                      ],
-                      2
-                    )
-                  ]
-                : [
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(_vm.content.noFriendsText))])
-                  ]
-            ],
-            2
-          ),
+                                          }),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            attrs: {
+                                              type: "hidden",
+                                              name: "updateState",
+                                              value: "InitState"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            attrs: {
+                                              type: "hidden",
+                                              name: "opponentId"
+                                            },
+                                            domProps: { value: friend.id }
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                : _c(
+                                    "li",
+                                    {
+                                      key: index,
+                                      staticClass: "friends-card__item__offline"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                " +
+                                          _vm._s(friend.name) +
+                                          "-" +
+                                          _vm._s(friend.login) +
+                                          "\n              "
+                                      )
+                                    ]
+                                  )
+                            ]
+                          })
+                        ],
+                        2
+                      )
+                    ]
+                  : [
+                      _c("hr"),
+                      _vm._v(" "),
+                      _c("p", [_vm._v(_vm._s(_vm.content.noFriendsText))])
+                    ]
+              ],
+              2
+            )
+          ]),
           _vm._v(" "),
           _c("payments-component", {
             attrs: {
@@ -57172,113 +57948,123 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "uk-card uk-card-default uk-card-body uk-width-expand" },
-    [
-      _c("div", { staticClass: "uk-flex payment-block__header" }, [
-        _c("div", { staticClass: "uk-margin-remove" }, [
-          _c("h4", { staticClass: "uk-margin-remove user-bar__balance-text" }, [
-            _vm._v("\n        " + _vm._s(_vm.content.header) + "\n      ")
-          ])
+  return _c("div", { staticClass: "uk-width-2-3@s pc__padding_none" }, [
+    _c(
+      "div",
+      { staticClass: "uk-card uk-card-default uk-card-body" },
+      [
+        _c("div", { staticClass: "uk-flex payment-block__header" }, [
+          _c("div", { staticClass: "uk-margin-remove" }, [
+            _c(
+              "h4",
+              { staticClass: "uk-margin-remove user-bar__balance-text" },
+              [
+                _vm._v(
+                  "\n          " + _vm._s(_vm.content.header) + "\n        "
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
         ]),
         _vm._v(" "),
-        _vm._m(0)
-      ]),
-      _vm._v(" "),
-      _vm.status === "success"
-        ? _c("div", { staticClass: "status-text__background_color_green" }, [
-            _c("p", [_vm._v(_vm._s(_vm.successMessage))])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.payments.length !== 0
-        ? [
-            _c(
-              "table",
-              _vm._l(_vm.payments, function(payment) {
-                return _c("tr", { key: payment.login }, [
-                  _c("td", { attrs: { valign: "middle" } }, [
-                    _c("div", { staticClass: "uk-flex" }, [
-                      _c(
-                        "p",
-                        { class: _vm.paymentMessageClass(payment.moneyValue) },
-                        [
-                          _vm._v(
-                            "\n              " +
-                              _vm._s(_vm.getCreditMessage(payment)) +
-                              "\n            "
-                          )
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(1, true),
-                  _vm._v(" "),
-                  _c("td", { attrs: { valign: "middle" } }, [
-                    _c("div", { staticClass: "uk-flex" }, [
-                      payment.moneyValue > 0
-                        ? _c(
-                            "form",
-                            {
-                              attrs: {
-                                id: _vm.getIdForm(payment),
-                                action: _vm.cancelPaymentRoute,
-                                method: "POST"
-                              }
-                            },
-                            [
-                              _c("p", [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "uk-button uk-button-secondary uk-button-small",
-                                    attrs: {
-                                      type: "submit",
-                                      form: _vm.getIdForm(payment)
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                  " +
-                                        _vm._s(
-                                          _vm.content.incomeButtonCaption
-                                        ) +
-                                        "\n                "
-                                    )
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                attrs: { type: "hidden", name: "_token" },
-                                domProps: { value: _vm.csrf }
-                              }),
-                              _vm._v(" "),
-                              _c("input", {
-                                attrs: { type: "hidden", name: "data" },
-                                domProps: { value: _vm.getJsonData(payment) }
-                              })
-                            ]
-                          )
-                        : _vm._e()
+        _vm.status === "success"
+          ? _c("div", { staticClass: "status-text__background_color_green" }, [
+              _c("p", [_vm._v(_vm._s(_vm.successMessage))])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.payments.length !== 0
+          ? [
+              _c(
+                "table",
+                _vm._l(_vm.payments, function(payment) {
+                  return _c("tr", { key: payment.login }, [
+                    _c("td", { attrs: { valign: "middle" } }, [
+                      _c("div", { staticClass: "uk-flex" }, [
+                        _c(
+                          "p",
+                          {
+                            class: _vm.paymentMessageClass(payment.moneyValue)
+                          },
+                          [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(_vm.getCreditMessage(payment)) +
+                                "\n              "
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1, true),
+                    _vm._v(" "),
+                    _c("td", { attrs: { valign: "middle" } }, [
+                      _c("div", { staticClass: "uk-flex" }, [
+                        payment.moneyValue > 0
+                          ? _c(
+                              "form",
+                              {
+                                attrs: {
+                                  id: _vm.getIdForm(payment),
+                                  action: _vm.cancelPaymentRoute,
+                                  method: "POST"
+                                }
+                              },
+                              [
+                                _c("p", [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "uk-button uk-button-secondary uk-button-small",
+                                      attrs: {
+                                        type: "submit",
+                                        form: _vm.getIdForm(payment)
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.content.incomeButtonCaption
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  attrs: { type: "hidden", name: "_token" },
+                                  domProps: { value: _vm.csrf }
+                                }),
+                                _vm._v(" "),
+                                _c("input", {
+                                  attrs: { type: "hidden", name: "data" },
+                                  domProps: { value: _vm.getJsonData(payment) }
+                                })
+                              ]
+                            )
+                          : _vm._e()
+                      ])
                     ])
                   ])
-                ])
-              }),
-              0
-            )
-          ]
-        : [
-            _c("hr"),
-            _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.content.voidPaymentMessage))])
-          ]
-    ],
-    2
-  )
+                }),
+                0
+              )
+            ]
+          : [
+              _c("hr"),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.content.voidPaymentMessage))])
+            ]
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -57337,102 +58123,107 @@ var render = function() {
           "uk-card uk-card-default uk-card-body uk-margin-small-bottom uk-width-1-1"
       },
       [
-        _c("div", { staticClass: "uk-flex" }, [
-          _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
-            _c(
-              "p",
-              {
-                staticClass:
-                  "header__user-name header__status-text uk-margin-remove"
-              },
-              [
-                _vm._v(
-                  "\n          " +
-                    _vm._s(_vm.userParameters.name) +
-                    "\n        "
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
-            _c("div", { staticClass: "user-bar__money-div" }, [
+        _c("div", [
+          _c("div", { staticClass: "uk-flex uk-margin-small-bottom" }, [
+            _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
               _c(
                 "p",
                 {
                   staticClass:
-                    "uk-text user-bar__balance-text header__status-text uk-margin-remove"
+                    "header__user-name header__status-text uk-margin-remove"
                 },
                 [
                   _vm._v(
-                    "\n            Баланс:\n            " +
-                      _vm._s(_vm.userParameters.balance) +
+                    "\n            " +
+                      _vm._s(_vm.userParameters.name) +
                       "\n          "
                   )
                 ]
               )
             ]),
             _vm._v(" "),
-            _c("div", [
-              _c(
-                "svg",
-                {
-                  staticClass: "logo__ruble-icon_home_size",
-                  attrs: { "aria-hidden": "true" }
-                },
-                [
-                  _c("use", {
-                    attrs: {
-                      "xlink:href": "/assets/images/game/ruble-icon.svg#Capa_1"
-                    }
-                  })
-                ]
-              )
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "uk-flex uk-margin-small-bottom" }, [
+            _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
+              _c("div", { staticClass: "user-bar__money-div" }, [
+                _c(
+                  "p",
+                  {
+                    staticClass:
+                      "uk-text user-bar__balance-text header__status-text uk-margin-remove"
+                  },
+                  [
+                    _vm._v(
+                      "\n              Баланс:\n              " +
+                        _vm._s(_vm.userParameters.balance) +
+                        "\n            "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "logo__ruble-icon_home_size",
+                    attrs: { "aria-hidden": "true" }
+                  },
+                  [
+                    _c("use", {
+                      attrs: {
+                        "xlink:href":
+                          "/assets/images/game/ruble-icon.svg#Capa_1"
+                      }
+                    })
+                  ]
+                )
+              ])
             ])
           ]),
           _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "uk-flex uk-flex-middle user-bar__victory-div" },
-            [
+          _c("div", { staticClass: "uk-flex" }, [
+            _c(
+              "div",
+              { staticClass: "uk-flex uk-flex-middle user-bar__victory-div" },
+              [
+                _c(
+                  "p",
+                  {
+                    staticClass:
+                      "header__victory-text header__status-text uk-margin-remove"
+                  },
+                  [
+                    _vm._v("\n            /в:\n            "),
+                    _c("span", [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(_vm.userParameters.victory) +
+                          "\n            "
+                      )
+                    ])
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
               _c(
                 "p",
                 {
                   staticClass:
-                    "header__victory-text header__status-text uk-margin-remove"
+                    "user-bar__gameover-text header__status-text uk-margin-remove"
                 },
                 [
-                  _vm._v("\n          /в:\n          "),
+                  _vm._v("\n            п:\n            "),
                   _c("span", [
-                    _vm._v(
-                      "\n            " +
-                        _vm._s(_vm.userParameters.victory) +
-                        "\n          "
-                    )
+                    _vm._v(" " + _vm._s(_vm.userParameters.gameover) + "/ ")
                   ])
                 ]
               )
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
-            _c(
-              "p",
-              {
-                staticClass:
-                  "user-bar__gameover-text header__status-text uk-margin-remove"
-              },
-              [
-                _vm._v("\n          п:\n          "),
-                _c("span", [
-                  _vm._v(" " + _vm._s(_vm.userParameters.gameover) + "/ ")
-                ])
-              ]
-            )
+            ])
           ])
         ])
       ]
@@ -57440,17 +58231,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "uk-flex uk-flex-middle" }, [
-      _c("span", {
-        staticClass: "uk-margin-medium-left uk-margin-medium-right",
-        attrs: { "uk-icon": "chevron-right" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -70271,9 +71051,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f& */ "./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&");
+/* harmony import */ var _GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true& */ "./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true&");
 /* harmony import */ var _GameButtonPanelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameButtonPanelComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _GameButtonPanelComponent_vue_vue_type_style_index_0_id_7a916b6f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css& */ "./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -70281,13 +71063,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _GameButtonPanelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "7a916b6f",
   null
   
 )
@@ -70313,19 +71095,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f& ***!
-  \************************************************************************************************************/
+/***/ "./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css&":
+/*!**************************************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css& ***!
+  \**************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_style_index_0_id_7a916b6f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=style&index=0&id=7a916b6f&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_style_index_0_id_7a916b6f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_style_index_0_id_7a916b6f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_style_index_0_id_7a916b6f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_style_index_0_id_7a916b6f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_style_index_0_id_7a916b6f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true&":
+/*!************************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true& ***!
+  \************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameButtonPanelComponent.vue?vue&type=template&id=7a916b6f&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameButtonPanelComponent_vue_vue_type_template_id_7a916b6f_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -70340,9 +71138,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb& */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&");
+/* harmony import */ var _GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true& */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true&");
 /* harmony import */ var _GameOpponentCardsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameOpponentCardsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _GameOpponentCardsComponent_vue_vue_type_style_index_0_id_7f780adb_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css& */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -70350,13 +71150,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _GameOpponentCardsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "7f780adb",
   null
   
 )
@@ -70382,19 +71182,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb& ***!
-  \**************************************************************************************************************/
+/***/ "./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_style_index_0_id_7f780adb_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=style&index=0&id=7f780adb&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_style_index_0_id_7f780adb_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_style_index_0_id_7f780adb_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_style_index_0_id_7f780adb_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_style_index_0_id_7f780adb_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_style_index_0_id_7f780adb_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true&":
+/*!**************************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true& ***!
+  \**************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameOpponentCardsComponent.vue?vue&type=template&id=7f780adb&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameOpponentCardsComponent_vue_vue_type_template_id_7f780adb_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -70409,9 +71225,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameStatusBarComponent_vue_vue_type_template_id_efa8cc00___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusBarComponent.vue?vue&type=template&id=efa8cc00& */ "./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&");
+/* harmony import */ var _GameStatusBarComponent_vue_vue_type_template_id_efa8cc00_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true& */ "./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true&");
 /* harmony import */ var _GameStatusBarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameStatusBarComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _GameStatusBarComponent_vue_vue_type_style_index_0_id_efa8cc00_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css& */ "./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -70419,13 +71237,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _GameStatusBarComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GameStatusBarComponent_vue_vue_type_template_id_efa8cc00___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GameStatusBarComponent_vue_vue_type_template_id_efa8cc00___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _GameStatusBarComponent_vue_vue_type_template_id_efa8cc00_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GameStatusBarComponent_vue_vue_type_template_id_efa8cc00_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "efa8cc00",
   null
   
 )
@@ -70451,19 +71269,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&":
-/*!**********************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00& ***!
-  \**********************************************************************************************************/
+/***/ "./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css&":
+/*!************************************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_style_index_0_id_efa8cc00_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=style&index=0&id=efa8cc00&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_style_index_0_id_efa8cc00_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_style_index_0_id_efa8cc00_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_style_index_0_id_efa8cc00_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_style_index_0_id_efa8cc00_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_style_index_0_id_efa8cc00_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true&":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true& ***!
+  \**********************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_template_id_efa8cc00___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusBarComponent.vue?vue&type=template&id=efa8cc00& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_template_id_efa8cc00___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_template_id_efa8cc00_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusBarComponent.vue?vue&type=template&id=efa8cc00&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_template_id_efa8cc00_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_template_id_efa8cc00___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusBarComponent_vue_vue_type_template_id_efa8cc00_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -70478,9 +71312,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& */ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&");
+/* harmony import */ var _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true& */ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true&");
 /* harmony import */ var _GameStatusTextComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameStatusTextComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _GameStatusTextComponent_vue_vue_type_style_index_0_id_b5b4332c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css& */ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -70488,13 +71324,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _GameStatusTextComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GameStatusTextComponent_vue_vue_type_template_id_b5b4332c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "b5b4332c",
   null
   
 )
@@ -70520,19 +71356,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&":
-/*!***********************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& ***!
-  \***********************************************************************************************************/
+/***/ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_style_index_0_id_b5b4332c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=style&index=0&id=b5b4332c&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_style_index_0_id_b5b4332c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_style_index_0_id_b5b4332c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_style_index_0_id_b5b4332c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_style_index_0_id_b5b4332c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_style_index_0_id_b5b4332c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true&":
+/*!***********************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true& ***!
+  \***********************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusTextComponent.vue?vue&type=template&id=b5b4332c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameStatusTextComponent.vue?vue&type=template&id=b5b4332c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameStatusTextComponent_vue_vue_type_template_id_b5b4332c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -70547,9 +71399,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GameUserCardsComponent_vue_vue_type_template_id_93aae86e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameUserCardsComponent.vue?vue&type=template&id=93aae86e& */ "./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&");
+/* harmony import */ var _GameUserCardsComponent_vue_vue_type_template_id_93aae86e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true& */ "./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true&");
 /* harmony import */ var _GameUserCardsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameUserCardsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _GameUserCardsComponent_vue_vue_type_style_index_0_id_93aae86e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css& */ "./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -70557,13 +71411,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _GameUserCardsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GameUserCardsComponent_vue_vue_type_template_id_93aae86e___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GameUserCardsComponent_vue_vue_type_template_id_93aae86e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _GameUserCardsComponent_vue_vue_type_template_id_93aae86e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GameUserCardsComponent_vue_vue_type_template_id_93aae86e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "93aae86e",
   null
   
 )
@@ -70589,19 +71443,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&":
-/*!**********************************************************************************************************!*\
-  !*** ./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e& ***!
-  \**********************************************************************************************************/
+/***/ "./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css&":
+/*!************************************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_style_index_0_id_93aae86e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=style&index=0&id=93aae86e&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_style_index_0_id_93aae86e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_style_index_0_id_93aae86e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_style_index_0_id_93aae86e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_style_index_0_id_93aae86e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_style_index_0_id_93aae86e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true&":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true& ***!
+  \**********************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_template_id_93aae86e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameUserCardsComponent.vue?vue&type=template&id=93aae86e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_template_id_93aae86e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_template_id_93aae86e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/GameUserCardsComponent.vue?vue&type=template&id=93aae86e&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_template_id_93aae86e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_template_id_93aae86e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GameUserCardsComponent_vue_vue_type_template_id_93aae86e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -70618,7 +71488,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameComponent_vue_vue_type_template_id_13a025c4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_GameComponent.vue?vue&type=template&id=13a025c4& */ "./resources/js/components/game-component/_GameComponent.vue?vue&type=template&id=13a025c4&");
 /* harmony import */ var _GameComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_GameComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/game-component/_GameComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _GameComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_GameComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -70626,7 +71498,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _GameComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _GameComponent_vue_vue_type_template_id_13a025c4___WEBPACK_IMPORTED_MODULE_0__["render"],
   _GameComponent_vue_vue_type_template_id_13a025c4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -70655,6 +71527,22 @@ component.options.__file = "resources/js/components/game-component/_GameComponen
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./_GameComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/_GameComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./_GameComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/game-component/_GameComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_GameComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -70894,7 +71782,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true& */ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=template&id=cab4100a&scoped=true&");
 /* harmony import */ var _PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _PaymentsComponent_vue_vue_type_style_index_0_id_cab4100a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css& */ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -70902,7 +71792,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _PaymentsComponent_vue_vue_type_template_id_cab4100a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -70931,6 +71821,22 @@ component.options.__file = "resources/js/components/home-component/PaymentsCompo
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PaymentsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************!*\
+  !*** ./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_style_index_0_id_cab4100a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/home-component/PaymentsComponent.vue?vue&type=style&index=0&id=cab4100a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_style_index_0_id_cab4100a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_style_index_0_id_cab4100a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_style_index_0_id_cab4100a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_style_index_0_id_cab4100a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentsComponent_vue_vue_type_style_index_0_id_cab4100a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

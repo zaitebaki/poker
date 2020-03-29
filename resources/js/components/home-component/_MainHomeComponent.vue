@@ -1,7 +1,9 @@
 <template>
   <header>
     <header-component :name-project="nameProject" />
-    <user-status-component :user-parameters="user" />
+    <user-status-component
+      :user-parameters="user"
+    />
 
     <friends-and-payments-component
       :content="content"

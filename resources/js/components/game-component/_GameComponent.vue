@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-container">
+  <div class="uk-container cg__padding_none">
     <game-status-bar-component
       :content="content.header"
       :user="userParameters"
@@ -8,7 +8,7 @@
       @catch:error="handleError(error)"
     />
 
-    <div class="uk-flex">
+    <div class="uk-grid">
       <game-bank-component
         :money="vueGameParameters.money"
         :bank-messages="vueGameParameters.bankMessages"
@@ -25,14 +25,14 @@
         />
       </div>
     </div>
-
+    
     <game-opponent-cards-component
       v-if="vueGameParameters.opponentUserCards"
       :cards="vueGameParameters.opponentUserCards"
       :combination="vueGameParameters.opponentCombination"
       :points="vueGameParameters.opponentPoints"
     />
-
+    
     <game-button-panel-component
       :room-url="roomUrl"
       :room-name="roomName"
@@ -396,4 +396,10 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+@media (max-width: 640px) {
+  .cg__padding_none {
+    padding: 0 0 0 0;
+  }
+}
+</style>

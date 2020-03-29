@@ -2,7 +2,86 @@
   <div class="uk-section-secondary uk-preserve-color">
     <nav class="uk-navbar-container uk-navbar-transparent uk-light">
       <div class="uk-container uk-container-expand">
-        <div uk-navbar>
+        <!-- мобильный блок для < 640px -->
+        <div
+          uk-grid
+          class="uk-child-width-1-2 uk-padding-small uk-hidden@s"
+        >
+          <div>
+            <a
+              class="header__logo-text"
+              href="/"
+            >
+              <img
+                src="/assets/images/logo.svg"
+                alt
+                class="logo__img"
+              >
+              Зайте баки
+            </a>
+          </div>
+          <div>
+            <p class="uk-text uk-margin-remove header__user-name">
+              <a
+                href="/"
+              >
+                <img
+                  src="/assets/images/logo.svg"
+                  alt
+                  class="logo__img"
+                >
+              </a>
+              {{ user.name }}
+            </p>
+          </div>
+          <div>
+            <p class="uk-text uk-margin-remove header__statistic-text">
+              <a href="/">
+                <img
+                  src="/assets/images/logo.svg"
+                  alt
+                  class="logo__img"
+                >
+              </a>
+              {{ content.balance }}:
+              <span>{{ user.balance }}&nbsp;</span>
+              <span>
+                <svg
+                  class="logo__ruble-icon"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="/assets/images/game/ruble-icon.svg#Capa_1" />
+                </svg>
+              </span>
+            </p>
+          </div>
+          <div>
+            <div class="uk-flex">
+              <div class="uk-margin-small-right">
+                <p
+                  class="uk-text uk-margin-remove uk-text-small header__victory-text"
+                >
+                  /в:
+                  <span>{{ user.victory }}</span>
+                </p>
+              </div>
+              <div>
+                <p
+                  class="uk-text uk-margin-remove uk-text-small header__gameover-text"
+                >
+                  п:
+                  <span>{{ user.gameover }}/</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- блок для устройств > 640px -->
+        <div
+          uk-navbar
+          class="uk-visible@s"
+        >
           <div class="uk-navbar-left uk-margin-small-left">
             <a
               class="uk-navbar-item header__logo-text"
@@ -68,7 +147,7 @@
                 </div>
               </div>
             </div>
-            <div class="uk-navbar-item uk-margin-xlarge-right">
+            <div class="uk-navbar-item uk-margin-xlarge-right@s">
               <ul class="uk-navbar-nav">
                 <li>
                   <a
@@ -88,7 +167,7 @@
                     </ul>
                   </div>
                 </li>
-              </ul>
+              </ul> 
             </div>
           </div>
         </div>
@@ -143,3 +222,16 @@ export default {
   },
 };
 </script>
+<style scoped>
+  @media (max-width: 640px) {
+    .header__logo-text {
+      font-size: 14px;
+    }
+    .header__user-name {
+      font-size: 14px;
+    }
+    .header__statistic-text {
+      font-size: 13.5px;
+    }
+  }
+</style>

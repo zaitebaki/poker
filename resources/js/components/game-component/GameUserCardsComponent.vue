@@ -1,26 +1,27 @@
 <template>
-  <div class="uk-flex uk-flex-middle uk-flex-center">
+  <div>
     <div>
       <p
         v-if="combination"
-        class="uk-text opponents-card__combination-text"
+        class="uk-text opponents-card__combination-text opponents-card__mobile-text"
       >
         {{ printCombination }}
-        <br>
         /{{ points }}
       </p>
     </div>
     <transition-group
       v-if="arrCards"
       name="cards-list"
-      class="uk-flex uk-margin-remove"
+      class="uk-flex uk-margin-remove uk-padding-remove uk-flex-center"
       tag="ul"
     >
       <div
         v-for="(card, index) in getArrCards"
         :key="card"
       >
-        <div class="uk-margin-small-left">
+        <div
+          :class="{'gucc__card': index !== 0}"
+        >
           <img
             :src="getPathToImage(index)"
             class="card__img"
@@ -118,7 +119,6 @@ export default {
 
       if (valueA > valueB) return 1;
       if (valueA === valueB) return 0;
-      // valueA < valueB
       return -1;
     },
     getValueForSmb(smb) {
@@ -155,3 +155,19 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .gucc__card {
+    margin-left: 10px;
+  }
+  @media (max-width: 640px) {
+    .gucc__card {
+      margin-left: 5px;
+    }
+    .opponents-card__combination-text {
+      font-size: 16px;
+    }
+    .opponents-card__mobile-text {
+      padding-left: 15px;
+    }
+  }
+</style>

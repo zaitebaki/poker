@@ -107,7 +107,7 @@
 }
 
 .card__img {
-  width: 15vw;
+  width: 14vw;
   cursor: pointer;
 }
 
@@ -205,4 +205,13 @@
 
 .payment-block__header {
   margin-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .slider-horizontal {
+    width: 290px !important;
+  }
+  .card__img {
+    width: 18vw;
+  }
 }
