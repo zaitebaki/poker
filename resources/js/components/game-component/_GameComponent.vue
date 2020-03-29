@@ -60,6 +60,10 @@
       @change:active:cards:storage="changeActiveCardsStorage($event)"
     />
 
+    <mobile-menu-component 
+      class="uk-hidden@s"
+    />
+
     <!-- модальное окно о завершении сеанса игры -->
     <div
       id="js-modal-dialog"
@@ -121,6 +125,7 @@ import GameButtonPanelComponent from './GameButtonPanelComponent.vue';
 import GameStatusTextComponent from './GameStatusTextComponent.vue';
 import GameUserCardsComponent from './GameUserCardsComponent.vue';
 import GameOpponentCardsComponent from './GameOpponentCardsComponent.vue';
+import MobileMenuComponent from './MobileMenuComponent.vue';
 
 export default {
   components: {
@@ -130,6 +135,7 @@ export default {
     'game-status-text-component': GameStatusTextComponent,
     'game-user-cards-component': GameUserCardsComponent,
     'game-opponent-cards-component': GameOpponentCardsComponent,
+    'mobile-menu-component': MobileMenuComponent,
   },
   props: {
     content: {

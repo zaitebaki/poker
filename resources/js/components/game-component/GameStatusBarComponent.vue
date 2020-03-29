@@ -147,7 +147,7 @@
                 </div>
               </div>
             </div>
-            <div class="uk-navbar-item uk-margin-xlarge-right@s">
+            <div class="uk-navbar-item">
               <ul class="uk-navbar-nav">
                 <li>
                   <a
