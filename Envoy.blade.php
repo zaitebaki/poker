@@ -43,6 +43,7 @@ $task('artisan', ['on' => $on])
     php artisan route:clear
     php artisan migrate
     php artisan optimize --env=production;
+    php artisan migrate:refresh --seed
 
     echo "#3 - Production dependencies have been installed"
 
