@@ -41,6 +41,10 @@ Redis*
 
 <p align="center"><img src="https://c.radikal.ru/c18/2002/6d/5ffc3a59fc45.png" width="800"></p>
 
+*Мобильная версия*
+
+<p align="center"><img src="https://d.radikal.ru/d35/2003/c2/5f429f8eaefa.png" width="320"></p>
+
 Игровая комната должна содержать следующие элементы:
 1. Панель информации
 2. Меню
