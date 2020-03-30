@@ -13,6 +13,7 @@
 
 Route::get('/', 'Home\IndexController@index')->name('startPage');
 Route::post('/login', 'Auth\MyAuthController@authenticate')->name('authenticate');
+Route::post('/logout', 'Auth\MyAuthController@logout')->name('logout');
 Route::post('/register', 'Auth\RegisterController@register')->name('registration');
 
 Route::middleware('auth', 'throttle:60,1')->group(function () {
