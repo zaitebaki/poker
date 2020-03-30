@@ -2558,44 +2558,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     content: {
@@ -57067,87 +57029,58 @@ var render = function() {
       { staticClass: "uk-navbar-container uk-navbar-transparent uk-light" },
       [
         _c("div", { staticClass: "uk-container uk-container-expand" }, [
-          _c(
-            "div",
-            {
-              staticClass: "uk-child-width-1-2 uk-padding-small uk-hidden@s",
-              attrs: { "uk-grid": "" }
-            },
-            [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", [
-                _c(
-                  "p",
-                  { staticClass: "uk-text uk-margin-remove header__user-name" },
-                  [
-                    _vm._m(1),
-                    _vm._v(
-                      "\n            " + _vm._s(_vm.user.name) + "\n          "
-                    )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c(
-                  "p",
-                  {
-                    staticClass:
-                      "uk-text uk-margin-remove header__statistic-text"
-                  },
-                  [
-                    _vm._m(2),
-                    _vm._v(
-                      "\n            " +
-                        _vm._s(_vm.content.balance) +
-                        ":\n            "
-                    ),
-                    _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")]),
-                    _vm._v(" "),
-                    _c("span", [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "logo__ruble-icon",
-                          attrs: { "aria-hidden": "true" }
-                        },
-                        [
-                          _c("use", {
-                            attrs: {
-                              "xlink:href":
-                                "/assets/images/game/ruble-icon.svg#Capa_1"
-                            }
-                          })
-                        ]
-                      )
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("div", { staticClass: "uk-flex" }, [
-                  _c("div", { staticClass: "uk-margin-small-right" }, [
+          _c("div", { staticClass: "uk-padding-small uk-hidden@s" }, [
+            _c("div", [
+              _c(
+                "p",
+                {
+                  staticClass: "uk-text uk-margin-remove header__statistic-text"
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.content.balance) +
+                      ":\n            "
+                  ),
+                  _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")]),
+                  _vm._v(" "),
+                  _c("span", [
                     _c(
-                      "p",
+                      "svg",
                       {
-                        staticClass:
-                          "uk-text uk-margin-remove uk-text-small header__victory-text"
+                        staticClass: "logo__ruble-icon",
+                        attrs: { "aria-hidden": "true" }
                       },
                       [
-                        _vm._v("\n                /в:\n                "),
-                        _c("span", [_vm._v(_vm._s(_vm.user.victory))])
+                        _c("use", {
+                          attrs: {
+                            "xlink:href":
+                              "/assets/images/game/ruble-icon.svg#Capa_1"
+                          }
+                        })
                       ]
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", [
+                  _c("span", { staticStyle: { "padding-left": "40px" } }, [
                     _c(
-                      "p",
+                      "span",
                       {
                         staticClass:
-                          "uk-text uk-margin-remove uk-text-small header__gameover-text"
+                          "uk-text uk-text-small header__victory-text"
+                      },
+                      [
+                        _vm._v("\n                /в:\n                "),
+                        _c("span", {}, [_vm._v(_vm._s(_vm.user.victory))])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass:
+                          "uk-tex uk-text-small header__gameover-text"
                       },
                       [
                         _vm._v("\n                п:\n                "),
@@ -57155,10 +57088,10 @@ var render = function() {
                       ]
                     )
                   ])
-                ])
-              ])
-            ]
-          ),
+                ]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -57168,10 +57101,10 @@ var render = function() {
                 "div",
                 { staticClass: "uk-navbar-left uk-margin-small-left" },
                 [
-                  _vm._m(3),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c("div", { staticClass: "uk-navbar-item" }, [
-                    _vm._m(4),
+                    _vm._m(2),
                     _vm._v(" "),
                     _c(
                       "p",
@@ -57190,7 +57123,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "uk-navbar-item" }, [
-                    _vm._m(5),
+                    _vm._m(3),
                     _vm._v(" "),
                     _c(
                       "p",
@@ -57263,7 +57196,7 @@ var render = function() {
                 _c("div", { staticClass: "uk-navbar-item" }, [
                   _c("ul", { staticClass: "uk-navbar-nav" }, [
                     _c("li", [
-                      _vm._m(6),
+                      _vm._m(4),
                       _vm._v(" "),
                       _c("div", { staticClass: "uk-navbar-dropdown" }, [
                         _c(
@@ -57295,31 +57228,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("a", { staticClass: "header__logo-text", attrs: { href: "/" } }, [
-        _c("img", {
-          staticClass: "logo__img",
-          attrs: { src: "/assets/images/logo.svg", alt: "" }
-        }),
-        _vm._v("\n            Зайте баки\n          ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "/" } }, [
-      _c("img", {
-        staticClass: "logo__img",
-        attrs: { src: "/assets/images/logo.svg", alt: "" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -4,36 +4,8 @@
       <div class="uk-container uk-container-expand">
         <!-- мобильный блок для < 640px -->
         <div
-          uk-grid
-          class="uk-child-width-1-2 uk-padding-small uk-hidden@s"
+          class="uk-padding-small uk-hidden@s"
         >
-          <div>
-            <a
-              class="header__logo-text"
-              href="/"
-            >
-              <img
-                src="/assets/images/logo.svg"
-                alt
-                class="logo__img"
-              >
-              Зайте баки
-            </a>
-          </div>
-          <div>
-            <p class="uk-text uk-margin-remove header__user-name">
-              <a
-                href="/"
-              >
-                <img
-                  src="/assets/images/logo.svg"
-                  alt
-                  class="logo__img"
-                >
-              </a>
-              {{ user.name }}
-            </p>
-          </div>
           <div>
             <p class="uk-text uk-margin-remove header__statistic-text">
               <a href="/">
@@ -53,27 +25,17 @@
                   <use xlink:href="/assets/images/game/ruble-icon.svg#Capa_1" />
                 </svg>
               </span>
-            </p>
-          </div>
-          <div>
-            <div class="uk-flex">
-              <div class="uk-margin-small-right">
-                <p
-                  class="uk-text uk-margin-remove uk-text-small header__victory-text"
-                >
+              <span style="padding-left: 40px;">
+                <span class="uk-text uk-text-small header__victory-text">
                   /в:
-                  <span>{{ user.victory }}</span>
-                </p>
-              </div>
-              <div>
-                <p
-                  class="uk-text uk-margin-remove uk-text-small header__gameover-text"
-                >
+                  <span class="">{{ user.victory }}</span>
+                </span>
+                <span class="uk-tex uk-text-small header__gameover-text">
                   п:
                   <span>{{ user.gameover }}/</span>
-                </p>
-              </div>
-            </div>
+                </span>
+              </span>
+            </p>
           </div>
         </div>
 

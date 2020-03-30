@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
 
-class MyAuthController extends Controller
+class AuthController extends Controller
 {
     public function authenticate(Request $request)
     {
