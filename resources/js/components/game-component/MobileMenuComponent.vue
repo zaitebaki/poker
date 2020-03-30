@@ -46,15 +46,23 @@
 </template>
 <script>
 export default {
+  props: {
+    roomId: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       roomUrl: `/game/room/${this.roomId}/finish_game_session`,
+      csrf: document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute('content'),
     }
   },
   methods: {
     // закончить сеанс игры
     finishGameSession() {
-        console.log("miu");
       axios
         .post(this.roomUrl, {})
         .then(() => {

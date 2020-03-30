@@ -36,6 +36,7 @@ $task('artisan', ['on' => $on])
     ln -nfs {{ $path }}/.env .env;
     chgrp -h www-data .env;
 
+    php artisan key:generate
     php artisan config:clear
     php artisan cache:clear
     php artisan view:clear
