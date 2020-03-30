@@ -10,10 +10,10 @@
 </main-home-component>
 <hr>
 <div class="logout-block__main-div">
-    <a href="{{ route('logout') }}" onclick="event.preventDefault();
+  <a href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
     Выйти из игры
-    </a>
+  </a>
 </div>
 <form id="logout-form" class="uk-form" action="{{ route('logout') }}" method="POST">
   @csrf
