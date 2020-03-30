@@ -13536,7 +13536,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n@media (max-width: 640px) {\n.cg__padding_none {\r\n    padding: 0 0 0 0;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n@media (max-width: 640px) {\n.cg__padding_none {\n    padding: 0 0 0 0;\n}\n}\n", ""]);
 
 // exports
 

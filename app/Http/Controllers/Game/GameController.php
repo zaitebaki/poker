@@ -119,6 +119,9 @@ class GameController extends \App\Http\Controllers\SuperController
         $payment    = $payment->where('id', $paymentId)->first();
         $opponentId = $payment->opponent_user_id;
 
+        $paymentValue = $payment->value;
+        $this->user->increment('balance', -1 * $paymentValue);
+
         $this->user->payments()->detach($paymentId);
         Payment::destroy($paymentId);
 
@@ -131,6 +134,8 @@ class GameController extends \App\Http\Controllers\SuperController
 
         $opponentUser->payments()->detach($paymentId);
         Payment::destroy($paymentId);
+
+        $opponentUser->increment('balance', $paymentValue);
 
         return redirect()->back()->with(['status' => 'success', 'sessionStatusUserLogin' => $opponentUser->login]);
     }
