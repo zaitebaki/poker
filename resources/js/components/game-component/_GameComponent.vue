@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-container">
+  <div class="uk-container cg__padding_none">
     <game-status-bar-component
       :content="content.header"
       :user="userParameters"
@@ -8,7 +8,7 @@
       @catch:error="handleError(error)"
     />
 
-    <div class="uk-flex">
+    <div class="uk-grid">
       <game-bank-component
         :money="vueGameParameters.money"
         :bank-messages="vueGameParameters.bankMessages"
@@ -25,14 +25,14 @@
         />
       </div>
     </div>
-
+    
     <game-opponent-cards-component
       v-if="vueGameParameters.opponentUserCards"
       :cards="vueGameParameters.opponentUserCards"
       :combination="vueGameParameters.opponentCombination"
       :points="vueGameParameters.opponentPoints"
     />
-
+    
     <game-button-panel-component
       :room-url="roomUrl"
       :room-name="roomName"
@@ -58,6 +58,10 @@
       :points="vueGameParameters.userPoints"
       :is-already-changed-cards="vueGameParameters.isAlreadyChangedCards"
       @change:active:cards:storage="changeActiveCardsStorage($event)"
+    />
+
+    <mobile-menu-component 
+      class="uk-hidden@s"
     />
 
     <!-- модальное окно о завершении сеанса игры -->
@@ -121,6 +125,7 @@ import GameButtonPanelComponent from './GameButtonPanelComponent.vue';
 import GameStatusTextComponent from './GameStatusTextComponent.vue';
 import GameUserCardsComponent from './GameUserCardsComponent.vue';
 import GameOpponentCardsComponent from './GameOpponentCardsComponent.vue';
+import MobileMenuComponent from './MobileMenuComponent.vue';
 
 export default {
   components: {
@@ -130,6 +135,7 @@ export default {
     'game-status-text-component': GameStatusTextComponent,
     'game-user-cards-component': GameUserCardsComponent,
     'game-opponent-cards-component': GameOpponentCardsComponent,
+    'mobile-menu-component': MobileMenuComponent,
   },
   props: {
     content: {
@@ -396,4 +402,10 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+@media (max-width: 640px) {
+  .cg__padding_none {
+    padding: 0 0 0 0;
+  }
+}
+</style>

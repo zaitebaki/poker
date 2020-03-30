@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-width-auto">
+  <div class="uk-width-auto@s uk-width-1-1">
     <div class="uk-background-muted uk-padding-small">
       <div class="uk-flex">
         <div class="uk-flex uk-flex-middle">

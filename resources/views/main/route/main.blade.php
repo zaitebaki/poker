@@ -1,5 +1,5 @@
 @extends(env('THEME') . ".layout.header-app")
 
 @section('content')
-	{!! $content !!}
+{!! $content !!}
 @endsection

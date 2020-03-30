@@ -1,7 +1,7 @@
 <template>
   <div class="uk-flex uk-flex-middle uk-padding">
     <div>
-      <p class="uk-margin-remove">
+      <p class="uk-margin-remove gsc__mobile-text">
         {{ statusMessage }}
       </p>
     </div>
@@ -76,3 +76,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+  @media (max-width: 640px) {
+    .gsc__mobile-text {
+      font-size: 16px;
+    }
+  }
+</style>

@@ -8,85 +8,87 @@
       :opponent-id="curSrcUserId"
     />
 
-    <div class="uk-flex">
-      <div
-        class="uk-card uk-card-default uk-card-body uk-margin-small-right uk-width-1-3"
-      >
-        <div class="uk-flex">
-          <div class="uk-margin-remove">
-            <h4 class="uk-margin-remove user-bar__friend-header">
-              {{ content.header }}
-            </h4>
+    <div uk-grid>
+      <div class="uk-width-1-3@s">
+        <div
+          class="uk-card uk-card-default uk-card-body uk-margin-small-right@s"
+        >
+          <div class="uk-flex">
+            <div class="uk-margin-remove">
+              <h4 class="uk-margin-remove user-bar__friend-header">
+                {{ content.header }}
+              </h4>
+            </div>
+            <div class="uk-margin-remove">
+              <span
+                class="uk-margin-medium-left"
+                uk-icon="chevron-right"
+              />
+            </div>
           </div>
-          <div class="uk-margin-remove">
-            <span
-              class="uk-margin-medium-left"
-              uk-icon="chevron-right"
-            />
-          </div>
-        </div>
-        <template v-if="friends.length !== 0">
-          <ul class="uk-list">
-            <template v-for="(friend, index) in friends">
-              <li
-                v-if="isOnline(friend.login)"
-                :key="friend.login"
-                class="friends-card__item__online"
-              >
-                {{ friend.name }}-{{ friend.login }}
-                <span
-                  uk-icon="chevron-right"
-                  class="uk-margin-small-left uk-margin-small-right"
-                />
-                <form
-                  :id="'sendInvitationForm' + index"
-                  class="uk-inline"
-                  :action="formJoinGameRoute"
-                  method="POST"
+          <template v-if="friends.length !== 0">
+            <ul class="uk-list">
+              <template v-for="(friend, index) in friends">
+                <li
+                  v-if="isOnline(friend.login)"
+                  :key="friend.login"
+                  class="friends-card__item__online"
                 >
-                  <button
-                    class="uk-button uk-button-secondary uk-button-small"
-                    type="submit"
-                    :form="'sendInvitationForm' + index"
+                  {{ friend.name }}-{{ friend.login }}
+                  <span
+                    uk-icon="chevron-right"
+                    class="uk-margin-small-left uk-margin-small-right"
+                  />
+                  <form
+                    :id="'sendInvitationForm' + index"
+                    class="uk-inline"
+                    :action="formJoinGameRoute"
+                    method="POST"
                   >
-                    {{ content.startGameText }}
-                  </button>
-                  <input
-                    type="hidden"
-                    name="_token"
-                    :value="csrf"
-                  >
-                  <input
-                    type="hidden"
-                    name="sendInvitationRequest"
-                    value="true"
-                  >
-                  <input
-                    type="hidden"
-                    name="updateState"
-                    value="InitState"
-                  >
-                  <input
-                    type="hidden"
-                    name="opponentId"
-                    :value="friend.id"
-                  >
-                </form>
-              </li>
-              <li
-                v-else
-                :key="index"
-                class="friends-card__item__offline"
-              >
-                {{ friend.name }}-{{ friend.login }}
-              </li>
-            </template>
-          </ul>
-        </template>
-        <template v-else>
-          <hr>
-          <p>{{ content.noFriendsText }}</p>
-        </template>
+                    <button
+                      class="uk-button uk-button-secondary uk-button-small"
+                      type="submit"
+                      :form="'sendInvitationForm' + index"
+                    >
+                      {{ content.startGameText }}
+                    </button>
+                    <input
+                      type="hidden"
+                      name="_token"
+                      :value="csrf"
+                    >
+                    <input
+                      type="hidden"
+                      name="sendInvitationRequest"
+                      value="true"
+                    >
+                    <input
+                      type="hidden"
+                      name="updateState"
+                      value="InitState"
+                    >
+                    <input
+                      type="hidden"
+                      name="opponentId"
+                      :value="friend.id"
+                    >
+                  </form>
+                </li>
+                <li
+                  v-else
+                  :key="index"
+                  class="friends-card__item__offline"
+                >
+                  {{ friend.name }}-{{ friend.login }}
+                </li>
+              </template>
+            </ul>
+          </template>
+          <template v-else>
+            <hr>
+            <p>{{ content.noFriendsText }}</p>
+          </template>
+        </div>
       </div>
 
       <payments-component
@@ -95,7 +97,7 @@
         :cancel-payment-route="cancelPaymentRoute"
         :status="status"
         :session-status-user-login="sessionStatusUserLogin"
-      />
+      /> 
     </div>
   </div>
 </template>

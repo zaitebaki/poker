@@ -9,12 +9,11 @@ class InitState extends State
 {
 
     /**
-     * Подключение текущего пользователя к игре
+     * Подключить текущего пользователя к игре
      */
     public function connectionCurrentUser()
     {
-        $waitingMessage =
-            __(
+        $waitingMessage = __(
             'main_page_content.gamePage.statusMessages.waitingMessage',
             ['user' => $this->context->opponentUser->name]
         );
