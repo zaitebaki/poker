@@ -2910,9 +2910,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    roomId: {
+      type: String,
+      "default": ''
+    }
+  },
   data: function data() {
     return {
-      roomUrl: "/game/room/".concat(this.roomId, "/finish_game_session")
+      roomUrl: "/game/room/".concat(this.roomId, "/finish_game_session"),
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   methods: {
@@ -2920,7 +2927,6 @@ __webpack_require__.r(__webpack_exports__);
     finishGameSession: function finishGameSession() {
       var _this = this;
 
-      console.log("miu");
       axios.post(this.roomUrl, {}).then(function () {
         window.location.replace('/home');
       })["catch"](function (error) {
@@ -2948,6 +2954,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameUserCardsComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent.vue */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent.vue */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
 /* harmony import */ var _MobileMenuComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MobileMenuComponent.vue */ "./resources/js/components/game-component/MobileMenuComponent.vue");
+//
 //
 //
 //
@@ -57632,7 +57639,10 @@ var render = function() {
           })
         : _vm._e(),
       _vm._v(" "),
-      _c("mobile-menu-component", { staticClass: "uk-hidden@s" }),
+      _c("mobile-menu-component", {
+        staticClass: "uk-hidden@s",
+        attrs: { "room-id": _vm.gameParameters.roomId }
+      }),
       _vm._v(" "),
       _c("div", { attrs: { id: "js-modal-dialog", "uk-modal": "" } }, [
         _c("div", { staticClass: "uk-modal-dialog uk-modal-body" }, [

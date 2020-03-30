@@ -60,7 +60,8 @@
       @change:active:cards:storage="changeActiveCardsStorage($event)"
     />
 
-    <mobile-menu-component 
+    <mobile-menu-component
+      :room-id="gameParameters.roomId"
       class="uk-hidden@s"
     />
 
