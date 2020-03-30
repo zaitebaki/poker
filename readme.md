@@ -2,16 +2,17 @@
 PostgreSQL,
 Vue,
 UIkit,
-Redis*
+Redis,
+Apache2*
 
-Онлайн-покер «Зайте Баки»
+Онлайн-покер [«Зайте Баки»](http://poker.devmasta.ru.com/)
 =============================
 
 <p align="center"><img src="https://a.radikal.ru/a16/2002/7d/26b420454a87.png" width="520"></p>
 
 ### Задача
 
-Создать онлайн версию карточный игры «Покер» по правилам [Дро-покера](http://www.poker-wiki.ru/poker/%D0%94%D1%80%D0%BE-%D0%BF%D0%BE%D0%BA%D0%B5%D1%80)
+Создать онлайн версию карточный игры «Покер» по правилам [Дро-покера](http://www.poker-wiki.ru/poker/%D0%94%D1%80%D0%BE-%D0%BF%D0%BE%D0%BA%D0%B5%D1%80). Игра должна быть доступна в том числе и с мобильных устройств. Проект необходимо разместить на боевой VPS-сервер.
 
 **Основные компоненты системы**
 
@@ -63,6 +64,7 @@ Redis*
     * Vue
     * UIkit
     * Redis
+    * Apache2
 
 - Для долговременного хранения данных пользователей использовалась база данных [PostgreSQL](https://www.postgresql.org)
 
@@ -85,3 +87,5 @@ Redis*
 - Линтинг vue-компонентов - плагин [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-vue)
 
 - Линтинг php-файлов - плагин [phpcs](https://marketplace.visualstudio.com/items?itemName=ikappas.phpcs)
+
+- Проект размещен на реальном VPS-хостинге и доступен по адресу [http://poker.devmasta.ru.com/](http://poker.devmasta.ru.com/)
