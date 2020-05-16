@@ -16,7 +16,7 @@
                 >
               </a>
               {{ content.balance }}:
-              <span>{{ user.balance }}&nbsp;</span>
+              <span>{{ opponentMoney }}&nbsp;</span>
               <span>
                 <svg
                   class="logo__ruble-icon"
@@ -78,7 +78,7 @@
               </span>
               <p class="uk-text uk-margin-remove header__statistic-text">
                 {{ content.balance }}:
-                <span>{{ user.balance }}&nbsp;</span>
+                <span>{{ opponentMoney }}&nbsp;</span>
               </p>
               <svg
                 class="logo__ruble-icon"
@@ -157,6 +157,10 @@ export default {
       type: String,
       default: '',
     },
+    opponentMoney: {
+      type: Number,
+      default: 0
+    }
   },
   data() {
     return {

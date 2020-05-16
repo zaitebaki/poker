@@ -76,6 +76,8 @@ Apache2*
 
 - Для реализации игрового взаимодействия применялись технологии [Laravel Echo](https://laravel.com/docs/5.8/broadcasting), js-библиотеки [laravel-echo](https://github.com/tlaverdure/laravel-echo-server), [Socket.io](https://socket.io/)
 
+- В проекте использовался поведенческий паттерн проектирования «Состояние»
+
 - Для реализации front-end части системы использовался компонентный подход с использованием [Vue](https://vuejs.org)
 
 - Для выполнения запросов к серверу использовалась библиотека [axios](https://github.com/axios/axios)

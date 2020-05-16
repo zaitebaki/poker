@@ -1,3 +1,4 @@
+<?php
 @setup
     $user = 'ft17';
     $timezone = 'Europe/Moscow';
