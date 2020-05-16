@@ -21,7 +21,7 @@ class GameController extends \App\Http\Controllers\SuperController
     public function __construct(Request $request)
     {
         parent::__construct();
-        $this->title  = 'Пятикарточный покер';
+        $this->title = 'Пятикарточный покер';
         $this->layout = env('THEME') . ".route.main";
     }
 
@@ -30,14 +30,14 @@ class GameController extends \App\Http\Controllers\SuperController
      */
     public function invitationMessage(Request $request)
     {
-        $userId     = $this->user->id;
+        $userId = $this->user->id;
         $opponentId = $request->opponentId;
 
         // инициализировать приглашение в игру
         if ($request->updateState === 'InitState' && $request->sendInvitationRequest === 'true') {
             $roomCreated = 'room:' . $userId . ':' . $opponentId;
-            $result      = Redis::command('exists', [$roomCreated]);
-            $roomName    = '';
+            $result = Redis::command('exists', [$roomCreated]);
+            $roomName = '';
 
             // создать "игровую комнату",
             // если она еще не была создана
@@ -45,7 +45,7 @@ class GameController extends \App\Http\Controllers\SuperController
                 $countRoomsNow = Redis::get('room:count');
 
                 $newRoomNumber = (int) $countRoomsNow + 1;
-                $roomName      = 'room_' . $newRoomNumber;
+                $roomName = 'room_' . $newRoomNumber;
 
                 Redis::set($roomCreated, $roomName);
                 Redis::set($roomName . ':' . $userId, 'ok');
@@ -114,9 +114,9 @@ class GameController extends \App\Http\Controllers\SuperController
         $paymentData = json_decode($request->data);
 
         // удалить "финансовое" сообщение у текущего пользователя
-        $paymentId  = $paymentData->idPayment;
-        $payment    = $this->user->payments()->get();
-        $payment    = $payment->where('id', $paymentId)->first();
+        $paymentId = $paymentData->idPayment;
+        $payment = $this->user->payments()->get();
+        $payment = $payment->where('id', $paymentId)->first();
         $opponentId = $payment->opponent_user_id;
 
         $paymentValue = $payment->value;
@@ -126,7 +126,7 @@ class GameController extends \App\Http\Controllers\SuperController
         Payment::destroy($paymentId);
 
         // удалить "финансовое" сообщение у пользователя-оппонента
-        $opponentUser    = User::find($opponentId);
+        $opponentUser = User::find($opponentId);
         $paymentOpponent = $opponentUser->payments()->get();
         $paymentOpponent = $paymentOpponent->where('opponent_user_id', $this->user->id)->first();
 
@@ -148,10 +148,12 @@ class GameController extends \App\Http\Controllers\SuperController
         $game = new Gameplay($this->user, $request->roomName, $request);
         $game->updateState($request->updateState);
 
+        // dd($game->currentUser);
+
         // конец игры
         if ($request->updateState === 'FinishState') {
             return json_encode(array(
-                'user'           => $game->currentUser,
+                'user' => $game->currentUser,
                 'gameParameters' => $game->getFinishGameParameters()));
         }
 
@@ -174,7 +176,7 @@ class GameController extends \App\Http\Controllers\SuperController
             return json_encode(array('gameParameters' => $game->getGameParameters()));
         }
 
-        $game   = new Gameplay($this->user, $request->roomName, $request);
+        $game = new Gameplay($this->user, $request->roomName, $request);
         $method = $request->initAction;
         $game->$method();
 
@@ -183,7 +185,7 @@ class GameController extends \App\Http\Controllers\SuperController
             $request->initAction === 'gameOver' ||
             $request->initAction == 'opponentCheck') {
             return json_encode(array(
-                'user'           => $game->currentUser,
+                'user' => $game->currentUser,
                 'gameParameters' => $game->getFinishGameParameters()));
         }
 
@@ -230,7 +232,7 @@ class GameController extends \App\Http\Controllers\SuperController
     {
 
         $roomName = 'room_' . $room_id;
-        $userId   = $this->user->id;
+        $userId = $this->user->id;
         $userName = $this->user->login;
 
         // удалить данные о текущем сеансе игры из бд Redis

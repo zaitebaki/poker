@@ -17,15 +17,35 @@
 			"path": "."
 		},
 		{
-			"name": "testing",
-			"path": "C:\\OSPanel\\domains\\testing"
-		},
-		{
 			"name": "handler_error",
 			"path": "C:\\OSPanel\\domains\\handler_error"
 		},
 		{
 			"path": "C:\\OSPanel\\domains\\flix2"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\task-manager"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\apteka"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\admitad"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\b2b"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\shortener"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\tasks"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\algorithms"
+		},
+		{
+			"path": "C:\\OSPanel\\domains\\test"
 		}
 	],
 	"settings": {}

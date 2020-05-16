@@ -61,10 +61,10 @@ class GamePlay
     public $role;
     public $request;
     public $countFirstUserChangeCards;
-    public $indicator               = 'ready';
-    public $money                   = 0;
-    public $bankMessages            = [];
-    public $addOpponentMoney        = '';
+    public $indicator = 'ready';
+    public $money = 0;
+    public $bankMessages = [];
+    public $addOpponentMoney = '';
     public $increaseAfterEqualMoney = '';
     public $opponentUserCards;
     public $userCombination;
@@ -88,31 +88,31 @@ class GamePlay
     public function __construct($user, string $roomName, $request)
     {
         $this->roomName = $roomName;
-        $this->request  = $request;
+        $this->request = $request;
 
         $this->roomId = $this->getRoomId();
 
         // определить создателя и приглашенного игрока
-        $idUserCurrent  = Redis::get($roomName . ':idUserCurrent');
+        $idUserCurrent = Redis::get($roomName . ':idUserCurrent');
         $idUserOpponent = Redis::get($roomName . ':idUserOpponent');
 
         if ($user->id === (int) $idUserCurrent) {
-            $this->currentUser  = $user;
+            $this->currentUser = $user;
             $this->opponentUser = User::find($idUserOpponent);
-            $this->role         = 'currentUser';
+            $this->role = 'currentUser';
         } else {
-            $this->currentUser  = $user;
+            $this->currentUser = $user;
             $this->opponentUser = User::find($idUserCurrent);
-            $this->role         = 'opponentUser';
+            $this->role = 'opponentUser';
         }
 
         // инициализировать состояние из Redis-хранилища
-        $stateName            = Redis::get($roomName . ':' . $this->currentUser->id . ':state');
+        $stateName = Redis::get($roomName . ':' . $this->currentUser->id . ':state');
         $argumentsStorageName = $roomName . ':' . $this->currentUser->id . ':' . $stateName;
-        $stateArguments       = Redis::lrange($argumentsStorageName, 0, 6);
+        $stateArguments = Redis::lrange($argumentsStorageName, 0, 6);
 
         $stateArguments = array_reverse($stateArguments);
-        $stateName      = 'App\\Helpers\\State\\States\\' . $stateName;
+        $stateName = 'App\\Helpers\\State\\States\\' . $stateName;
 
         $this->state = new $stateName($this, ...$stateArguments);
     }
@@ -122,8 +122,8 @@ class GamePlay
      */
     public function updateState(string $nameState, ...$arg): void
     {
-        $stateName            = 'App\\Helpers\\State\\States\\' . $nameState;
-        $this->state          = new $stateName($this, ...$arg);
+        $stateName = 'App\\Helpers\\State\\States\\' . $nameState;
+        $this->state = new $stateName($this, ...$arg);
         $argumentsStorageName = $this->roomName . ':' . $this->currentUser->id . ':' . $nameState;
         Redis::del($argumentsStorageName);
 
@@ -139,20 +139,27 @@ class GamePlay
     public function getGameParameters(): array
     {
         return array(
-            'roomId'                  => $this->roomId,
-            'statusMessage'           => $this->statusText,
-            'buttons'                 => $this->buttons,
-            'userCards'               => $this->userCards,
-            'indicator'               => $this->indicator,
-            'money'                   => (string) $this->money,
-            'bankMessages'            => $this->bankMessages,
-            'addOpponentMoney'        => (string) $this->addOpponentMoney,
+            'roomId' => $this->roomId,
+            'statusMessage' => $this->statusText,
+            'buttons' => $this->buttons,
+            'userCards' => $this->userCards,
+            'indicator' => $this->indicator,
+            'money' => (string) $this->money,
+            'bankMessages' => $this->bankMessages,
+            'addOpponentMoney' => (string) $this->addOpponentMoney,
             'increaseAfterEqualMoney' => (string) $this->increaseAfterEqualMoney,
-            'isAlreadyChangedCards'   => $this->getAlreadyChangedCardsStatus(),
-            'opponentStatusCheck'     => $this->getOpponentStatusCheck(),
-            'startButtonIndicator'    => $this->getStartButtonIndicator(),
-            'dump'                    => $this->dump,
+            'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
+            'opponentStatusCheck' => $this->getOpponentStatusCheck(),
+            'startButtonIndicator' => $this->getStartButtonIndicator(),
+            'withOpponentMoney' => $this->getWithOpponentMoney(),
+            'dump' => $this->dump,
         );
+    }
+
+    public function getWithOpponentMoney()
+    {
+        $payment = $this->currentUser->payments()->where('opponent_user_id', $this->opponentUser->id)->first();
+        return $payment->value;
     }
 
     /**
@@ -162,20 +169,21 @@ class GamePlay
     public function getFinishGameParameters(): array
     {
         return array(
-            'roomId'                 => $this->roomId,
-            'statusMessage'          => $this->statusText,
-            'userCards'              => $this->userCards,
-            'opponentUserCards'      => $this->opponentUserCards,
-            'buttons'                => $this->buttons,
-            'userCombination'        => $this->userCombination,
-            'opponentCombination'    => $this->opponentCombination,
-            'isVictory'              => $this->isVictory,
-            'money'                  => (string) $this->money,
-            'bankMessages'           => $this->bankMessages,
-            'userPoints'             => $this->userPoints,
-            'opponentPoints'         => $this->opponentPoints,
+            'roomId' => $this->roomId,
+            'statusMessage' => $this->statusText,
+            'userCards' => $this->userCards,
+            'opponentUserCards' => $this->opponentUserCards,
+            'buttons' => $this->buttons,
+            'userCombination' => $this->userCombination,
+            'opponentCombination' => $this->opponentCombination,
+            'isVictory' => $this->isVictory,
+            'money' => (string) $this->money,
+            'bankMessages' => $this->bankMessages,
+            'userPoints' => $this->userPoints,
+            'opponentPoints' => $this->opponentPoints,
             'newGameButtonIndicator' => $this->getNewGameButtonIndicator(),
-            'isAlreadyChangedCards'  => $this->getAlreadyChangedCardsStatus(),
+            'withOpponentMoney' => $this->getWithOpponentMoney(),
+            'isAlreadyChangedCards' => $this->getAlreadyChangedCardsStatus(),
         );
     }
 
@@ -243,7 +251,7 @@ class GamePlay
     {
         return $this->state->opponentCheck();
     }
-    
+
     /**
      * Инициировать действие - сравнять и добавить ставку
      */
@@ -267,7 +275,7 @@ class GamePlay
     {
         return $this->state->gameOver();
     }
-    
+
     /**
      * Инициировать действие - начало следующей партии
      */
@@ -307,7 +315,7 @@ class GamePlay
     {
         \App\Events\SendInvitation::dispatch($this->currentUser->id, $this->opponentUser->id);
     }
-    
+
     /**
      * Получить ключ Redis, содержащий текущуюю колоду
      */
@@ -374,7 +382,7 @@ class GamePlay
      */
     public function pushStartingBet($moneySum)
     {
-        $this->money        = $this->extractMoney();
+        $this->money = $this->extractMoney();
         $this->bankMessages = $this->extractBankMessages();
 
         if (!$this->startBetsAlreadyPush()) {

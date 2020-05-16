@@ -3,6 +3,7 @@
     <game-status-bar-component
       :content="content.header"
       :user="userParameters"
+      :opponent-money="vueGameParameters.withOpponentMoney"
       :room-id="gameParameters.roomId"
       :room-name="roomName"
       @catch:error="handleError(error)"

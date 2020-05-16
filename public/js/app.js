@@ -2575,6 +2575,10 @@ __webpack_require__.r(__webpack_exports__);
     roomName: {
       type: String,
       "default": ''
+    },
+    opponentMoney: {
+      type: Number,
+      "default": 0
     }
   },
   data: function data() {
@@ -2954,6 +2958,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GameUserCardsComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GameUserCardsComponent.vue */ "./resources/js/components/game-component/GameUserCardsComponent.vue");
 /* harmony import */ var _GameOpponentCardsComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameOpponentCardsComponent.vue */ "./resources/js/components/game-component/GameOpponentCardsComponent.vue");
 /* harmony import */ var _MobileMenuComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MobileMenuComponent.vue */ "./resources/js/components/game-component/MobileMenuComponent.vue");
+//
 //
 //
 //
@@ -57050,7 +57055,7 @@ var render = function() {
                       _vm._s(_vm.content.balance) +
                       ":\n            "
                   ),
-                  _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")]),
+                  _c("span", [_vm._v(_vm._s(_vm.opponentMoney) + " ")]),
                   _vm._v(" "),
                   _c("span", [
                     _c(
@@ -57144,7 +57149,7 @@ var render = function() {
                             _vm._s(_vm.content.balance) +
                             ":\n              "
                         ),
-                        _c("span", [_vm._v(_vm._s(_vm.user.balance) + " ")])
+                        _c("span", [_vm._v(_vm._s(_vm.opponentMoney) + " ")])
                       ]
                     ),
                     _vm._v(" "),
@@ -57542,6 +57547,7 @@ var render = function() {
         attrs: {
           content: _vm.content.header,
           user: _vm.userParameters,
+          "opponent-money": _vm.vueGameParameters.withOpponentMoney,
           "room-id": _vm.gameParameters.roomId,
           "room-name": _vm.roomName
         },
